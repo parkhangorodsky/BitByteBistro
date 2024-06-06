@@ -11,3 +11,13 @@ Additionally, one other possible idea was to make this a bit of a social app, so
 Finally, another idea was to use some API for the prices of ingredients in your area (taken from somewhere, idk where, maybe an API, unsure), to have an estimated idea of how much your groceries will cost.
 
 An extra idea I just thought of: but it could be nice to have some kind of calendar feature where you can actually plan where the meals are going (that way you know you have enough for a week, for example). This would also feed into the nutrition info section, or just stats in general, since we could should "your favourite breakfast last month" or "avg servings of vegetables at lunchtime" or something like that.
+
+TIMELINE FEATURES:
+1) recipe search
+2) adding recipes
+3) fridge inventory (changes grocery list)
+4) calendar/meal planner
+5) nutrition
+6) recipe search by ingredient
+7) budget + money saved OR personalized stats
+8) eco friendly OR for you + social
