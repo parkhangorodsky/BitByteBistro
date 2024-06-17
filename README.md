@@ -21,3 +21,6 @@ TIMELINE FEATURES:
 6) recipe search by ingredient
 7) budget + money saved OR personalized stats
 8) eco friendly OR for you + social
+
+
+NOTE: each directory now has a file called testing.java which is not used for our project - it's just here as a placeholder so i can push the directories to maintain the structure.
