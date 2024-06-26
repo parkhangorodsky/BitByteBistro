@@ -1,1 +1,4 @@
-public class User {}
+package entity;
+public class User {
+
+}

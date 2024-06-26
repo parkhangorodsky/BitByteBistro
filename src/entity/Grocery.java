@@ -1,1 +1,4 @@
-public class Grocery {}
+package entity;
+public class Grocery {
+
+}
