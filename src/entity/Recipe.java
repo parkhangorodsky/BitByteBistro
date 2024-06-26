@@ -5,14 +5,27 @@ import java.util.List;
 
 public class Recipe {
 
-    private List<Grocery> ingredientList;
     private String name;
-    private String instructions;
-    private List<Nutrition> nutritionalInfo;
-    private boolean privacyStatus;
     private String image;
+    private String instructions;
+    private List<Grocery> ingredientList;
+    private List<Nutrition> nutritionalInfo;
     private float rating;
     private float estimatedCostPerServing;
+    private boolean privacyStatus;
+
+    public Recipe(String name, String image, String instructions,
+                  List<Grocery> ingredientList, List<Nutrition> nutritionalInfo,
+                  float estimatedCostPerServing, boolean privacyStatus) {
+        this.name = name;
+        this.image = image;
+        this.instructions = instructions;
+        this.ingredientList = ingredientList;
+        this.nutritionalInfo = nutritionalInfo;
+        this.rating = 0;
+        this.estimatedCostPerServing = estimatedCostPerServing;
+        this.privacyStatus = true;
+    }
 
     /**
      * Getters
