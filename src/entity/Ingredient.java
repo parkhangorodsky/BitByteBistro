@@ -1,1 +1,4 @@
-public class Ingredient {}
+package entity;
+public class Ingredient {
+  
+}
