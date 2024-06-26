@@ -14,6 +14,16 @@ public class Recipe {
     private float estimatedCostPerServing;
     private boolean privacyStatus;
 
+    /**
+     * Constructor for Recipe Class.
+     * @param name
+     * @param image
+     * @param instructions
+     * @param ingredientList
+     * @param nutritionalInfo
+     * @param estimatedCostPerServing
+     * @param privacyStatus
+     */
     public Recipe(String name, String image, String instructions,
                   List<Grocery> ingredientList, List<Nutrition> nutritionalInfo,
                   float estimatedCostPerServing, boolean privacyStatus) {
