@@ -1,1 +1,4 @@
-public class Recipe {}
+package entity;
+public class Recipe {
+  
+}
