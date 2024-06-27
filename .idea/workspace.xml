@@ -5,32 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="349130e3-ce1e-4ade-9905-a40d642d0483" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/RecipeAPI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/interface_adapter/controller/SearchRecipeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/use_case/input_data/SearchRecipeInputData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/use_case/interactor/RecipeSearchInteractor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/SearchRecipeView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BitByteBistro.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data_access/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data_access/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Grocery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Grocery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Ingredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Ingredient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Nutrition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Nutrition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Recipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Recipe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/ShoppingList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/ShoppingList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface_adapter/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interface_adapter/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface_adapter/controller/SearchRecipeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface_adapter/view_model/SearchRecipeViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interface_adapter/view_model/SearchRecipeViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface_adapter/view_model/ViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interface_adapter/view_model/ViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/use_case/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/use_case/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/use_case/input_data/InputBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/use_case/input_data/InputBoundary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/use_case/input_data/SearchRecipeInputData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/use_case/interactor/RecipeSearchUseCaseInteractor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/SearchRecipeView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/RecipeAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/RecipeAPI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,30 +28,33 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2iOwbd21nYQcvhvEGXk1CYmF3Yv" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/search-recipe-through-api&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature/search-recipe-through-api",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/bangun/csc207/BitByteBistro/src/main/java/app/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
@@ -85,6 +64,10 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-22" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <envs>
+        <env name="EDAMAM_API_ID" value="e32253d8" />
+        <env name="EDAMAM_API_KEY" value="829e78845ecaf34f4dab7abba727c568" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="app.Main" />
       <module name="BitByteBistro" />
       <extension name="coverage">
@@ -120,11 +103,22 @@
       <option name="presentableId" value="Default" />
       <updated>1719375003325</updated>
       <workItem from="1719375004345" duration="20900000" />
-      <workItem from="1719455760106" duration="207000" />
+      <workItem from="1719455760106" duration="13616000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/entity/Recipe.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
