@@ -1,6 +1,8 @@
 package view;
 
+import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.SearchRecipeViewModel;
+import use_case.interactor.SearchRecipeInteractor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +12,8 @@ import java.beans.*;
 
 public class SearchRecipeView extends JPanel implements ActionListener, PropertyChangeListener{
 
+    SearchRecipeInteractor searchRecipeInteractor;
+
     public final String viewname = "search recipe";
     private final String fieldLabel = "Search Recipe";
     private final int fieldwWidth = 30;
@@ -18,13 +22,15 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     public JTextField recipeName;
     public JButton searchButton;
 
-    public SearchRecipeView() {
+    public SearchRecipeView(SearchRecipeInteractor searchRecipeInteractor) {
+
+        this.searchRecipeInteractor = searchRecipeInteractor;
 
         // Initialize input & output panel
         JPanel inputPanel = new JPanel();
         JPanel outputPanel = new JPanel();
 
-        // Components
+        // Input Components
         JLabel title = new JLabel(fieldLabel);
         title.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -32,6 +38,10 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
 
         searchButton = new JButton(buttonLabel);
         searchButton.addActionListener(this);
+
+        // Output Components
+        JScrollPane recipePanel = new JScrollPane(recipeName);
+
 
         // Pack input & output panel
         inputPanel.add(title);
@@ -47,8 +57,9 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(searchButton)) {
-            String recipeName = this.recipeName.getText();
-            System.out.println(recipeName);
+            String queryString = this.recipeName.getText();
+            SearchRecipeController controller = new SearchRecipeController(searchRecipeInteractor);
+            controller.execute(queryString);
         }
     }
 
