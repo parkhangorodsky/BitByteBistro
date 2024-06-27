@@ -106,11 +106,11 @@ public class Recipe {
         List<Grocery> ingredientList = new ArrayList<>();
         for (int i = 0; i < ingredients.length(); i++) {
             JSONObject ingredientJSON = ingredients.getJSONObject(i);
-            String ingredientID = ingredientJSON.getString("foodId");
-            String ingredientName = ingredientJSON.getString("food");
-            float ingredientQuantity = ingredientJSON.getFloat("quantity");
+            String ingredientID = ingredientJSON.isNull("foodId") ? "" :ingredientJSON.getString("foodId");
+            String ingredientName = ingredientJSON.isNull("food") ? "" :ingredientJSON.getString("food");
+            float ingredientQuantity = ingredientJSON.isNull("quantity") ? 0.0f :ingredientJSON.getFloat("quantity");
             String ingredientMeasure = ingredientJSON.isNull("measure") ? "" : ingredientJSON.getString("measure");
-            String ingredientCategory = ingredientJSON.getString("foodCategory");
+            String ingredientCategory = ingredientJSON.isNull("foodCategory") ? "" : ingredientJSON.getString("foodCategory");
             Ingredient ingredient = new Ingredient(ingredientID, ingredientName, ingredientMeasure, ingredientCategory);
             Grocery grocery = new Grocery(ingredient, ingredientQuantity);
             ingredientList.add(grocery);

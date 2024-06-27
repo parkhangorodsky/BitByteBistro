@@ -1,7 +1,10 @@
 package app;
 
+import interface_adapter.view_model.ViewManagerModel;
+import interface_adapter.view_model.ViewModel;
 import use_case.interactor.SearchRecipeInteractor;
 import view.SearchRecipeView;
+import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,14 +29,17 @@ public class Main {
         JPanel views = new JPanel(cardLayout);
         application.add(views);
 
-        // Create SearchRecipeView
+        // Create ViewModels
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+        // Create Views
+        ViewManager viewManager = new ViewManager(views, cardLayout, viewManagerModel);
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeUseCase);
         views.add(searchRecipeView, searchRecipeView.viewname);
 
         // Set current panel to searchRecipeView
-        CardLayout currPanel = (CardLayout) views.getLayout();
-        currPanel.show(views, searchRecipeView.viewname);
-
+        viewManagerModel.setActiveView(searchRecipeView.viewname);
+        viewManagerModel.firePropertyChanged();
         // Set application visible
         application.setVisible(true);
     }

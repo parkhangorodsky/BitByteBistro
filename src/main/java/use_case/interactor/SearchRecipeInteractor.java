@@ -6,12 +6,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import use_case.input_data.InputBoundary;
 import use_case.input_data.SearchRecipeInputData;
+import use_case.output_data.OutputBoundary;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchRecipeInteractor implements InputBoundary {
     private RecipeAPI recipeAPI;
+    private OutputBoundary searchRecipePresenter;
 
     public SearchRecipeInteractor(RecipeAPI recipeAPI) {
         this.recipeAPI = recipeAPI;
@@ -30,5 +32,8 @@ public class SearchRecipeInteractor implements InputBoundary {
         for (Recipe recipe : recipes) {
             System.out.println(recipe.getName());
         }
+
+
+
     }
 }

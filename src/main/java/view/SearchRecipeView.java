@@ -1,5 +1,6 @@
 package view;
 
+import entity.Recipe;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.SearchRecipeViewModel;
 import use_case.interactor.SearchRecipeInteractor;
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.*;
+import java.util.List;
 
 public class SearchRecipeView extends JPanel implements ActionListener, PropertyChangeListener{
 
@@ -21,6 +23,7 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
 
     public JTextField recipeName;
     public JButton searchButton;
+
 
     public SearchRecipeView(SearchRecipeInteractor searchRecipeInteractor) {
 
