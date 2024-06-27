@@ -1,5 +1,6 @@
 package app;
 
+import use_case.interactor.SearchRecipeInteractor;
 import view.SearchRecipeView;
 
 import javax.swing.*;
@@ -8,6 +9,10 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
+
+        // Configuration
+        Config config = new Config();
+        SearchRecipeInteractor searchRecipeUseCase = config.searchRecipeInteractor();
 
         // Initialize Frame
         JFrame application = new JFrame();
@@ -22,7 +27,7 @@ public class Main {
         application.add(views);
 
         // Create SearchRecipeView
-        SearchRecipeView searchRecipeView = new SearchRecipeView();
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeUseCase);
         views.add(searchRecipeView, searchRecipeView.viewname);
 
         // Set current panel to searchRecipeView
