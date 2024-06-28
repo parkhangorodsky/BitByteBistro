@@ -2,6 +2,7 @@ package interface_adapter.view_model;
 
 import entity.Recipe;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
@@ -18,7 +19,10 @@ public class SearchRecipeViewModel extends ViewModel {
         this.recipeSearchResult = recipeSearchResult;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
     public void firePropertyChanged() {
-        support.firePropertyChange("recipe search", null, this.recipeSearchResult);
+        support.firePropertyChange("search recipe", null, this.recipeSearchResult);
     }
 }
