@@ -97,6 +97,23 @@ public class Recipe {
         this.estimatedCostPerServing = estimatedCostPerServing;
     }
 
+    @Override
+    public String toString() {
+
+        String name = "Menu: <" + this.name + ">\n";
+        String instruction = "Instructions: " + this.instructions + "\n";
+        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
+        for (Grocery grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
+        StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
+        for (Nutrition nutrition : this.nutritionalInfo) {nutritions.append(nutrition.toString()).append("\n");}
+        String rating = "Rating: " + this.rating + "\n";
+        String estimated = "Estimated Cost: " + this.estimatedCostPerServing + "\n";
+        String privacyStatus = "Privacy Status: " + this.privacyStatus;
+
+        return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
+
+    }
+
     public static Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
         String name = recipeJSON.getString("label");
         String image = recipeJSON.getString("image");
