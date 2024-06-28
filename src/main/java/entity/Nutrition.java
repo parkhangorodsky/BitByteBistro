@@ -11,5 +11,9 @@ public class Nutrition {
         this.unit = unit;
     }
 
+    @Override
+    public String toString() {
+        return label + " " + quantity + " " + unit;
+    }
 }
 
