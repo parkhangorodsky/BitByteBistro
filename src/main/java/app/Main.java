@@ -1,5 +1,6 @@
 package app;
 
+import interface_adapter.view_model.SearchRecipeViewModel;
 import interface_adapter.view_model.ViewManagerModel;
 import interface_adapter.view_model.ViewModel;
 import use_case.interactor.SearchRecipeInteractor;
@@ -13,9 +14,13 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
 
+        // Create ViewModels
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("search recipe");
+
         // Configuration
         Config config = new Config();
-        SearchRecipeInteractor searchRecipeUseCase = config.searchRecipeInteractor();
+        SearchRecipeInteractor searchRecipeUseCase = config.searchRecipeInteractor(viewManagerModel, searchRecipeViewModel);
 
         // Initialize Frame
         JFrame application = new JFrame();
@@ -29,12 +34,9 @@ public class Main {
         JPanel views = new JPanel(cardLayout);
         application.add(views);
 
-        // Create ViewModels
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-
         // Create Views
         ViewManager viewManager = new ViewManager(views, cardLayout, viewManagerModel);
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeUseCase);
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeUseCase);
         views.add(searchRecipeView, searchRecipeView.viewname);
 
         // Set current panel to searchRecipeView
