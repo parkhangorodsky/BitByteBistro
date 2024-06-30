@@ -4,7 +4,6 @@ import interface_adapter.view_model.ViewManagerModel;
 import interface_adapter.view_model.ViewModel;
 
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,6 +18,10 @@ public class ViewManager implements PropertyChangeListener {
         this.cardLayout = cardLayout;
         this.viewManagerModel = viewManagerModel;
         this.viewManagerModel.addPropertyChangeListener(this);
+    }
+
+    public void addView(View view) {
+        this.views.add((JPanel) view, view.getViewName());
     }
 
     @Override
