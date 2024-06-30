@@ -1,5 +1,6 @@
 package interface_adapter.controller;
 
+import interface_adapter.view_model.SearchRecipeViewModel;
 import use_case.input_data.InputBoundary;
 import use_case.input_data.SearchRecipeInputData;
 
