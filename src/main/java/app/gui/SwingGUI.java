@@ -1,9 +1,6 @@
 package app.gui;
 
-
-import api.RecipeAPI;
 import app.Config;
-import app.use_case_factory.SearchRecipeUseCaseFactory;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.SearchRecipeViewModel;
 import interface_adapter.view_model.ViewManagerModel;

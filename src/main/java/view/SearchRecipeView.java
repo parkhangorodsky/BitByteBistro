@@ -3,24 +3,14 @@ package view;
 import entity.Recipe;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.SearchRecipeViewModel;
-import use_case.interactor.SearchRecipeInteractor;
 import use_case.output_data.SearchRecipeOutputData;
 
-import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public class SearchRecipeView extends JPanel implements View {
 

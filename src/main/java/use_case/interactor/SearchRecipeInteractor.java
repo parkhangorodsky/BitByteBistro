@@ -1,9 +1,6 @@
 package use_case.interactor;
 
 import api.RecipeAPI;
-import entity.Grocery;
-import entity.Ingredient;
-import entity.Nutrition;
 import entity.Recipe;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,9 +8,6 @@ import use_case.input_data.InputBoundary;
 import use_case.input_data.SearchRecipeInputData;
 import use_case.output_data.OutputBoundary;
 import use_case.output_data.SearchRecipeOutputData;
-
-
-import java.util.Collection;
 
 import java.util.ArrayList;
 import java.util.List;

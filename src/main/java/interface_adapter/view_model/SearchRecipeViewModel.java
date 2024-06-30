@@ -1,11 +1,9 @@
 package interface_adapter.view_model;
 
-import entity.Recipe;
 import use_case.output_data.SearchRecipeOutputData;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
 
 public class SearchRecipeViewModel extends ViewModel {
 
