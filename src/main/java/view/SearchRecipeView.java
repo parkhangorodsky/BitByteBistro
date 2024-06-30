@@ -88,7 +88,6 @@ public class SearchRecipeView extends JPanel implements View {
             outputPanel.removeAll();
 
             for (Recipe recipe : response) {
-                System.out.println(recipe.getName());
                 JPanel recipePanel = new JPanel();
 
                 JTextArea textArea = new JTextArea(recipe.toString());
