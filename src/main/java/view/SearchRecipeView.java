@@ -4,6 +4,7 @@ import entity.Recipe;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.SearchRecipeViewModel;
 import use_case.interactor.SearchRecipeInteractor;
+import use_case.output_data.SearchRecipeOutputData;
 
 import java.util.List;
 import javax.swing.*;
@@ -21,10 +22,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class SearchRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
+public class SearchRecipeView extends JPanel implements View {
 
     private SearchRecipeViewModel searchRecipeViewModel;
-    private SearchRecipeInteractor searchRecipeInteractor;
+    private SearchRecipeController searchRecipeController;
 
     public final String viewname = "search recipe";
     private final String fieldLabel = "Search Recipe";
@@ -35,11 +36,15 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     private JButton searchButton;
     private JPanel inputPanel;
     private JPanel outputPanel;
+    private JScrollPane recipeContainer;
 
-    public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeInteractor searchRecipeInteractor) {
-        this.searchRecipeInteractor = searchRecipeInteractor;
+    public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController) {
+
+        // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
         searchRecipeViewModel.addPropertyChangeListener(this);
+        // Make connection to Controller
+        this.searchRecipeController = searchRecipeController;
 
         // Initialize input & output panel
         inputPanel = new JPanel();
@@ -61,7 +66,7 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
         searchButton.addActionListener(this);
 
         // Output Components
-        JScrollPane recipeContainer = new JScrollPane(outputPanel);
+        recipeContainer = new JScrollPane(outputPanel);
         recipeContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 
@@ -81,15 +86,14 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(searchButton)) {
             String queryString = recipeName.getText();
-            SearchRecipeController controller = new SearchRecipeController(searchRecipeInteractor);
-            controller.execute(queryString);
+            searchRecipeController.execute(queryString);
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("search recipe".equals(evt.getPropertyName())) {
-            List<Recipe> response = (List<Recipe>) evt.getNewValue();
+            SearchRecipeOutputData response =  (SearchRecipeOutputData) evt.getNewValue();
 
             outputPanel.removeAll();
 
@@ -116,10 +120,17 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
                 outputPanel.add(recipePanel);
 
             }
+            SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));
             outputPanel.revalidate();
             outputPanel.repaint();
             }
         }
+
+
+    @Override
+    public String getViewName() {
+        return this.viewname;
     }
+}
 
 
