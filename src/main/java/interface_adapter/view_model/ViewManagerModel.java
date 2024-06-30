@@ -2,7 +2,6 @@ package interface_adapter.view_model;
 
 import view.ViewManager;
 
-import javax.swing.text.View;
 import java.beans.PropertyChangeSupport;
 
 public class ViewManagerModel {
