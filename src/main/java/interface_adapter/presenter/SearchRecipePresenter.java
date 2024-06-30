@@ -15,13 +15,13 @@ public class SearchRecipePresenter implements OutputBoundary {
     private ViewManagerModel viewManagerModel;
 
     public SearchRecipePresenter(ViewManagerModel viewManagerModel, SearchRecipeViewModel searchRecipeViewModel) {
-        this.searchRecipeViewModel = searchRecipeViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.searchRecipeViewModel = searchRecipeViewModel;
     }
 
     @Override
     public void prepareSuccessView(SearchRecipeOutputData recipes) {
-        searchRecipeViewModel.setRecipeSearchResult(recipes.getRecipes());
+        searchRecipeViewModel.setRecipeSearchResult(recipes);
         searchRecipeViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(searchRecipeViewModel.getViewName());
