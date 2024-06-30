@@ -114,37 +114,4 @@ public class Recipe {
 
     }
 
-    public static Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
-        String name = recipeJSON.getString("label");
-        String image = recipeJSON.getString("image");
-//        String instructions = recipeJSON.getString("instructions");
-        String instructions = "";
-        JSONArray ingredients = recipeJSON.getJSONArray("ingredients");
-        List<Grocery> ingredientList = new ArrayList<>();
-        for (int i = 0; i < ingredients.length(); i++) {
-            JSONObject ingredientJSON = ingredients.getJSONObject(i);
-            String ingredientID = ingredientJSON.isNull("foodId") ? "" :ingredientJSON.getString("foodId");
-            String ingredientName = ingredientJSON.isNull("food") ? "" :ingredientJSON.getString("food");
-            float ingredientQuantity = ingredientJSON.isNull("quantity") ? 0.0f :ingredientJSON.getFloat("quantity");
-            String ingredientMeasure = ingredientJSON.isNull("measure") ? "" : ingredientJSON.getString("measure");
-            String ingredientCategory = ingredientJSON.isNull("foodCategory") ? "" : ingredientJSON.getString("foodCategory");
-            Ingredient ingredient = new Ingredient(ingredientID, ingredientName, ingredientMeasure, ingredientCategory);
-            Grocery grocery = new Grocery(ingredient, ingredientQuantity);
-            ingredientList.add(grocery);
-        }
-        JSONObject totalNutrients = recipeJSON.getJSONObject("totalNutrients");
-        List<Nutrition> nutritionList = new ArrayList<>();
-        for (String key : totalNutrients.keySet()) {
-            JSONObject totalNutrientJSON = totalNutrients.getJSONObject(key);
-            String label = totalNutrientJSON.getString("label");
-            float quantity = totalNutrientJSON.getFloat("quantity");
-            String unit = totalNutrientJSON.getString("unit");
-            Nutrition nutrition = new Nutrition(label, quantity, unit);
-            nutritionList.add(nutrition);
-        }
-        Recipe recipe = new Recipe(name, image, instructions, ingredientList, nutritionList,0.0f, true);
-        return recipe;
-
-    }
-
 }
