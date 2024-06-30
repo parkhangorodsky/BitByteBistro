@@ -6,5 +6,6 @@ import org.json.JSONArray;
 import java.util.List;
 
 public interface RecipeAPI {
-    JSONArray getRecipe(String queryString);
+    JSONArray getRecipe(String url);
+    String createURLByRecipeName(String queryString);
 }
