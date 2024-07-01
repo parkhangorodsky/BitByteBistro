@@ -14,13 +14,15 @@ An extra idea I just thought of: but it could be nice to have some kind of calen
 
 TIMELINE FEATURES:
 1) recipe search
-2) adding recipes
+2) recipe to grocery list (view grocery list)
 3) fridge inventory (changes grocery list)
-4) calendar/meal planner
-5) nutrition
-6) recipe search by ingredient
-7) budget + money saved OR personalized stats
-8) eco friendly OR for you + social
+4) adding recipes
+5) calendar/meal planner
+6) recipe search by ingredient/any other "searchables"
+WE'LL SEE/PROBABLY NOT:
+7) nutrition
+9) budget + money saved OR personalized stats
+10) eco friendly OR for you + social
 
 
 NOTE: each directory now has a file called testing.java which is not used for our project - it's just here as a placeholder so i can push the directories to maintain the structure.
