@@ -8,6 +8,18 @@ public class Grocery {
         this.quantity = quantity;
     }
 
+    public String getName() {
+        return ingredient.getIngredientName();
+    }
+
+    public float getQuantity() {
+        return quantity;
+    }
+
+    public String getUnit() {
+        return ingredient.getIngredientMeasure();
+    }
+
     @Override
     public String toString() {
         return this.ingredient.getIngredientName()

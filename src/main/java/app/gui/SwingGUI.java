@@ -10,6 +10,7 @@ import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
+import com.apple.eawt.Application;
 
 public class SwingGUI implements GUI {
 
@@ -21,7 +22,7 @@ public class SwingGUI implements GUI {
     private SearchRecipeViewModel searchRecipeViewModel;
 
     // UI
-    private JFrame application;
+    private JFrame frame;
     private CardLayout mainCardLayout;
     private JPanel mainPanel;
 
@@ -44,18 +45,30 @@ public class SwingGUI implements GUI {
      */
     public void initialize(Config config) {
 
-        // Initialize Frame of application
-        this.application = new JFrame();
+        // Initialize Frame of frame
+        frame = new JFrame(); // Initialize Frame
+        frame.setSize(1000, 750);
+        frame.setLayout(new BorderLayout());// Set size of the frame
+        frame.setResizable(true); // Disable resizing
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close program upon clicking exit button
 
-        this.application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.application.setTitle("BitByteBistro");
-        this.application.setLocationRelativeTo(null);
-        this.application.setSize(800, 600);
+        frame.setTitle(" "); // Set tile of the frame
+        ImageIcon icon = new ImageIcon("src/main/resources/images/smiley.png"); // Create ImageIcon
+        frame.setIconImage(icon.getImage()); // Set Icon of the app
+
+        frame.getContentPane().setBackground(new Color(238, 237, 227)); // Set background color
+        frame.setLocationRelativeTo(null);
+
+        // Disable title bar (to look better) for mac OS.
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            frame.getRootPane().putClientProperty("apple.awt.fullWindowContent", true);
+            frame.getRootPane().putClientProperty("apple.awt.transparentTitleBar", true);
+        }
 
         // Initialize main Layout and main Panel
         this.mainCardLayout = new CardLayout();
         this.mainPanel = new JPanel(mainCardLayout);
-        this.application.add(mainPanel);
+        this.frame.add(mainPanel);
 
         // Create ViewManager
         this.viewManager =  new ViewManager(mainPanel, mainCardLayout, this.viewManagerModel);
@@ -63,9 +76,9 @@ public class SwingGUI implements GUI {
         // Create Views
         SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController());
 
-        // Set initial View and make application visible
+        // Set initial View and make frame visible
         this.setActiveView(searchRecipeView);
-        this.application.setVisible(true);
+        this.frame.setVisible(true);
     }
 
     @Override

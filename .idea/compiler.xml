@@ -13,4 +13,9 @@
       <module name="BitByteBistro_maven" target="22" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="BitByteBistro" options="--add-exports java.desktop/com.apple.eawt=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>
