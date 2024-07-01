@@ -10,7 +10,6 @@ import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
-import com.apple.eawt.Application;
 
 public class SwingGUI implements GUI {
 
