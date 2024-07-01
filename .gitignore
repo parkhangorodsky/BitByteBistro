@@ -11,6 +11,9 @@
 =======
 # Output
 out
+target
+
+# IntelliJ spcific
 /.idea/material_theme_project_new.xml
 /.idea/workspace.xml
 .idea/material_theme_project_new.xml
