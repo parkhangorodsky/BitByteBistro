@@ -16,9 +16,9 @@ public interface RecipeJSONHandler extends JsonNullHandler{
 
         int yield = recipeJSON.getInt("yield");
 
-        List<String> dietLabels = JSONStringArrayToList(recipeJSON.getJSONArray("dietLabels"));
-        List<String> healthLabels = JSONStringArrayToList(recipeJSON.getJSONArray("healthLabels"));
-        List<String> cautions = JSONStringArrayToList(recipeJSON.getJSONArray("cautions"));
+        List<String> dietLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dietLabels"));
+        List<String> healthLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "healthLabels"));
+        List<String> cautions = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "cautions"));
 
         String instructions = "";
 
@@ -58,11 +58,11 @@ public interface RecipeJSONHandler extends JsonNullHandler{
             totalDailyMap.put(label, nutrition);
         }
 
-        List<String> tags = JSONStringArrayToList(this.handleNullJSONArray(recipeJSON, "tags"));
+        List<String> tags = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "tags"));
 
-        List<String> cuisineType = JSONStringArrayToList(recipeJSON.getJSONArray("cuisineType"));
-        List<String> mealType = JSONStringArrayToList(recipeJSON.getJSONArray("mealType"));
-        List<String> dishType = JSONStringArrayToList(recipeJSON.getJSONArray("dishType"));
+        List<String> cuisineType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "cuisineType"));
+        List<String> mealType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "mealType"));
+        List<String> dishType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dishType"));
 
         Recipe recipe = new Recipe(name,
                 image,
