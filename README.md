@@ -13,12 +13,12 @@ Finally, another idea was to use some API for the prices of ingredients in your 
 An extra idea I just thought of: but it could be nice to have some kind of calendar feature where you can actually plan where the meals are going (that way you know you have enough for a week, for example). This would also feed into the nutrition info section, or just stats in general, since we could should "your favourite breakfast last month" or "avg servings of vegetables at lunchtime" or something like that.
 
 TIMELINE FEATURES:
-1) recipe search
-2) recipe to grocery list (view grocery list)
-3) fridge inventory (changes grocery list)
-4) adding recipes
+1) recipe search - Seonghyun
+2) recipe to grocery list (view grocery list) - Fiona
+3) fridge inventory (changes grocery list) - Fiona
+4) adding recipes 
 5) calendar/meal planner
-6) recipe search by ingredient/any other "searchables"
+6) recipe search by ingredient/any other "searchables" - Seonghyun
 WE'LL SEE/PROBABLY NOT:
 7) nutrition
 9) budget + money saved OR personalized stats
