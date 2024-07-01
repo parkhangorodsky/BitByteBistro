@@ -21,9 +21,9 @@ public class IngredientPanel extends RoundPanel implements ViewComponent {
         setAlignmentY(TOP_ALIGNMENT);
 
         JLabel label = new JLabel("Ingredients");
-        label.setFont(new Font(secondaryFont, Font.PLAIN, 17));
+        label.setFont(new Font(secondaryFont, Font.PLAIN, 15));
         label.setHorizontalAlignment(JLabel.RIGHT);
-        label.setBorder(new EmptyBorder(0, 0, 10, 10));
+        label.setBorder(new EmptyBorder(0, 0, 14, 10));
         add(label);
 
         for (Grocery ingredient : ingredients) {

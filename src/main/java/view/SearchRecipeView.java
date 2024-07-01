@@ -8,6 +8,7 @@ import view.view_components.*;
 import view.view_components.round_component.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -143,8 +144,13 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
                 recipePanel.setLayout(new BorderLayout(2, 3));
                 recipePanel.setBorder(new LineBorder(claudeWhite, 20));
 
-
                 // Layout Panel
+                JPanel topPanel = new RoundPanel(getBackground(), 5);
+                topPanel.setPreferredSize(new Dimension(100, 40));
+                topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
+                topPanel.setBorder(new EmptyBorder(5,15,4,15));
+                topPanel.setBackground(claudeWhite);
+
                 JPanel leftPanel = new RoundPanel(claudeWhite, 5);
                 leftPanel.setLayout(new BorderLayout(3, 4));
 
@@ -152,6 +158,11 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
                 rightPanel.setLayout(new BorderLayout(3, 4));
 
                 // Components
+                JLabel recipeNameLabel = new JLabel(recipe.getName());
+                recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 24));
+                recipeNameLabel.setForeground(claudeBlack);
+                recipeNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
                 JPanel imagePanel = new RoundPanel(getBackground(), 5);
                 ImageIcon image = this.loadRoundImage(recipe.getImage());
                 JLabel imageLabel = new JLabel();
@@ -187,12 +198,15 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 //
 //                ingredientPanel.add(textArea);
 
+                topPanel.add(recipeNameLabel);
+
                 leftPanel.add(imageLabel, BorderLayout.NORTH);
                 leftPanel.add(nutritionPanel, BorderLayout.CENTER);
 
                 rightPanel.add(ingredientPanel, BorderLayout.CENTER);
                 rightPanel.add(extraInfoPanel, BorderLayout.SOUTH);
 
+                recipePanel.add(topPanel, BorderLayout.NORTH);
                 recipePanel.add(leftPanel, BorderLayout.WEST);
                 recipePanel.add(rightPanel, BorderLayout.CENTER);
 
