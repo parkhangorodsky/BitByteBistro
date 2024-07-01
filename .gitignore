@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -7,3 +8,11 @@
 /dataSources/
 /dataSources.local.xml
 .idea
+=======
+# Output
+out
+/.idea/material_theme_project_new.xml
+/.idea/workspace.xml
+.idea/material_theme_project_new.xml
+.idea/workspace.xml
+>>>>>>> origin/feature/search-recipe-through-api
