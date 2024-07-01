@@ -91,7 +91,7 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
         // Search Button
         searchButton = new RoundButton("Search");
-        searchButton.setPreferredSize(new Dimension(80, 40));
+        searchButton.setPreferredSize(new Dimension(40, 40));
         searchButton.setBackground(claudeWhite);
         searchButton.setForeground(claudeBlack);
         searchButton.setBorder(new RoundBorder(claudeWhiteEmph, 10));
@@ -140,21 +140,22 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
             for (Recipe recipe : response) {
 
                 // Main Panel
-                JPanel recipePanel = new RoundPanel(claudeWhite, 5);
+                JPanel recipePanel = new RoundPanel(claudeWhite);
+                recipePanel.setBackground(claudeWhite);
                 recipePanel.setLayout(new BorderLayout(2, 3));
-                recipePanel.setBorder(new LineBorder(claudeWhite, 20));
+                recipePanel.setBorder(new EmptyBorder(30, 20, 20, 20));
 
                 // Layout Panel
-                JPanel topPanel = new RoundPanel(getBackground(), 5);
+                JPanel topPanel = new RoundPanel(getBackground());
                 topPanel.setPreferredSize(new Dimension(100, 40));
                 topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
-                topPanel.setBorder(new EmptyBorder(5,15,4,15));
+                topPanel.setBorder(new EmptyBorder(5,15,5,15));
                 topPanel.setBackground(claudeWhite);
 
-                JPanel leftPanel = new RoundPanel(claudeWhite, 5);
+                JPanel leftPanel = new RoundPanel(claudeWhite);
                 leftPanel.setLayout(new BorderLayout(3, 4));
 
-                JPanel rightPanel = new RoundPanel(claudeWhite, 5);
+                JPanel rightPanel = new RoundPanel(claudeWhite);
                 rightPanel.setLayout(new BorderLayout(3, 4));
 
                 // Components
@@ -163,22 +164,21 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
                 recipeNameLabel.setForeground(claudeBlack);
                 recipeNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-                JPanel imagePanel = new RoundPanel(getBackground(), 5);
+                JPanel imagePanel = new RoundPanel(getBackground());
                 ImageIcon image = this.loadRoundImage(recipe.getImage());
                 JLabel imageLabel = new JLabel();
                 imageLabel.setIcon(image);
                 imagePanel.add(imageLabel);
 
-                JPanel nutritionPanel = new RoundPanel(claudeWhiteEmph, 5);
+                JPanel nutritionPanel = new RoundPanel(getBackground());
                 nutritionPanel.setBackground(claudeWhiteEmph);
                 nutritionPanel.setPreferredSize(new Dimension(30, 40));
 
                 JPanel ingredientPanel = new IngredientPanel(recipe.getIngredientList(), claudeWhiteEmph);
                 ingredientPanel.setBackground(claudeWhiteEmph);
 
-                JPanel extraInfoPanel = new RoundPanel(claudeWhite, 5);
-                extraInfoPanel.setBackground(claudeWhiteEmph);
-                extraInfoPanel.setPreferredSize(new Dimension(30, 30));
+                JPanel extraInfoPanel = new RoundPanel(claudeWhite);
+                extraInfoPanel.setPreferredSize(new Dimension(100, 30));
                 extraInfoPanel.setBackground(claudeOrange);
 
 //                JTextArea textArea = new JTextArea(recipe.toString());

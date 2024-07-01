@@ -9,15 +9,18 @@ import java.awt.geom.RoundRectangle2D;
 
 public class RoundPanel extends JPanel implements ViewComponent {
 
-    private int cornerRadius;
+    private int cornerRadius = 10;
     Color borderColor;// Adjust the corner radius as needed
 
-    public RoundPanel(Color borderColor, int cornerRadius) {
+    public RoundPanel(Color borderColor) {
         super();
         this.borderColor = borderColor;
-        this.cornerRadius = cornerRadius;
         setBorder(new LineBorder(this.borderColor));
         setOpaque(false); // Ensure the panel is transparent
+    }
+
+    public void setCornerRadius(int cornerRadius) {
+        this.cornerRadius = cornerRadius;
     }
 
     @Override

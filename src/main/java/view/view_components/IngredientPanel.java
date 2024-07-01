@@ -12,10 +12,10 @@ import java.util.List;
 public class IngredientPanel extends RoundPanel implements ViewComponent {
 
     public IngredientPanel(List<Grocery> ingredients, Color color) {
-        super(claudeWhiteEmph,5);
+        super(claudeWhiteEmph);
 
         setLayout(new VerticalFlowLayout(5));
-        setBorder(new EmptyBorder(15, 15, 15, 15));
+        setBorder(new EmptyBorder(30, 15, 15, 15));
         setBackground(Color.MAGENTA);
         setAlignmentX(LEFT_ALIGNMENT);
         setAlignmentY(TOP_ALIGNMENT);

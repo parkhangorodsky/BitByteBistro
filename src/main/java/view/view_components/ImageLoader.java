@@ -26,7 +26,7 @@ public interface ImageLoader {
 
     default ImageIcon loadRoundImage(String imageUrl) {
         BufferedImage bufferedImage = loadBufferedImage(imageUrl);
-        BufferedImage bufferedRoundedImage = makeRoundedCorner(bufferedImage, 5);
+        BufferedImage bufferedRoundedImage = makeRoundedCorner(bufferedImage, 10);
         return new ImageIcon(bufferedRoundedImage);
     }
 
