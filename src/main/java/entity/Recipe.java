@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -136,7 +137,7 @@ public class Recipe {
 
         String name = "Menu: <" + this.name + ">\n";
         String instruction = "Instructions: " + this.instructions + "\n";
-        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
+        StringBuilder ingredients = new StringBuilder().append("<Ingredients>\n>");
         for (Grocery grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
         StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
         for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
@@ -147,5 +148,15 @@ public class Recipe {
         return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
 
     }
-
+    //method to get a list of groceries from a list of recipe
+    public List<Grocery> getGroceryList(List<Recipe> recipeList) {
+        List<Grocery> groceries = new ArrayList<>();
+        for (Recipe recipe : recipeList) {
+            for (Grocery grocery : recipe.getIngredientList()) {
+                if (groceries.contains(grocery)) {groceries.get(groceries.indexOf(grocery)).quantity += grocery.quantity;}
+                else {groceries.add(grocery);}
+            }
+        }
+        return groceries;
+    }
 }
