@@ -153,8 +153,11 @@ public class Recipe {
         List<Grocery> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             for (Grocery grocery : recipe.getIngredientList()) {
-                if (groceries.contains(grocery)) {groceries.get(groceries.indexOf(grocery)).quantity += grocery.quantity;}
-                else {groceries.add(grocery);}
+                if (groceries.contains(grocery)) {
+                    groceries.get(groceries.indexOf(grocery)).quantity += grocery.quantity;
+                } else {
+                    groceries.add(grocery);
+                }
             }
         }
         return groceries;
