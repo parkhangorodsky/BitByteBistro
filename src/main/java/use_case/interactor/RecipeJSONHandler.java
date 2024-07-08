@@ -1,6 +1,5 @@
 package use_case.interactor;
 
-import entity.Grocery;
 import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
@@ -23,7 +22,7 @@ public interface RecipeJSONHandler extends JsonNullHandler{
         String instructions = "";
 
         JSONArray ingredients = recipeJSON.getJSONArray("ingredients");
-        List<Grocery> ingredientList = new ArrayList<>();
+        List<Ingredient> ingredientList = new ArrayList<>();
         for (int i = 0; i < ingredients.length(); i++) {
             JSONObject ingredientJSON = ingredients.getJSONObject(i);
             String ingredientID = handleNullString(ingredientJSON, "foodId");
@@ -31,9 +30,8 @@ public interface RecipeJSONHandler extends JsonNullHandler{
             float ingredientQuantity = handleNullFloat(ingredientJSON, "quantity");
             String ingredientMeasure = handleNullString(ingredientJSON, "measure");
             String ingredientCategory = handleNullString(ingredientJSON, "foodCategory");
-            Ingredient ingredient = new Ingredient(ingredientID, ingredientName, ingredientMeasure, ingredientCategory);
-            Grocery grocery = new Grocery(ingredient, ingredientQuantity);
-            ingredientList.add(grocery);
+            Ingredient ingredient = new Ingredient(ingredientID, ingredientName, ingredientMeasure, ingredientCategory, ingredientQuantity);
+            ingredientList.add(ingredient);
         }
 
         JSONObject totalNutrients = recipeJSON.getJSONObject("totalNutrients");
