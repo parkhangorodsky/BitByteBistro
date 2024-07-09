@@ -1,6 +1,7 @@
 package view.view_components;
 
 import entity.Grocery;
+import view.view_components.interfaces.ThemedComponent;
 import view.view_components.layouts.VerticalFlowLayout;
 import view.view_components.round_component.RoundPanel;
 
@@ -9,14 +10,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.List;
 
-public class IngredientPanel extends RoundPanel implements ViewComponent {
+public class IngredientPanel extends RoundPanel implements ThemedComponent {
 
     public IngredientPanel(List<Grocery> ingredients, Color color) {
-        super(claudeWhiteEmph);
+        super();
 
         setLayout(new VerticalFlowLayout(5));
         setBorder(new EmptyBorder(30, 15, 15, 15));
-        setBackground(Color.MAGENTA);
+        setBackground(claudeWhiteEmph);
         setAlignmentX(LEFT_ALIGNMENT);
         setAlignmentY(TOP_ALIGNMENT);
 

@@ -22,6 +22,11 @@ public class SearchRecipeViewModel extends ViewModel {
         support.addPropertyChangeListener(listener);
     }
     public void firePropertyChanged() {
-        support.firePropertyChange("search recipe", null, this.recipeSearchResult);
+        if (recipeSearchResult != null && !recipeSearchResult.getRecipes().isEmpty()) {
+            support.firePropertyChange("search recipe", null, this.recipeSearchResult);
+        } else if (recipeSearchResult.getRecipes().isEmpty()) {
+            support.firePropertyChange("empty result", null, null);
+        }
+
     }
 }

@@ -1,23 +1,25 @@
 package view.view_components.round_component;
 
-import view.view_components.ViewComponent;
+import view.view_components.interfaces.ThemedComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class RoundButton extends JButton implements ViewComponent {
+public class RoundButton extends JButton implements ThemedComponent {
 
 
-    private static final Color BORDER_COLOR = claudeWhiteEmph;
-    ;
-    private static final Color BACKGROUND_COLOR = claudeWhite;
-    ;
-    private static final Color HOVER_COLOR = claudeWhiteEmph;
-    ; // Light gray for hover effect
-    private static final Color PRESSED_COLOR = claudeOrange; // Gray for pressed effect
-    private static final int ARC = 10; // Corner radius
+    private Color borderColor = claudeWhiteEmph;
+
+    private Color backgroundColor = claudeWhite;
+    private Color hoverBackgroundColor = claudeWhiteEmph;
+
+    private Color foregroundColor = claudeWhiteEmph;
+    private Color hoverForegroundColor = claudeBlack;
+
+    private Color pressedColor = claudeOrange; // Gray for pressed effect
+    private int ARC = 10; // Corner radius
 
     public RoundButton(String text) {
         super(text);
@@ -27,35 +29,37 @@ public class RoundButton extends JButton implements ViewComponent {
         setFocusPainted(false);
         setBorderPainted(false);
 
-        setBackground(BACKGROUND_COLOR);
-        setForeground(claudeBlack);
-        setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15)); // Adjust padding
+        setBackground(backgroundColor);
+        setForeground(foregroundColor);
+//        setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15)); // Adjust padding
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(HOVER_COLOR);
+                setBackground(hoverBackgroundColor);
+                setForeground(hoverForegroundColor);
                 repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(BACKGROUND_COLOR);
+                setBackground(backgroundColor);
+                setForeground(foregroundColor);
                 repaint();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                setBackground(PRESSED_COLOR);
+                setBackground(pressedColor);
                 repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (getModel().isRollover()) {
-                    setBackground(HOVER_COLOR);
+                    setBackground(hoverBackgroundColor);
                 } else {
-                    setBackground(BACKGROUND_COLOR);
+                    setBackground(backgroundColor);
                 }
                 repaint();
             }
@@ -64,6 +68,9 @@ public class RoundButton extends JButton implements ViewComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
+
+        super.paintComponent(g); // Call the superclass method first
+
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -71,23 +78,58 @@ public class RoundButton extends JButton implements ViewComponent {
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), ARC, ARC);
 
-        g2.setColor(BORDER_COLOR);
+        g2.setColor(borderColor);
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, ARC, ARC);
 
+        // Set the font and calculate the position of the text
+        FontMetrics metrics = g2.getFontMetrics(getFont());
+        int textWidth = metrics.stringWidth(getText());
+        int textHeight = metrics.getHeight();
+        int textX = (getWidth() - textWidth) / 2;
+        int textY = (getHeight() - textHeight + 1) / 2 + metrics.getAscent();
+
+        g2.setFont(getFont());
+        g2.setColor(getForeground());
+        g2.drawString(getText(), textX, textY);
+
         g2.dispose();
-
-        super.paintComponent(g);
     }
 
     @Override
-    protected void paintBorder(Graphics g) {
-        // No need to paint border separately, it's handled in paintComponent
+    public void setPreferredSize(Dimension preferredSize) {
+        super.setPreferredSize(preferredSize);
+        revalidate(); // Ensure layout manager takes the new size into account
+        repaint(); // Repaint the button with the new size
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(120, 40); // Adjust preferred size as needed
+    public void setHoverColor(Color backgroundColor, Color hoverBackgroundColor, Color foregroundColor, Color hoverForegroundColor) {
+        this.backgroundColor = backgroundColor;
+        this.hoverBackgroundColor = hoverBackgroundColor;
+        this.foregroundColor = foregroundColor;
+        this.hoverForegroundColor = hoverForegroundColor;
+        setBackground(backgroundColor);
+        setForeground(foregroundColor);
+        this.revalidate();
+        this.repaint();
     }
 
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void setForegroundColor(Color foregroundColor) {
+        this.foregroundColor = foregroundColor;
+        setForeground(foregroundColor);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public  void setPressedColor(Color pressedColor) {
+        this.pressedColor = pressedColor;
+        this.revalidate();
+        this.repaint();
+    }
 
 }

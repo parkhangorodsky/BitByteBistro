@@ -1,10 +1,15 @@
 package view;
 
 import entity.Recipe;
+import interface_adapter.controller.AdvancedSearchRecipeController;
 import interface_adapter.controller.SearchRecipeController;
+import interface_adapter.presenter.SearchRecipePresenter;
+import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import interface_adapter.view_model.SearchRecipeViewModel;
+import use_case.interactor.AdvancedSearchRecipeInteractor;
 import use_case.output_data.SearchRecipeOutputData;
 import view.view_components.*;
+import view.view_components.interfaces.ImageLoader;
 import view.view_components.round_component.*;
 
 import javax.swing.*;
@@ -19,19 +24,26 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
     private SearchRecipeViewModel searchRecipeViewModel;
     private SearchRecipeController searchRecipeController;
+    private SearchRecipePresenter searchRecipePresenter;
+
+    private AdvancedSearchRecipeController advancedSearchRecipeController;
+
 
     public final String viewname = "search recipe";
 
     // Components
-    private RoundedJTextField recipeName;
-    private JButton searchButton;
+    private RoundTextField recipeName;
+    private RoundButton searchButton;
     private JPanel inputPanel;
     private JPanel outputPanel;
     private JScrollPane recipeContainer;
 
 
 
-    public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController) {
+    public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
+                            SearchRecipeController searchRecipeController,
+                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
+                            AdvancedSearchRecipeController advancedSearchRecipeController) {
 
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
@@ -39,6 +51,7 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
+        this.advancedSearchRecipeController = advancedSearchRecipeController;
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -65,15 +78,28 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
         // Input Components
 
-        // Search bar label
-//        JLabel title = new JLabel("Search Recipe"); // Create label
-//        title.setFont(new Font(defaultFont, Font.PLAIN, 20)); // Set font, style, size
-//        title.setForeground(claudeBlack); // set font color
+        // Advanced Search button
+        String text = "Advanced Search";
+        RoundButton advancedSearchButton = new RoundButton(text);
+        advancedSearchButton.setPreferredSize(new Dimension(140, 40));
+        advancedSearchButton.setHoverColor(claudeWhite, claudeWhite, claudeWhiteEmph, claudeBlackEmph);
+        advancedSearchButton.setBorderColor(getBackground());
+        advancedSearchButton.setPressedColor(getBackground());
+        advancedSearchButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
+        advancedSearchButton.addActionListener(e -> {
+            if (e.getSource() == advancedSearchButton) {
+                AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(this),
+                        advancedSearchRecipeViewModel, advancedSearchRecipeController);
+                advancedSearchView.setVisible(true);
+                System.out.println("HI");
+            }
+        });
+
 
         // Search Box
-        recipeName = new RoundedJTextField(30);
+        recipeName = new RoundTextField();
+        recipeName.setPreferredSize(new Dimension(400, 40));
         recipeName.setPlaceholder("Type in the name of the recipe");
-        recipeName.setPreferredSize(new Dimension(30, 40));
         recipeName.setBackground(claudeWhite);
         recipeName.setForeground(claudeBlack);
         recipeName.setBorder(new LineBorder(claudeWhiteEmph, 1));
@@ -91,11 +117,9 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
         // Search Button
         searchButton = new RoundButton("Search");
-        searchButton.setPreferredSize(new Dimension(40, 40));
-        searchButton.setBackground(claudeWhite);
-        searchButton.setForeground(claudeBlack);
-        searchButton.setBorder(new RoundBorder(claudeWhiteEmph, 10));
-        searchButton.setOpaque(false);
+        searchButton.setPreferredSize(new Dimension(80, 40));
+        searchButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlack, claudeBlack);
+        searchButton.setForegroundColor(claudeBlack);
         searchButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
@@ -115,6 +139,7 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
         // Pack input & output panel
 //        inputPanel.add(title);
+        inputPanel.add(advancedSearchButton);
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
 
@@ -133,29 +158,29 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("search recipe".equals(evt.getPropertyName())) {
-            SearchRecipeOutputData response =  (SearchRecipeOutputData) evt.getNewValue();
+            SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
 
             outputPanel.removeAll();
 
             for (Recipe recipe : response) {
 
                 // Main Panel
-                JPanel recipePanel = new RoundPanel(claudeWhite);
+                JPanel recipePanel = new RoundPanel();
                 recipePanel.setBackground(claudeWhite);
                 recipePanel.setLayout(new BorderLayout(2, 3));
                 recipePanel.setBorder(new EmptyBorder(30, 20, 20, 20));
 
                 // Layout Panel
-                JPanel topPanel = new RoundPanel(getBackground());
+                JPanel topPanel = new RoundPanel();
                 topPanel.setPreferredSize(new Dimension(100, 40));
                 topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
-                topPanel.setBorder(new EmptyBorder(5,15,5,15));
+                topPanel.setBorder(new EmptyBorder(5, 15, 5, 15));
                 topPanel.setBackground(claudeWhite);
 
-                JPanel leftPanel = new RoundPanel(claudeWhite);
+                JPanel leftPanel = new RoundPanel();
                 leftPanel.setLayout(new BorderLayout(3, 4));
 
-                JPanel rightPanel = new RoundPanel(claudeWhite);
+                JPanel rightPanel = new RoundPanel();
                 rightPanel.setLayout(new BorderLayout(3, 4));
 
                 // Components
@@ -164,39 +189,22 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
                 recipeNameLabel.setForeground(claudeBlack);
                 recipeNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-                JPanel imagePanel = new RoundPanel(getBackground());
+                JPanel imagePanel = new RoundPanel();
                 ImageIcon image = this.loadRoundImage(recipe.getImage());
                 JLabel imageLabel = new JLabel();
                 imageLabel.setIcon(image);
                 imagePanel.add(imageLabel);
 
-                JPanel nutritionPanel = new RoundPanel(getBackground());
+                JPanel nutritionPanel = new RoundPanel();
                 nutritionPanel.setBackground(claudeWhiteEmph);
                 nutritionPanel.setPreferredSize(new Dimension(30, 40));
 
                 JPanel ingredientPanel = new IngredientPanel(recipe.getIngredientList(), claudeWhiteEmph);
                 ingredientPanel.setBackground(claudeWhiteEmph);
 
-                JPanel extraInfoPanel = new RoundPanel(claudeWhite);
+                JPanel extraInfoPanel = new RoundPanel();
                 extraInfoPanel.setPreferredSize(new Dimension(100, 30));
                 extraInfoPanel.setBackground(claudeOrange);
-
-//                JTextArea textArea = new JTextArea(recipe.toString());
-//                textArea.setWrapStyleWord(true);
-//                textArea.setLineWrap(true);
-//                textArea.setEditable(false); // Optional: Set to false if text is not editable
-//                textArea.setBackground(sunflower); // Match background color
-////                textArea.setBorder(BorderFactory.createEmptyBorder(30,30,30,30)); // Optional: Remove border for cleaner look
-//
-//                // Set fixed width and dynamically adjust height
-//                int fixedWidth = 200; // Set the desired fixed width
-//                textArea.setSize(fixedWidth, Short.MAX_VALUE); // Temporarily set size to maximum height
-//                int preferredHeight = textArea.getPreferredSize().height; // Get the calculated preferred height
-//                textArea.setPreferredSize(new Dimension(fixedWidth, preferredHeight)); // Set the new preferred size
-//
-//                recipePanel.setPreferredSize(new Dimension(fixedWidth, preferredHeight + 10)); // Adjust panel height based on textArea height
-//
-//                ingredientPanel.add(textArea);
 
                 topPanel.add(recipeNameLabel);
 
@@ -210,22 +218,33 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
                 recipePanel.add(leftPanel, BorderLayout.WEST);
                 recipePanel.add(rightPanel, BorderLayout.CENTER);
 
-
-
                 outputPanel.add(recipePanel);
 
             }
             SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));
-            outputPanel.revalidate();
-            outputPanel.repaint();
-            }
+
+        } else if (evt.getPropertyName().equals("empty result")) {
+            outputPanel.removeAll();
+            JPanel emptyResultPanel = new JPanel();
+            emptyResultPanel.setBackground(claudeWhite);
+            JLabel emptyResultLabel = new JLabel("No recipe found...");
+            emptyResultLabel.setFont(new Font(defaultFont, Font.PLAIN, 14));
+            emptyResultLabel.setForeground(claudeBlackEmph);
+            emptyResultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            emptyResultPanel.add(emptyResultLabel);
+            outputPanel.add(emptyResultPanel);
         }
+        outputPanel.revalidate();
+        outputPanel.repaint();
+    }
 
 
     @Override
     public String getViewName() {
         return this.viewname;
     }
+
+
 }
 
 

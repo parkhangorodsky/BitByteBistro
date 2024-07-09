@@ -1,13 +1,12 @@
 package view.view_components.round_component;
 
-import view.view_components.ViewComponent;
+import view.view_components.interfaces.ThemedComponent;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 
-public class RoundImageIcon extends JLabel implements ViewComponent {
+public class RoundImageIcon extends JLabel implements ThemedComponent {
 
     private ImageIcon icon;
 

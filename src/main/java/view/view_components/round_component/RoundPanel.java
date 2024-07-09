@@ -1,20 +1,20 @@
 package view.view_components.round_component;
 
-import view.view_components.ViewComponent;
+import view.view_components.interfaces.ThemedComponent;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class RoundPanel extends JPanel implements ViewComponent {
+public class RoundPanel extends JPanel implements ThemedComponent {
 
     private int cornerRadius = 10;
-    Color borderColor;// Adjust the corner radius as needed
+    Color borderColor = claudeWhiteEmph;// Adjust the corner radius as needed
 
-    public RoundPanel(Color borderColor) {
+    public RoundPanel() {
         super();
-        this.borderColor = borderColor;
+        setBorderColor(getBackground());
         setBorder(new LineBorder(this.borderColor));
         setOpaque(false); // Ensure the panel is transparent
     }
@@ -48,5 +48,11 @@ public class RoundPanel extends JPanel implements ViewComponent {
     @Override
     public Dimension getPreferredSize() {
         return super.getPreferredSize(); // Adjust size as needed
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+        this.revalidate();
+        this.repaint();
     }
 }

@@ -1,10 +1,13 @@
 package app.use_case_factory;
 
 import api.RecipeAPI;
+import interface_adapter.controller.AdvancedSearchRecipeController;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.presenter.SearchRecipePresenter;
+import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import interface_adapter.view_model.SearchRecipeViewModel;
 import interface_adapter.view_model.ViewManagerModel;
+import use_case.interactor.AdvancedSearchRecipeInteractor;
 import use_case.interactor.SearchRecipeInteractor;
 import view.SearchRecipeView;
 
@@ -12,17 +15,14 @@ public class SearchRecipeUseCaseFactory {
 
     private SearchRecipeUseCaseFactory() {}
 
-    public static SearchRecipeController create(ViewManagerModel viewManagerModel, SearchRecipeViewModel searchRecipeViewModel, RecipeAPI recipeAPI) {
+    public static SearchRecipePresenter createSearchRecipePresenter(ViewManagerModel viewManagerModel, SearchRecipeViewModel searchRecipeViewModel) {
+        return new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
+    }
+    public static SearchRecipeInteractor createsearchRecipeInteractor(SearchRecipePresenter searchRecipePresenter, RecipeAPI recipeAPI) {
+        return new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
+    }
+    public static SearchRecipeController createController(SearchRecipeInteractor searchRecipeInteractor) {
 
-        // Create Presenter
-        SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
-
-        // Create UseCaseInteractor
-        SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
-
-        //Create Controller
-        SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
-
-        return searchRecipeController;
+        return new SearchRecipeController(searchRecipeInteractor);
     }
 }

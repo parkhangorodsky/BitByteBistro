@@ -1,7 +1,9 @@
 package app.gui;
 
 import app.Config;
+import interface_adapter.controller.AdvancedSearchRecipeController;
 import interface_adapter.controller.SearchRecipeController;
+import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import interface_adapter.view_model.SearchRecipeViewModel;
 import interface_adapter.view_model.ViewManagerModel;
 import view.SearchRecipeView;
@@ -19,6 +21,9 @@ public class SwingGUI implements GUI {
 
     // ViewModels
     private SearchRecipeViewModel searchRecipeViewModel;
+    private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
+
+
 
     // UI
     private JFrame frame;
@@ -30,11 +35,10 @@ public class SwingGUI implements GUI {
      * @param config
      */
     public SwingGUI(Config config) {
-
         // Get ViewModels from config and save it.
         this.viewManagerModel = config.getViewManagerModel();
         this.searchRecipeViewModel = config.getSearchRecipeViewModel();
-
+        this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
     };
 
 
@@ -73,10 +77,12 @@ public class SwingGUI implements GUI {
         this.viewManager =  new ViewManager(mainPanel, mainCardLayout, this.viewManagerModel);
 
         // Create Views
-        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController());
+        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController(),
+                config.getAdvancedSearchRecipeController());
 
         // Set initial View and make frame visible
         this.setActiveView(searchRecipeView);
+        this.frame.pack();
         this.frame.setVisible(true);
     }
 
@@ -84,6 +90,7 @@ public class SwingGUI implements GUI {
     public void addView(View view) {
         viewManager.addView(view);
     }
+
 
     @Override
     public void setActiveView(View view) {
@@ -102,9 +109,10 @@ public class SwingGUI implements GUI {
      * @return
      */
     @Override
-    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController);
+    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, AdvancedSearchRecipeController advancedSearchRecipeController) {
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, advancedSearchRecipeViewModel,  advancedSearchRecipeController);
         viewManager.addView(searchRecipeView);
+        System.out.println(advancedSearchRecipeController);
         return searchRecipeView;
     }
 

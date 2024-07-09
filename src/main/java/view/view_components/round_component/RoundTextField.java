@@ -1,6 +1,7 @@
 package view.view_components.round_component;
 
-import view.view_components.ViewComponent;
+import org.jetbrains.annotations.NotNull;
+import view.view_components.interfaces.ThemedComponent;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,19 +12,20 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.RoundRectangle2D;
 
-public class RoundedJTextField extends JTextField implements ViewComponent {
+public class RoundTextField extends JTextField implements ThemedComponent {
 
     private Shape shape;
-    private Color borderColor;
+    private Color borderColor = claudeWhiteEmph;
     private final int arc = 10;
-    private int borderThickness = 1; // Default border thickness
-    private String placeholder;
+    private int borderThickness = 1;
+
+    private String placeholder = "";
 
 
-    public RoundedJTextField(int size) {
-        super(size);
-        setOpaque(false); // As we will be drawing the background ourselves, set it to not opaque
-        borderColor = claudeBlack;
+
+    public RoundTextField() {
+        setOpaque(false);
+        setMargin(new Insets(0, 15, 0, 15));// As we will be drawing the background ourselves, set it to not opaque
 
         this.addFocusListener(new FocusAdapter() {
             @Override
@@ -95,4 +97,15 @@ public class RoundedJTextField extends JTextField implements ViewComponent {
         repaint();
     }
 
+    @Override
+    public void setSize(@NotNull Dimension d) {
+        super.setSize(d);
+    }
+
+    @Override
+    public void setFont(Font f) {
+        super.setFont(f);
+        this.revalidate();
+        this.repaint();
+    }
 }

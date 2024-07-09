@@ -4,29 +4,29 @@ import api.RecipeAPI;
 import entity.Recipe;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import use_case.input_data.SearchRecipeInputBoundary;
-import use_case.input_data.SearchRecipeInputData;
+import use_case.input_data.AdvancedRecipeSearchInputBoundary;
+import use_case.input_data.AdvancedRecipeSearchInputData;
 import use_case.output_data.SearchRecipeOutputBoundary;
 import use_case.output_data.SearchRecipeOutputData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchRecipeInteractor implements SearchRecipeInputBoundary, RecipeJSONHandler {
+public class AdvancedSearchRecipeInteractor implements AdvancedRecipeSearchInputBoundary, RecipeJSONHandler {
+
     private RecipeAPI recipeAPI;
     private SearchRecipeOutputBoundary searchRecipePresenter;
 
-    public SearchRecipeInteractor(SearchRecipeOutputBoundary searchRecipePresenter, RecipeAPI recipeAPI) {
+    public AdvancedSearchRecipeInteractor(SearchRecipeOutputBoundary searchRecipePresenter, RecipeAPI recipeAPI) {
         this.recipeAPI = recipeAPI;
         this.searchRecipePresenter = searchRecipePresenter;
     }
-    @Override
-    public void execute(SearchRecipeInputData searchRecipeInputData) {
 
-        String queryString = searchRecipeInputData.getQueryString();
-        String url = recipeAPI.createURLByRecipeName(queryString);
-        JSONArray recipesJSONArray = recipeAPI.getRecipe(url);
+    public void execute(AdvancedRecipeSearchInputData advancedRecipeSearchInputData) {
 
+        String URL = recipeAPI.createURLByAdvancedSearch(advancedRecipeSearchInputData);
+        System.out.println(URL);
+        JSONArray recipesJSONArray = recipeAPI.getRecipe(URL);
 
         List<Recipe> recipes = new ArrayList<>();
         for (int i = 0; i < recipesJSONArray.length(); i++) {
@@ -37,6 +37,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary, Recipe
 
         SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(recipes);
         searchRecipePresenter.prepareSuccessView(searchRecipeOutputData);
+
     }
 
 }

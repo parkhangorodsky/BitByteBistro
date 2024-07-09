@@ -1,0 +1,7 @@
+﻿type,label,param,def
+Diet,Balanced,balanced,Protein/Fat/Carb values in 15/35/50 ratio
+Diet,High-Fiber,high-fiber,More than 5g fiber per serving
+Diet,High-Protein,high-protein,More than 50% of total calories from proteins
+Diet,Low-Carb,low-carb,Less than 20% of total calories from carbs
+Diet,Low-Fat,low-fat,Less than 15% of total calories from fat
+Diet,Low-Sodium,low-sodium,Less than 140mg Na per serving
