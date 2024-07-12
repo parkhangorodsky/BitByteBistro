@@ -1,5 +1,5 @@
 package use_case.input_data;
 
-public interface InputBoundary {
+public interface SearchRecipeInputBoundary {
     void execute(SearchRecipeInputData searchRecipeInputData);
 }

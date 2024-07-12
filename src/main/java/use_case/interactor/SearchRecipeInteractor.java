@@ -4,19 +4,19 @@ import api.RecipeAPI;
 import entity.Recipe;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import use_case.input_data.InputBoundary;
+import use_case.input_data.SearchRecipeInputBoundary;
 import use_case.input_data.SearchRecipeInputData;
-import use_case.output_data.OutputBoundary;
+import use_case.output_data.SearchRecipeOutputBoundary;
 import use_case.output_data.SearchRecipeOutputData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchRecipeInteractor implements InputBoundary, RecipeJSONHandler {
+public class SearchRecipeInteractor implements SearchRecipeInputBoundary, RecipeJSONHandler {
     private RecipeAPI recipeAPI;
-    private OutputBoundary searchRecipePresenter;
+    private SearchRecipeOutputBoundary searchRecipePresenter;
 
-    public SearchRecipeInteractor(OutputBoundary searchRecipePresenter, RecipeAPI recipeAPI) {
+    public SearchRecipeInteractor(SearchRecipeOutputBoundary searchRecipePresenter, RecipeAPI recipeAPI) {
         this.recipeAPI = recipeAPI;
         this.searchRecipePresenter = searchRecipePresenter;
     }

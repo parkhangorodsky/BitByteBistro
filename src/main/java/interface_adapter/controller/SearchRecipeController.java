@@ -1,12 +1,12 @@
 package interface_adapter.controller;
 
-import use_case.input_data.InputBoundary;
+import use_case.input_data.SearchRecipeInputBoundary;
 import use_case.input_data.SearchRecipeInputData;
 
 public class SearchRecipeController {
-    final InputBoundary searchRecipeInteractor;
+    final SearchRecipeInputBoundary searchRecipeInteractor;
 
-    public SearchRecipeController(InputBoundary searchRecipeInteractor) {
+    public SearchRecipeController(SearchRecipeInputBoundary searchRecipeInteractor) {
         this.searchRecipeInteractor = searchRecipeInteractor;
     }
 

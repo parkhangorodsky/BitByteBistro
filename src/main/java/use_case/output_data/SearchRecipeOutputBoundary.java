@@ -1,6 +1,6 @@
 package use_case.output_data;
 
-public interface OutputBoundary {
+public interface SearchRecipeOutputBoundary {
 
     void prepareSuccessView(SearchRecipeOutputData recipes);
 }
