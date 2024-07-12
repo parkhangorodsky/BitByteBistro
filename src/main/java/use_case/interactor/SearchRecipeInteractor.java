@@ -27,7 +27,6 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary, Recipe
         String url = recipeAPI.createURLByRecipeName(queryString);
         JSONArray recipesJSONArray = recipeAPI.getRecipe(url);
 
-
         List<Recipe> recipes = new ArrayList<>();
         for (int i = 0; i < recipesJSONArray.length(); i++) {
             JSONObject recipeJSON = recipesJSONArray.getJSONObject(i).getJSONObject("recipe");
@@ -38,5 +37,4 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary, Recipe
         SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(recipes);
         searchRecipePresenter.prepareSuccessView(searchRecipeOutputData);
     }
-
 }

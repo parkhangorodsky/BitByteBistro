@@ -461,7 +461,9 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
             if (e.getSource() == applyButton) {
                 String ingredient = textField.getText();
                 Integer quantity = Integer.parseInt(quantityField.getText());
-                ingredientsQuantity.put(ingredient, quantity);
+                if (ingredientsQuantity.get(quantity) == null) {
+                    ingredientsQuantity.put(ingredient, quantity);
+                }
                 displaySummary();
             }
         });
@@ -520,7 +522,9 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
         applyButton.addActionListener(e -> {
             if (e.getSource() == applyButton) {
                 String excluded = textField.getText();
-                excludedIngredients.add(excluded);
+                if (!excludedIngredients.contains(excluded)) {
+                    excludedIngredients.add(excluded);
+                }
                 displaySummary();
             }
         });
@@ -619,8 +623,9 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
             if (e.getSource() == applyButton) {
                 for (JCheckBox checkBox : checkBoxes) {
                     if (checkBox.isSelected()) {
-                        if (!selectedOptions.contains(checkBox.getText())) {
+                        if (!selectedOptions.contains(data.get(checkBox.getText()))) {
                             selectedOptions.add(data.get(checkBox.getText()));
+
                         }
 
                     }

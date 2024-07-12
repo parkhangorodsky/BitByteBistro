@@ -8,6 +8,7 @@
 /dataSources/
 /dataSources.local.xml
 .idea
+src/main/.DS_Store
 =======
 # Output
 out
