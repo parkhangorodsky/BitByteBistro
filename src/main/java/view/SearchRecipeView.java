@@ -1,12 +1,10 @@
 package view;
 
 import entity.Recipe;
-import interface_adapter.controller.AdvancedSearchRecipeController;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.presenter.SearchRecipePresenter;
 import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import interface_adapter.view_model.SearchRecipeViewModel;
-import use_case.interactor.AdvancedSearchRecipeInteractor;
 import use_case.output_data.SearchRecipeOutputData;
 import view.view_components.*;
 import view.view_components.interfaces.ImageLoader;
@@ -26,8 +24,6 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
     private SearchRecipeController searchRecipeController;
     private SearchRecipePresenter searchRecipePresenter;
 
-    private AdvancedSearchRecipeController advancedSearchRecipeController;
-
 
     public final String viewname = "search recipe";
 
@@ -42,8 +38,7 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
-                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
-                            AdvancedSearchRecipeController advancedSearchRecipeController) {
+                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
@@ -51,7 +46,6 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
 
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
-        this.advancedSearchRecipeController = advancedSearchRecipeController;
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -89,7 +83,7 @@ public class SearchRecipeView extends JPanel implements View, ImageLoader {
         advancedSearchButton.addActionListener(e -> {
             if (e.getSource() == advancedSearchButton) {
                 AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(this),
-                        advancedSearchRecipeViewModel, advancedSearchRecipeController);
+                        advancedSearchRecipeViewModel, searchRecipeController);
                 advancedSearchView.setVisible(true);
                 System.out.println("HI");
             }

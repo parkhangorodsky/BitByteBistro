@@ -1,7 +1,6 @@
 package app.gui;
 
 import app.Config;
-import interface_adapter.controller.AdvancedSearchRecipeController;
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import interface_adapter.view_model.SearchRecipeViewModel;
@@ -77,8 +76,7 @@ public class SwingGUI implements GUI {
         this.viewManager =  new ViewManager(mainPanel, mainCardLayout, this.viewManagerModel);
 
         // Create Views
-        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController(),
-                config.getAdvancedSearchRecipeController());
+        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController());
 
         // Set initial View and make frame visible
         this.setActiveView(searchRecipeView);
@@ -109,10 +107,9 @@ public class SwingGUI implements GUI {
      * @return
      */
     @Override
-    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, AdvancedSearchRecipeController advancedSearchRecipeController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, advancedSearchRecipeViewModel,  advancedSearchRecipeController);
+    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController) {
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, advancedSearchRecipeViewModel);
         viewManager.addView(searchRecipeView);
-        System.out.println(advancedSearchRecipeController);
         return searchRecipeView;
     }
 

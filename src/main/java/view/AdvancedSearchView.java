@@ -1,6 +1,6 @@
 package view;
 
-import interface_adapter.controller.AdvancedSearchRecipeController;
+import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import view.view_components.PopupWindow;
 import view.view_components.interfaces.StringCaseEditor;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AdvancedSearchView extends PopupWindow implements StringCaseEditor {
 
     private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
-    private AdvancedSearchRecipeController advancedSearchRecipeController;
+    private SearchRecipeController searchRecipeController;
 
     Map<String, String> dietData;
     Map<String, String> healthData;
@@ -53,10 +53,10 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
 
     public AdvancedSearchView(JFrame parent,
                               AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
-                              AdvancedSearchRecipeController advancedSearchRecipeController) {
+                              SearchRecipeController searchRecipeController) {
         super(parent);
         this.advancedSearchRecipeViewModel = advancedSearchRecipeViewModel;
-        this.advancedSearchRecipeController = advancedSearchRecipeController;
+        this.searchRecipeController = searchRecipeController;
 
 
         dietData = advancedSearchRecipeViewModel.getDietOptions();
@@ -167,7 +167,6 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
 
         stringPanel.add(stringField);
 
-        JPanel ingredientPanel = createTextQtyApplyComponent("Ingredient");
         JPanel excludedPanel = createTextApplyComponent("Excluded Ingredients");
         JPanel dietPanel = createComboBoxAndStatusPanel("Diet", dietPopup);
         JPanel healthPanel = createComboBoxAndStatusPanel("Health", healthPopup);
@@ -176,7 +175,6 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
         JPanel mealTypePanel = createComboBoxAndStatusPanel("Meal Type", mealPopup);
 
         inputPanel.add(stringPanel);
-        inputPanel.add(ingredientPanel);
         inputPanel.add(excludedPanel);
         inputPanel.add(dietPanel);
         inputPanel.add(healthPanel);
@@ -208,8 +206,7 @@ public class AdvancedSearchView extends PopupWindow implements StringCaseEditor 
         searchButton.setPreferredSize(new Dimension(searchButton.getMinimumSize().width, 30));
         searchButton.addActionListener(e -> {
             if (e.getSource() == searchButton) {
-                advancedSearchRecipeController.execute(recipeName,
-                        ingredientsQuantity,
+                searchRecipeController.execute(recipeName,
                         excludedIngredients,
                         dietSelection,
                         healthSelection,

@@ -1,15 +1,14 @@
 package app.use_case_factory;
 
 import api.RecipeAPI;
-import interface_adapter.controller.AdvancedSearchRecipeController;
+
 import interface_adapter.controller.SearchRecipeController;
 import interface_adapter.presenter.SearchRecipePresenter;
-import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
+
 import interface_adapter.view_model.SearchRecipeViewModel;
 import interface_adapter.view_model.ViewManagerModel;
-import use_case.interactor.AdvancedSearchRecipeInteractor;
 import use_case.interactor.SearchRecipeInteractor;
-import view.SearchRecipeView;
+
 
 public class SearchRecipeUseCaseFactory {
 

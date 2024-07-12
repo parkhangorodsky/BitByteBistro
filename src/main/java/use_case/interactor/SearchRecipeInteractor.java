@@ -23,9 +23,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary, Recipe
     @Override
     public void execute(SearchRecipeInputData searchRecipeInputData) {
 
-        String queryString = searchRecipeInputData.getQueryString();
-        String url = recipeAPI.createURLByRecipeName(queryString);
-        JSONArray recipesJSONArray = recipeAPI.getRecipe(url);
+        JSONArray recipesJSONArray = recipeAPI.getRecipe(searchRecipeInputData);
 
         List<Recipe> recipes = new ArrayList<>();
         for (int i = 0; i < recipesJSONArray.length(); i++) {

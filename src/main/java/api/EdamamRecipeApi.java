@@ -4,12 +4,11 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import use_case.input_data.AdvancedRecipeSearchInputData;
+import use_case.input_data.SearchRecipeInputData;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EdamamRecipeApi implements RecipeAPI {
 
@@ -19,82 +18,75 @@ public class EdamamRecipeApi implements RecipeAPI {
     private static final String API_KEY = System.getenv("EDAMAM_API_KEY");
     private static final String API_ID = System.getenv("EDAMAM_API_ID");
 
-
     @Override
-    public JSONArray getRecipe(String url) {
-
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+    public JSONArray getRecipe(SearchRecipeInputData inputData) {
 
         try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                JSONObject responseBody = new JSONObject(response.body().string());
-                return responseBody.getJSONArray("hits");
-            } else {
-                System.out.println("Request failed with code: " + response.code());
-                System.out.println("Response message: " + response.message());
-                throw new RuntimeException();
-            }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-            System.err.println("IOException occurred: " + e.getMessage());
-            throw new RuntimeException(e);
+            String endpoint = createURL(inputData);
+            JSONArray response = getResponse(endpoint);
+            return response;
+        } catch (IOException e) {
+            System.out.println("IOException\n " + e.getMessage());
+        } catch (JSONException e) {
+            System.out.println("JSONException\n " + e.getMessage());
+        } catch (HttpResponseException e) {
+            System.out.println("HttpResponseException\n " + e.getMessage());
         }
+
+        return null;
     }
 
-    @Override
-    public String createURLByRecipeName(String queryString) {
-        String url = base_url + "&q=" + queryString + "&app_id=" + API_ID + "&app_key=" + API_KEY;
-        return url;
-    }
+    private String createURL(SearchRecipeInputData inputData) {
+        String URL;
+        if (!inputData.isAdvanced()) {
+            URL =  createUrlByRecipeName(inputData);
+        } else {
+            String dietsString = optionStringBuilder(inputData.getDiet(), "diet");
+            String healthString = optionStringBuilder(inputData.getHealth(), "health");
+            String cusineTypeString = optionStringBuilder(inputData.getCuisineType(), "cuisineType");
+            String mealTypeString = optionStringBuilder(inputData.getMealType(), "mealType");
+            String dishTypeString = optionStringBuilder(inputData.getDishType(), "dishType");
+            String excludedString = optionStringBuilder(inputData.getExcluded(), "excluded");
 
-    @Override
-    public String createURLByAdvancedSearch(AdvancedRecipeSearchInputData advancedRecipeSearchInputData) {
-        String queryString = "&q=" + advancedRecipeSearchInputData.getQueryString();
-
-//        Map<String, Integer> ingredients = advancedRecipeSearchInputData.getIngredients();
-//        String ingredientsString = "&ingr=";
-//        for (String key : ingredients.keySet()) {
-//            int max = ingredients.get(key);
-//            System.out.println(key);
-//            System.out.println(max);
-//            ingredientsString = ingredientsString + key + "%3D" + max;
-//        }
-//        ingredientsString = ingredientsString.substring(0, ingredientsString.length() - 6);
-
-        String dietsString = convertAdvancedSearchChoiceIntoString(advancedRecipeSearchInputData.getDiet(), "diet");
-        String healthString = convertAdvancedSearchChoiceIntoString(advancedRecipeSearchInputData.getHealth(), "health");
-        String cusineTypeString = convertAdvancedSearchChoiceIntoString(advancedRecipeSearchInputData.getCuisineType(), "cuisineType");
-        String mealTypeString = convertAdvancedSearchChoiceIntoString(advancedRecipeSearchInputData.getMealType(), "mealType");
-        String dishTypeString = convertAdvancedSearchChoiceIntoString(advancedRecipeSearchInputData.getDishType(), "dishType");
-        String excludedString = convertAdvancedSearchChoiceIntoString(advancedRecipeSearchInputData.getExcluded(), "excluded");
-
-        String URL = base_url
-                + queryString
-                + "&app_id=" + API_ID
-                + "&app_key=" + API_KEY
-//                + ingredientsString
-                + dietsString
-                + healthString
-                + cusineTypeString
-                + mealTypeString
-                + dishTypeString
-                + excludedString;
-
+            URL =  createUrlByRecipeName(inputData)
+                    + dietsString
+                    + healthString
+                    + cusineTypeString
+                    + mealTypeString
+                    + dishTypeString
+                    + excludedString;
+        }
         return URL;
-
     }
 
-    public String convertAdvancedSearchChoiceIntoString(List<String> choices, String type) {
-        StringBuilder choicesString = new StringBuilder();
-        for (String choice  : choices) {
-            choicesString.append("&").append(type).append("=").append(choice);
+    private String createUrlByRecipeName(SearchRecipeInputData inputData) {
+        return base_url + "&recipe_name=" + inputData.getRecipeName() + "&app_id=" + API_ID + "&app_key=" + API_KEY;
+    }
+
+    private String optionStringBuilder(List<String> options, String type) {
+        return options.stream().map(choice -> "&" + type + "=" + choice)
+                .collect(Collectors.joining());
+    }
+    private JSONArray getResponse(String endpoint) throws JSONException, IOException, HttpResponseException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(endpoint)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            JSONObject responseBody = new JSONObject(response.body().string());
+            return responseBody.getJSONArray("hits");
+        } else {
+            System.out.println("Request failed with code: " + response.code());
+            System.out.println("Response message: " + response.message());
+            throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + "with URL: " + endpoint);
         }
-        return choicesString.toString();
     }
 
+    private class HttpResponseException extends RuntimeException {
+        public HttpResponseException(String message) {
+            super(message);
+        }
+    }
 }
