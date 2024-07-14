@@ -1,6 +1,7 @@
 package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
+import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 
 
@@ -40,6 +42,7 @@ public class SearchRecipeView extends View {
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
+                            NutritionDisplayController nutritionDisplayController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel
@@ -91,6 +94,10 @@ public class SearchRecipeView extends View {
                 String queryString = recipeName.getText();
                 if (queryString != null && !queryString.isEmpty()) {
                     searchRecipeController.execute(queryString);
+                    SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
+                    for (Recipe recipe : recipes) {
+                        nutritionDisplayController.execute(recipe);
+                    }
                 }
             }
         });
@@ -102,6 +109,9 @@ public class SearchRecipeView extends View {
                 String queryString = recipeName.getText();
                 if (queryString != null && !queryString.isEmpty()) {
                     searchRecipeController.execute(queryString);
+                    SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
+                    for (Recipe recipe : recipes) {
+                        nutritionDisplayController.execute(recipe);
                 }
             }
         });
@@ -163,6 +173,10 @@ public class SearchRecipeView extends View {
     @Override
     public String getViewName() {
         return this.viewname;
+    }
+
+    private void actionPer
+
     }
 
 

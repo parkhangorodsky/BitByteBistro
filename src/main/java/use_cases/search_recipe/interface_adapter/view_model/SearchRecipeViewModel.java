@@ -18,6 +18,9 @@ public class SearchRecipeViewModel extends ViewModel {
     public void setRecipeSearchResult(SearchRecipeOutputData recipeSearchResult) {
         this.recipeSearchResult = recipeSearchResult;
     }
+    public SearchRecipeOutputData getRecipeSearchResult() {
+        return recipeSearchResult;
+    }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
