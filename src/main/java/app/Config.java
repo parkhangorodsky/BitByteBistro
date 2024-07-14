@@ -2,22 +2,22 @@ package app;
 
 
 // API
-import api.RecipeAPI;
-import api.EdamamRecipeApi;
+import frameworks.api.RecipeAPI;
+import frameworks.api.EdamamRecipeApi;
 
 // GUI
-import app.gui.GUI;
-import app.gui.SwingGUI;
+import frameworks.gui.GUI;
+import frameworks.gui.SwingGUI;
 
 // UseCaseFactory
 
 // Interface Adapters
-import interface_adapter.controller.SearchRecipeController;
-import interface_adapter.presenter.SearchRecipePresenter;
-import interface_adapter.view_model.AdvancedSearchRecipeViewModel;
-import interface_adapter.view_model.SearchRecipeViewModel;
-import interface_adapter.view_model.ViewManagerModel;
-import use_case.interactor.SearchRecipeInteractor;
+import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
+import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
+import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
+import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.search_recipe.use_case.interactor.SearchRecipeInteractor;
 
 public class Config {
 
