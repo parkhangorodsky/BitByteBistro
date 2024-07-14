@@ -18,4 +18,5 @@ public class Ingredient {
     public String getIngredientName() {return ingredientName;}
     public String getIngredientMeasure() {return quantityUnit;}
     public String getIngredientCategory() {return category;}
+
 }
