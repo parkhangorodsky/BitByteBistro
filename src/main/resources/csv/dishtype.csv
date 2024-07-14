@@ -1,0 +1,26 @@
+﻿Type,Label,Param
+dishType,alcohol cocktail,alcohol%20cocktail
+dishType,biscuits and cookies,biscuits%20and%20cookies
+dishType,bread,bread
+dishType,cereals,cereals
+dishType,condiments and sauces,condiments%20and%20sauces
+dishType,desserts,desserts
+dishType,drinks,drinks
+dishType,egg,egg
+dishType,ice cream and custard,ice%20cream%20and%20custard
+dishType,main course,main%20course
+dishType,pancake,pancake
+dishType,pasta,pasta
+dishType,pastry,pastry
+dishType,pies and tarts,pies%20and%20tarts
+dishType,pizza,pizza
+dishType,preps,preps
+dishType,preserve,preserve
+dishType,salad,salad
+dishType,sandwiches,sandwiches
+dishType,seafood,seafood
+dishType,side dish,side%20dish
+dishType,soup,soup
+dishType,special occasions,special%20occasions
+dishType,starter,starter
+dishType,sweets,sweets

@@ -1,0 +1,6 @@
+﻿Type,Label,Param
+mealType,Breakfast,Breakfast
+mealType,Lunch,Lunch
+mealType,Dinner,Dinner
+mealType,Snack,Snack
+mealType,Teatime,Teatime
