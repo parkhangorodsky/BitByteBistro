@@ -22,6 +22,7 @@ public class SwingGUI implements GUI {
     private SearchRecipeViewModel searchRecipeViewModel;
     private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
 
+
     // UI
     private JFrame frame;
     private CardLayout mainCardLayout;
@@ -110,7 +111,7 @@ public class SwingGUI implements GUI {
      */
     @Override
     public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, advancedSearchRecipeViewModel);
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
         viewManager.addView(searchRecipeView);
         return searchRecipeView;
     }
