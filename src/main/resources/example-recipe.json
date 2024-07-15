@@ -1,0 +1,101 @@
+{
+  "label": "Spaghetti Carbonara",
+  "images": {
+    "REGULAR": {
+      "url": "https://example.com/spaghetti_carbonara.jpg"
+    }
+  },
+  "yield": 4,
+  "dietLabels": ["Low-Carb"],
+  "healthLabels": ["Gluten-Free", "Dairy-Free"],
+  "cautions": ["Contains-Eggs"],
+  "ingredients": [
+    {
+      "quantity": 200,
+      "measure": "g",
+      "food": "Spaghetti"
+    },
+    {
+      "quantity": 150,
+      "measure": "g",
+      "food": "Pancetta"
+    },
+    {
+      "quantity": 2,
+      "measure": "cloves",
+      "food": "Garlic",
+      "preparation": "minced"
+    },
+    {
+      "quantity": 2,
+      "measure": "large",
+      "food": "Eggs"
+    },
+    {
+      "quantity": 50,
+      "measure": "g",
+      "food": "Parmesan cheese",
+      "preparation": "grated"
+    },
+    {
+      "quantity": 50,
+      "measure": "g",
+      "food": "Pecorino Romano cheese",
+      "preparation": "grated"
+    },
+    {
+      "quantity": 1,
+      "measure": "tbsp",
+      "food": "Freshly ground black pepper"
+    },
+    {
+      "quantity": 1,
+      "measure": "tbsp",
+      "food": "Extra-virgin olive oil"
+    }
+  ],
+  "totalNutrients": {
+    "ENERC_KCAL": {
+      "label": "Energy",
+      "quantity": 480,
+      "unit": "kcal"
+    },
+    "FAT": {
+      "label": "Fat",
+      "quantity": 22,
+      "unit": "g"
+    },
+    "CHOCDF": {
+      "label": "Carbs",
+      "quantity": 44,
+      "unit": "g"
+    },
+    "PROCNT": {
+      "label": "Protein",
+      "quantity": 26,
+      "unit": "g"
+    }
+  },
+  "totalDaily": {
+    "FAT": {
+      "label": "Fat",
+      "quantity": 34,
+      "unit": "%"
+    },
+    "CHOCDF": {
+      "label": "Carbs",
+      "quantity": 15,
+      "unit": "%"
+    },
+    "PROCNT": {
+      "label": "Protein",
+      "quantity": 52,
+      "unit": "%"
+    }
+  },
+  "tags": ["Italian", "Pasta", "Quick & Easy"],
+  "cuisineType": ["Italian"],
+  "mealType": ["Dinner"],
+  "dishType": ["Main Course"]
+}
+
