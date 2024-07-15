@@ -112,6 +112,7 @@ public class SearchRecipeView extends View {
                     SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
                     for (Recipe recipe : recipes) {
                         nutritionDisplayController.execute(recipe);
+                    }
                 }
             }
         });
@@ -175,7 +176,7 @@ public class SearchRecipeView extends View {
         return this.viewname;
     }
 
-    private void actionPer
+    private void actionPer() {
 
     }
 
