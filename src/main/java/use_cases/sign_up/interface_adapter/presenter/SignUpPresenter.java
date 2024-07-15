@@ -14,8 +14,8 @@ public class SignUpPresenter implements SignUpOutputBoundary {
     @Override
     public void prepareSuccessView(SignUpOutputData signUpOutputData) {
         // Convert the output data to the view model format
-        viewModel.setUserID(signUpOutputData.getUser().getUserID());
         viewModel.setUserEmail(signUpOutputData.getUser().getUserEmail());
+        viewModel.setUserID(signUpOutputData.getUser().getUserName());
         viewModel.setSuccessMessage("User signed up successfully!");
         // Optionally, you can add more logic for error handling or other messages
     }

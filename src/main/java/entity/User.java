@@ -1,20 +1,24 @@
 package entity;
 
+import java.time.LocalDateTime;
+
 public class User {
-    private String userID;
+    private String userName;
     private String userEmail;
     private String userPassword;
+    private LocalDateTime createdAt;
 
     // Constructor
-    public User(String userID, String userEmail, String userPassword) {
-        this.userID = userID;
-        setEmail(userEmail); // Validate email format
-        setPassword(userPassword); // Encrypt password
+    public User(String userName, String userEmail, String userPassword, LocalDateTime createdAt) {
+        this.userName = userName;
+        this.userEmail = userEmail; // Validate email format
+        this.userPassword = userPassword;
+        this.createdAt = createdAt;// Encrypt password
     }
 
     // Getters
-    public String getUserID() {
-        return userID;
+    public String getUserName() {
+        return userName;
     }
 
     public String getUserEmail() {
@@ -25,9 +29,11 @@ public class User {
         return userPassword;
     }
 
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
     // Setters with validation
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUserID(String userName) {
+        this.userName = userName;
     }
 
     public void setEmail(String userEmail) {
@@ -52,7 +58,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userID='" + userID + '\'' +
+                "userName='" + userName + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 '}';
     }

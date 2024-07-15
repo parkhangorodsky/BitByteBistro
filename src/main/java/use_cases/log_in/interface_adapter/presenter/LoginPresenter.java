@@ -9,7 +9,7 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void prepareSuccessView(LoginOutputData loginOutputData) {
-        this.successMessage = "Login successful. Welcome, " + loginOutputData.getUser().getUserID() + "!";
+        this.successMessage = "Login successful. Welcome, " + loginOutputData.getUser().getUserName() + "!";
     }
 
     @Override

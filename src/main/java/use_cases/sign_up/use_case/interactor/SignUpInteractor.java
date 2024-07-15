@@ -1,19 +1,21 @@
 package use_cases.sign_up.use_case.interactor;
 
 import entity.User;
-import frameworks.data_access.UserRepository;
+import frameworks.data_access.DataAccessInterface;
 import use_cases.sign_up.use_case.input_data.SignUpInputBoundary;
 import use_cases.sign_up.use_case.input_data.SignUpInputData;
 import use_cases.sign_up.use_case.output_data.SignUpOutputBoundary;
 import use_cases.sign_up.use_case.output_data.SignUpOutputData;
 
-public class SignUpInteractor implements SignUpInputBoundary {
-    private final SignUpOutputBoundary signUpOutputBoundary;
-    private final UserRepository userRepository;
+import java.time.LocalDateTime;
 
-    public SignUpInteractor(SignUpOutputBoundary signUpOutputBoundary, UserRepository userRepository) {
-        this.signUpOutputBoundary = signUpOutputBoundary;
-        this.userRepository = userRepository;
+public class SignUpInteractor implements SignUpInputBoundary {
+    private final SignUpOutputBoundary signUpPresenter;
+    private final DataAccessInterface DAO;
+
+    public SignUpInteractor(SignUpOutputBoundary signUpPresenter, DataAccessInterface dao) {
+        this.signUpPresenter = signUpPresenter;
+        this.DAO = dao;
     }
 
     @Override
@@ -25,15 +27,18 @@ public class SignUpInteractor implements SignUpInputBoundary {
         }
 
         // Create a new User entity
-        User user = new User(signUpInputData.getUserID(), signUpInputData.getUserEmail(), signUpInputData.getUserPassword());
+        User user = new User(signUpInputData.getUserID(),
+                signUpInputData.getUserEmail(),
+                signUpInputData.getUserPassword(),
+                LocalDateTime.now());
 
         // Add user to repository
-        userRepository.addUser(user);
+        DAO.addUser(user);
 
         // Prepare the output data
         SignUpOutputData signUpOutputData = new SignUpOutputData(user);
 
         // Pass the output data to the output boundary
-        signUpOutputBoundary.prepareSuccessView(signUpOutputData);
+        signUpPresenter.prepareSuccessView(signUpOutputData);
     }
 }

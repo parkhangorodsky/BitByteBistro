@@ -1,7 +1,7 @@
 package use_cases.log_in.use_case.interactor;
 
 import entity.User;
-import frameworks.data_access.UserRepository;
+import frameworks.data_access.DataAccessInterface;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import  use_cases.log_in.use_case.input_data.LoginInputData;
 import  use_cases.log_in.use_case.output_data.LoginOutputBoundary;
@@ -9,12 +9,12 @@ import  use_cases.log_in.use_case.output_data.LoginOutputData;
 
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginOutputBoundary;
-    private final UserRepository userRepository;
+    private final DataAccessInterface DAO;
     private User loggedInUser;
 
-    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, UserRepository userRepository) {
+    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao) {
         this.loginOutputBoundary = loginOutputBoundary;
-        this.userRepository = userRepository;
+        this.DAO = dao;
     }
 
     public User getLoggedInUser() {
@@ -24,20 +24,17 @@ public class LoginInteractor implements LoginInputBoundary {
     @Override
     public void execute(LoginInputData loginInputData) {
         // Check if the user exists in the repository
-        User user = userRepository.getUserByEmail(loginInputData.getUserEmail());
+        boolean userExists = DAO.existsByEmail(loginInputData.getUserEmail());
 
-        if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
+        if (userExists) {
             // Successful login
-            loggedInUser = user;
+            loggedInUser = DAO.getUserByEmail(loginInputData.getUserEmail());
             if (loginOutputBoundary != null) {
-                loginOutputBoundary.prepareSuccessView(new LoginOutputData(user));
+                loginOutputBoundary.prepareSuccessView(new LoginOutputData(loggedInUser));
             }
         } else {
             // Failed login
-            loggedInUser = null;
-            if (loginOutputBoundary != null) {
-                loginOutputBoundary.prepareFailView("Invalid email or password.");
-            }
+            loginOutputBoundary.prepareFailView("Invalid email or password.");
         }
     }
 }

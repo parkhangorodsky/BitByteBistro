@@ -1,29 +1,31 @@
 package app;
 
+import frameworks.data_access.CSVDataAccessObject;
+import frameworks.data_access.DataAccessInterface;
 import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.log_in.interface_adapter.presenter.LoginPresenter;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
-import frameworks.data_access.FileUserRepository;
-import frameworks.data_access.UserRepository;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ConsoleModeRunner {
 
-    public void run() {
-        UserRepository userRepository = new FileUserRepository();
+    public void run(){
+
+        DataAccessInterface csvDAO = new CSVDataAccessObject("src/main/resources/user/users.csv");
 
         SignUpViewModel signUpViewModel = new SignUpViewModel();
         SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel);
-        SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, userRepository);
+        SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, csvDAO);
         SignUpController signUpController = new SignUpController(signUpInteractor);
 
         LoginPresenter loginPresenter = new LoginPresenter();
-        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userRepository);
+        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, csvDAO);
         LoginController loginController = new LoginController(loginInteractor);
 
         // Console input for testing
