@@ -11,6 +11,8 @@ public class NutritionDisplayController {
         this.nutritionDisplayInteractor = nutritionDisplayInteractor;
     }
     public void execute(Recipe recipe) {
-        nutritionDisplayInteractor.execute(recipe);
+        NutritionDisplayInputData nutritionDisplayInputData = new NutritionDisplayInputData(
+            recipe.getName(), recipe.getIngredientList());
+        nutritionDisplayInteractor.execute(nutritionDisplayInputData);
     }
 }
