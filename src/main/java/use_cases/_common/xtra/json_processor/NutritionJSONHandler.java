@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface NutritionJSONHandler extends JSONNullHandler {
 
-    public default List<Nutrition> convertJSONtoNutritionList(JSONObject nutritionJSON) {
-        List<Nutrition> nutritions = new ArrayList<>();
+     default Nutrition convertJSONtoNutritionList(JSONArray nutritionJSONArray) {
+        Nutrition nutritions = new ArrayList<>();
         float calories = nutritionJSON.getFloat("calories");
         nutritions.add(new Nutrition("calories", calories, "kcal"));
 

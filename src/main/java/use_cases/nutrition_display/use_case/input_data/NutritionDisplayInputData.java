@@ -2,6 +2,9 @@ package use_cases.nutrition_display.use_case.input_data;
 
 import entity.Grocery;
 import entity.Ingredient;
+import entity.Nutrition;
+import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInputBoundary;
+import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
 
 import java.util.List;
 
@@ -9,8 +12,14 @@ public class NutritionDisplayInputData {
     private String title;
     private List<Grocery> ingredients;
 
+    public NutritionDisplayInputData(List<Grocery> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     public NutritionDisplayInputData(String title, List<Grocery> ingredients) {
         this.title = title;
         this.ingredients = ingredients;
     }
+    public String getTitle() {return title;}
+    public List<Grocery> getIngredients() {return ingredients;}
 }
