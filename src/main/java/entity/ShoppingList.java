@@ -7,7 +7,7 @@ public class ShoppingList {
 
     private String listOwner;
     private String shoppingListName; // changed the name of this
-    private List<Grocery> listItems;
+    private List<Ingredient> listItems;
     private final LocalDateTime creationDate;
     private String listStatus;
     private Double estimatedTotalCost;
@@ -20,7 +20,7 @@ public class ShoppingList {
      * @param shoppingListName name of shopping list - possibly the date but not necessarily
      * @param listItems list of items in the grocery list
      */
-    public ShoppingList(String listOwner, String shoppingListName, List<Grocery> listItems) {
+    public ShoppingList(String listOwner, String shoppingListName, List<Ingredient> listItems) {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
         this.listItems = listItems;
@@ -45,11 +45,11 @@ public class ShoppingList {
         this.shoppingListName = shoppingListName;
     }
 
-    public List<Grocery> getListItems() {
+    public List<Ingredient> getListItems() {
         return listItems;
     }
 
-    public void setListItems(List<Grocery> listItems) {
+    public void setListItems(List<Ingredient> listItems) {
         this.listItems = listItems;
     }
 
