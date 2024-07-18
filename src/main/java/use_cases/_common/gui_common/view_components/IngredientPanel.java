@@ -1,6 +1,6 @@
 package use_cases._common.gui_common.view_components;
 
-import entity.Grocery;
+import entity.Ingredient;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class IngredientPanel extends RoundPanel implements ThemeColoredObject {
 
-    public IngredientPanel(List<Grocery> ingredients, Color color) {
+    public IngredientPanel(List<Ingredient> ingredients, Color color) {
         super();
 
         setLayout(new VerticalFlowLayout(5));
@@ -27,7 +27,7 @@ public class IngredientPanel extends RoundPanel implements ThemeColoredObject {
         label.setBorder(new EmptyBorder(0, 0, 14, 10));
         add(label);
 
-        for (Grocery ingredient : ingredients) {
+        for (Ingredient ingredient : ingredients) {
             JPanel singleIngredientPanel = new JPanel();
             singleIngredientPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
             singleIngredientPanel.setBackground(color);
@@ -36,14 +36,14 @@ public class IngredientPanel extends RoundPanel implements ThemeColoredObject {
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
             // Capitalize name
-            String ingredientName = ingredient.getName();
+            String ingredientName = ingredient.getIngredientName();
             ingredientName = ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1);
 
             JLabel name = new JLabel(ingredientName);
             name.setFont(new Font(defaultFont, Font.PLAIN, 12));
-            JLabel quantity = new JLabel(String.valueOf(ingredient.getQuantity()));
+            JLabel quantity = new JLabel(String.valueOf(ingredient.getIngredientQuantity()));
             name.setFont(new Font(defaultFont, Font.PLAIN, 12));
-            JLabel unit = new JLabel(String.valueOf(ingredient.getUnit()));
+            JLabel unit = new JLabel(String.valueOf(ingredient.getIngredientMeasure()));
             unit.setFont(new Font(defaultFont, Font.PLAIN, 12));
 
             singleIngredientPanel.add(name);
