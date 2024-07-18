@@ -5,13 +5,12 @@ import java.util.Map;
 
 public class Recipe {
 
-
     private String name;
     private String image;
     private int yield;
     private String instructions;
 
-    private List<Ingredient> ingredientList;
+    private List<Grocery> ingredientList;
     private Map<String, Nutrition> nutritionMap;
     private Map<String, Nutrition> totalDailyMap;
 
@@ -39,7 +38,7 @@ public class Recipe {
                   String image,
                   int yield,
                   String instructions,
-                  List<Ingredient> ingredientList,
+                  List<Grocery> ingredientList,
                   Map<String, Nutrition> nutritionMap,
                   Map<String, Nutrition> totalDailyMap,
                   List<String> dietLabels,
@@ -74,8 +73,7 @@ public class Recipe {
     /**
      * Getters
      */
-
-    public List<Ingredient> getIngredientList() {
+    public List<Grocery> getIngredientList() {
         return this.ingredientList;
     }
     public String getName() {
@@ -84,14 +82,14 @@ public class Recipe {
     public String getImage() {
         return this.image;
     }
-    
+
     @Override
     public String toString() {
 
         String name = "Menu: <" + this.name + ">\n";
         String instruction = "Instructions: " + this.instructions + "\n";
         StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
-        for (Ingredient ingredient : this.ingredientList) {ingredients.append(ingredient.toString()).append("\n");}
+        for (Grocery grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
         StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
         for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
         String rating = "Rating: " + this.rating + "\n";
@@ -99,7 +97,6 @@ public class Recipe {
         String privacyStatus = "Privacy Status: " + this.privacyStatus;
 
         return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
-
     }
 
 }
