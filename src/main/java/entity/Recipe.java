@@ -10,7 +10,7 @@ public class Recipe {
     private int yield;
     private String instructions;
 
-    private List<Grocery> ingredientList;
+    private List<Ingredient> ingredientList;
     private Map<String, Nutrition> nutritionMap;
     private Map<String, Nutrition> totalDailyMap;
 
@@ -52,7 +52,7 @@ public class Recipe {
                   String image,
                   int yield,
                   String instructions,
-                  List<Grocery> ingredientList,
+                  List<Ingredient> ingredientList,
                   Map<String, Nutrition> nutritionMap,
                   Map<String, Nutrition> totalDailyMap,
                   List<String> dietLabels,
@@ -84,24 +84,27 @@ public class Recipe {
         this.privacyStatus = true;
     }
 
-
     /**
      * Getters
      */
-    public List<Grocery> getIngredientList() {return this.ingredientList;}
 
-    public String getName() {return this.name;}
+    public List<Ingredient> getIngredientList() {
+        return this.ingredientList;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public String getImage() {
+        return this.image;
+    }
 
-    public String getImage() {return this.image;}
-
-    // toString method.
     @Override
     public String toString() {
 
         String name = "Menu: <" + this.name + ">\n";
         String instruction = "Instructions: " + this.instructions + "\n";
         StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
-        for (Grocery grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
+        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
         StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
         for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
         String rating = "Rating: " + this.rating + "\n";
