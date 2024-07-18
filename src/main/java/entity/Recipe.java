@@ -1,6 +1,5 @@
 package entity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class Recipe {
     private int yield;
     private String instructions;
 
-    private List<Grocery> ingredientList;
+    private List<Ingredient> ingredientList;
     private Map<String, Nutrition> nutritionMap;
     private Map<String, Nutrition> totalDailyMap;
 
@@ -35,14 +34,12 @@ public class Recipe {
      * @param instructions
      * @param ingredientList
      * @param nutritionMap
-     * @param estimatedCostPerServing
-     * @param privacyStatus
      */
     public Recipe(String name,
                   String image,
                   int yield,
                   String instructions,
-                  List<Grocery> ingredientList,
+                  List<Ingredient> ingredientList,
                   Map<String, Nutrition> nutritionMap,
                   Map<String, Nutrition> totalDailyMap,
                   List<String> dietLabels,
@@ -51,8 +48,7 @@ public class Recipe {
                   List<String> tags,
                   List<String> cuisineType,
                   List<String> mealType,
-                  List<String> dishType,
-                  float estimatedCostPerServing) {
+                  List<String> dishType) {
 
         this.name = name;
         this.image = image;
@@ -71,7 +67,7 @@ public class Recipe {
         this.dishType = dishType;
 
         this.rating = 0;
-        this.estimatedCostPerServing = estimatedCostPerServing;
+        this.estimatedCostPerServing = 0;
         this.privacyStatus = true;
     }
 
@@ -79,57 +75,14 @@ public class Recipe {
      * Getters
      */
 
-    public List<Grocery> getIngredientList() {
+    public List<Ingredient> getIngredientList() {
         return this.ingredientList;
     }
     public String getName() {
         return this.name;
     }
-    public String getInstructions() {
-        return this.instructions;
-    }
-    public Map<String, Nutrition> getNutritionalInfoList() {
-        return this.nutritionMap;
-    }
-    public boolean getPrivacyStatus() {
-        return this.privacyStatus;
-    }
     public String getImage() {
         return this.image;
-    }
-    public float getRating() {
-        return this.rating;
-    }
-    public float getEstimatedCostPerServing() {
-        return this.estimatedCostPerServing;
-    }
-
-    /**
-     * Setters
-     */
-    public void setIngredientList(List<Grocery> ingredientList) {
-        this.ingredientList = ingredientList;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-    public void setNutritionalInfoList(Map<String, Nutrition> nutritionMap) {
-        this.nutritionMap = nutritionMap;
-    }
-    public void setPrivacyStatus(boolean privacyStatus) {
-        this.privacyStatus = privacyStatus;
-    }
-    public void setImage(String image) {
-        this.image = image;
-    }
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-    public void setEstimatedCostPerServing(float estimatedCostPerServing) {
-        this.estimatedCostPerServing = estimatedCostPerServing;
     }
 
     @Override
@@ -137,8 +90,8 @@ public class Recipe {
 
         String name = "Menu: <" + this.name + ">\n";
         String instruction = "Instructions: " + this.instructions + "\n";
-        StringBuilder ingredients = new StringBuilder().append("<Ingredients>\n>");
-        for (Grocery grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
+        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
+        for (Ingredient ingredient : this.ingredientList) {ingredients.append(ingredient.toString()).append("\n");}
         StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
         for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
         String rating = "Rating: " + this.rating + "\n";

@@ -20,8 +20,8 @@ TIMELINE FEATURES:
 5) calendar/meal planner
 6) recipe search by ingredient/any other "searchables" - Seonghyun
 WE'LL SEE/PROBABLY NOT:
-7) nutrition
-9) budget + money saved OR personalized stats
+7) nutrition/personalized stats - Paula
+9) budget + money saved
 10) eco friendly OR for you + social
 
 

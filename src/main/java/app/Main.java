@@ -1,6 +1,6 @@
 package app;
 
-import app.gui.GUI;
+import frameworks.gui.GUI;
 
 public class Main {
     public static void main(String[] args) {
