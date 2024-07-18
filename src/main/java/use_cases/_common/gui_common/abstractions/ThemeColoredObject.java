@@ -2,6 +2,11 @@ package use_cases._common.gui_common.abstractions;
 
 import java.awt.*;
 
+/**
+ * Overview: Utility interface for defining and providing theme-specific color and font values.
+ * Utility: This interface includes predefined color and font constants that can be used
+ * throughout the application to maintain a consistent look and feel.
+ */
 public interface ThemeColoredObject {
 
     Color claudeBlack = new Color(60, 56, 41);
