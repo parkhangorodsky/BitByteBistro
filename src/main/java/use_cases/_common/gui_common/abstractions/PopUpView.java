@@ -4,7 +4,14 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Overview: Abstract class representing a popup view that extends {@link JFrame} and implements {@link ThemeColoredObject}.
+ * This class provides common functionality for popup windows,
+ * including customization for macOS, centering the popup,
+ * and managing the state of the parent window.
+ */
 public abstract class PopUpView extends JFrame implements ThemeColoredObject {
+
 
     public PopUpView(JFrame parent){
 
@@ -34,9 +41,9 @@ public abstract class PopUpView extends JFrame implements ThemeColoredObject {
         int parentWidth = parentFrame.getSize().width;
         int parentHeight = parentFrame.getSize().height;
 
+        // Calculate the position, and set location.
         int newX = parentX + (parentWidth - this.getWidth()) / 2;
         int newY = parentY + (parentHeight - this.getHeight()) / 2;
-
         this.setLocation(newX, newY);
     }
 
