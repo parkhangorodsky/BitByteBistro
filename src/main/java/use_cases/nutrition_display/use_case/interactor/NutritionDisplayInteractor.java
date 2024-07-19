@@ -26,11 +26,11 @@ public class NutritionDisplayInteractor implements NutritionDisplayInputBoundary
     }
     @Override
     public void execute(NutritionDisplayInputData nutritionDisplayInputData) {
+        List<Nutrition> nutritionList = nutritionAPI.getNutrition(nutritionDisplayInputData);
 
-        JSONObject nutritionJSONObject = nutritionAPI.getNutrition(nutritionDisplayInputData);
-        List<Nutrition> nutrition =  this.convertJSONtoNutritionList(nutritionJSONObject);
-
-        NutritionDisplayOutputData nutritionDisplayOutputData = new NutritionDisplayOutputData(nutrition);
+        NutritionDisplayOutputData nutritionDisplayOutputData = new NutritionDisplayOutputData(nutritionList);
         nutritionDisplayPresenter.prepareSuccessView(nutritionDisplayOutputData);
+
+        // make getNutrition call convertNutritionJSON,
     }
 }
