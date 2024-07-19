@@ -1,4 +1,4 @@
-package use_case.interactor;
+package use_cases.recipe_to_grocery.use_case.interactor;
 
 import entity.Recipe;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package use_case.input_data;
+package use_cases.recipe_to_grocery.use_case.input_data;
 
 public class RecipeToGroceryInputData {
     public String queryString;

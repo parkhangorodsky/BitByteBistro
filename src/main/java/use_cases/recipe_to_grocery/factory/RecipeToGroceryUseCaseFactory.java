@@ -1,12 +1,14 @@
-package app.use_case_factory;
+package use_cases.recipe_to_grocery.factory;
 
-import api.RecipeAPI;
-import interface_adapter.controller.RecipeToGroceryController;
-import interface_adapter.presenter.RecipeToGroceryPresenter;
-import interface_adapter.view_model.RecipeToGroceryViewModel;
-import interface_adapter.view_model.ViewManagerModel;
-import use_case.interactor.RecipeToGroceryInteractor;
-import view.RecipeToGroceryView;
+import frameworks.api.RecipeAPI;
+
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
+
+import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
+
 
 public class RecipeToGroceryUseCaseFactory {
 

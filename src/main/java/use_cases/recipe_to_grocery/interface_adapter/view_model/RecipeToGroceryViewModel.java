@@ -1,6 +1,7 @@
-package interface_adapter.view_model;
+package use_cases.recipe_to_grocery.interface_adapter.view_model;
 
-import use_case.output_data.RecipeToGroceryOutputData;
+import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
+import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

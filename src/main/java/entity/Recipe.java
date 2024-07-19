@@ -1,5 +1,6 @@
 package entity;
 
+import java. util. ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,10 +103,10 @@ public class Recipe {
 
     }
     //method to get a list of groceries from a list of recipe
-    public List<Grocery> getGroceryList(List<Recipe> recipeList) {
-        List<Grocery> groceries = new ArrayList<>();
+    public List<Ingredient> getGroceryList(List<Recipe> recipeList) {
+        List<Ingredient> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
-            for (Grocery grocery : recipe.getIngredientList()) {
+            for (Ingredient grocery : recipe.getIngredientList()) {
                 if (groceries.contains(grocery)) {
                     groceries.get(groceries.indexOf(grocery)).quantity += grocery.quantity;
                 } else {

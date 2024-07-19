@@ -1,7 +1,8 @@
-package interface_adapter.controller;
+package use_cases.recipe_to_grocery.interface_adapter.controller;
 
-import use_case.input_data.RecipeToGroceryInputBoundary;
-import use_case.input_data.RecipeToGroceryInputData;
+import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputBoundary;
+import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
+import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
 
 public class RecipeToGroceryController {
     final RecipeToGroceryInputBoundary recipeToGroceryInteractor;
