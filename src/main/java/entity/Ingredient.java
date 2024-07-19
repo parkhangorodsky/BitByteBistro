@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Objects;
+
 public class Ingredient {
 
     private String ingredientID;
@@ -11,7 +13,11 @@ public class Ingredient {
     public Ingredient(String ingredientID, String ingredientName, String quantityUnit, String category, float quantity) {
         this.ingredientID = ingredientID;
         this.ingredientName = ingredientName;
-        this.quantityUnit = quantityUnit;
+        if (Objects.equals(quantityUnit, "<unit>")) {
+            this.quantityUnit = "whole";
+        } else {
+            this.quantityUnit = quantityUnit;
+        }
         this.category = category;
         this.quantity = quantity;
     }
@@ -24,9 +30,7 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return this.getIngredientName()
-                + ": " + this.quantity
-                + " " + this.getIngredientMeasure();
+        return this.getIngredientQuantity() + " " + this.getIngredientMeasure() + " " + this.getIngredientName();
     }
 }
 
