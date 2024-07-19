@@ -54,9 +54,7 @@ public class SwingGUI implements GUI {
         this.viewManager =  new ViewManager(this.mainPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Views
-        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController(),
-                config.getNDC());
-        nutritionDisplayController = config.getNutrition
+        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController());
 
         // Set initial View and make frame visible
         this.setActiveView(searchRecipeView);
