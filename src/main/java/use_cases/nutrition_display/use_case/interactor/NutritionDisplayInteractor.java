@@ -16,7 +16,7 @@ import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NutritionDisplayInteractor implements NutritionDisplayInputBoundary, NutritionJSONHandler, JSONArrayHandler {
+public class NutritionDisplayInteractor implements NutritionDisplayInputBoundary, JSONArrayHandler {
     private NutritionAPI nutritionAPI;
     private NutritionDisplayOutputBoundary nutritionDisplayPresenter;
 
