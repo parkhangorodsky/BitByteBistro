@@ -2,10 +2,14 @@ package frameworks.api;
 
 import okhttp3.*;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
+import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class NutritionDisplayApi implements NutritionAPI{
@@ -18,46 +22,55 @@ public class NutritionDisplayApi implements NutritionAPI{
 
 
     @Override
-    public JSONArray getNutrition(NutritionDisplayInputData nutritionDisplayInputData) { //think of better name
-
-        OkHttpClient client = new OkHttpClient();
-
-        // Convert the JSON object to a string
-        String jsonString = recipesJSONObject.toString();
-
-        // Create a request body
-        RequestBody body = RequestBody.create(
-                jsonString,
-                MediaType.parse("application/json; charset=utf-8")
-        );
-
-        // Build the request
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
+    public JSONObject getNutrition(NutritionDisplayInputData inputData) {
 
         try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                return new JSONObject(response.body().string());
-            } else {
-                System.out.println("Request failed with code: " + response.code());
-                System.out.println("Response message: " + response.message());
-                System.out.println(url);
-                System.out.println(jsonString);
-                throw new RuntimeException();
-            }
+            String endpoint = createURL(inputData);
+            return getResponse(endpoint);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("IOException occurred: " + e.getMessage());
-            throw new RuntimeException(e);
+            System.out.println("IOException\n " + e.getMessage());
+        } catch (JSONException e) {
+            System.out.println("JSONException\n " + e.getMessage());
+        } catch (HttpResponseException e) {
+            System.out.println("HttpResponseException\n " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    private String createURL(NutritionDisplayInputData inputData) {
+        String URL;
+        return createUrlByIngredientList(inputData);
+    }
+
+    private String createUrlByIngredientList(NutritionDisplayInputData inputData) {
+        return base_url + "&q=" + inputData.getIngredients() + "&app_id=" + API_ID + "&app_key=" + API_KEY;
+    }
+
+    private String optionStringBuilder(List<String> options, String type) {
+        return options.stream().map(choice -> "&" + type + "=" + choice)
+                .collect(Collectors.joining());
+    }
+    private JSONArray getResponse(String endpoint) throws JSONException, IOException, HttpResponseException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(endpoint)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            JSONObject responseBody = new JSONObject(response.body().string());
+            return responseBody.getJSONArray("hits");
+        } else {
+            System.out.println("Request failed with code: " + response.code());
+            System.out.println("Response message: " + response.message());
+            throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + "with URL: " + endpoint);
         }
     }
 
-
-//    public String createURLByRecipeName(Nutrition) {
-//        String url = base_url + queryString + "&app_id=" + API_ID + "&app_key=" + API_KEY;
-//        return url;
-//    }
-}
+    private class HttpResponseException extends RuntimeException {
+        public HttpResponseException(String message) {
+            super(message);
+        }
+    }
+    }
