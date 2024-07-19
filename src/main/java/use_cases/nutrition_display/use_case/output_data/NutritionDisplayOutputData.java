@@ -6,13 +6,13 @@ import entity.Recipe;
 import java.util.List;
 
 public class NutritionDisplayOutputData {
-    private Nutrition nutritionInfo;
+    private List<Nutrition> nutritionInfo;
 
-    public NutritionDisplayOutputData(Nutrition nutritionInfo) {
+    public NutritionDisplayOutputData(List<Nutrition> nutritionInfo) {
         this.nutritionInfo = nutritionInfo;
     }
 
-    public Nutrition getNutrition() {
+    public List<Nutrition> getNutrition() {
         return nutritionInfo;
     }
 }

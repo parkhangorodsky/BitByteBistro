@@ -2,6 +2,8 @@ package app;
 
 
 // API
+import frameworks.api.NutritionAPI;
+import frameworks.api.NutritionDisplayApi;
 import frameworks.api.RecipeAPI;
 import frameworks.api.EdamamRecipeApi;
 
@@ -15,6 +17,7 @@ import frameworks.gui.SwingGUI;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
 import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
+import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
@@ -32,6 +35,7 @@ public class Config {
 
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
+    private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
     private final GUI gui = new SwingGUI(this);
 
 
@@ -41,7 +45,7 @@ public class Config {
     private final SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
     private final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
 
-    private final NutritionDisplayPresenter nutritionDisplayPresenter = new NutritionDisplayPresenter(viewManagerModel, nutritionDisplayViewModel);
+    private final NutritionDisplayPresenter nutritionDisplayPresenter = new NutritionDisplayPresenter(viewManagerModel, searchRecipeViewModel);
     private final NutritionDisplayInteractor nutritionDisplayInteractor = new NutritionDisplayInteractor(nutritionDisplayPresenter, nutritionAPI);
     private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
 

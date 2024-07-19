@@ -10,9 +10,9 @@ public class NutritionDisplayPresenter implements NutritionDisplayOutputBoundary
     private NutritionDisplayViewModel nutritionDisplayViewModel;
     private ViewManagerModel viewManagerModel;
 
-    public SearchRecipePresenter(ViewManagerModel viewManagerModel, SearchRecipeViewModel searchRecipeViewModel) {
+    public NutritionDisplayPresenter(ViewManagerModel viewManagerModel, SearchRecipeViewModel searchRecipeViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.searchRecipeViewModel = searchRecipeViewModel;
+        this.nutritionDisplayViewModel = nutritionDisplayViewModel;
     }
 
     @Override

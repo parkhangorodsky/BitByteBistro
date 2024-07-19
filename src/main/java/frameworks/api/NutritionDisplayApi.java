@@ -1,14 +1,16 @@
 package frameworks.api;
 
 import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
 
 import java.io.IOException;
 
 
 public class NutritionDisplayApi implements NutritionAPI{
 
-    private static final String base_url = "https://api.edamam.com/api/recipes/v2?type=any&beta=true&q=";
+    private static final String base_url = "https://api.edamam.com/api/nutrition-details";
 
     // Load API key and id from env variable.
     private static final String API_KEY = System.getenv("NUTRITION_API_KEY");
@@ -16,12 +18,9 @@ public class NutritionDisplayApi implements NutritionAPI{
 
 
     @Override
-    public JSONObject getNutrition(JSONObject recipesJSONObject) { //think of better name
+    public JSONArray getNutrition(NutritionDisplayInputData nutritionDisplayInputData) { //think of better name
 
         OkHttpClient client = new OkHttpClient();
-
-        // Define the URL of the API endpoint
-        String url = "https://api.edamam.com/api/nutrition-details";
 
         // Convert the JSON object to a string
         String jsonString = recipesJSONObject.toString();
