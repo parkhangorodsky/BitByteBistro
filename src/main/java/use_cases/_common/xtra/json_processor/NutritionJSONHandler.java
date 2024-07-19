@@ -2,15 +2,16 @@ package use_cases._common.xtra.json_processor;
 
 import entity.Nutrition;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface NutritionJSONHandler extends JSONNullHandler {
 
-     default List<Nutrition> convertJSONtoNutritionList(JSONArray nutritionJSONArray) {
+     default List<Nutrition> convertJSONtoNutritionList(JSONObject nutritionJSONObject) {
         List<Nutrition> nutritions = new ArrayList<>();
-        float calories = nutritionJSONArray.getFloat("calories");
+        float calories = nutritionJSONObject.getFloat("calories");
         nutritions.add(new Nutrition("calories", calories, "kcal"));
 
         String carbs = "CHOCDF.net";
@@ -24,8 +25,8 @@ public interface NutritionJSONHandler extends JSONNullHandler {
         nutrition_categories.add(fats);
 
         for (String category : nutrition_categories) {
-            float quantity = nutritionJSONArray.getJSONObject(category).getFloat("quantity");
-            String unit = nutritionJSONArray.getJSONObject(category).getString("unit");
+            float quantity = nutritionJSONObject.getJSONObject(category).getFloat("quantity");
+            String unit = nutritionJSONObject.getJSONObject(category).getString("unit");
             nutritions.add(new Nutrition(category, quantity, unit));
         }
 
