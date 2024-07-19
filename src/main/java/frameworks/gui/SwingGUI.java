@@ -1,6 +1,7 @@
 package frameworks.gui;
 
 import app.Config;
+import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
@@ -54,7 +55,7 @@ public class SwingGUI implements GUI {
         this.viewManager =  new ViewManager(this.mainPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Views
-        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController());
+        SearchRecipeView searchRecipeView = createUseCaseIntegratedSearchRecipeView(config.getSearchRecipeController(), config.getNutritionDisplayController());
 
         // Set initial View and make frame visible
         this.setActiveView(searchRecipeView);
@@ -110,7 +111,7 @@ public class SwingGUI implements GUI {
      * @return
      */
     @Override
-    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController) {
+    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
         viewManager.addView(searchRecipeView);
         return searchRecipeView;
