@@ -1,18 +1,24 @@
 package frameworks.api;
 
+import entity.Ingredient;
+import entity.Nutrition;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import use_cases._common.xtra.json_processor.NutritionJSONHandler;
 import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
-public class NutritionDisplayApi implements NutritionAPI{
+public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
 
     private static final String base_url = "https://api.edamam.com/api/nutrition-details";
 
@@ -22,11 +28,11 @@ public class NutritionDisplayApi implements NutritionAPI{
 
 
     @Override
-    public JSONObject getNutrition(NutritionDisplayInputData inputData) {
-
+    public List<Nutrition> getNutrition(NutritionDisplayInputData inputData) {
         try {
-            String endpoint = createURL(inputData);
-            return getResponse(endpoint);
+            String endpoint = createURL();
+            JSONObject responseJSON =  getResponse(endpoint, inputData);
+            return this.convertJSONtoNutritionList(responseJSON);
         } catch (IOException e) {
             System.out.println("IOException\n " + e.getMessage());
         } catch (JSONException e) {
@@ -38,33 +44,45 @@ public class NutritionDisplayApi implements NutritionAPI{
         return null;
     }
 
-    private String createURL(NutritionDisplayInputData inputData) {
-        String URL;
-        return createUrlByIngredientList(inputData);
+    private String createURL() {
+        System.out.println(base_url + "?app_id=" + API_ID + "&app_key=" + API_KEY);
+        return base_url + "?app_id=" + API_ID + "&app_key=" + API_KEY;
     }
 
-    private String createUrlByIngredientList(NutritionDisplayInputData inputData) {
-        return base_url + "&q=" + inputData.getIngredients() + "&app_id=" + API_ID + "&app_key=" + API_KEY;
-    }
-
-    private String optionStringBuilder(List<String> options, String type) {
-        return options.stream().map(choice -> "&" + type + "=" + choice)
-                .collect(Collectors.joining());
-    }
-    private JSONArray getResponse(String endpoint) throws JSONException, IOException, HttpResponseException {
+    private JSONObject getResponse(String endpoint, NutritionDisplayInputData inputData) throws JSONException, IOException, HttpResponseException {
         OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("title", inputData.getTitle());
+        List<String> ingredientList = new ArrayList<>();
+        for (Ingredient ingredient : inputData.getIngredients()) {
+            ingredientList.add(ingredient.toString());
+            System.out.println(ingredient.toString());
+        }
+        jsonMap.put("ingr", ingredientList);
+
+        JSONObject jsonRequest = new JSONObject(jsonMap);
+
+        RequestBody body = RequestBody.create(jsonRequest.toString(), MediaType.get("application/json; charset=utf-8"));
+
         Request request = new Request.Builder()
                 .url(endpoint)
+                .post(body)
                 .build();
+
+        JSONObject nutritionJSONObject = new JSONObject();
 
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {
-            JSONObject responseBody = new JSONObject(response.body().string());
-            return responseBody.getJSONArray("hits");
+            return new JSONObject(response.body().string());
+        } else if (response.code() == 555) {
+            nutritionJSONObject.put("error", 555);
+            nutritionJSONObject.put("displayMessage", "could not retrieve nutritional information for this recipe");
+            return nutritionJSONObject;
         } else {
             System.out.println("Request failed with code: " + response.code());
             System.out.println("Response message: " + response.message());
-            throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + "with URL: " + endpoint);
+            throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + " with URL: " + endpoint);
         }
     }
 
@@ -73,4 +91,4 @@ public class NutritionDisplayApi implements NutritionAPI{
             super(message);
         }
     }
-    }
+}
