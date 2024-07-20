@@ -1,6 +1,7 @@
 package use_cases.log_in.use_case.interactor;
 
 import entity.User;
+import frameworks.data_access.CSVDataAccessObject;
 import frameworks.data_access.DataAccessInterface;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
@@ -55,6 +56,7 @@ public class LoginInteractor implements LoginInputBoundary {
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
             // Successful login
             loggedInUser = user;
+            ((CSVDataAccessObject) DAO).setLoggedInUser(user); // Set the logged-in user in the DAO
             if (loginOutputBoundary != null) {
                 loginOutputBoundary.prepareSuccessView(new LoginOutputData(loggedInUser));
             }
