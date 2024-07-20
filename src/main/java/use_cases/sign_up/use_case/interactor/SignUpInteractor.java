@@ -9,20 +9,47 @@ import use_cases.sign_up.use_case.output_data.SignUpOutputData;
 
 import java.time.LocalDateTime;
 
+/**
+ * Interactor for handling the sign-up process.
+ * This class implements the SignUpInputBoundary interface and performs the sign-up operation
+ * by interacting with a data access object (DAO) and providing output to the SignUpOutputBoundary.
+ */
 public class SignUpInteractor implements SignUpInputBoundary {
-    private final SignUpOutputBoundary signUpPresenter;
+    private final SignUpOutputBoundary signUpOutputBoundary;
     private final DataAccessInterface DAO;
 
-    public SignUpInteractor(SignUpOutputBoundary signUpPresenter, DataAccessInterface dao) {
-        this.signUpPresenter = signUpPresenter;
+    /**
+     * Constructs a new SignUpInteractor with the specified output boundary and DAO.
+     *
+     * @param outputBoundary The boundary to handle the output of the sign-up process.
+     * @param dao The data access object to interact with the data source.
+     */
+    public SignUpInteractor(SignUpOutputBoundary outputBoundary, DataAccessInterface dao) {
+        this.signUpOutputBoundary = outputBoundary;
         this.DAO = dao;
     }
 
+    /**
+     * Executes the sign-up process with the specified input data.
+     * This method validates the input data, creates a new User entity, and adds it to the repository.
+     * It then prepares the output data and passes it to the output boundary.
+     *
+     * @param signUpInputData The input data for the sign-up process.
+     */
     @Override
     public void execute(SignUpInputData signUpInputData) {
-        // Validate input data (e.g., non-null, valid email format)
-        if (signUpInputData.getUserID() == null || signUpInputData.getUserEmail() == null || signUpInputData.getUserPassword() == null) {
-            // Handle invalid input (this can be further refined with proper error handling)
+        // Validate input data (e.g., non-null, non-empty, valid email format)
+        if (signUpInputData.getUserID() == null || signUpInputData.getUserID().trim().isEmpty() ||
+                signUpInputData.getUserEmail() == null || signUpInputData.getUserEmail().trim().isEmpty() ||
+                signUpInputData.getUserPassword() == null || signUpInputData.getUserPassword().trim().isEmpty()) {
+            // Handle invalid input
+            signUpOutputBoundary.prepareErrorView("Invalid input data provided. All fields are required.");
+            return;
+        }
+
+        // Check if user already exists
+        if (DAO.existsByEmail(signUpInputData.getUserEmail())) {
+            signUpOutputBoundary.prepareErrorView("User already exists.");
             return;
         }
 
@@ -39,6 +66,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
         SignUpOutputData signUpOutputData = new SignUpOutputData(user);
 
         // Pass the output data to the output boundary
-        signUpPresenter.prepareSuccessView(signUpOutputData);
+        signUpOutputBoundary.prepareSuccessView(signUpOutputData);
     }
 }
