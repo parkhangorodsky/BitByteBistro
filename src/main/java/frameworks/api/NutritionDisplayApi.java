@@ -45,7 +45,6 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
     }
 
     private String createURL() {
-        System.out.println(base_url + "?app_id=" + API_ID + "&app_key=" + API_KEY);
         return base_url + "?app_id=" + API_ID + "&app_key=" + API_KEY;
     }
 
