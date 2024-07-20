@@ -51,8 +51,8 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
             for (Ingredient grocery : recipe.getIngredientList()) {
                 if (groceries.contains(grocery)) {
                     Ingredient item = groceries.get(groceries.indexOf(grocery));
-                    float new_quant = item.getIngredientQuantity() + grocery.getIngredientQuantity();
-                    item.setIngredientQuantity(new_quant);
+                    float more = grocery.getIngredientQuantity();
+                    item.addIngredientQuantity(more);
                 } else {
                     groceries.add(grocery);
                 }
