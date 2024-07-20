@@ -14,6 +14,11 @@ import java.beans.PropertyChangeListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * LoginView class represents the UI for the login process.
+ * It includes fields for email and password, a login button, and a label to switch to the sign-up view.
+ * This class listens for actions and property changes to update the UI accordingly.
+ */
 public class LoginView extends View implements ActionListener, PropertyChangeListener {
     private JTextField emailField;
     private JPasswordField passwordField;
@@ -24,6 +29,13 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
 
+    /**
+     * Constructs a new LoginView with the specified controller, view model, and view manager model.
+     *
+     * @param loginController The controller to handle login actions.
+     * @param loginViewModel  The view model to hold login-related data.
+     * @param viewManagerModel The view manager model to handle view changes.
+     */
     public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
         this.loginController = loginController;
         this.loginViewModel = loginViewModel;
@@ -32,6 +44,9 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         setupUI();
     }
 
+    /**
+     * Sets up the UI components and layout for the login view.
+     */
     private void setupUI() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -100,6 +115,12 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         add(switchToSignUpLabel, gbc);
     }
 
+    /**
+     * Handles the login button action event.
+     * This method is called when the login button is clicked.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String email = emailField.getText();
@@ -107,6 +128,12 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         loginController.login(email, new String(password));
     }
 
+    /**
+     * Handles property change events from the LoginViewModel.
+     * This method updates the error message label when the error message changes.
+     *
+     * @param evt The property change event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("errorMessage".equals(evt.getPropertyName())) {
@@ -114,10 +141,21 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         }
     }
 
+    /**
+     * Displays an error message in the error message label.
+     *
+     * @param message The error message to display.
+     */
     public void displayErrorMessage(String message) {
         errorMessageLabel.setText(message);
     }
 
+    /**
+     * Returns the name of this view.
+     * This method is used by the ViewManager to identify this view.
+     *
+     * @return The name of this view.
+     */
     @Override
     public String getViewName() {
         return "LoginView";
