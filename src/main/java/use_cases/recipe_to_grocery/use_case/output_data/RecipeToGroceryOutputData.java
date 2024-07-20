@@ -1,24 +1,25 @@
 package use_cases.recipe_to_grocery.use_case.output_data;
 
-import entity.Ingredient;
+import entity.ShoppingList;
+import entity.ShoppingList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class RecipeToGroceryOutputData implements Iterable<Ingredient> {
-    private List<Ingredient> ingredients;
+public class RecipeToGroceryOutputData implements Iterable<ShoppingList> {
+    private List<ShoppingList> shoppingLists;
 
-    public RecipeToGroceryOutputData(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public RecipeToGroceryOutputData(List<ShoppingList> shoppingLists) {
+        this.shoppingLists = shoppingLists;
     }
-    public List<Ingredient> getRecipes() {
-        return ingredients;
+    public List<ShoppingList> getRecipes() {
+        return shoppingLists;
     }
 
     @NotNull
     @Override
-    public Iterator<Ingredient> iterator() {
-        return ingredients.iterator();
+    public Iterator<ShoppingList> iterator() {
+        return shoppingLists.iterator();
     }
 }
