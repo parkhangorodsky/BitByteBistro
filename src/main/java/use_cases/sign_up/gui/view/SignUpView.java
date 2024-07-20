@@ -31,7 +31,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
      *
      * @param signUpController The controller to handle the sign-up process.
      * @param signUpViewModel  The view model to update based on the sign-up result.
-     * @param viewManagerModel
+     * @param viewManagerModel The view manager model that is responsible for changing views
      */
     public SignUpView(SignUpController signUpController, SignUpViewModel signUpViewModel, ViewManagerModel viewManagerModel) {
         this.signUpController = signUpController;

@@ -73,8 +73,8 @@ public class Config {
     public DataAccessInterface getDataAccessInterface() { return dataAccessInterface; }
     public GUI getGUI() { return gui; }
 
-    // UseCase Getters
+/*    // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
     public LoginController getLoginController() { return loginController; }
-    public SignUpController getSignUpController() { return signUpController; }
+    public SignUpController getSignUpController() { return signUpController; }*/
 }
