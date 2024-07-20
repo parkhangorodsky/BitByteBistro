@@ -53,6 +53,9 @@ public class SearchRecipeViewModel extends ViewModel {
     public void setRecipeSearchResult(SearchRecipeOutputData recipeSearchResult) {
         this.recipeSearchResult = recipeSearchResult;
     }
+    public SearchRecipeOutputData getRecipeSearchResult() {
+        return recipeSearchResult;
+    }
 
     /**
      * Notifies all registered listeners that the search results have changed.

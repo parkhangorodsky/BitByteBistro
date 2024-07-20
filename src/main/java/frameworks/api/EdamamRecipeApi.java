@@ -23,8 +23,7 @@ public class EdamamRecipeApi implements RecipeAPI {
 
         try {
             String endpoint = createURL(inputData);
-            JSONArray response = getResponse(endpoint);
-            return response;
+            return getResponse(endpoint);
         } catch (IOException e) {
             System.out.println("IOException\n " + e.getMessage());
         } catch (JSONException e) {
