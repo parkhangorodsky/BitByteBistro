@@ -10,7 +10,7 @@ public class Recipe {
     private int yield;
     private String instructions;
 
-    private List<Grocery> ingredientList;
+    private List<Ingredient> ingredientList;
     private Map<String, Nutrition> nutritionMap;
     private Map<String, Nutrition> totalDailyMap;
 
@@ -27,18 +27,32 @@ public class Recipe {
     List<String> dishType;
 
     /**
-     * Constructor for Recipe Class.
-     * @param name
-     * @param image
-     * @param instructions
-     * @param ingredientList
-     * @param nutritionMap
+     * Constructor for the recipe entity.
+     * @param name Name of the recipe
+     * @param image Image of the recipe
+     * @param yield Yields of the recipe
+     * @param instructions Instructions of the recipe
+     * @param ingredientList List of the ingredients
+     * @param nutritionMap Map of nutrition in terms of quantity and unit
+     * @param totalDailyMap Map of nutrition in terms of daily percentage
+     * @param dietLabels List of diet types that the recipe belongs.
+     *                   The diet type labels describe commonly used
+     *                   nutrient level aspects of the recipe.
+     * @param healthLabels List of health type labels. health type labels
+     *                     describe commonly used ingredient level aspects of the recipe.
+     * @param cautions List of caution labels.
+     * @param tags List of tags.
+     * @param cuisineType List of cuisine types labels.
+     * @param mealType List of meal type labels. The meal types refer to the
+     *                 meals in a day the recipe is commonly consumed in.
+     * @param dishType List of dish type labels. The dish types refer to the
+     *                 category of food the recipe would fall under.
      */
     public Recipe(String name,
                   String image,
                   int yield,
                   String instructions,
-                  List<Grocery> ingredientList,
+                  List<Ingredient> ingredientList,
                   Map<String, Nutrition> nutritionMap,
                   Map<String, Nutrition> totalDailyMap,
                   List<String> dietLabels,
@@ -73,7 +87,8 @@ public class Recipe {
     /**
      * Getters
      */
-    public List<Grocery> getIngredientList() {
+
+    public List<Ingredient> getIngredientList() {
         return this.ingredientList;
     }
     public String getName() {
@@ -89,7 +104,7 @@ public class Recipe {
         String name = "Menu: <" + this.name + ">\n";
         String instruction = "Instructions: " + this.instructions + "\n";
         StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
-        for (Grocery grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
+        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
         StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
         for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
         String rating = "Rating: " + this.rating + "\n";
