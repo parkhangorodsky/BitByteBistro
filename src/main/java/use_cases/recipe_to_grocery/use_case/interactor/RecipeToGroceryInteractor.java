@@ -1,15 +1,18 @@
 package use_cases.recipe_to_grocery.use_case.interactor;
 
 import entity.Ingredient;
-import frameworks.api.RecipeAPI;
+import entity.ShoppingList;
 import entity.Recipe;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import entity.User;
+
+import frameworks.api.RecipeAPI;
+import frameworks.data_access.CSVDataAccessObject;
+
 import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryOutputBoundary;
 import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 
-import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
+import use_cases.log_in.use_case.output_data.LoginOutputData;
 
 import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 
@@ -17,19 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, RecipeJSONHandler {
-    private final RecipeRepository recipeRepository; // Example repository interface for managing recipes
     private RecipeToGroceryOutputBoundary recipeToGroceryPresenter;
 
     public RecipeToGroceryInteractor(RecipeToGroceryOutputBoundary recipeToGroceryPresenter, RecipeAPI recipeAPI) {
-        this.recipeRepository = recipeRepository;
         this.recipeToGroceryPresenter = recipeToGroceryPresenter;
     }
 
-    @Override
+    public User fetchUser() {
+        LoginOutputData loginOutputData = SOMEHOW FETCH CURRENTLY LOGGED IN USER;
+        return loginOutputData.getUser();
+    }
+
     public List<Recipe> fetchRecipes() {
-        // Example fetch method for fetching recipes from the repository
-        SearchRecipeOutputData searchRecipeOutputData = recipeRepository.fetchRecipes();
-        return searchRecipeOutputData.getRecipes();
+        User user = fetchUser();
+        return user.getRecipes();
     }
 
     @Override
@@ -38,14 +42,16 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
         List<Recipe> recipes = fetchRecipes();
 
         // Implement logic to convert recipes to grocery list
-        List<Ingredient> shoppingList = getGroceryList(recipes);
+        ShoppingList shoppingList = getGroceryList(recipes);
+        List<ShoppingList> shoppingLists = new ArrayList<>();
+        shoppingLists.add(shoppingList);
 
         // Notify presenter or other components with outputData
-        RecipeToGroceryOutputData recipeToGroceryOutputData = new RecipeToGroceryOutputData(shoppingList);
+        RecipeToGroceryOutputData recipeToGroceryOutputData = new RecipeToGroceryOutputData(shoppingLists);
         recipeToGroceryPresenter.prepareSuccessView(recipeToGroceryOutputData);
     }
 
-    private List<Ingredient> getGroceryList(List<Recipe> recipeList) {
+    private ShoppingList getGroceryList(List<Recipe> recipeList) {
         List<Ingredient> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             for (Ingredient grocery : recipe.getIngredientList()) {
@@ -58,7 +64,7 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
                 }
             }
         }
-        return groceries;
+        ShoppingList groceryList = new ShoppingList(listOwner, listName, groceries);
     }
 }
 
