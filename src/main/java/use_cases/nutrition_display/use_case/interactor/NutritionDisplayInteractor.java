@@ -30,7 +30,5 @@ public class NutritionDisplayInteractor implements NutritionDisplayInputBoundary
 
         NutritionDisplayOutputData nutritionDisplayOutputData = new NutritionDisplayOutputData(nutritionList);
         nutritionDisplayPresenter.prepareSuccessView(nutritionDisplayOutputData);
-
-        // make getNutrition call convertNutritionJSON,
     }
 }
