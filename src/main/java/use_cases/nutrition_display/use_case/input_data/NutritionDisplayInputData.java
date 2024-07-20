@@ -11,10 +11,6 @@ public class NutritionDisplayInputData {
     private String title;
     private List<Ingredient> ingredients;
 
-    public NutritionDisplayInputData(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public NutritionDisplayInputData(String title, List<Ingredient> ingredients) {
         this.title = title;
         this.ingredients = ingredients;
