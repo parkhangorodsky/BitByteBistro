@@ -65,6 +65,7 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
             }
         }
         ShoppingList groceryList = new ShoppingList(listOwner, listName, groceries);
+        return groceryList;
     }
 }
 
