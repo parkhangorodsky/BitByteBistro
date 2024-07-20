@@ -114,18 +114,4 @@ public class Recipe {
 
         return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
     }
-    //method to get a list of groceries from a list of recipe
-    public List<Ingredient> getGroceryList(List<Recipe> recipeList) {
-        List<Ingredient> groceries = new ArrayList<>();
-        for (Recipe recipe : recipeList) {
-            for (Ingredient grocery : recipe.getIngredientList()) {
-                if (groceries.contains(grocery)) {
-                    groceries.get(groceries.indexOf(grocery)).quantity += grocery.quantity;
-                } else {
-                    groceries.add(grocery);
-                }
-            }
-        }
-        return groceries;
-    }
 }
