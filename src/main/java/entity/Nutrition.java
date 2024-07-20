@@ -19,7 +19,9 @@ public class Nutrition {
 
     @Override
     public String toString() {
-        return label + " " + quantity + " " + unit;
+        return label + ": " + quantity + " " + unit;
     }
+
+    public String getLabel() {return label;}
 }
 
