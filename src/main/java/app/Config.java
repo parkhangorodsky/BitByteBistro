@@ -1,6 +1,8 @@
 package app;
 
 // API
+import frameworks.api.NutritionAPI;
+import frameworks.api.NutritionDisplayApi;
 import frameworks.api.RecipeAPI;
 import frameworks.api.EdamamRecipeApi;
 
@@ -9,6 +11,9 @@ import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 
 // Interface Adapters
+import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
+import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
+import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
@@ -28,6 +33,7 @@ import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
+// Data Access
 import frameworks.data_access.DataAccessInterface;
 import frameworks.data_access.CSVDataAccessObject;
 
@@ -42,6 +48,7 @@ public class Config {
 
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
+    private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
     private final DataAccessInterface dataAccessInterface = new CSVDataAccessObject("path/to/users.csv"); // Update path accordingly
     private final GUI gui = new SwingGUI(this);
 
@@ -50,6 +57,11 @@ public class Config {
     private final SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
     private final SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
     private final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
+
+    // Nutrition Display
+    private final NutritionDisplayPresenter nutritionDisplayPresenter = new NutritionDisplayPresenter(viewManagerModel, searchRecipeViewModel);
+    private final NutritionDisplayInteractor nutritionDisplayInteractor = new NutritionDisplayInteractor(nutritionDisplayPresenter, nutritionAPI);
+    private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
 
     // Login UseCase
     private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
@@ -70,11 +82,13 @@ public class Config {
 
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
+    public NutritionAPI getNutritionAPI() { return nutritionAPI; }
     public DataAccessInterface getDataAccessInterface() { return dataAccessInterface; }
     public GUI getGUI() { return gui; }
 
-/*    // UseCase Getters
+    // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
+    public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
     public LoginController getLoginController() { return loginController; }
-    public SignUpController getSignUpController() { return signUpController; }*/
+    public SignUpController getSignUpController() { return signUpController; }
 }
