@@ -23,6 +23,8 @@ public class RecipeToGroceryViewModel extends ViewModel {
         support.addPropertyChangeListener(listener);
     }
     public void firePropertyChanged() {
-        support.firePropertyChange("recipe to grocery", null, this.groceryResult);
+        if (groceryResult.getRecipes().isEmpty()) {
+            support.firePropertyChange("no recipe", null, null);
+        }
     }
 }
