@@ -59,7 +59,7 @@ public class Config {
     private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
     private final DataAccessInterface dataAccessInterface = new CSVDataAccessObject("path/to/users.csv"); // Update path accordingly
     private final GUI gui = new SwingGUI(this);
-    private final AuthenticationService authenticationService = new AuthenticationService() {
+    private final AuthenticationService authenticationService = new AuthenticationService(dataAccessInterface) {
         @Override
         public boolean authenticate(String userEmail, String userPassword) {return true;}
         @Override

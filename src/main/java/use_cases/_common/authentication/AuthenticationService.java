@@ -1,36 +1,39 @@
 package use_cases._common.authentication;
 
 import entity.User;
+import frameworks.data_access.DataAccessInterface;
 
 /**
- * Interface for authentication service.
- * Defines methods for user authentication and session management.
+ * Service for user authentication and session management.
  */
-public interface AuthenticationService {
+public class AuthenticationService implements AuthenticationInterface {
 
-    /**
-     * Authenticates a user with the provided credentials.
-     *
-     * @param userEmail The user's email address.
-     * @param userPassword The user's password.
-     * @return true if authentication succeeds, false otherwise.
-     */
-    boolean authenticate(String userEmail, String userPassword);
+    private final DataAccessInterface dataAccess;
+    private User loggedInUser;
 
-    /**
-     * Retrieves the currently logged-in user.
-     *
-     * @return The logged-in User object, or null if no user is logged in.
-     */
-    User getLoggedInUser();
+    public AuthenticationService(DataAccessInterface dataAccess) {
+        this.dataAccess = dataAccess;
+    }
 
-    /**
-     * Logs out the specified user.
-     *
-     * @param user The user to log out.
-     */
-    void logout(User user);
+    @Override
+    public boolean authenticate(String userEmail, String userPassword) {
+        User user = dataAccess.getUserByEmail(userEmail);
+        if (user != null && user.getUserPassword().equals(userPassword)) {
+            loggedInUser = user;
+            return true;
+        }
+        return false;
+    }
 
-    // Add other authentication-related methods as needed
+    @Override
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    @Override
+    public void logout(User user) {
+        if (loggedInUser != null && loggedInUser.equals(user)) {
+            loggedInUser = null;
+        }
+    }
 }
-

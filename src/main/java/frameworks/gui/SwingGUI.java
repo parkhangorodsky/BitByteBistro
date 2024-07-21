@@ -86,7 +86,7 @@ public class SwingGUI implements GUI {
         // Create Login components
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
         LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface());
-        AuthenticationService authService = new AuthenticationService() {
+        AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface()) {
             @Override
             public boolean authenticate(String userEmail, String userPassword) {
                 return true;
