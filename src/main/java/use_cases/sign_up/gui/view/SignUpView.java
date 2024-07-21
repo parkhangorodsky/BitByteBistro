@@ -31,7 +31,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
      *
      * @param signUpController The controller to handle the sign-up process.
      * @param signUpViewModel  The view model to update based on the sign-up result.
-     * @param viewManagerModel The view manager model that is responsible for changing views
+     * @param viewManagerModel The view manager model that is responsible for changing views.
      */
     public SignUpView(SignUpController signUpController, SignUpViewModel signUpViewModel, ViewManagerModel viewManagerModel) {
         this.signUpController = signUpController;
@@ -41,6 +41,9 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         setupUI();
     }
 
+    /**
+     * Sets up the user interface for the sign-up view.
+     */
     private void setupUI() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -104,6 +107,11 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         add(errorMessageLabel, gbc);
     }
 
+    /**
+     * Handles the action event when the sign-up button is clicked.
+     *
+     * @param e The action event triggered by clicking the sign-up button.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String userID = userIDField.getText();
@@ -112,6 +120,11 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         signUpController.signUp(userID, email, new String(password));
     }
 
+    /**
+     * Listens for property changes in the sign-up view model.
+     *
+     * @param evt The property change event triggered by changes in the view model.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("errorMessage".equals(evt.getPropertyName())) {
@@ -121,15 +134,30 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         }
     }
 
+    /**
+     * Displays an error message in the sign-up view.
+     *
+     * @param message The error message to be displayed.
+     */
     public void displayErrorMessage(String message) {
         errorMessageLabel.setText(message);
     }
 
+    /**
+     * Displays a success message in the sign-up view.
+     *
+     * @param message The success message to be displayed.
+     */
     public void displaySuccessMessage(String message) {
         errorMessageLabel.setText(message);
         errorMessageLabel.setForeground(Color.GREEN);
     }
 
+    /**
+     * Returns the name of the view.
+     *
+     * @return The name of the view.
+     */
     @Override
     public String getViewName() {
         return "SignUpView";

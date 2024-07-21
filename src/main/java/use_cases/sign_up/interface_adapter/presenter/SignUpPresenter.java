@@ -25,6 +25,13 @@ public class SignUpPresenter implements SignUpOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Prepares the view to display a successful sign-up result.
+     * Updates the view model with the user's email and ID, and sets a success message.
+     * Switches the active view to the login view.
+     *
+     * @param outputData The output data containing the user information and sign-up result.
+     */
     @Override
     public void prepareSuccessView(SignUpOutputData outputData) {
         // Convert the output data to the view model format
@@ -37,6 +44,12 @@ public class SignUpPresenter implements SignUpOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
+    /**
+     * Prepares the view to display an error message.
+     * Updates the view model with the provided error message.
+     *
+     * @param error The error message to be displayed.
+     */
     @Override
     public void prepareErrorView(String error) {
         viewModel.setErrorMessage(error);
