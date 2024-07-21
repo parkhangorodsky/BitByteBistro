@@ -1,6 +1,8 @@
 package frameworks.gui;
 
 import app.Config;
+import entity.User;
+import use_cases._common.authentication.AuthenticationService;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
@@ -71,7 +73,23 @@ public class SwingGUI implements GUI {
         // Create Login components
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
         LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface());
-        LoginController loginController = new LoginController(loginInteractor);
+        AuthenticationService authService = new AuthenticationService() {
+            @Override
+            public boolean authenticate(String userEmail, String userPassword) {
+                return true;
+            }
+
+            @Override
+            public User getLoggedInUser() {
+                return loginInteractor.getLoggedInUser();
+            }
+
+            @Override
+            public void logout(User user) {
+
+            }
+        };
+        LoginController loginController = new LoginController(loginInteractor, authService);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
 
         // Add LoginView to ViewManager
@@ -91,7 +109,7 @@ public class SwingGUI implements GUI {
         SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
         SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
         NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController(); // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel, viewManagerModel);
 
         // Add SearchRecipeView to ViewManager
         viewManager.addView(searchRecipeView);
@@ -159,7 +177,7 @@ public class SwingGUI implements GUI {
      */
     @Override
     public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel, viewManagerModel);
         viewManager.addView(searchRecipeView);
         return searchRecipeView;
     }
