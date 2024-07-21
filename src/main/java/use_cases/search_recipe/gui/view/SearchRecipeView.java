@@ -1,6 +1,7 @@
 package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
@@ -43,7 +44,8 @@ public class SearchRecipeView extends View {
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
                             NutritionDisplayController nutritionDisplayController,
-                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel) {
+                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
+                            ViewManagerModel viewManagerModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
@@ -120,11 +122,22 @@ public class SearchRecipeView extends View {
         // Output Components
         recipeContainer = new RecipeContainer(outputPanel);
 
+        // Navigate to RecipeToGroceryView
+        JButton convertToGroceryButton = new JButton("Convert Recipes to Grocery List");
+        convertToGroceryButton.addActionListener(e -> {
+            if (e.getSource().equals(convertToGroceryButton)) {
+                viewManagerModel.setActiveView("recipe to grocery");
+                viewManagerModel.firePropertyChanged();
+            }
+        });
+
+
         // Pack input & output panel
 //        inputPanel.add(title);
         inputPanel.add(advancedSearchButton);
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
+        inputPanel.add(convertToGroceryButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
