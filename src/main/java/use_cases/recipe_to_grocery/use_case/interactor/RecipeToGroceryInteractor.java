@@ -38,7 +38,7 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
         recipeToGroceryPresenter.prepareSuccessView(recipeToGroceryOutputData);
     }
 
-    private ShoppingList getGroceryList(List<Recipe> recipeList, User user) {
+    public ShoppingList getGroceryList(List<Recipe> recipeList, User user) {
         List<Ingredient> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             for (Ingredient grocery : recipe.getIngredientList()) {
