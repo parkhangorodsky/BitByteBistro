@@ -1,20 +1,10 @@
 package app;
+
 import frameworks.gui.GUI;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Check if the user wants to run in console mode or GUI mode
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter 'console' to run in console mode or press Enter to run in GUI mode:");
-        String mode = scanner.nextLine();
-
-        if (mode.equalsIgnoreCase("console")) {
-            ConsoleModeRunner consoleModeRunner = new ConsoleModeRunner();
-            consoleModeRunner.run();
-        } else {
-            runGUIMode();
-        }
+        runGUIMode();
     }
 
     private static void runGUIMode() {
