@@ -11,9 +11,17 @@ public class Nutrition {
         this.unit = unit;
     }
 
+    public Nutrition() {
+        this.label = "";
+        this.quantity = 0;
+        this.unit = "";
+    }
+
     @Override
     public String toString() {
-        return label + " " + quantity + " " + unit;
+        return label + ": " + quantity + " " + unit;
     }
+
+    public String getLabel() {return label;}
 }
 

@@ -1,6 +1,7 @@
 package frameworks.gui;
 
 import app.Config;
+import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
@@ -89,7 +90,8 @@ public class SwingGUI implements GUI {
         SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
         SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
         SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, advancedSearchRecipeViewModel);
+        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController(); // Get the NutritionDisplayController from config
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
 
         // Add SearchRecipeView to ViewManager
         viewManager.addView(searchRecipeView);
@@ -112,7 +114,7 @@ public class SwingGUI implements GUI {
         // Initialize Frame of frame
         this.frame = new JFrame(); // Initialize Frame
         this.frame.setSize(1000, 750);
-        this.frame.setLayout(new BorderLayout());// Set size of the this.frame
+        this.frame.setLayout(new BorderLayout());// Set the size of this.frame
         this.frame.setResizable(true); // Disable resizing
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close program upon clicking exit button
 
@@ -156,8 +158,8 @@ public class SwingGUI implements GUI {
      * @return
      */
     @Override
-    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, advancedSearchRecipeViewModel);
+    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
         viewManager.addView(searchRecipeView);
         return searchRecipeView;
     }
