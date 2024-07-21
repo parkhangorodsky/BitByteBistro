@@ -17,7 +17,7 @@ public class NutritionJSONHandlerTest {
     private class NutritionJSONHandlerIMPL implements NutritionJSONHandler {}
 
     @Test
-    void JSONStringArrayToList() {
+    void convertJSONtoNutritionList() {
         JSONObject nutritionInfo = new JSONObject();
 
         JSONObject carbs = new JSONObject();
