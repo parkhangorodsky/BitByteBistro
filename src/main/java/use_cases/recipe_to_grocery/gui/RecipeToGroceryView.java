@@ -1,13 +1,20 @@
 package use_cases.recipe_to_grocery.gui;
 
 import entity.Recipe;
+import entity.ShoppingList;
 import entity.User;
 import use_cases._common.gui_common.abstractions.View;
 
+import use_cases._common.gui_common.view.Sidebar;
+import use_cases.recipe_to_grocery.gui.view_component.ShoppingListContainer;
+import use_cases.recipe_to_grocery.gui.view_component.ShoppingListPanel;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases._common.authentication.AuthenticationService;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
+import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
+import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +26,13 @@ public class RecipeToGroceryView extends View implements ActionListener {
     private RecipeToGroceryViewModel RecipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
     private LoginInteractor loginInteractor;
+    private AuthenticationService authenticationService;
 
     public final String viewname = "recipe to grocery";
 
     // Components
-    private JButton convertRecipesButton;
+    private JPanel outputPanel;
+    private JScrollPane shoppingListContainer;
 
 
     public RecipeToGroceryView(RecipeToGroceryViewModel RecipeToGroceryViewModel,
@@ -36,35 +45,67 @@ public class RecipeToGroceryView extends View implements ActionListener {
 
         // Make connection to Controller
         this.recipeToGroceryController = recipeToGroceryController;
-        setupUI();
+
+        // Set Layout
+        this.setLayout(new BorderLayout());
+
+        // Sidebar
+        Sidebar sidebar = new Sidebar();
+
+        // MainPanel
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // Initialize Panel
+        outputPanel = new JPanel();
+        outputPanel.setBackground(claudeWhite);
+        outputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
+        outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
+
+        // Output Components
+        shoppingListContainer = new ShoppingListContainer(outputPanel);
+
+        // Pack input & output panel
+        mainPanel.add(shoppingListContainer, BorderLayout.CENTER);
+
+        this.add(sidebar, BorderLayout.WEST);
+        this.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void setupUI() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.CENTER;
+    public void loadShoppingList (RecipeToGroceryOutputData response) {
 
-        // Convert Recipes Button
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        convertRecipesButton = new JButton("Convert Recipes to Grocery List");
-        convertRecipesButton.addActionListener(this);
-        add(convertRecipesButton, gbc);
+        outputPanel.removeAll();
+        for (ShoppingList shoppingList : response) {
+            JPanel shoppingListPanel = new ShoppingListPanel(shoppingList);
+            outputPanel.add(shoppingListPanel);
+        }
+        SwingUtilities.invokeLater(() -> shoppingListContainer.getVerticalScrollBar().setValue(0));
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == convertRecipesButton) {
-            User user = loginInteractor.getLoggedInUser();
-            recipeToGroceryController.handleAuthenticationAndConversion(user.getUserEmail(), user.getUserPassword());
-        }
+//            User user = loginInteractor.getLoggedInUser();
+//            recipeToGroceryController.handleAuthenticationAndConversion(user.getUserEmail(), user.getUserPassword());
 }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("no recipe")) {
+            SearchRecipeOutputData response = null;
+            loadEmptyResult();
+        }
+    }
+
+    public void loadEmptyResult () {
+        outputPanel.removeAll();
+        JPanel emptyResultPanel = new JPanel();
+        emptyResultPanel.setBackground(claudeWhite);
+        JLabel emptyResultLabel = new JLabel("Empty shopping list...");
+        emptyResultLabel.setFont(new Font(defaultFont, Font.PLAIN, 14));
+        emptyResultLabel.setForeground(claudeBlackEmph);
+        emptyResultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        emptyResultPanel.add(emptyResultLabel);
+        outputPanel.add(emptyResultPanel);
     }
 
 

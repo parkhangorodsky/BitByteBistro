@@ -15,8 +15,8 @@ public class RecipeToGroceryPresenter implements RecipeToGroceryOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(RecipeToGroceryOutputData recipes) {
-        recipeToGroceryViewModel.setGroceryResult(recipes);
+    public void prepareSuccessView(RecipeToGroceryOutputData shoppingLists) {
+        recipeToGroceryViewModel.setGroceryResult(shoppingLists);
         recipeToGroceryViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(recipeToGroceryViewModel.getViewName());

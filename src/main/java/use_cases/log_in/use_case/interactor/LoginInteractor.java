@@ -56,7 +56,7 @@ public class LoginInteractor implements LoginInputBoundary {
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
             // Successful login
             loggedInUser = user;
-            ((CSVDataAccessObject) DAO).setLoggedInUser(user); // Set the logged-in user in the DAO
+            (DAO).setLoggedInUser(user); // Set the logged-in user in the DAO
             if (loginOutputBoundary != null) {
                 loginOutputBoundary.prepareSuccessView(new LoginOutputData(loggedInUser));
             }

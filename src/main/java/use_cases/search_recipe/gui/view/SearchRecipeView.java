@@ -69,7 +69,7 @@ public class SearchRecipeView extends View {
         // Initialize input & output panel
         inputPanel = new JPanel();
         inputPanel.setBackground(claudeWhite);
-        inputPanel.setPreferredSize(new Dimension(800,80));
+        inputPanel.setPreferredSize(new Dimension(800,150));
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
         inputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
         inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
