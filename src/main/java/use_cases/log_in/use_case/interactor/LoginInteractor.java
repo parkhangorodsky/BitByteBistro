@@ -1,8 +1,8 @@
 package use_cases.log_in.use_case.interactor;
 
 import entity.User;
-import frameworks.data_access.CSVDataAccessObject;
 import frameworks.data_access.DataAccessInterface;
+import use_cases._common.authentication.AuthenticationService;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
@@ -17,17 +17,20 @@ import use_cases.log_in.use_case.output_data.LoginOutputData;
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginOutputBoundary;
     private final DataAccessInterface DAO;
+    private final AuthenticationService authenticationService; // Add this field
     private User loggedInUser;
 
     /**
-     * Constructs a new LoginInteractor with the specified output boundary and DAO.
+     * Constructs a new LoginInteractor with the specified output boundary, DAO, and authentication service.
      *
      * @param loginOutputBoundary The boundary to handle the output of the login process.
      * @param dao The data access object to interact with the data source.
+     * @param authenticationService The service to manage authentication state.
      */
-    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao) {
+    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao, AuthenticationService authenticationService) {
         this.loginOutputBoundary = loginOutputBoundary;
         this.DAO = dao;
+        this.authenticationService = authenticationService; // Initialize this field
     }
 
     /**
@@ -56,7 +59,8 @@ public class LoginInteractor implements LoginInputBoundary {
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
             // Successful login
             loggedInUser = user;
-            (DAO).setLoggedInUser(user); // Set the logged-in user in the DAO
+            DAO.setLoggedInUser(user); // Set the logged-in user in the DAO
+            authenticationService.setLoggedInUser(user); // Update the authentication service
             if (loginOutputBoundary != null) {
                 loginOutputBoundary.prepareSuccessView(new LoginOutputData(loggedInUser));
             }

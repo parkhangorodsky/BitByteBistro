@@ -9,6 +9,7 @@ import frameworks.data_access.DataAccessInterface;
 public class AuthenticationService implements AuthenticationInterface {
 
     private final DataAccessInterface dataAccess;
+    private User loggedInUser;
 
     public AuthenticationService(DataAccessInterface dataAccess) {
         this.dataAccess = dataAccess;
@@ -18,7 +19,7 @@ public class AuthenticationService implements AuthenticationInterface {
     public boolean authenticate(String userEmail, String userPassword) {
         User user = dataAccess.getUserByEmail(userEmail);
         if (user != null && user.getUserPassword().equals(userPassword)) {
-            dataAccess.setLoggedInUser(user); // Store the logged-in user
+            loggedInUser = user;
             return true;
         }
         return false;
@@ -26,13 +27,17 @@ public class AuthenticationService implements AuthenticationInterface {
 
     @Override
     public User getLoggedInUser() {
-        return dataAccess.getLoggedInUser();
+        return loggedInUser;
     }
 
     @Override
     public void logout(User user) {
-        if (dataAccess.getLoggedInUser() != null && dataAccess.getLoggedInUser().equals(user)) {
-            dataAccess.setLoggedInUser(null); // Clear the logged-in user
+        if (loggedInUser != null && loggedInUser.equals(user)) {
+            loggedInUser = null;
         }
+    }
+
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
     }
 }
