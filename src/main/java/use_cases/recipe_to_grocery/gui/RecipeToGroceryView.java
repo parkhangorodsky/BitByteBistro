@@ -5,9 +5,8 @@ import entity.User;
 import use_cases._common.gui_common.abstractions.View;
 
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
-import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeListViewModel;
+import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
-import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 
 public class RecipeToGroceryView extends View implements ActionListener {
-    private RecipeListViewModel recipeListViewModel;
+    private RecipeToGroceryViewModel RecipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
     private LoginInteractor loginInteractor;
 
@@ -27,13 +26,13 @@ public class RecipeToGroceryView extends View implements ActionListener {
     private JButton convertRecipesButton;
 
 
-    public RecipeToGroceryView(RecipeListViewModel recipeListViewModel,
+    public RecipeToGroceryView(RecipeToGroceryViewModel RecipeToGroceryViewModel,
                                RecipeToGroceryController recipeToGroceryController,
                                ViewManagerModel viewManagerModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel
-        this.recipeListViewModel = recipeListViewModel;
-        recipeListViewModel.addPropertyChangeListener(this);
+        this.RecipeToGroceryViewModel = RecipeToGroceryViewModel;
+        RecipeToGroceryViewModel.addPropertyChangeListener(this);
 
         // Make connection to Controller
         this.recipeToGroceryController = recipeToGroceryController;
