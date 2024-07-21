@@ -6,12 +6,12 @@ import use_cases._common.interface_adapter_common.view_model.abstractions.ViewMo
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class RecipeListViewModel extends ViewModel {
+public class RecipeToGroceryViewModel extends ViewModel {
 
     private RecipeToGroceryOutputData groceryResult;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public RecipeListViewModel(String viewName) {
+    public RecipeToGroceryViewModel(String viewName) {
         super(viewName);
     }
 
