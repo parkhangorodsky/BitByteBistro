@@ -36,7 +36,7 @@ public class RecipeToGroceryController {
      *
      * @param loggedInUser The logged-in User object obtained from authentication.
      */
-    private void convertRecipesToGroceryList(User loggedInUser) {
+    public void convertRecipesToGroceryList(User loggedInUser) {
         // Prepare input data
         RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(loggedInUser);
 
@@ -51,21 +51,21 @@ public class RecipeToGroceryController {
      * @param userEmail    The user's email address.
      * @param userPassword The user's password.
      */
-    public void handleAuthenticationAndConversion(String userEmail, String userPassword) {
-        // Perform authentication
-        boolean isAuthenticated = authService.authenticate(userEmail, userPassword);
-
-        if (isAuthenticated) {
-            // If authenticated, retrieve logged-in user
-            User loggedInUser = authService.getLoggedInUser();
-
-            // Convert recipes to grocery list for the logged-in user
-            convertRecipesToGroceryList(loggedInUser);
-        } else {
-            // Handle authentication failure
-            System.out.println("Authentication failed. Please check your credentials.");
-        }
-    }
+//    public void handleAuthenticationAndConversion(String userEmail, String userPassword) {
+//        // Perform authentication
+//        boolean isAuthenticated = authService.authenticate(userEmail, userPassword);
+//
+//        if (isAuthenticated) {
+//            // If authenticated, retrieve logged-in user
+//            User loggedInUser = authService.getLoggedInUser();
+//
+//            // Convert recipes to grocery list for the logged-in user
+//            convertRecipesToGroceryList(loggedInUser);
+//        } else {
+//            // Handle authentication failure
+//            System.out.println("Authentication failed. Please check your credentials.");
+//        }
+//    }
 
 }
 
