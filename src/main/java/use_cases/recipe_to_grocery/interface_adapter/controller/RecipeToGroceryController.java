@@ -36,7 +36,7 @@ public class RecipeToGroceryController {
      *
      * @param loggedInUser The logged-in User object obtained from authentication.
      */
-    public void convertRecipesToGroceryList(User loggedInUser) {
+    private void convertRecipesToGroceryList(User loggedInUser) {
         // Prepare input data
         RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(loggedInUser);
 
