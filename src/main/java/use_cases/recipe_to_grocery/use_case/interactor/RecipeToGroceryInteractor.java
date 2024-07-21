@@ -6,13 +6,10 @@ import entity.Recipe;
 import entity.User;
 
 import frameworks.api.RecipeAPI;
-import frameworks.data_access.CSVDataAccessObject;
 
 import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryOutputBoundary;
 import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
-
-import use_cases.log_in.use_case.output_data.LoginOutputData;
 
 import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 
@@ -26,23 +23,13 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
         this.recipeToGroceryPresenter = recipeToGroceryPresenter;
     }
 
-    public User fetchUser() {
-        LoginOutputData loginOutputData = SOMEHOW FETCH CURRENTLY LOGGED IN USER;
-        return loginOutputData.getUser();
-    }
-
-    public List<Recipe> fetchRecipes() {
-        User user = fetchUser();
-        return user.getRecipes();
-    }
-
     @Override
     public void execute(RecipeToGroceryInputData recipeToGroceryInputData) {
-
-        List<Recipe> recipes = fetchRecipes();
+        User user = recipeToGroceryInputData.getUser();
+        List<Recipe> recipes = user.getRecipes();
 
         // Implement logic to convert recipes to grocery list
-        ShoppingList shoppingList = getGroceryList(recipes);
+        ShoppingList shoppingList = getGroceryList(recipes, user);
         List<ShoppingList> shoppingLists = new ArrayList<>();
         shoppingLists.add(shoppingList);
 
@@ -51,7 +38,7 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
         recipeToGroceryPresenter.prepareSuccessView(recipeToGroceryOutputData);
     }
 
-    private ShoppingList getGroceryList(List<Recipe> recipeList) {
+    private ShoppingList getGroceryList(List<Recipe> recipeList, User user) {
         List<Ingredient> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             for (Ingredient grocery : recipe.getIngredientList()) {
@@ -64,9 +51,14 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
                 }
             }
         }
-        ShoppingList groceryList = new ShoppingList(listOwner, listName, groceries);
-        return groceryList;
+        List<ShoppingList> existing_list = user.getShoppingLists();
+        String listName = "list1";
+        if (!existing_list.isEmpty()) {
+            listName = "list" + existing_list.size();
+        }
+        return new ShoppingList(user.getUserName(), listName, groceries);
     }
+
 }
 
 

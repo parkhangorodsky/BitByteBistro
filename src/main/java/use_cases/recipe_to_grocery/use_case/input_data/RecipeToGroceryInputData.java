@@ -1,16 +1,16 @@
 package use_cases.recipe_to_grocery.use_case.input_data;
 
-import java.util.List;
+import entity.User;
+import use_cases.log_in.interface_adapter.controller.LoginController;
 
 public class RecipeToGroceryInputData {
-    private List<String> recipeNames;
-    public RecipeToGroceryInputData(List<String> recipeNames) {
-        this.recipeNames = recipeNames;
+    private User user;
+
+    public RecipeToGroceryInputData(LoginController loginController) {
+        this.user = loginController.getUser();
     }
 
-    public List<String> getRecipeNames() {
-        return recipeNames;
-    }
+    public User getUser() {return this.user;}
 }
 
 
