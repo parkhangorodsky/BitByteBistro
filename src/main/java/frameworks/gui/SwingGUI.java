@@ -102,7 +102,7 @@ public class SwingGUI implements GUI {
 
             }
         };
-        LoginController loginController = new LoginController(loginInteractor, authService);
+        LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
 
         // Add LoginView to ViewManager

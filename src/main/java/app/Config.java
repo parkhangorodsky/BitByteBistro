@@ -81,7 +81,7 @@ public class Config {
     // Login UseCase
     private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
     private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, dataAccessInterface);
-    private final LoginController loginController = new LoginController(loginInteractor, authenticationService);
+    private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
