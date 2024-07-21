@@ -1,5 +1,7 @@
 package use_cases.log_in.interface_adapter.controller;
 
+import entity.User;
+import use_cases._common.authentication.AuthenticationService;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
 
@@ -10,14 +12,17 @@ import use_cases.log_in.use_case.input_data.LoginInputData;
  */
 public class LoginController {
     private final LoginInputBoundary loginInputBoundary;
+    private final AuthenticationService authService;
 
     /**
      * Constructs a new LoginController with the specified input boundary.
      *
      * @param loginInputBoundary The boundary to handle the login input data.
+     * @param authService The authentication service for user authentication and session management.
      */
-    public LoginController(LoginInputBoundary loginInputBoundary) {
+    public LoginController(LoginInputBoundary loginInputBoundary, AuthenticationService authService) {
         this.loginInputBoundary = loginInputBoundary;
+        this.authService = authService;
     }
 
     /**
@@ -29,7 +34,16 @@ public class LoginController {
      * @param userPassword The user's password.
      */
     public void login(String userEmail, String userPassword) {
-        LoginInputData inputData = new LoginInputData(userEmail, userPassword);
-        loginInputBoundary.execute(inputData);
+        // Perform authentication
+        boolean isAuthenticated = authService.authenticate(userEmail, userPassword);
+
+        if (isAuthenticated) {
+            // If authenticated, retrieve logged-in user
+            User loggedInUser = authService.getLoggedInUser();
+            // Proceed with further actions (e.g., load user profile, redirect to dashboard)
+            loginInputBoundary.execute(new LoginInputData(loggedInUser.getUserEmail(), loggedInUser.getUserPassword()));
+        } else {
+            // Handle authentication failure (e.g., show error message to user)
+        }
     }
 }
