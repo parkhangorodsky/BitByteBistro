@@ -40,26 +40,7 @@ public class NutritionJSONHandlerTest {
         nutritionInfo.put("NA", sodium);
         nutritionInfo.put("FAT", fats);
 
-        List<String> labels = new ArrayList<>();
-        labels.add("CHOCDF");
-        labels.add("NA");
-        labels.add("FAT");
-
-        List<Nutrition> nutritions = nutritionJSONHandler.convertJSONtoNutritionList(nutritionInfo);
-
-        assertTrue(nutritionInfo.has("calories"));
-        assertTrue(nutritionInfo.has("CHOCDF"));
-        assertTrue(nutritionInfo.has("NA"));
-        assertTrue(nutritionInfo.has("FAT"));
-
-        for (String label : labels) {
-            assertTrue(nutritionInfo.has(label));
-            assertTrue(nutritionInfo.getJSONObject(label).has("label"));
-            assertTrue(nutritionInfo.getJSONObject(label).has("unit"));
-            assertTrue(nutritionInfo.getJSONObject(label).has("quantity"));
-        }
-
-        assertNotNull(nutritions);
-        assertEquals(4, nutritions.size());
+        assertNotNull(nutritionJSONHandler.convertJSONtoNutritionList(nutritionInfo));
+        assertEquals(4, nutritionJSONHandler.convertJSONtoNutritionList(nutritionInfo).size());
     }
 }
