@@ -1,7 +1,6 @@
 package use_cases.recipe_to_grocery.use_case.output_data;
 
 import entity.ShoppingList;
-import entity.ShoppingList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -23,3 +22,4 @@ public class RecipeToGroceryOutputData implements Iterable<ShoppingList> {
         return shoppingLists.iterator();
     }
 }
+

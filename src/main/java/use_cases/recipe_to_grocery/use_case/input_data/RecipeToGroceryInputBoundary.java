@@ -1,7 +1,6 @@
 package use_cases.recipe_to_grocery.use_case.input_data;
 
 import entity.Recipe;
-import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 
 import java.util.List;
 
