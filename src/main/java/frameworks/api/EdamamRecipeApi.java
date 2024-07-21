@@ -1,16 +1,19 @@
 package frameworks.api;
 
+import entity.Recipe;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EdamamRecipeApi implements RecipeAPI {
+public class EdamamRecipeApi implements RecipeAPI, RecipeJSONHandler {
 
     private static final String base_url = "https://api.edamam.com/api/recipes/v2?type=any&beta=true";
 
@@ -19,11 +22,21 @@ public class EdamamRecipeApi implements RecipeAPI {
     private static final String API_ID = System.getenv("EDAMAM_API_ID");
 
     @Override
-    public JSONArray getRecipe(SearchRecipeInputData inputData) {
+    public List<Recipe> getRecipe(SearchRecipeInputData inputData) {
 
         try {
             String endpoint = createURL(inputData);
-            return getResponse(endpoint);
+            JSONArray responseRecipe = getResponse(endpoint);
+
+            List<Recipe> recipeList = new ArrayList<>();
+            for (int i = 0; i < responseRecipe.length(); i++) {
+                JSONObject recipeJSON = responseRecipe.getJSONObject(i).getJSONObject("recipe");
+                Recipe recipe =  this.convertJSONtoRecipe(recipeJSON);
+                recipeList.add(recipe);
+            }
+
+            return recipeList;
+
         } catch (IOException e) {
             System.out.println("IOException\n " + e.getMessage());
         } catch (JSONException e) {
