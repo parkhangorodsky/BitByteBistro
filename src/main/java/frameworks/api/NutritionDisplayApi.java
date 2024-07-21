@@ -6,16 +6,15 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import use_cases._common.xtra.exceptions.HttpResponseException;
 import use_cases._common.xtra.json_processor.NutritionJSONHandler;
 import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
-import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
@@ -88,12 +87,6 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
             System.out.println("Request failed with code: " + response.code());
             System.out.println("Response message: " + response.message());
             throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + " with URL: " + endpoint);
-        }
-    }
-
-    private class HttpResponseException extends RuntimeException {
-        public HttpResponseException(String message) {
-            super(message);
         }
     }
 }
