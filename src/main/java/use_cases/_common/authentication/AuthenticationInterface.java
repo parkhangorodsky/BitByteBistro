@@ -30,7 +30,4 @@ public interface AuthenticationInterface {
      * @param user The user to log out.
      */
     void logout(User user);
-
-    // Add other authentication-related methods as needed
 }
-
