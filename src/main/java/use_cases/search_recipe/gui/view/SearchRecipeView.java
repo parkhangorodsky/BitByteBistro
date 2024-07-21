@@ -25,6 +25,7 @@ import java.beans.PropertyChangeEvent;
 
 public class SearchRecipeView extends View {
 
+    private ViewManagerModel viewManagerModel;
     private SearchRecipeViewModel searchRecipeViewModel;
     private SearchRecipeController searchRecipeController;
     private SearchRecipePresenter searchRecipePresenter;
@@ -46,6 +47,8 @@ public class SearchRecipeView extends View {
                             NutritionDisplayController nutritionDisplayController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
+
+        this.viewManagerModel = viewManagerModel;
 
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
@@ -152,11 +155,14 @@ public class SearchRecipeView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("search recipe".equals(evt.getPropertyName())) {
+        if (evt.getPropertyName().equals("search recipe")) {
             SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
+        } else if (evt.getPropertyName().equals("convert")) {
+            viewManagerModel.setActiveView("recipe to grocery");
+            viewManagerModel.firePropertyChanged();
         }
         outputPanel.revalidate();
         outputPanel.repaint();
