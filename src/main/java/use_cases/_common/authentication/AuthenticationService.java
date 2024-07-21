@@ -37,6 +37,7 @@ public class AuthenticationService implements AuthenticationInterface {
         }
     }
 
+    @Override
     public void setLoggedInUser(User user) {
         this.loggedInUser = user;
     }
