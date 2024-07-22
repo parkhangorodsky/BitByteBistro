@@ -12,7 +12,6 @@ import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Interactor for searching recipes.
  * It handles the search request sent from the user through controller,

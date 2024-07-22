@@ -6,7 +6,7 @@ import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 
 /**
  * Overview: Presenter for the search recipe use case.
- * Procedure: When the interactor calls the appropriate method the prepare the view,
+ * Procedure: When the interactor calls the appropriate method to prepare the view,
  * this class updates the searchRecipeViewModel and fire property change to the viewManagerModel.
  * Encapsulation: This class encapsulates the logic for updating the searchRecipeViewModel.
  */
