@@ -25,8 +25,7 @@ import java.awt.event.ActionListener;
 public class RecipeToGroceryView extends View implements ActionListener {
     private RecipeToGroceryViewModel RecipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
-    private LoginInteractor loginInteractor;
-    private AuthenticationService authenticationService;
+    private AuthenticationService authenticationService; // Change here
 
     public final String viewname = "recipe to grocery";
 
@@ -37,6 +36,7 @@ public class RecipeToGroceryView extends View implements ActionListener {
 
     public RecipeToGroceryView(RecipeToGroceryViewModel RecipeToGroceryViewModel,
                                RecipeToGroceryController recipeToGroceryController,
+                               AuthenticationService authenticationService, // Change here
                                ViewManagerModel viewManagerModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel
@@ -45,6 +45,7 @@ public class RecipeToGroceryView extends View implements ActionListener {
 
         // Make connection to Controller
         this.recipeToGroceryController = recipeToGroceryController;
+        this.authenticationService = authenticationService; // Change here
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -84,14 +85,19 @@ public class RecipeToGroceryView extends View implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//            User user = loginInteractor.getLoggedInUser();
-//            recipeToGroceryController.handleAuthenticationAndConversion(user.getUserEmail(), user.getUserPassword());
-}
+            User user = authenticationService.getLoggedInUser(); // Retrieve the logged-in user
+            if (user != null) {
+                // Call the convertRecipesToGroceryList method directly
+                recipeToGroceryController.convertRecipesToGroceryList(user);
+            } else {
+                System.out.println("No user is currently logged in.");
+            }
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("no recipe")) {
-            SearchRecipeOutputData response = null;
+            SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadEmptyResult();
         }
     }
@@ -117,6 +123,4 @@ public class RecipeToGroceryView extends View implements ActionListener {
 
 }
 
-
-
-
+// test
