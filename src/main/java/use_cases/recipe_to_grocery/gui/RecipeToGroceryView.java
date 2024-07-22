@@ -3,9 +3,7 @@ package use_cases.recipe_to_grocery.gui;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
-import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.gui_common.abstractions.View;
-
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases.recipe_to_grocery.gui.view_component.ShoppingListContainer;
 import use_cases.recipe_to_grocery.gui.view_component.ShoppingListPanel;
@@ -23,33 +21,41 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * RecipeToGroceryView is responsible for displaying the recipe to grocery conversion view.
+ * It extends View and implements ActionListener to handle user actions and PropertyChangeListener to react to ViewModel changes.
+ */
 public class RecipeToGroceryView extends View implements ActionListener {
-    private RecipeToGroceryViewModel RecipeToGroceryViewModel;
+    private RecipeToGroceryViewModel recipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
-    private AuthenticationService authenticationService; // Change here
-    private LoginInteractor loginInteractor;
-    public final String viewname = "recipe to grocery";
+    private AuthenticationService authenticationService;
 
+    public final String viewName = "recipe to grocery";
+
+    // Components
     private JPanel outputPanel;
     private JScrollPane shoppingListContainer;
 
-    // Components
-    private JButton convertRecipesButton;
-
-
-    public RecipeToGroceryView(RecipeToGroceryViewModel RecipeToGroceryViewModel,
+    /**
+     * Constructs a RecipeToGroceryView with the specified ViewModel, Controller, authentication service, and view manager model.
+     *
+     * @param recipeToGroceryViewModel The ViewModel for recipe to grocery conversion.
+     * @param recipeToGroceryController The Controller for recipe to grocery conversion.
+     * @param authenticationService The AuthenticationService for managing user authentication.
+     * @param viewManagerModel The ViewManagerModel for managing view state.
+     */
+    public RecipeToGroceryView(RecipeToGroceryViewModel recipeToGroceryViewModel,
                                RecipeToGroceryController recipeToGroceryController,
-                               AuthenticationService authenticationService, // Change here
+                               AuthenticationService authenticationService,
                                ViewManagerModel viewManagerModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel
-        this.RecipeToGroceryViewModel = RecipeToGroceryViewModel;
-        RecipeToGroceryViewModel.addPropertyChangeListener(this);
+        this.recipeToGroceryViewModel = recipeToGroceryViewModel;
+        recipeToGroceryViewModel.addPropertyChangeListener(this);
 
         // Make connection to Controller
         this.recipeToGroceryController = recipeToGroceryController;
-        this.authenticationService = authenticationService; // Change here
-        setupUI();
+        this.authenticationService = authenticationService;
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -76,43 +82,53 @@ public class RecipeToGroceryView extends View implements ActionListener {
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void setupUI() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.CENTER;
-
-        // Convert Recipes Button
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        convertRecipesButton = new JButton("Convert Recipes to Grocery List");
-        convertRecipesButton.addActionListener(this);
-        add(convertRecipesButton, gbc);
+    /**
+     * Loads shopping lists into the view based on the output data from recipe to grocery conversion.
+     *
+     * @param response The output data containing shopping lists.
+     */
+    public void loadShoppingList(RecipeToGroceryOutputData response) {
+        outputPanel.removeAll();
+        for (ShoppingList shoppingList : response) {
+            JPanel shoppingListPanel = new ShoppingListPanel(shoppingList);
+            outputPanel.add(shoppingListPanel);
+        }
+        SwingUtilities.invokeLater(() -> shoppingListContainer.getVerticalScrollBar().setValue(0));
     }
 
+    /**
+     * Handles user action events, specifically triggering recipe to grocery conversion.
+     *
+     * @param e The action event triggered.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == convertRecipesButton) {
-            User user = authenticationService.getLoggedInUser(); // Retrieve the logged-in user
-            if (user != null) {
-                // Call the convertRecipesToGroceryList method directly
-                recipeToGroceryController.convertRecipesToGroceryList(user);
-            } else {
-                System.out.println("No user is currently logged in.");
-            }
+        User user = authenticationService.getLoggedInUser(); // Retrieve the logged-in user
+        if (user != null) {
+            recipeToGroceryController.convertRecipesToGroceryList(user);
+        } else {
+            System.out.println("No user is currently logged in.");
         }
     }
 
+    /**
+     * Listens to property change events from the ViewModel.
+     *
+     * @param evt The property change event fired.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("no recipe")) {
+            // Handle empty recipe result
+            SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadEmptyResult();
         }
     }
 
-
-    public void loadEmptyResult () {
+    /**
+     * Loads an empty result message into the view when there are no recipes found.
+     */
+    public void loadEmptyResult() {
         outputPanel.removeAll();
         JPanel emptyResultPanel = new JPanel();
         emptyResultPanel.setBackground(claudeWhite);
@@ -124,15 +140,13 @@ public class RecipeToGroceryView extends View implements ActionListener {
         outputPanel.add(emptyResultPanel);
     }
 
-
+    /**
+     * Returns the name of the view.
+     *
+     * @return The name of the view.
+     */
     @Override
     public String getViewName() {
-        return this.viewname;
+        return this.viewName;
     }
-
-
 }
-
-
-
-
