@@ -30,4 +30,3 @@ public class ShoppingListContainer extends JScrollPane implements ThemeColoredOb
     }
 }
 
-//
