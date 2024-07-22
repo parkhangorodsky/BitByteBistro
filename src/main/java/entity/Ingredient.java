@@ -27,6 +27,8 @@ public class Ingredient {
     public String getIngredientMeasure() {return quantityUnit;}
     public String getIngredientCategory() {return category;}
     public float getIngredientQuantity() {return quantity;}
+    public void setIngredientQuantity(float quantity) {this.quantity = quantity;}
+    public void addIngredientQuantity(float quantity) {this.quantity += quantity;}
 
     @Override
     public String toString() {

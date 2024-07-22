@@ -105,7 +105,12 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         String email = emailField.getText();
         char[] password = passwordField.getPassword();
         loginController.login(email, new String(password));
+
+        // After successful login, navigate to the search recipe view
+        viewManagerModel.setActiveView("search recipe");
+        viewManagerModel.firePropertyChanged();
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

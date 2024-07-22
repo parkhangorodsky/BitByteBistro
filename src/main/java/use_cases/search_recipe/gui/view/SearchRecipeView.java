@@ -1,6 +1,7 @@
 package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
@@ -24,6 +25,7 @@ import java.beans.PropertyChangeEvent;
 
 public class SearchRecipeView extends View {
 
+    private ViewManagerModel viewManagerModel;
     private SearchRecipeViewModel searchRecipeViewModel;
     private SearchRecipeController searchRecipeController;
     private SearchRecipePresenter searchRecipePresenter;
@@ -43,7 +45,10 @@ public class SearchRecipeView extends View {
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
                             NutritionDisplayController nutritionDisplayController,
-                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel) {
+                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
+                            ViewManagerModel viewManagerModel) {
+
+        this.viewManagerModel = viewManagerModel;
 
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
@@ -64,7 +69,7 @@ public class SearchRecipeView extends View {
         // Initialize input & output panel
         inputPanel = new JPanel();
         inputPanel.setBackground(claudeWhite);
-        inputPanel.setPreferredSize(new Dimension(800,80));
+        inputPanel.setPreferredSize(new Dimension(800,150));
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
         inputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
         inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
@@ -120,11 +125,22 @@ public class SearchRecipeView extends View {
         // Output Components
         recipeContainer = new RecipeContainer(outputPanel);
 
+        // Navigate to RecipeToGroceryView
+        JButton convertToGroceryButton = new JButton("Convert Recipes to Grocery List");
+        convertToGroceryButton.addActionListener(e -> {
+            if (e.getSource().equals(convertToGroceryButton)) {
+                viewManagerModel.setActiveView("recipe to grocery");
+                viewManagerModel.firePropertyChanged();
+            }
+        });
+
+
         // Pack input & output panel
 //        inputPanel.add(title);
         inputPanel.add(advancedSearchButton);
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
+        inputPanel.add(convertToGroceryButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
@@ -139,11 +155,14 @@ public class SearchRecipeView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("search recipe".equals(evt.getPropertyName())) {
+        if (evt.getPropertyName().equals("search recipe")) {
             SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
+        } else if (evt.getPropertyName().equals("convert")) {
+            viewManagerModel.setActiveView("recipe to grocery");
+            viewManagerModel.firePropertyChanged();
         }
         outputPanel.revalidate();
         outputPanel.repaint();
