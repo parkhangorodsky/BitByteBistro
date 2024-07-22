@@ -31,7 +31,7 @@ CSC207 group project repo
 
 ### Use Case 5: Nutrition Stat
 
-
+## PLAN
 CURRENT PLAN:
 our current plan is to do a recipe/grocery shopping interface. We'll use an API to search through recipes, which someone can add to their grocery cart (rather than all the individual ingredients), then our program will combine all the like-ingredients so there's only one amount (so rather than 2 cups of milk, 5 cups of milk, 1 cup of milk, people will know they need eight cups - and maybe we'll convert that to 2 litres or something). We also want to be able to scale the number of servings of each of the recipes we add. There will also be an option to add what's already in your fridge, so you don't buy ingredients you already have enough of.
 
