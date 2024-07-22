@@ -29,7 +29,8 @@ CSC207 group project repo
 4. The advanced search result will show up in the same panel as where the result of simple recipe search by name shows up.
 
 
-### Use Case 5: Nutrition Stat
+### Use Case 5: View Nutrition Information for each recipe (which will be used in the Nutrition Stats use case in Phase 2)
+1. the nutrition information will pop up as print statements when you make a successful search query. in the future this will update the search recipe view directly.
 
 ## PLAN
 CURRENT PLAN:
