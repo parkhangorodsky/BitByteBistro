@@ -28,9 +28,10 @@ public class RecipeToGroceryView extends View implements ActionListener {
     private RecipeToGroceryController recipeToGroceryController;
     private AuthenticationService authenticationService; // Change here
     private LoginInteractor loginInteractor;
-    private AuthenticationService authenticationService;
-
     public final String viewname = "recipe to grocery";
+
+    private JPanel outputPanel;
+    private JScrollPane shoppingListContainer;
 
     // Components
     private JButton convertRecipesButton;
@@ -106,10 +107,10 @@ public class RecipeToGroceryView extends View implements ActionListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("no recipe")) {
-            SearchRecipeOutputData response = null;
             loadEmptyResult();
         }
     }
+
 
     public void loadEmptyResult () {
         outputPanel.removeAll();
