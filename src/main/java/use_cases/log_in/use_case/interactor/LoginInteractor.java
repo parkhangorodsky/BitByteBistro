@@ -1,6 +1,7 @@
 package use_cases.log_in.use_case.interactor;
 
 import entity.User;
+import frameworks.data_access.CSVDataAccessObject;
 import frameworks.data_access.DataAccessInterface;
 import use_cases._common.authentication.AuthenticationService;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
