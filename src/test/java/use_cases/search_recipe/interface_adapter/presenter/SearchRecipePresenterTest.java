@@ -27,7 +27,7 @@ class SearchRecipePresenterTest {
         searchRecipeViewModel = mock(SearchRecipeViewModel.class);
         // Create mock ViewManagerModel
         viewManagerModel = mock(ViewManagerModel.class);
-        // Create Ppresenter based on the mock view models
+        // Create Presenter based on the mock view models
         presenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
     }
 
