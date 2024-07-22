@@ -2,83 +2,77 @@ package use_cases.recipe_to_grocery.use_case.interactor;
 
 import entity.Ingredient;
 import entity.Recipe;
+import entity.ShoppingList;
+import entity.User;
 import entity.mock.MockIngredient;
 import frameworks.api.RecipeAPI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
-import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
-import use_cases.search_recipe.use_case.interactor.SearchRecipeInteractor;
-import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
+import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
+import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
+import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class SearchRecipeInteractorTest {
-    RecipeAPI mockRecipeAPI;
-    SearchRecipePresenter mockSearchRecipePresenter;
-    SearchRecipeInteractor searchRecipeInteractor;
+class RecipeToGroceryInteractorTest {
+    RecipeAPI mockShoppingListAPI;
+    RecipeToGroceryPresenter mockShoppingListToGroceryPresenter;
+    RecipeToGroceryInteractor recipeToGroceryInteractor;
 
     @BeforeEach
     void setUp() {
-        mockRecipeAPI = Mockito.mock(RecipeAPI.class);
-        mockSearchRecipePresenter = Mockito.mock(SearchRecipePresenter.class);
-        searchRecipeInteractor = new SearchRecipeInteractor(mockSearchRecipePresenter, mockRecipeAPI);
+        mockShoppingListAPI = Mockito.mock(RecipeAPI.class);
+        mockShoppingListToGroceryPresenter = Mockito.mock(RecipeToGroceryPresenter.class);
+        recipeToGroceryInteractor = new RecipeToGroceryInteractor(mockShoppingListToGroceryPresenter, mockShoppingListAPI);
     }
 
     @Test
     void execute() {
         // Prepare mock data
-        Recipe mockRecipe = Mockito.mock(Recipe.class);
-        String name = "Chocolate Cake";
+        ShoppingList mockShoppingList = Mockito.mock(ShoppingList.class);
+        String name = "thursday";
 
         Ingredient mockIngredient1 = new MockIngredient().mock;
         Ingredient mockIngredient2 = new MockIngredient().mock;
         List<Ingredient> ingredient = Arrays.asList(mockIngredient1, mockIngredient2);
+        
+        User user = Mockito.mock(User.class);
 
-        String image = "image1.jpg";
-
-        when(mockRecipe.getName()).thenReturn(name);
-        when(mockRecipe.getIngredientList()).thenReturn(ingredient);
-        when(mockRecipe.getImage()).thenReturn(image);
-
-        List<Recipe> recipeList = List.of(mockRecipe);
-
-        // Mock the behavior of recipeAPI.getRecipe
-        Mockito.when(mockRecipeAPI.getRecipe(Mockito.any(SearchRecipeInputData.class)))
-                .thenReturn(recipeList);
-
-        SearchRecipeInputData inputData = new SearchRecipeInputData("cake");
+        when(mockShoppingList.getShoppingListName()).thenReturn(name);
+        when(mockShoppingList.getListItems()).thenReturn(ingredient);
+        when(mockShoppingList.getListOwner()).thenReturn(name);
+        
+        RecipeToGroceryInputData inputData = new RecipeToGroceryInputData(user);
 
         // Execute the method under test
-        searchRecipeInteractor.execute(inputData);
+        recipeToGroceryInteractor.execute(inputData);
 
         // Capture the output data passed to the presenter
-        ArgumentCaptor<SearchRecipeOutputData> argumentCaptor = ArgumentCaptor.forClass(SearchRecipeOutputData.class);
-        verify(mockSearchRecipePresenter, times(1)).prepareSuccessView(argumentCaptor.capture());
+        ArgumentCaptor<RecipeToGroceryOutputData> argumentCaptor = ArgumentCaptor.forClass(RecipeToGroceryOutputData.class);
+        verify(mockShoppingListToGroceryPresenter, times(1)).prepareSuccessView(argumentCaptor.capture());
 
         // Verify the data
-        SearchRecipeOutputData capturedOutputData = argumentCaptor.getValue();
-        List<Recipe> recipes = capturedOutputData.getRecipes();
+        RecipeToGroceryOutputData capturedOutputData = argumentCaptor.getValue();
+        List<ShoppingList> shoppingLists = capturedOutputData.getRecipes();
 
         // Assertions
-        assertEquals(1, recipes.size());
-        Recipe capturedRecipe = recipes.get(0);
-        assertEquals("Chocolate Cake", capturedRecipe.getName());
-        assertEquals(2, capturedRecipe.getIngredientList().size());
-        assertEquals(mockIngredient1, capturedRecipe.getIngredientList().get(0));
-        assertEquals(mockIngredient2, capturedRecipe.getIngredientList().get(1));
-        assertEquals("image1.jpg", capturedRecipe.getImage());
+        assertEquals(1, shoppingLists.size());
+        ShoppingList capturedShoppingList = shoppingLists.getFirst();
+        assertEquals("thursday", capturedShoppingList.getShoppingListName());
+        assertEquals(2, capturedShoppingList.getListItems().size());
+        assertEquals(mockIngredient1, capturedShoppingList.getListItems().get(0));
+        assertEquals(mockIngredient2, capturedShoppingList.getListItems().get(1));
 
-        // Verify interactions with the mockRecipe
-        verify(mockRecipe, times(1)).getName();
-        verify(mockRecipe, times(3)).getIngredientList();
-        verify(mockRecipe, times(1)).getImage();
+        // Verify interactions with the mockShoppingList
+        verify(mockShoppingList, times(1)).getShoppingListName();
+        verify(mockShoppingList, times(3)).getListItems();
     }
 
 
