@@ -1,6 +1,29 @@
 # BitByteBistro
 CSC207 group project repo
 
+
+## HOW TO RUN THE PROGRAM FOR PHASE1
+1. Set up run configuration for main method : app.Main
+2. Set environmental variables for the API keys : EDAMAM_API_ID=e32253d8;EDAMAM_API_KEY=829e78845ecaf34f4dab7abba727c568;NUTRITION_API_KEY=eb3e4233f7d4764ab894c00cdd0bf35b;NUTRITION_API_ID=97b256c0
+
+### Use Case 1: Sign up
+
+### Use Case 2: Login
+
+### Use Case 3: Recipe Search by Recipe Name
+1. Run the Main.java and login.
+2. Type in the name of the recipe that you want to search at the top-left text field, and press enter / search button.
+3. The result will show up in the panel below in couple seconds.
+4. 
+### Use Case 4: Advanced Recipe Search
+1. Click the Advanced search button, next to the input text field.
+2. Advanced search configuration window will pop up.
+3. Configure the search and click search button. (click cancel to exit)
+4. The advanced search result will show up in the same panel as where the result of simple recipe search by name shows up.
+
+### Use Case 5: Nutrition Stat
+
+
 CURRENT PLAN:
 our current plan is to do a recipe/grocery shopping interface. We'll use an API to search through recipes, which someone can add to their grocery cart (rather than all the individual ingredients), then our program will combine all the like-ingredients so there's only one amount (so rather than 2 cups of milk, 5 cups of milk, 1 cup of milk, people will know they need eight cups - and maybe we'll convert that to 2 litres or something). We also want to be able to scale the number of servings of each of the recipes we add. There will also be an option to add what's already in your fridge, so you don't buy ingredients you already have enough of.
 
