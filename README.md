@@ -3,23 +3,31 @@ CSC207 group project repo
 
 
 ## HOW TO RUN THE PROGRAM FOR PHASE1
+
+
+### Setup
 1. Set up run configuration for main method : app.Main
 2. Set environmental variables for the API keys : EDAMAM_API_ID=e32253d8;EDAMAM_API_KEY=829e78845ecaf34f4dab7abba727c568;NUTRITION_API_KEY=eb3e4233f7d4764ab894c00cdd0bf35b;NUTRITION_API_ID=97b256c0
 
+
 ### Use Case 1: Sign up
 
+
 ### Use Case 2: Login
+
 
 ### Use Case 3: Recipe Search by Recipe Name
 1. Run the Main.java and login.
 2. Type in the name of the recipe that you want to search at the top-left text field, and press enter / search button.
 3. The result will show up in the panel below in couple seconds.
-4. 
+
+
 ### Use Case 4: Advanced Recipe Search
 1. Click the Advanced search button, next to the input text field.
 2. Advanced search configuration window will pop up.
 3. Configure the search and click search button. (click cancel to exit)
 4. The advanced search result will show up in the same panel as where the result of simple recipe search by name shows up.
+
 
 ### Use Case 5: Nutrition Stat
 
