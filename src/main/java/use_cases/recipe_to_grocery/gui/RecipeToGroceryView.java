@@ -91,7 +91,7 @@ public class RecipeToGroceryView extends View implements ActionListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("no recipe")) {
-            SearchRecipeOutputData response = null;
+            SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadEmptyResult();
         }
     }
