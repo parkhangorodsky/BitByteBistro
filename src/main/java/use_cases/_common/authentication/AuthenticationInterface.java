@@ -14,5 +14,5 @@ public interface AuthenticationInterface {
 
     void logout(User user);
 
-    void setLoggedInUser(User user); // Ensure this method is in the interface
+    void setLoggedInUser(User user);
 }

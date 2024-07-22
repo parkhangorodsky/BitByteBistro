@@ -7,8 +7,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The utility interface that provides the default method for converting nutritional information
+ * from JSONObject to a List<Nutrition>, where each Nutrition is a nutrition fact for a specific recipe.
+ */
 public interface NutritionJSONHandler extends JSONNullHandler {
 
+
+    /**
+     * converts raw output (JSONObject) from the NutritionAPI into a list of Nutrition (so the nutritional information)
+     * for a given recipe. Currently, the nutritional information contains the calories, carbs, sodium, and fats. There
+     * are some extra print statements throughout which serve as a temporary "view", since the current view will not be
+     * completed before Phase 1.
+     *
+     * @param nutritionJSONObject JSONObject retrieved from the NutritionAPI
+     * @return a List<Nutrition> which contains the Nutrition objects with the label, unit, and quantity of each: calories,
+     * carbs, sodium, and fats.
+     */
      default List<Nutrition> convertJSONtoNutritionList(JSONObject nutritionJSONObject) {
          // temp line for the temp view:
          System.out.println("The recipe has the following nutritional info:");

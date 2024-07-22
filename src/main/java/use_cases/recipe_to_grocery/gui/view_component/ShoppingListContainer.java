@@ -29,4 +29,3 @@ public class ShoppingListContainer extends JScrollPane implements ThemeColoredOb
         this.setBorder(new LineBorder(claudeWhite, 30));
     }
 }
-
