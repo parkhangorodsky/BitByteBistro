@@ -11,10 +11,11 @@ CSC207 group project repo
 
 
 ### Use Case 1: Sign up
-
+1. Run the Main.java, the default view is the login view where there's a text button that takes you to the login view.
+2. Enter your userID, email and password and signup, you will be taken back to the login screen.
 
 ### Use Case 2: Login
-
+1. This is the default view, login with your email and password once you've signed up.
 
 ### Use Case 3: Recipe Search by Recipe Name
 1. Run the Main.java and login.
