@@ -59,13 +59,9 @@ public class Config {
     private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
     private final DataAccessInterface dataAccessInterface = new CSVDataAccessObject("path/to/users.csv"); // Update path accordingly
     private final GUI gui = new SwingGUI(this);
-    private final AuthenticationService authenticationService = new AuthenticationService(dataAccessInterface) {
-        @Override
-        public boolean authenticate(String userEmail, String userPassword) {return true;}
-        @Override
-        public User getLoggedInUser() {return loginInteractor.getLoggedInUser();}
-        @Override
-        public void logout(User user) {}};
+
+    // Authentication Service
+    private final AuthenticationService authenticationService = new AuthenticationService(dataAccessInterface);
 
     // UseCases
     // Search Recipe
@@ -79,8 +75,8 @@ public class Config {
     private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
 
     // Login UseCase
-    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, dataAccessInterface);
+    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authenticationService);
+    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, dataAccessInterface, authenticationService);
     private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
@@ -89,7 +85,6 @@ public class Config {
     private final SignUpController signUpController = new SignUpController(signUpInteractor);
 
     // Recipe To Grocery UseCase
-
     private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
     private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
     private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);

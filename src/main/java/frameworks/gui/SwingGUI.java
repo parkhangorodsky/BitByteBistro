@@ -84,24 +84,9 @@ public class SwingGUI implements GUI {
         this.viewManager = new ViewManager(this.mainPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
-        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface());
-        AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface()) {
-            @Override
-            public boolean authenticate(String userEmail, String userPassword) {
-                return true;
-            }
-
-            @Override
-            public User getLoggedInUser() {
-                return loginInteractor.getLoggedInUser();
-            }
-
-            @Override
-            public void logout(User user) {
-
-            }
-        };
+        AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
+        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authService); // Pass AuthenticationService to LoginPresenter
+        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface(), authService); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
 
@@ -131,7 +116,7 @@ public class SwingGUI implements GUI {
         RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
         RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
         RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
-        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, viewManagerModel);
+        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
 
         // Add RecipeToGroceryView to ViewManager
         viewManager.addView(recipeToGroceryView);
