@@ -46,7 +46,7 @@ public class RecipeToGroceryViewModel extends ViewModel {
      * Notifies listeners of property changes, specifically for handling cases where no recipes are available.
      */
     public void firePropertyChanged() {
-        if (groceryResult != null && groceryResult.getRecipes().isEmpty()) {
+        if (groceryResult != null && groceryResult.getShoppingLists().isEmpty()) {
             support.firePropertyChange("no recipe", null, null);
         }
     }
