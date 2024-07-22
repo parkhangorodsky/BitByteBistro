@@ -32,6 +32,13 @@ CSC207 group project repo
 ### Use Case 5: View Nutrition Information for each recipe (which will be used in the Nutrition Stats use case in Phase 2)
 1. the nutrition information will pop up as print statements when you make a successful search query. in the future this will update the search recipe view directly.
 
+### Use Case 6: Collapse saved Recipes to one or multiple Shopping Lists
+1. Currently, on the Search page, there is the Convert Recipe to Grocery List button. Clicking in switches the user to a different view.
+2. In the future, after user has successfully logged in and submitted their search queries, there will be a save recipe button next to each recipe they see
+3. They can then save as many recipes as they like. In the future, when they click save, they will have a choice of which shopping list if any to save this recipe to.
+4. Then, when they click the convert recipes to shopping list, it switches to another view.
+5. The new view will contain the shopping lists they have if any. They can freely remove or add more recipes from their saved lists to their shopping lists.   
+
 ## PLAN
 CURRENT PLAN:
 our current plan is to do a recipe/grocery shopping interface. We'll use an API to search through recipes, which someone can add to their grocery cart (rather than all the individual ingredients), then our program will combine all the like-ingredients so there's only one amount (so rather than 2 cups of milk, 5 cups of milk, 1 cup of milk, people will know they need eight cups - and maybe we'll convert that to 2 litres or something). We also want to be able to scale the number of servings of each of the recipes we add. There will also be an option to add what's already in your fridge, so you don't buy ingredients you already have enough of.
