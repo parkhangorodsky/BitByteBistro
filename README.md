@@ -2,7 +2,7 @@
 CSC207 group project repo
 
 
-## HOW TO RUN THE PROGRAM FOR PHASE1
+## ⚠️ HOW TO RUN THE PROGRAM FOR PHASE1
 
 
 ### Setup
