@@ -3,6 +3,8 @@ package use_cases._common.xtra.json_processor;
 import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
+import entity.builder.EdamamRecipeBuilder;
+import entity.builder.RecipeBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -29,7 +31,7 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         List<String> dietLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dietLabels"));
         List<String> healthLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "healthLabels"));
         List<String> cautions = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "cautions"));
-        String instructions = "";
+        String instructions = recipeJSON.getString("url");
         List<Ingredient> ingredientList = createIngredientListFromJSONArray(recipeJSON, "ingredients");
         Map<String, Nutrition> nutritionMap = extractNutritionalInfoFromJSONObject(recipeJSON,"totalNutrients");
         Map<String, Nutrition> totalDailyMap = extractNutritionalInfoFromJSONObject(recipeJSON,"totalDaily");
@@ -38,21 +40,24 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         List<String> mealType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "mealType"));
         List<String> dishType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dishType"));
 
-        Recipe recipe = new Recipe(name,
-                image,
-                yield,
-                instructions,
-                ingredientList,
-                nutritionMap,
-                totalDailyMap,
-                dietLabels,
-                healthLabels,
-                cautions,
-                tags,
-                cuisineType,
-                mealType,
-                dishType);
-        return recipe;
+        RecipeBuilder builder = new EdamamRecipeBuilder()
+                .buildName(name)
+                .buildImage(image)
+                .buildDietLabels(dietLabels)
+                .buildHealthLabels(healthLabels)
+                .buildCautions(cautions)
+                .buildNutritionMap(nutritionMap)
+                .buildTotalDailyMap(totalDailyMap)
+                .buildTags(tags)
+                .buildCuisineType(cuisineType)
+                .buildMealType(mealType)
+                .buildDishType(dishType)
+                .buildIngredientList(ingredientList)
+                .buildYield(yield)
+                .buildInstruction(instructions)
+                ;
+
+        return builder.get();
     }
 
     /**
