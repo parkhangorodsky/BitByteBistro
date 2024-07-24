@@ -6,6 +6,7 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.ViewComponent;
 import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,7 +14,12 @@ import java.awt.*;
 
 public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColoredObject {
 
-    public RecipePanel(Recipe recipe) {
+    private RecipeModel recipeModel;
+
+    public RecipePanel(RecipeModel recipeModel) {
+        this.recipeModel = recipeModel;
+        Recipe recipe = recipeModel.getRecipe();
+
         this.setBackground(claudeWhite);
         this.setLayout(new BorderLayout(2, 3));
         this.setBorder(new EmptyBorder(30, 20, 20, 20));

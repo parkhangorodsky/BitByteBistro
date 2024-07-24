@@ -7,6 +7,7 @@ import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
+import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 import use_cases._common.gui_common.abstractions.View;
@@ -172,7 +173,8 @@ public class SearchRecipeView extends View {
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe);
+            RecipeModel recipeModel = new RecipeModel(recipe);
+            JPanel recipePanel = new RecipePanel(recipeModel);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));
