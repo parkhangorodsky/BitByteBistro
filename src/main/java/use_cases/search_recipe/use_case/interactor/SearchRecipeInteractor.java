@@ -12,7 +12,6 @@ import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Interactor for searching recipes.
  * It handles the search request sent from the user through controller,
@@ -47,22 +46,11 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary, Recipe
     @Override
     public void execute(SearchRecipeInputData searchRecipeInputData) {
 
-        // Get recipe search result based on input data in the form of JSONArray.
-        JSONArray recipesJSONArray = recipeAPI.getRecipe(searchRecipeInputData);
-
-        // Create a new recipe container.
-        List<Recipe> recipeContainer = new ArrayList<>();
-
-        // For each of the recipe JSON object in the recipesJSONArray,
-        // convert it into a Recipe object, and add it to the recipe container
-        for (int i = 0; i < recipesJSONArray.length(); i++) {
-            JSONObject recipeJSON = recipesJSONArray.getJSONObject(i).getJSONObject("recipe");
-            Recipe recipe =  this.convertJSONtoRecipe(recipeJSON);
-            recipeContainer.add(recipe);
-        }
+        // Get recipe search result based on input data in the form of List<Recipe>.
+        List<Recipe> recipeList = recipeAPI.getRecipe(searchRecipeInputData);
 
         // Create a new SearchRecipeOutputData.
-        SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(recipeContainer);
+        SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(recipeList);
 
         // Prepare the success view.
         searchRecipePresenter.prepareSuccessView(searchRecipeOutputData);

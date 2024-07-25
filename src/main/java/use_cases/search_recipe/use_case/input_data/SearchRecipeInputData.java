@@ -36,6 +36,7 @@ public class SearchRecipeInputData {
      * @param dishType List of dish type labels.
      * @param mealType List of meal type labels.
      */
+
     public SearchRecipeInputData(String queryString,
                                          List<String> excluded,
                                          List<String> diet,
