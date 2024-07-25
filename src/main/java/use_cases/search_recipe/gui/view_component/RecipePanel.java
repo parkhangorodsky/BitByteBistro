@@ -5,7 +5,11 @@ import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.ViewComponent;
 import use_cases._common.gui_common.view_components.IngredientPanel;
+import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 
 import javax.swing.*;
@@ -16,9 +20,7 @@ public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColo
 
     private RecipeModel recipeModel;
 
-    public RecipePanel(RecipeModel recipeModel) {
-        this.recipeModel = recipeModel;
-        Recipe recipe = recipeModel.getRecipe();
+    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController) {
 
         this.setBackground(claudeWhite);
         this.setLayout(new BorderLayout(2, 3));
@@ -57,8 +59,20 @@ public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColo
         ingredientPanel.setBackground(claudeWhiteEmph);
 
         JPanel extraInfoPanel = new RoundPanel();
-        extraInfoPanel.setPreferredSize(new Dimension(100, 30));
+        extraInfoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
         extraInfoPanel.setBackground(claudeOrange);
+
+        RoundButton detailButton = new RoundButton("Detail");
+        detailButton.setHoverColor(claudeOrange, claudeWhite, claudeWhite, claudeOrange);
+        detailButton.setPressedColor(claudeWhite);
+        detailButton.addActionListener(e -> {
+            DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
+            DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel);
+            displayRecipeDetailController.execute(recipe, viewModel);
+            display.setVisible(true);
+        });
+
+        extraInfoPanel.add(detailButton);
 
         topPanel.add(recipeNameLabel);
 
