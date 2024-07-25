@@ -15,7 +15,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener, ImageLoader {
+public abstract class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener, ImageLoader {
     private DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
 
@@ -92,21 +92,5 @@ public class DisplayRecipeDetailView extends PopUpView implements PropertyChange
         return contentScrollPane;
     }
 
-    private JPanel createControlPanel() {
-        JPanel controlPanel = new JPanel(new BorderLayout());
-        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
-        controlPanel.setBackground(claudeWhite);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        RoundButton closeButton = new RoundButton("Close");
-        RoundButton addToButton = new RoundButton("Add To");
-
-        buttonPanel.add(addToButton);
-        buttonPanel.add(closeButton);
-
-        controlPanel.add(buttonPanel, BorderLayout.EAST);
-        return controlPanel;
-    }
-
-
+     abstract JPanel createControlPanel();
 }
