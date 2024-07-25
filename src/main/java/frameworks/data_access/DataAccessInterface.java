@@ -33,6 +33,15 @@ public interface DataAccessInterface {
     User getUserByEmail(String email);
 
     /**
+     * Authenticates a user with the provided credentials.
+     *
+     * @param userEmail The user's email address.
+     * @param userPassword The user's password.
+     * @return True if authentication succeeds, false otherwise.
+     */
+    boolean authenticate(String userEmail, String userPassword);
+
+    /**
      * Retrieves the currently logged-in user.
      *
      * @return The currently logged-in user, or null if no user is logged in.
@@ -45,4 +54,11 @@ public interface DataAccessInterface {
      * @param user The user to set as logged in.
      */
     void setLoggedInUser(User user);
+
+    /**
+     * Logs out the specified user.
+     *
+     * @param user The user to log out.
+     */
+    void logout(User user);
 }
