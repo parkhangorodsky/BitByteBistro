@@ -106,13 +106,4 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         }
         return ingredientList;
     }
-
-
-
-
-
-
-
-
-
 }
