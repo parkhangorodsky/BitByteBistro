@@ -91,14 +91,7 @@ public class SearchRecipeView extends View {
         recipeName = new SearchTextField();
         recipeName.addActionListener( e -> {
             if (e.getSource().equals(recipeName)) {
-                String queryString = recipeName.getText();
-                if (queryString != null && !queryString.isEmpty()) {
-                    searchRecipeController.execute(queryString);
-                    SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
-                    for (Recipe recipe : recipes) {
-                        nutritionDisplayController.execute(recipe);
-                    }
-                }
+                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
             }
         });
 
@@ -106,14 +99,7 @@ public class SearchRecipeView extends View {
         searchButton = new SearchButton("Search");
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
-                String queryString = recipeName.getText();
-                if (queryString != null && !queryString.isEmpty()) {
-                    searchRecipeController.execute(queryString);
-                    SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
-                    for (Recipe recipe : recipes) {
-                        nutritionDisplayController.execute(recipe);
-                    }
-                }
+                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
             }
         });
 
@@ -131,6 +117,17 @@ public class SearchRecipeView extends View {
 
         this.add(sidebar, BorderLayout.WEST);
         this.add(mainPanel, BorderLayout.CENTER);
+    }
+
+    private void getRecipeResult(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
+        String queryString = recipeName.getText();
+        if (queryString != null && !queryString.isEmpty()) {
+            searchRecipeController.execute(queryString);
+            SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
+            for (Recipe recipe : recipes) {
+                nutritionDisplayController.execute(recipe);
+            }
+        }
     }
 
     @Override
