@@ -148,7 +148,7 @@ public class SearchRecipeView extends View {
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
         inputPanel.add(convertToGroceryButton);
-        inputPanel.add(userIDLabel, BorderLayout.NORTH); //added the userlabel to the panel
+        inputPanel.add(userIDLabel); //added the userlabel to the panel
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
@@ -171,11 +171,6 @@ public class SearchRecipeView extends View {
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
-        } else if ("loggedInUser".equals(evt.getPropertyName())) { //added this to show the logged in userid
-            User loggedInUser = LoggedUserData.getLoggedInUser();
-            if (loggedInUser != null) {
-                userIDLabel.setText("User ID: " + loggedInUser.getUserName());
-            }
         }
 
         outputPanel.revalidate();
@@ -203,6 +198,15 @@ public class SearchRecipeView extends View {
         emptyResultPanel.add(emptyResultLabel);
         outputPanel.add(emptyResultPanel);
     }
+
+    private void updateUserIDLabel(User user) {
+        if (user != null) {
+            userIDLabel.setText("Logged in as: " + user.getUserName());
+        } else {
+            userIDLabel.setText("Not logged in");
+        }
+    }
+
 
     @Override
     public String getViewName() {
