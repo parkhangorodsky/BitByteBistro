@@ -1,5 +1,7 @@
 package use_cases.log_in.interface_adapter.presenter;
 
+import entity.LoggedUserData;
+import entity.User;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
@@ -17,7 +19,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final PropertyChangeSupport support;
 
     /**
-     * Constructs a new LoginPresenter with the specified view model and PropertyChangeSupport.
+     * Constructs a new LoginPresenter with the specified view model, view manager model, and PropertyChangeSupport.
      *
      * @param loginViewModel The view model to update based on the login result.
      * @param viewManagerModel The model to manage view transitions.
@@ -41,8 +43,12 @@ public class LoginPresenter implements LoginOutputBoundary {
         // Clear any previous error messages
         loginViewModel.setErrorMessage("");
 
-        // Set the logged-in user in the PropertyChangeSupport
-        support.firePropertyChange("loggedInUser", null, outputData.getUser());
+        // Set the logged-in user in LoggedUserData
+        User oldLoggedInUser = LoggedUserData.getLoggedInUser();
+        LoggedUserData.setLoggedInUser(outputData.getUser());
+
+        // Notify listeners that the loggedInUser property has changed
+        support.firePropertyChange("loggedInUser", oldLoggedInUser, outputData.getUser());
 
         // Perform additional actions on successful login, like navigation
         viewManagerModel.setActiveView("search recipe");
