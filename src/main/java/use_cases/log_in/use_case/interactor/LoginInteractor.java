@@ -7,7 +7,6 @@ import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
-import java.beans.PropertyChangeSupport;
 
 /**
  * Interactor for handling the login process.
@@ -18,7 +17,6 @@ import java.beans.PropertyChangeSupport;
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginOutputBoundary;
     private final DataAccessInterface DAO;
-    private final PropertyChangeSupport support;
 
     /**
      * Constructs a new LoginInteractor with the specified output boundary and DAO.
@@ -26,12 +24,10 @@ public class LoginInteractor implements LoginInputBoundary {
      * @param loginOutputBoundary The boundary to handle the output of the login process.
      * @param dao The data access object to interact with the data source.
      */
-    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao, PropertyChangeSupport support) {
+    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao) {
         this.loginOutputBoundary = loginOutputBoundary;
         this.DAO = dao;
-        this.support = support;
     }
-
 
     /**
      * Executes the login process with the specified input data.
@@ -49,11 +45,7 @@ public class LoginInteractor implements LoginInputBoundary {
 
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
             // Successful login
-            User oldLoggedInUser = LoggedUserData.getLoggedInUser();
             LoggedUserData.setLoggedInUser(user); // Set the logged-in user in LoggedUserData
-
-            // Notify listeners that the loggedInUser property has changed
-            support.firePropertyChange("loggedInUser", oldLoggedInUser, user);
 
             if (loginOutputBoundary != null) {
                 loginOutputBoundary.prepareSuccessView(new LoginOutputData(user));
