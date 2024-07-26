@@ -163,12 +163,15 @@ public class SearchRecipeView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("search recipe")) {
+        if ("loggedInUser".equals(evt.getPropertyName())) {
+            User loggedInUser = LoggedUserData.getLoggedInUser();
+            updateUserIDLabel(loggedInUser);
+        } else if ("search recipe".equals(evt.getPropertyName())) {
             SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadSearchResult(response);
-        } else if (evt.getPropertyName().equals("empty result")) {
+        } else if ("empty result".equals(evt.getPropertyName())) {
             loadEmptyResult();
-        } else if (evt.getPropertyName().equals("convert")) {
+        } else if ("convert".equals(evt.getPropertyName())) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
         }
@@ -199,14 +202,13 @@ public class SearchRecipeView extends View {
         outputPanel.add(emptyResultPanel);
     }
 
-    private void updateUserIDLabel(User user) {
+    private void updateUserIDLabel(User user) { //updates the user label
         if (user != null) {
             userIDLabel.setText("Logged in as: " + user.getUserName());
         } else {
             userIDLabel.setText("Not logged in");
         }
     }
-
 
     @Override
     public String getViewName() {
