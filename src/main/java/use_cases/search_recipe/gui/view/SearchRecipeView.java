@@ -1,6 +1,8 @@
 package use_cases.search_recipe.gui.view;
 
+import entity.LoggedUserData;
 import entity.Recipe;
+import entity.User;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
@@ -169,7 +171,13 @@ public class SearchRecipeView extends View {
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
+        } else if ("loggedInUser".equals(evt.getPropertyName())) { //added this to show the logged in userid
+            User loggedInUser = LoggedUserData.getLoggedInUser();
+            if (loggedInUser != null) {
+                userIDLabel.setText("User ID: " + loggedInUser.getUserName());
+            }
         }
+
         outputPanel.revalidate();
         outputPanel.repaint();
     }
