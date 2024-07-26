@@ -1,10 +1,10 @@
 package use_cases.log_in.interface_adapter.presenter;
 
-import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Presenter for handling the login process.
@@ -14,19 +14,19 @@ import use_cases.log_in.use_case.output_data.LoginOutputData;
 public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final AuthenticationService authenticationService; // Add reference to AuthenticationService
+    private final PropertyChangeSupport support;
 
     /**
-     * Constructs a new LoginPresenter with the specified view model and authentication service.
+     * Constructs a new LoginPresenter with the specified view model and PropertyChangeSupport.
      *
      * @param loginViewModel The view model to update based on the login result.
      * @param viewManagerModel The model to manage view transitions.
-     * @param authenticationService The service to manage authentication and session.
+     * @param support The PropertyChangeSupport for notifying listeners of property changes.
      */
-    public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, AuthenticationService authenticationService) {
+    public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, PropertyChangeSupport support) {
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.authenticationService = authenticationService; // Initialize AuthenticationService
+        this.support = support;
     }
 
     /**
@@ -41,8 +41,8 @@ public class LoginPresenter implements LoginOutputBoundary {
         // Clear any previous error messages
         loginViewModel.setErrorMessage("");
 
-        // Set the logged-in user in the AuthenticationService
-        authenticationService.setLoggedInUser(outputData.getUser());
+        // Set the logged-in user in the PropertyChangeSupport
+        support.firePropertyChange("loggedInUser", null, outputData.getUser());
 
         // Perform additional actions on successful login, like navigation
         viewManagerModel.setActiveView("search recipe");
