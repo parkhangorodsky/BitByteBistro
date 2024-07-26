@@ -13,7 +13,6 @@ public class CSVDataAccessObject implements DataAccessInterface {
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
     private final Map<String, User> accounts = new HashMap<>();
-    private User loggedInUser;
 
     public CSVDataAccessObject(String csvPath) {
         csvFile = new File(csvPath);
@@ -87,32 +86,5 @@ public class CSVDataAccessObject implements DataAccessInterface {
     @Override
     public User getUserByEmail(String identifier) {
         return accounts.get(identifier);
-    }
-
-    @Override
-    public boolean authenticate(String userEmail, String userPassword) {
-        User user = getUserByEmail(userEmail);
-        if (user != null && user.getUserPassword().equals(userPassword)) {
-            setLoggedInUser(user);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    @Override
-    public void setLoggedInUser(User user) {
-        this.loggedInUser = user;
-    }
-
-    @Override
-    public void logout(User user) {
-        if (loggedInUser != null && loggedInUser.equals(user)) {
-            loggedInUser = null;
-        }
     }
 }
