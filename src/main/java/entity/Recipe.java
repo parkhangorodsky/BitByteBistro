@@ -1,5 +1,6 @@
 package entity;
 
+import java. util. ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -113,5 +114,4 @@ public class Recipe {
 
         return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
     }
-
 }

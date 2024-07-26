@@ -14,6 +14,10 @@ import java.beans.PropertyChangeListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * LoginView is responsible for displaying the login interface and handling user interactions.
+ * It extends the View class and implements ActionListener and PropertyChangeListener to respond to UI actions and property changes.
+ */
 public class LoginView extends View implements ActionListener, PropertyChangeListener {
     private JTextField emailField;
     private JPasswordField passwordField;
@@ -24,6 +28,13 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
 
+    /**
+     * Constructs a new LoginView with the specified controller, view model, and view manager model.
+     *
+     * @param loginController The controller to handle login actions.
+     * @param loginViewModel The view model to manage login state.
+     * @param viewManagerModel The view manager model to handle view changes.
+     */
     public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
         this.loginController = loginController;
         this.loginViewModel = loginViewModel;
@@ -32,6 +43,9 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         setupUI();
     }
 
+    /**
+     * Sets up the user interface for the login view.
+     */
     private void setupUI() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -100,6 +114,11 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         add(switchToSignUpLabel, gbc);
     }
 
+    /**
+     * Handles the action events for the login button.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String email = emailField.getText();
@@ -107,17 +126,36 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         loginController.login(email, new String(password));
     }
 
+    /**
+     * Handles property change events from the view model.
+     *
+     * @param evt The property change event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("errorMessage".equals(evt.getPropertyName())) {
             displayErrorMessage((String) evt.getNewValue());
+        } else if ("loggedInUser".equals(evt.getPropertyName())) {
+            // Navigate to search recipe view on successful login
+            viewManagerModel.setActiveView("search recipe");
+            viewManagerModel.firePropertyChanged();
         }
     }
 
+    /**
+     * Displays an error message on the UI.
+     *
+     * @param message The error message to display.
+     */
     public void displayErrorMessage(String message) {
         errorMessageLabel.setText(message);
     }
 
+    /**
+     * Returns the name of this view.
+     *
+     * @return The name of this view.
+     */
     @Override
     public String getViewName() {
         return "LoginView";
