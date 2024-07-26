@@ -6,7 +6,6 @@ import use_cases._common.interface_adapter_common.view_model.models.ViewManagerM
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
-import java.beans.PropertyChangeSupport;
 
 /**
  * Presenter for handling the login process.
@@ -16,19 +15,16 @@ import java.beans.PropertyChangeSupport;
 public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final PropertyChangeSupport support;
 
     /**
-     * Constructs a new LoginPresenter with the specified view model, view manager model, and PropertyChangeSupport.
+     * Constructs a new LoginPresenter with the specified view model and view manager model.
      *
      * @param loginViewModel The view model to update based on the login result.
      * @param viewManagerModel The model to manage view transitions.
-     * @param support The PropertyChangeSupport for notifying listeners of property changes.
      */
-    public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, PropertyChangeSupport support) {
+    public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.support = support;
     }
 
     /**
@@ -40,17 +36,10 @@ public class LoginPresenter implements LoginOutputBoundary {
      */
     @Override
     public void prepareSuccessView(LoginOutputData outputData) {
-        // Clear any previous error messages
+        System.out.println("Login success: " + outputData.getUser().getUserName());
         loginViewModel.setErrorMessage("");
-
-        // Set the logged-in user in LoggedUserData
-        User oldLoggedInUser = LoggedUserData.getLoggedInUser();
         LoggedUserData.setLoggedInUser(outputData.getUser());
-
-        // Notify listeners that the loggedInUser property has changed
-        support.firePropertyChange("loggedInUser", oldLoggedInUser, outputData.getUser());
-
-        // Perform additional actions on successful login, like navigation
+        loginViewModel.firePropertyChange("loggedInUser", null, outputData.getUser());
         viewManagerModel.setActiveView("search recipe");
         viewManagerModel.firePropertyChanged();
     }

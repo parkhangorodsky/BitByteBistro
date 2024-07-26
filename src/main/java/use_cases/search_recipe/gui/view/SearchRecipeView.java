@@ -42,7 +42,7 @@ public class SearchRecipeView extends View {
     private JPanel outputPanel;
     private JScrollPane recipeContainer;
     private JLabel userIDLabel; //added this label to display the userid
-
+    private JButton convertToGroceryButton;
 
 
 
@@ -163,8 +163,10 @@ public class SearchRecipeView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("Property changed: " + evt.getPropertyName());
         if ("loggedInUser".equals(evt.getPropertyName())) {
             User loggedInUser = LoggedUserData.getLoggedInUser();
+            System.out.println("Logged in user: " + (loggedInUser != null ? loggedInUser.getUserName() : "null"));
             updateUserIDLabel(loggedInUser);
         } else if ("search recipe".equals(evt.getPropertyName())) {
             SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
@@ -175,6 +177,7 @@ public class SearchRecipeView extends View {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
         }
+
 
         outputPanel.revalidate();
         outputPanel.repaint();
@@ -202,11 +205,11 @@ public class SearchRecipeView extends View {
         outputPanel.add(emptyResultPanel);
     }
 
-    private void updateUserIDLabel(User user) { //updates the user label
+    private void updateUserIDLabel(User user) { //updates label
         if (user != null) {
-            userIDLabel.setText("Logged in as: " + user.getUserName());
+            convertToGroceryButton.setText("Logged in as: " + user.getUserName());
         } else {
-            userIDLabel.setText("Not logged in");
+            convertToGroceryButton.setText("Not logged in");
         }
     }
 

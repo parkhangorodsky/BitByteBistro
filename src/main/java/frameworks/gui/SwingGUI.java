@@ -86,7 +86,7 @@ public class SwingGUI implements GUI {
 
         // Create Login components
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
-        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authService); // Pass AuthenticationService to LoginPresenter
+        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel); // Pass AuthenticationService to LoginPresenter
         LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface()); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
