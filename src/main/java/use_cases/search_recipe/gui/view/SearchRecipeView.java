@@ -39,6 +39,8 @@ public class SearchRecipeView extends View {
     private JPanel inputPanel;
     private JPanel outputPanel;
     private JScrollPane recipeContainer;
+    private JLabel userIDLabel; //added this label to display the userid
+
 
 
 
@@ -92,6 +94,9 @@ public class SearchRecipeView extends View {
             }
         });
 
+        // user label
+        userIDLabel = new JLabel(); // creates the user id label
+
         // Search Text Field
         recipeName = new SearchTextField();
         recipeName.addActionListener( e -> {
@@ -141,6 +146,7 @@ public class SearchRecipeView extends View {
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
         inputPanel.add(convertToGroceryButton);
+        inputPanel.add(userIDLabel, BorderLayout.NORTH); //added the userlabel to the panel
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
