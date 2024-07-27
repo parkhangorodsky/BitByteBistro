@@ -1,7 +1,6 @@
 package use_cases.log_in.interface_adapter.presenter;
 
 import entity.LoggedUserData;
-import entity.User;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
