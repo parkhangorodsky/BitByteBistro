@@ -36,12 +36,13 @@ public class LoginPresenter implements LoginOutputBoundary {
      */
     @Override
     public void prepareSuccessView(LoginOutputData outputData) {
-        System.out.println("Login success: " + outputData.getUser().getUserName());
+
         loginViewModel.setErrorMessage("");
         LoggedUserData.setLoggedInUser(outputData.getUser());
         loginViewModel.firePropertyChange("loggedInUser", null, outputData.getUser());
         viewManagerModel.setActiveView("search recipe");
         viewManagerModel.firePropertyChanged();
+        System.out.println("Login success: " + LoggedUserData.getLoggedInUser().getRecipes());
     }
 
     /**

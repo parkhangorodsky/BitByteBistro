@@ -58,6 +58,7 @@ public class SearchRecipeView extends View {
         this.searchRecipeViewModel = searchRecipeViewModel;
         searchRecipeViewModel.addPropertyChangeListener(this);
 
+
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
 
