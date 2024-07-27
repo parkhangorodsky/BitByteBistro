@@ -1,8 +1,6 @@
 package use_cases.search_recipe.gui.view;
 
-import entity.LoggedUserData;
 import entity.Recipe;
-import entity.User;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
@@ -41,8 +39,6 @@ public class SearchRecipeView extends View {
     private JPanel inputPanel;
     private JPanel outputPanel;
     private JScrollPane recipeContainer;
-    private JLabel userIDLabel; //added this label to display the userid
-    private JButton convertToGroceryButton;
 
 
 
@@ -57,7 +53,6 @@ public class SearchRecipeView extends View {
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
         searchRecipeViewModel.addPropertyChangeListener(this);
-
 
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
@@ -96,9 +91,6 @@ public class SearchRecipeView extends View {
                 advancedSearchView.setVisible(true);
             }
         });
-
-        // user label
-        userIDLabel = new JLabel(); // creates the user id label
 
         // Search Text Field
         recipeName = new SearchTextField();
@@ -149,7 +141,6 @@ public class SearchRecipeView extends View {
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
         inputPanel.add(convertToGroceryButton);
-        inputPanel.add(userIDLabel); //added the userlabel to the panel
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
@@ -164,22 +155,15 @@ public class SearchRecipeView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Property changed: " + evt.getPropertyName());
-        if ("loggedInUser".equals(evt.getPropertyName())) {
-            User loggedInUser = LoggedUserData.getLoggedInUser();
-            System.out.println("Logged in user: " + (loggedInUser != null ? loggedInUser.getUserName() : "null"));
-            updateUserIDLabel(loggedInUser);
-        } else if ("search recipe".equals(evt.getPropertyName())) {
+        if (evt.getPropertyName().equals("search recipe")) {
             SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadSearchResult(response);
-        } else if ("empty result".equals(evt.getPropertyName())) {
+        } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
-        } else if ("convert".equals(evt.getPropertyName())) {
+        } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
         }
-
-
         outputPanel.revalidate();
         outputPanel.repaint();
     }
@@ -204,14 +188,6 @@ public class SearchRecipeView extends View {
         emptyResultLabel.setHorizontalAlignment(SwingConstants.CENTER);
         emptyResultPanel.add(emptyResultLabel);
         outputPanel.add(emptyResultPanel);
-    }
-
-    private void updateUserIDLabel(User user) { //updates label
-        if (user != null) {
-            convertToGroceryButton.setText("Logged in as: " + user.getUserName());
-        } else {
-            convertToGroceryButton.setText("Not logged in");
-        }
     }
 
     @Override
