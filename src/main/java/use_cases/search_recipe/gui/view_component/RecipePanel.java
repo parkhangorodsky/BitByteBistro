@@ -70,6 +70,7 @@ public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColo
             DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel);
             displayRecipeDetailController.execute(recipe, viewModel);
             display.setVisible(true);
+            display.enableParent();
         });
 
         extraInfoPanel.add(detailButton);
