@@ -12,5 +12,8 @@ public class Sidebar extends JPanel implements ThemeColoredObject {
     public Sidebar() {
         setPreferredSize(new Dimension(230, 750));
         setBackground(claudeWhiteEmph);
+        setLayout(new BorderLayout());
+
+
     }
 }

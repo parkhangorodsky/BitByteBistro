@@ -1,8 +1,6 @@
 package app;
 
 // API
-import entity.Recipe;
-import entity.User;
 import frameworks.api.NutritionAPI;
 import frameworks.api.NutritionDisplayApi;
 import frameworks.api.RecipeAPI;

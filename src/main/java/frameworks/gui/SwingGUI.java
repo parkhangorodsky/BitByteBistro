@@ -1,7 +1,6 @@
 package frameworks.gui;
 
 import app.Config;
-import entity.User;
 
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
