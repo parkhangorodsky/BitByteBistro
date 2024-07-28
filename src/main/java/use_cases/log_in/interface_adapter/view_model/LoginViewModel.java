@@ -1,6 +1,8 @@
 package use_cases.log_in.interface_adapter.view_model;
 
+import entity.User;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
+import use_cases.log_in.use_case.output_data.LoginOutputData;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -52,6 +54,14 @@ public class LoginViewModel extends ViewModel {
         this.errorMessage = errorMessage;
         support.firePropertyChange("errorMessage", oldErrorMessage, errorMessage);
     }
+
+    /**
+     * Fires a property change event for the logged in user.
+     */
+    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        support.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
 
     /**
      * Returns the current error message.
