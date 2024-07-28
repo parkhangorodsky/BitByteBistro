@@ -1,17 +1,21 @@
 package use_cases.display_recipe_detail;
 
+import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView {
+    private AddToMyRecipeController addToMyRecipeController;
 
-    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel) {
+    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController) {
         super(parent, viewModel);
+        this.addToMyRecipeController = addToMyRecipeController;
     }
 
 
@@ -28,6 +32,10 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         closeButton.addActionListener(e -> {
             this.dispose();
+        });
+
+        addToButton.addActionListener(e -> {
+            addToMyRecipeController.execute(viewModel.getRecipe());
         });
 
         buttonPanel.add(addToButton);

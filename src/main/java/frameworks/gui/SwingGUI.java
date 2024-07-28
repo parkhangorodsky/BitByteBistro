@@ -9,6 +9,7 @@ import use_cases._common.interface_adapter_common.view_model.models.ViewManagerM
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.ViewManager;
 
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 
@@ -107,11 +108,14 @@ public class SwingGUI implements GUI {
         // Create SearchRecipe components
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
         NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
-        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();// Get the NutritionDisplayController from config
+        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
+        AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
+        // Get the NutritionDisplayController from config
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
                 searchRecipeController,
                 nutritionDisplayController,
                 displayRecipeDetailController,
+                addToMyRecipeController,
                 advancedSearchRecipeViewModel,
                 viewManagerModel);
 

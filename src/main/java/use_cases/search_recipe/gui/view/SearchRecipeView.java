@@ -2,6 +2,7 @@ package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
@@ -33,6 +34,7 @@ public class SearchRecipeView extends View {
     private SearchRecipePresenter searchRecipePresenter;
 
     private DisplayRecipeDetailController displayDetailController;
+    private AddToMyRecipeController addToMyRecipeController;
 
 
     public final String viewname = "search recipe";
@@ -50,6 +52,7 @@ public class SearchRecipeView extends View {
                             SearchRecipeController searchRecipeController,
                             NutritionDisplayController nutritionDisplayController,
                             DisplayRecipeDetailController displayDetailController,
+                            AddToMyRecipeController addToMyRecipeController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 
@@ -62,6 +65,7 @@ public class SearchRecipeView extends View {
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
         this.displayDetailController = displayDetailController;
+        this.addToMyRecipeController = addToMyRecipeController;
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -178,7 +182,7 @@ public class SearchRecipeView extends View {
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe, displayDetailController);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));
