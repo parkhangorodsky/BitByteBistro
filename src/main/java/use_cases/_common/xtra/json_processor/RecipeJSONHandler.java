@@ -4,6 +4,8 @@ import com.sun.source.tree.Tree;
 import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
+import entity.builder.EdamamRecipeBuilder;
+import entity.builder.RecipeBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,20 +40,24 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         List<String> mealType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "mealType"));
         List<String> dishType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dishType"));
 
-        Recipe recipe = new Recipe(name,
-                image,
-                yield,
-                instructions,
-                ingredientList,
-                nutritionMap,
-                dietLabels,
-                healthLabels,
-                cautions,
-                tags,
-                cuisineType,
-                mealType,
-                dishType);
-        return recipe;
+        RecipeBuilder builder = new EdamamRecipeBuilder()
+                .buildName(name)
+                .buildImage(image)
+                .buildDietLabels(dietLabels)
+                .buildHealthLabels(healthLabels)
+                .buildCautions(cautions)
+                .buildNutritionMap(nutritionMap)
+                .buildTotalDailyMap(totalDailyMap)
+                .buildTags(tags)
+                .buildCuisineType(cuisineType)
+                .buildMealType(mealType)
+                .buildDishType(dishType)
+                .buildIngredientList(ingredientList)
+                .buildYield(yield)
+                .buildInstruction(instructions)
+                ;
+
+        return builder.get();
     }
 
     /**
