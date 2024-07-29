@@ -11,13 +11,13 @@ import java.awt.event.WindowEvent;
  * and managing the state of the parent window.
  */
 public abstract class PopUpView extends JFrame implements ThemeColoredObject {
-
+    JFrame parent;
 
     public PopUpView(JFrame parent){
-
+        this.parent = parent;
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        parent.setEnabled(false);
+        this.parent.setEnabled(false);
         this.setBackground(claudeWhite);
 
         // Disable title bar (to look better) for mac OS.
@@ -45,6 +45,10 @@ public abstract class PopUpView extends JFrame implements ThemeColoredObject {
         int newX = parentX + (parentWidth - this.getWidth()) / 2;
         int newY = parentY + (parentHeight - this.getHeight()) / 2;
         this.setLocation(newX, newY);
+    }
+
+    public void enableParent() {
+        this.parent.setEnabled(true);
     }
 
 }

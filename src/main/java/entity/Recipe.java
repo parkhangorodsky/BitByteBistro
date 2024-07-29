@@ -55,7 +55,6 @@ public class Recipe {
                   String instructions,
                   List<Ingredient> ingredientList,
                   Map<String, Nutrition> nutritionMap,
-                  Map<String, Nutrition> totalDailyMap,
                   List<String> dietLabels,
                   List<String> healthLabels,
                   List<String> cautions,
@@ -70,7 +69,6 @@ public class Recipe {
         this.instructions = instructions;
         this.ingredientList = ingredientList;
         this.nutritionMap = nutritionMap;
-        this.totalDailyMap = totalDailyMap;
 
         this.dietLabels = dietLabels;
         this.healthLabels = healthLabels;
@@ -98,6 +96,17 @@ public class Recipe {
     public String getImage() {
         return this.image;
     }
+    public Map<String, Nutrition> getNutritionMap() {return this.nutritionMap;}
+    public List<String> getDietLabels() {return this.dietLabels;}
+    public List<String> getHealthLabels() {return this.healthLabels;}
+    public List<String> getCautions() {return this.cautions;}
+    public List<String> getTags() {return this.tags;}
+    public List<String> getCuisineType() {return this.cuisineType;}
+    public List<String> getMealType() {return this.mealType;}
+    public List<String> getDishType() {return this.dishType;}
+    public String getInstructions() {return this.instructions;}
+
+
 
     @Override
     public String toString() {
