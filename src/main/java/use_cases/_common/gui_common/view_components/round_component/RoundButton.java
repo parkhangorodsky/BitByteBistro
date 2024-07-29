@@ -18,7 +18,7 @@ public class RoundButton extends JButton implements ThemeColoredObject {
     private Color foregroundColor = claudeWhiteEmph;
     private Color hoverForegroundColor = claudeBlack;
 
-    private Color pressedColor = claudeOrange; // Gray for pressed effect
+    private Color pressedBackground = claudeOrange; // Gray for pressed effect
     private int ARC = 10; // Corner radius
 
     public RoundButton(String text) {
@@ -50,7 +50,7 @@ public class RoundButton extends JButton implements ThemeColoredObject {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                setBackground(pressedColor);
+                setBackground(pressedBackground);
                 repaint();
             }
 
@@ -126,8 +126,8 @@ public class RoundButton extends JButton implements ThemeColoredObject {
         this.repaint();
     }
 
-    public  void setPressedColor(Color pressedColor) {
-        this.pressedColor = pressedColor;
+    public  void setPressedColor(Color pressedBackground) {
+        this.pressedBackground = pressedBackground;
         this.revalidate();
         this.repaint();
     }

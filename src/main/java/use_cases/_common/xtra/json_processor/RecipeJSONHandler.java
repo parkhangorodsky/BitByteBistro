@@ -1,5 +1,6 @@
 package use_cases._common.xtra.json_processor;
 
+import com.sun.source.tree.Tree;
 import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
@@ -33,8 +34,7 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         List<String> cautions = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "cautions"));
         String instructions = recipeJSON.getString("url");
         List<Ingredient> ingredientList = createIngredientListFromJSONArray(recipeJSON, "ingredients");
-        Map<String, Nutrition> nutritionMap = extractNutritionalInfoFromJSONObject(recipeJSON,"totalNutrients");
-        Map<String, Nutrition> totalDailyMap = extractNutritionalInfoFromJSONObject(recipeJSON,"totalDaily");
+        Map<String, Nutrition> nutritionMap = extractNutritionalInfoFromJSONObject(recipeJSON,"totalNutrients", "totalDaily");
         List<String> tags = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "tags"));
         List<String> cuisineType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "cuisineType"));
         List<String> mealType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "mealType"));
@@ -64,23 +64,31 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
      * Extracts nutritional information from a JSONObject and returns it as a Map.
      *
      * @param recipeJSON the JSONObject containing the recipe data
-     * @param key the key for the JSONObject containing nutritional information.
+     * @param quantityKey the key for the JSONObject containing nutritional information.
      *            It is either "totalNutrients" or totalDaily
      * @return a Map containing the nutritional information
      */
-    private Map<String, Nutrition> extractNutritionalInfoFromJSONObject(JSONObject recipeJSON, String key) {
+    private Map<String, Nutrition> extractNutritionalInfoFromJSONObject(JSONObject recipeJSON, String quantityKey, String percentKey) {
         // Get the nutrition JSON object associated with the key.
-        JSONObject object = recipeJSON.getJSONObject(key);
+        JSONObject quantityObject = recipeJSON.getJSONObject(quantityKey);
+        JSONObject percentObject = recipeJSON.getJSONObject(percentKey);
+
         // Initialize a new map
-        Map<String, Nutrition> nutritionMap = new HashMap<>();
+        Map<String, Nutrition> nutritionMap = new TreeMap<>();
 
         // For each nutrition, extract label, quantity, and unit. Then create a Nutrition object.
-        for (String nutri : object.keySet()) {
-            JSONObject nutritionJSON = object.getJSONObject(nutri);
+        for (String nutri : quantityObject.keySet()) {
+            JSONObject nutritionJSON = quantityObject.getJSONObject(nutri);
             String label = nutritionJSON.getString("label");
             float quantity = nutritionJSON.getFloat("quantity");
             String unit = nutritionJSON.getString("unit");
-            Nutrition nutrition = new Nutrition(label, quantity, unit);
+            Nutrition nutrition;
+            if (percentObject.has(nutri)) {
+                float percent = percentObject.getJSONObject(nutri).getFloat("quantity");
+                nutrition = new Nutrition(label, quantity, unit, percent);
+            } else {
+                nutrition = new Nutrition(label, quantity, unit);
+            }
             nutritionMap.put(label, nutrition);
         }
         return nutritionMap;

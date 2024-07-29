@@ -12,7 +12,6 @@ public class AdvancedSearchSummaryPanel extends RoundPanel {
 
     JPanel summaryTextPanel;
 
-
     public AdvancedSearchSummaryPanel(AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel) {
         this.setLayout(new BorderLayout());
         this.setBackground(claudeWhite);
