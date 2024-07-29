@@ -49,35 +49,8 @@ public class Recipe {
      * @param dishType List of dish type labels. The dish types refer to the
      *                 category of food the recipe would fall under.
      */
-    public Recipe(String name,
-                  String image,
-                  int yield,
-                  String instructions,
-                  List<Ingredient> ingredientList,
-                  Map<String, Nutrition> nutritionMap,
-                  List<String> dietLabels,
-                  List<String> healthLabels,
-                  List<String> cautions,
-                  List<String> tags,
-                  List<String> cuisineType,
-                  List<String> mealType,
-                  List<String> dishType) {
-
-        this.name = name;
-        this.image = image;
-        this.yield = yield;
-        this.instructions = instructions;
-        this.ingredientList = ingredientList;
-        this.nutritionMap = nutritionMap;
-
-        this.dietLabels = dietLabels;
-        this.healthLabels = healthLabels;
-        this.cautions = cautions;
-        this.tags = tags;
-        this.cuisineType = cuisineType;
-        this.mealType = mealType;
-        this.dishType = dishType;
-
+    public Recipe() {
+        super();
         this.rating = 0;
         this.estimatedCostPerServing = 0;
         this.privacyStatus = true;
@@ -122,5 +95,61 @@ public class Recipe {
         String privacyStatus = "Privacy Status: " + this.privacyStatus;
 
         return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setYield(int yield) {
+        this.yield = yield;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
+    }
+
+    public void setNutritionMap(Map<String, Nutrition> nutritionMap) {
+        this.nutritionMap = nutritionMap;
+    }
+
+    public void setTotalDailyMap(Map<String, Nutrition> totalDailyMap) {
+        this.totalDailyMap = totalDailyMap;
+    }
+
+    public void setDietLabels(List<String> dietLabels) {
+        this.dietLabels = dietLabels;
+    }
+
+    public void setHealthLabels(List<String> healthLabels) {
+        this.healthLabels = healthLabels;
+    }
+
+    public void setCautions(List<String> cautions) {
+        this.cautions = cautions;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setCuisineType(List<String> cuisineType) {
+        this.cuisineType = cuisineType;
+    }
+
+    public void setMealType(List<String> mealType) {
+        this.mealType = mealType;
+    }
+
+    public void setDishType(List<String> dishType) {
+        this.dishType = dishType;
     }
 }
