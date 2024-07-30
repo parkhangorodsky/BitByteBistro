@@ -9,6 +9,7 @@ public class Recipe implements MD5HashGenerator {
 
     private String name;
     private String image;
+    private String smallImage;
     private int yield;
     private String instructions;
 
@@ -61,9 +62,11 @@ public class Recipe implements MD5HashGenerator {
      * Getters
      */
 
+    public String getId() {return this.id;}
     public List<Ingredient> getIngredientList() {return this.ingredientList;}
     public String getName() {return this.name;}
     public String getImage() {return this.image;}
+    public String getSmallImage() {return this.smallImage;}
     public Map<String, Nutrition> getNutritionMap() {return this.nutritionMap;}
     public List<String> getDietLabels() {return this.dietLabels;}
     public List<String> getHealthLabels() {return this.healthLabels;}
@@ -76,6 +79,7 @@ public class Recipe implements MD5HashGenerator {
 
     public void setName(String name) {this.name = name;}
     public void setImage(String image) {this.image = image;}
+    public void setSmallImage(String smallImage) {this.smallImage = smallImage;}
     public void setYield(int yield) {this.yield = yield;}
     public void setInstructions(String instructions) {this.instructions = instructions;}
     public void setIngredientList(List<Ingredient> ingredientList) {this.ingredientList = ingredientList;}

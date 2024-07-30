@@ -30,6 +30,11 @@ public class EdamamRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
+    public RecipeBuilder buildSmallImage(String image) {
+        this.recipe.setSmallImage(image);
+        return this;
+    }
+
     public RecipeBuilder buildYield(int yield) {
         this.recipe.setYield(yield);
         return this;
@@ -90,6 +95,7 @@ public class EdamamRecipeBuilder implements RecipeBuilder {
         this.recipe.setDishType(dishTypes);
         return this;
     }
+
 
     @Override
     public Recipe get() {

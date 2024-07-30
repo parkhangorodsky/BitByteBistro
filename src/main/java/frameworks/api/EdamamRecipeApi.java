@@ -88,7 +88,9 @@ public class EdamamRecipeApi implements RecipeAPI, RecipeJSONHandler {
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {
             JSONObject responseBody = new JSONObject(response.body().string());
+            response.close();
             return responseBody.getJSONArray("hits");
+
         } else {
             System.out.println("Request failed with code: " + response.code());
             System.out.println("Response message: " + response.message());
