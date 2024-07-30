@@ -7,6 +7,8 @@ import frameworks.api.RecipeAPI;
 import frameworks.api.EdamamRecipeApi;
 
 // GUI
+import frameworks.data_access.MongoDBConnection;
+import frameworks.data_access.MongoUserDAO;
 import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 
@@ -46,7 +48,7 @@ import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
 // Data Access
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 import frameworks.data_access.CSVDataAccessObject;
 
 public class Config {
@@ -63,7 +65,12 @@ public class Config {
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
     private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
-    private final DataAccessInterface dataAccessInterface = new CSVDataAccessObject("path/to/users.csv"); // Update path accordingly
+
+    //Database
+    private final MongoDBConnection mongoDBConnection = new MongoDBConnection();
+    private final UserDataAccessInterface dataAccessInterface = new MongoUserDAO(mongoDBConnection.getDatabase());
+
+    // GUI
     private final GUI gui = new SwingGUI(this);
 
     // Authentication Service
@@ -117,7 +124,7 @@ public class Config {
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
     public NutritionAPI getNutritionAPI() { return nutritionAPI; }
-    public DataAccessInterface getDataAccessInterface() { return dataAccessInterface; }
+    public UserDataAccessInterface getDataAccessInterface() { return dataAccessInterface; }
     public GUI getGUI() { return gui; }
 
     // UseCase Getters

@@ -1,7 +1,7 @@
 package testing.login.use_cases.interactor;
 
 import entity.User;
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_cases.log_in.use_case.input_data.LoginInputData;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 public class LoginInteractorTest {
     private LoginInteractor interactor;
     private LoginOutputBoundary presenter;
-    private DataAccessInterface dao;
+    private UserDataAccessInterface dao;
     private AuthenticationService authService;
 
     /**
@@ -29,7 +29,7 @@ public class LoginInteractorTest {
     @BeforeEach
     void setUp() {
         presenter = mock(LoginOutputBoundary.class);
-        dao = mock(DataAccessInterface.class);
+        dao = mock(UserDataAccessInterface.class);
         authService = mock(AuthenticationService.class);
         interactor = new LoginInteractor(presenter, dao, authService);
     }

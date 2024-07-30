@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CSVDataAccessObject implements DataAccessInterface {
+public class CSVDataAccessObject implements UserDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
@@ -60,6 +60,16 @@ public class CSVDataAccessObject implements DataAccessInterface {
     public void addUser(User user) {
         accounts.put(user.getUserEmail(), user);
         this.save();
+    }
+
+    @Override
+    public void updateUser(User user) {
+
+    }
+
+    @Override
+    public void deleteUser(User user) {
+
     }
 
     private void save() {

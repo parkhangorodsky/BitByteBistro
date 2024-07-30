@@ -2,7 +2,7 @@ package use_cases.log_in.use_case.interactor;
 
 import entity.LoggedUserData;
 import entity.User;
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
@@ -16,7 +16,7 @@ import use_cases.log_in.use_case.output_data.LoginOutputData;
  */
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginOutputBoundary;
-    private final DataAccessInterface DAO;
+    private final UserDataAccessInterface DAO;
 
     /**
      * Constructs a new LoginInteractor with the specified output boundary and DAO.
@@ -24,7 +24,7 @@ public class LoginInteractor implements LoginInputBoundary {
      * @param loginOutputBoundary The boundary to handle the output of the login process.
      * @param dao The data access object to interact with the data source.
      */
-    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao) {
+    public LoginInteractor(LoginOutputBoundary loginOutputBoundary, UserDataAccessInterface dao) {
         this.loginOutputBoundary = loginOutputBoundary;
         this.DAO = dao;
     }

@@ -7,7 +7,19 @@ import entity.User;
  * This interface defines methods for checking the existence of a user by email,
  * adding a new user, retrieving a user by email, and managing the logged-in user.
  */
-public interface DataAccessInterface {
+public interface UserDataAccessInterface {
+
+
+    /**
+     * Adds a new user to the data source.
+     *
+     * @param user The user to add.
+     */
+    void addUser(User user);
+
+    void updateUser(User user);
+    void deleteUser(User user);
+
 
     /**
      * Checks if a user exists by their email address.
@@ -16,13 +28,6 @@ public interface DataAccessInterface {
      * @return True if the user exists, false otherwise.
      */
     boolean existsByEmail(String email);
-
-    /**
-     * Adds a new user to the data source.
-     *
-     * @param user The user to add.
-     */
-    void addUser(User user);
 
     /**
      * Retrieves a user by their email address.
