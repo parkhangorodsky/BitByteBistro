@@ -56,6 +56,33 @@ public class Recipe implements MD5HashGenerator {
 
     public Recipe(String id) {
         this.id = id;
+    /**
+     * Constructor for the recipe entity.
+     * @param name Name of the recipe
+     * @param image Image of the recipe
+     * @param yield Yields of the recipe
+     * @param instructions Instructions of the recipe
+     * @param ingredientList List of the ingredients
+     * @param nutritionMap Map of nutrition in terms of quantity and unit
+     * @param totalDailyMap Map of nutrition in terms of daily percentage
+     * @param dietLabels List of diet types that the recipe belongs.
+     *                   The diet type labels describe commonly used
+     *                   nutrient level aspects of the recipe.
+     * @param healthLabels List of health type labels. health type labels
+     *                     describe commonly used ingredient level aspects of the recipe.
+     * @param cautions List of caution labels.
+     * @param tags List of tags.
+     * @param cuisineType List of cuisine types labels.
+     * @param mealType List of meal type labels. The meal types refer to the
+     *                 meals in a day the recipe is commonly consumed in.
+     * @param dishType List of dish type labels. The dish types refer to the
+     *                 category of food the recipe would fall under.
+     */
+    public Recipe() {
+        super();
+        this.rating = 0;
+        this.estimatedCostPerServing = 0;
+        this.privacyStatus = true;
     }
 
     /**
@@ -108,4 +135,60 @@ public class Recipe implements MD5HashGenerator {
         return name + instruction + ingredients + nutritions;
     }
 
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setYield(int yield) {
+        this.yield = yield;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
+    }
+
+    public void setNutritionMap(Map<String, Nutrition> nutritionMap) {
+        this.nutritionMap = nutritionMap;
+    }
+
+    public void setTotalDailyMap(Map<String, Nutrition> totalDailyMap) {
+        this.totalDailyMap = totalDailyMap;
+    }
+
+    public void setDietLabels(List<String> dietLabels) {
+        this.dietLabels = dietLabels;
+    }
+
+    public void setHealthLabels(List<String> healthLabels) {
+        this.healthLabels = healthLabels;
+    }
+
+    public void setCautions(List<String> cautions) {
+        this.cautions = cautions;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setCuisineType(List<String> cuisineType) {
+        this.cuisineType = cuisineType;
+    }
+
+    public void setMealType(List<String> mealType) {
+        this.mealType = mealType;
+    }
+
+    public void setDishType(List<String> dishType) {
+        this.dishType = dishType;
+    }
 }

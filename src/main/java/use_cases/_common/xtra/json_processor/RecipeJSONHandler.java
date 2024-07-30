@@ -60,6 +60,24 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
                 ;
 
         return builder.get();
+        RecipeBuilder builder = new EdamamRecipeBuilder()
+                .buildName(name)
+                .buildImage(image)
+                .buildDietLabels(dietLabels)
+                .buildHealthLabels(healthLabels)
+                .buildCautions(cautions)
+                .buildNutritionMap(nutritionMap)
+                .buildTotalDailyMap(totalDailyMap)
+                .buildTags(tags)
+                .buildCuisineType(cuisineType)
+                .buildMealType(mealType)
+                .buildDishType(dishType)
+                .buildIngredientList(ingredientList)
+                .buildYield(yield)
+                .buildInstruction(instructions)
+                ;
+
+        return builder.get();
     }
 
     /**
