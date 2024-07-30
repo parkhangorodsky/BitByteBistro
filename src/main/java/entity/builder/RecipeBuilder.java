@@ -15,7 +15,6 @@ public interface RecipeBuilder {
     RecipeBuilder buildInstruction(String instruction);
     RecipeBuilder buildIngredientList(List<Ingredient> ingredients);
     RecipeBuilder buildNutritionMap(Map<String, Nutrition> nutritionMap);
-    RecipeBuilder buildTotalDailyMap(Map<String, Nutrition> totalDailyMap);
     RecipeBuilder buildDietLabels(List<String> dietLabels);
     RecipeBuilder buildHealthLabels(List<String> healthLabels);
     RecipeBuilder buildCautions(List<String> cautions);

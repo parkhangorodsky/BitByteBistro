@@ -1,5 +1,6 @@
 package frameworks.data_access;
 
+import entity.Recipe;
 import entity.User;
 
 /**
@@ -36,4 +37,6 @@ public interface UserDataAccessInterface {
      * @return The user associated with the email address, or null if not found.
      */
     User getUserByEmail(String email);
+
+    void addRecipe(User user, Recipe recipe);
 }

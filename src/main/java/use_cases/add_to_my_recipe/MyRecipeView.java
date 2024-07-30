@@ -43,7 +43,9 @@ public class MyRecipeView extends View implements ImageLoader {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("added recipe")) {
+        if (evt.getPropertyName().equals("init")) {
+            updateMyRecipe();
+        } else if (evt.getPropertyName().equals("added recipe")) {
             updateMyRecipe();
         }
     }

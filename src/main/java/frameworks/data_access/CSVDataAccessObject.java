@@ -1,5 +1,6 @@
 package frameworks.data_access;
 
+import entity.Recipe;
 import entity.User;
 
 import java.io.*;
@@ -96,5 +97,10 @@ public class CSVDataAccessObject implements UserDataAccessInterface {
     @Override
     public User getUserByEmail(String identifier) {
         return accounts.get(identifier);
+    }
+
+    @Override
+    public void addRecipe(User user, Recipe recipe) {
+
     }
 }

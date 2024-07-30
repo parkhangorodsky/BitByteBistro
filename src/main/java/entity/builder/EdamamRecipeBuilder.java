@@ -56,11 +56,6 @@ public class EdamamRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-    public RecipeBuilder buildTotalDailyMap(Map<String, Nutrition> totalDailyMap) {
-        this.recipe.setTotalDailyMap(totalDailyMap);
-        return this;
-    }
-
     public RecipeBuilder buildDietLabels(List<String> dietLabels) {
         this.recipe.setDietLabels(dietLabels);
         return this;

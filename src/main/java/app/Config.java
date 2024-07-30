@@ -68,13 +68,13 @@ public class Config {
 
     //Database
     private final MongoDBConnection mongoDBConnection = new MongoDBConnection();
-    private final UserDataAccessInterface dataAccessInterface = new MongoUserDAO(mongoDBConnection.getDatabase());
+    private final UserDataAccessInterface userDAO = new MongoUserDAO(mongoDBConnection.getDatabase());
 
     // GUI
     private final GUI gui = new SwingGUI(this);
 
     // Authentication Service
-    private final AuthenticationService authenticationService = new AuthenticationService(dataAccessInterface);
+    private final AuthenticationService authenticationService = new AuthenticationService(userDAO);
 
     // UseCases
     // Search Recipe
@@ -89,12 +89,12 @@ public class Config {
 
     // Login UseCase
     private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, dataAccessInterface);
+    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
     private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
-    private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, dataAccessInterface);
+    private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, userDAO);
     private final SignUpController signUpController = new SignUpController(signUpInteractor);
 
     // Recipe To Grocery UseCase
@@ -109,7 +109,7 @@ public class Config {
 
     // Add to my recipe UseCase
     private final AddToMyRecipePresenter addToMyRecipePresenter = new AddToMyRecipePresenter(myRecipeViewModel);
-    private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter);
+    private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
     // ViewModel Getters
@@ -124,7 +124,7 @@ public class Config {
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
     public NutritionAPI getNutritionAPI() { return nutritionAPI; }
-    public UserDataAccessInterface getDataAccessInterface() { return dataAccessInterface; }
+    public UserDataAccessInterface getDataAccessInterface() { return userDAO; }
     public GUI getGUI() { return gui; }
 
     // UseCase Getters

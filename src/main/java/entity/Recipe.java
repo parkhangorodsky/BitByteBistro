@@ -15,7 +15,6 @@ public class Recipe implements MD5HashGenerator {
 
     private List<Ingredient> ingredientList;
     private Map<String, Nutrition> nutritionMap;
-    private Map<String, Nutrition> totalDailyMap;
 
     private String id;
 
@@ -66,6 +65,7 @@ public class Recipe implements MD5HashGenerator {
     public String getName() {return this.name;}
     public String getImage() {return this.image;}
     public String getSmallImage() {return this.smallImage;}
+    public int getYield() {return this.yield;}
     public Map<String, Nutrition> getNutritionMap() {return this.nutritionMap;}
     public List<String> getDietLabels() {return this.dietLabels;}
     public List<String> getHealthLabels() {return this.healthLabels;}
@@ -75,7 +75,8 @@ public class Recipe implements MD5HashGenerator {
     public List<String> getMealType() {return this.mealType;}
     public List<String> getDishType() {return this.dishType;}
     public String getInstructions() {return this.instructions;}
-
+    
+    public void setId(String id) {this.id = id;}
     public void setName(String name) {this.name = name;}
     public void setImage(String image) {this.image = image;}
     public void setSmallImage(String smallImage) {this.smallImage = smallImage;}
@@ -83,7 +84,6 @@ public class Recipe implements MD5HashGenerator {
     public void setInstructions(String instructions) {this.instructions = instructions;}
     public void setIngredientList(List<Ingredient> ingredientList) {this.ingredientList = ingredientList;}
     public void setNutritionMap(Map<String, Nutrition> nutritionMap) {this.nutritionMap = nutritionMap;}
-    public void setTotalDailyMap(Map<String, Nutrition> totalDailyMap) {this.totalDailyMap = totalDailyMap;}
     public void setDietLabels(List<String> dietLabels) {this.dietLabels = dietLabels;}
     public void setHealthLabels(List<String> healthLabels) {this.healthLabels = healthLabels;}
     public void setCautions(List<String> cautions) {this.cautions = cautions;}

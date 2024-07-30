@@ -35,11 +35,7 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
-    /**
-     * Retrieves the unique identifier of the ingredient.
-     *
-     * @return The ingredient ID.
-     */
+
     public String getIngredientID() {
         return ingredientID;
     }

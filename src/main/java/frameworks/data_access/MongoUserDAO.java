@@ -4,7 +4,10 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import entity.Recipe;
 import entity.User;
+import org.bson.conversions.Bson;
 
 import java.util.logging.Filter;
 
@@ -38,6 +41,12 @@ public class MongoUserDAO implements UserDataAccessInterface{
     @Override
     public boolean existsByEmail(String email) {
         return getUserByEmail(email) != null;
+    }
+
+    public void addRecipe(User user, Recipe recipe) {
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+        Bson update = Updates.addToSet("recipes", recipe);
+        userCollection.updateOne(filter, update);
     }
 
 }
