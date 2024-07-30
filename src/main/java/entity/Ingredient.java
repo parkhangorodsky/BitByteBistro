@@ -35,13 +35,16 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
+    // An empty constructor for auto serialization
+    public Ingredient() {}
+
     public String getIngredientID() {
         return ingredientID;
     }
     public String getIngredientName() {
         return ingredientName;
     }
-    public String getIngredientUnit() {return quantityUnit;}
+    public String getQuantityUnit() {return quantityUnit;}
     public String getCategory() {
         return category;
     }
@@ -51,7 +54,7 @@ public class Ingredient {
 
     public void setIngredientID(String ingredientID) {this.ingredientID = ingredientID;}
     public void setIngredientName(String ingredientName) {this.ingredientName = ingredientName;}
-    public void setIngredientUnit(String quantityUnit) {this.quantityUnit = quantityUnit;}
+    public void setQuantityUnit(String quantityUnit) {this.quantityUnit = quantityUnit;}
     public void setCategory(String category) {this.category = category;}
     public void setQuantity(float quantity) {this.quantity = quantity;}
 
@@ -66,6 +69,6 @@ public class Ingredient {
      */
     @Override
     public String toString() {
-        return this.getQuantity() + " " + this.getIngredientMeasure() + " " + this.getIngredientName();
+        return this.getQuantity() + " " + this.getQuantityUnit() + " " + this.getIngredientName();
     }
 }

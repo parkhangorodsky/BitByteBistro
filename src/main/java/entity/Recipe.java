@@ -75,7 +75,7 @@ public class Recipe implements MD5HashGenerator {
     public List<String> getMealType() {return this.mealType;}
     public List<String> getDishType() {return this.dishType;}
     public String getInstructions() {return this.instructions;}
-    
+
     public void setId(String id) {this.id = id;}
     public void setName(String name) {this.name = name;}
     public void setImage(String image) {this.image = image;}
@@ -93,17 +93,17 @@ public class Recipe implements MD5HashGenerator {
     public void setDishType(List<String> dishType) {this.dishType = dishType;}
 
 
-    @Override
-    public String toString() {
-
-        String name = "Menu: <" + this.name + ">\n";
-        String instruction = "Instructions: " + this.instructions + "\n";
-        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
-        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
-        StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
-        for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
-
-
-        return name + instruction + ingredients + nutritions;
-    }
+//    @Override
+//    public String toString() {
+//
+//        String name = "Menu: <" + this.name + ">\n";
+//        String instruction = "Instructions: " + this.instructions + "\n";
+//        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
+//        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
+//        StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
+//        for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
+//
+//
+//        return name + instruction + ingredients + nutritions;
+//    }
 }
