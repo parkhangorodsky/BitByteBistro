@@ -13,10 +13,11 @@ src/.DS_Store
 src/main/java/.DS_Store
 =======
 # Output
-out
-/target/*
+out/
+target/
 
 # IntelliJ spcific
+.idea/
 /.idea/material_theme_project_new.xml
 /.idea/workspace.xml
 .idea/material_theme_project_new.xml
