@@ -41,7 +41,7 @@ public class ViewManagerModel {
         support.firePropertyChange("view change", null, this.activeViewName);
     }
 
-    public void firePropertyChanged(String propertyName, Object viewName) {
+    public void firePropertyChanged(String propertyName, String viewName) {
         support.firePropertyChange(propertyName, null, viewName);
     }
 

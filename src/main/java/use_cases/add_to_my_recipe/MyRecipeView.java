@@ -1,5 +1,6 @@
 package use_cases.add_to_my_recipe;
 
+import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
@@ -44,6 +45,7 @@ public class MyRecipeView extends View implements ImageLoader {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("init")) {
+            viewModel.setUser(LoggedUserData.getLoggedInUser());
             updateMyRecipe();
         } else if (evt.getPropertyName().equals("added recipe")) {
             updateMyRecipe();

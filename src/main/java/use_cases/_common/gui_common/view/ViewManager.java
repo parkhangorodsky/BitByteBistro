@@ -55,8 +55,9 @@ public class ViewManager implements PropertyChangeListener {
             cardLayout.show(views, newViewName);
         } else if (evt.getPropertyName().equals("init")) {
             for (Component component : views.getComponents()) {
-                if (component instanceof View && ((View) component).getViewName().equals(component.getName())) {
-                    ((View) component).propertyChange(evt);
+                View componentView = (View) component;
+                if (componentView.getViewName().equals(evt.getNewValue())) {
+                    componentView.propertyChange(evt);
                 }
             }
         }
