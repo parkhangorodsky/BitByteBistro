@@ -36,11 +36,9 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
         if (evt.getPropertyName().equals("initialized")) {
             initialize();
         }
-
     }
 
     private void initialize() {

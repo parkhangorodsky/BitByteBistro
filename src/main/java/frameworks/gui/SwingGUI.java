@@ -5,11 +5,13 @@ import entity.User;
 import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.ViewManager;
 
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 
@@ -57,7 +59,8 @@ public class SwingGUI implements GUI {
     // UI
     private JFrame frame;
     private CardLayout mainCardLayout;
-    private JPanel mainPanel;
+    private JPanel viewPanel;
+    private JPanel sideBar;
 
     /**
      * Constructor for the Swing GUI. Takes in a Config Argument and stores ViewModels.
@@ -84,7 +87,7 @@ public class SwingGUI implements GUI {
         createMainPanel();
 
         // Create ViewManager
-        this.viewManager = new ViewManager(this.mainPanel, this.mainCardLayout, this.viewManagerModel);
+        this.viewManager = new ViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
@@ -122,6 +125,11 @@ public class SwingGUI implements GUI {
         // Add SearchRecipeView to ViewManager
         viewManager.addView(searchRecipeView);
 
+
+        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
+        viewManager.addView(myRecipeView);
+
+
         // Create RecipeToGrocery components
         RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
         RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
@@ -135,7 +143,7 @@ public class SwingGUI implements GUI {
         this.viewManagerModel.addPropertyChangeListener(evt -> {
             if ("view change".equals(evt.getPropertyName())) {
                 String newViewName = (String) evt.getNewValue();
-                mainCardLayout.show(mainPanel, newViewName);
+                mainCardLayout.show(viewPanel, newViewName);
             }
         });
 
@@ -169,8 +177,15 @@ public class SwingGUI implements GUI {
     }
 
     private void createMainPanel() {
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        sideBar = new Sidebar(this.viewManagerModel);
+
         this.mainCardLayout = new CardLayout();
-        this.mainPanel = new JPanel(mainCardLayout);
+        this.viewPanel = new JPanel(mainCardLayout);
+
+        mainPanel.add(sideBar, BorderLayout.WEST);
+        mainPanel.add(viewPanel, BorderLayout.CENTER);
         this.frame.add(mainPanel);
     }
 

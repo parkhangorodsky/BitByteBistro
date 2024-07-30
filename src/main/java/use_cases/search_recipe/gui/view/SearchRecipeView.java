@@ -37,7 +37,7 @@ public class SearchRecipeView extends View {
     private AddToMyRecipeController addToMyRecipeController;
 
 
-    public final String viewname = "search recipe";
+    public final String viewname;
 
     // Components
     private RoundTextField recipeName;
@@ -61,17 +61,16 @@ public class SearchRecipeView extends View {
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
         searchRecipeViewModel.addPropertyChangeListener(this);
+        this.viewname = searchRecipeViewModel.getViewName();
 
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
 
+
         // Set Layout
         this.setLayout(new BorderLayout());
-
-        // Sidebar
-        Sidebar sidebar = new Sidebar();
 
         // MainPanel
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -118,7 +117,7 @@ public class SearchRecipeView extends View {
         });
 
         // Search Button
-        searchButton = new SearchButton("Search");
+        searchButton = new SearchButton();
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
                 String queryString = recipeName.getText();
@@ -155,7 +154,6 @@ public class SearchRecipeView extends View {
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
 
-        this.add(sidebar, BorderLayout.WEST);
         this.add(mainPanel, BorderLayout.CENTER);
     }
 

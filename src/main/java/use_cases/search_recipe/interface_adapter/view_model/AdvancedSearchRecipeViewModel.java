@@ -30,8 +30,8 @@ public class AdvancedSearchRecipeViewModel extends ViewModel implements StringCa
      * Constructs an AdvancedSearchRecipeViewModel and initializes the option data
      * by loading it from corresponding CSV files.
      */
-    public AdvancedSearchRecipeViewModel() {
-        super("Advanced Search");
+    public AdvancedSearchRecipeViewModel(String viewName) {
+        super(viewName);
 
         dietData = createHashmapFromFourColumnCsv("src/main/resources/csv/diet.csv");
         healthData = createHashmapFromFourColumnCsv("src/main/resources/csv/health.csv");

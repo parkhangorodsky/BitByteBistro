@@ -4,11 +4,13 @@ import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
+import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView {
     private AddToMyRecipeController addToMyRecipeController;
@@ -35,7 +37,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         });
 
         addToButton.addActionListener(e -> {
-            addToMyRecipeController.execute(viewModel.getRecipe());
+            addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
         });
 
         buttonPanel.add(addToButton);
@@ -45,6 +47,17 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         return controlPanel;
     };
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("recipe already exists")) {
+            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                    "Recipe already exists!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            super.propertyChange(evt);
+        }
+    }
 
 
 }
