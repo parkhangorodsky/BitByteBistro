@@ -19,6 +19,7 @@ import use_cases._common.gui_common.view_components.round_component.RoundTextFie
 import use_cases._common.gui_common.abstractions.ImageLoader;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -74,11 +75,13 @@ public class SearchRecipeView extends View {
 
         // MainPanel
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(claudeWhite);
 
         // Initialize input & output panel
         inputPanel = new JPanel();
         inputPanel.setBackground(claudeWhite);
-        inputPanel.setPreferredSize(new Dimension(800,150));
+        inputPanel.setPreferredSize(new Dimension(800,100));
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
         inputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
         inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));

@@ -12,6 +12,7 @@ public class AddToMyRecipePresenter implements AddToMyRecipeOutputBoundary{
     @Override
     public void prepareSuccessView(AddToMyRecipeOutputData outputData) {
         viewModel.firePropertyChange("added recipe");
+        outputData.getParentModel().firePropertyChange("added recipe");
     }
 
     public void prepareFailureView(String propertyName, PropertyChangeFirer parentViewModel) {

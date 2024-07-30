@@ -55,7 +55,7 @@ public class MyRecipeView extends View implements ImageLoader {
 
         JPanel inputPanel = new JPanel();
         inputPanel.setBackground(claudeWhite);
-        inputPanel.setPreferredSize(new Dimension(800,150));
+        inputPanel.setPreferredSize(new Dimension(800,100));
 
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
         inputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));

@@ -25,7 +25,7 @@ public class AddToMyRecipeInteractor implements AddToMyRecipeInputBoundary {
         inputData.getLoggedInUser().addRecipe(inputData.getRecipe());
         // write in DAO
 
-        AddToMyRecipeOutputData outputData = new AddToMyRecipeOutputData(inputData.getLoggedInUser());
+        AddToMyRecipeOutputData outputData = new AddToMyRecipeOutputData(inputData.getLoggedInUser(), inputData.getParentModel());
         presenter.prepareSuccessView(outputData);
     }
 }

@@ -51,10 +51,14 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("recipe already exists")) {
             JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
-                    "Recipe already exists!",
-                    "Error",
+                    "Recipe already exists.",
+                    "",
                     JOptionPane.ERROR_MESSAGE);
-        } else {
+        } else if (evt.getPropertyName().equals("added recipe")) {
+            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                    "Succesfully added.","",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else {
             super.propertyChange(evt);
         }
     }
