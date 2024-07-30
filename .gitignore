@@ -1,8 +1,10 @@
 
-# Output
+# Output Code
 out/
 target/
 
-# IntelliJ spcific
+# IntelliJ Specific
 .idea/
 
+# Mac Os Specific
+.DS_store
