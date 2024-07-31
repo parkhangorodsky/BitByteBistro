@@ -7,21 +7,25 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import entity.Recipe;
 import entity.User;
+import frameworks.data_access.serialization.RecipeSerializer;
+import frameworks.data_access.serialization.UserSerializer;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.logging.Filter;
 
 public class MongoUserDAO implements UserDataAccessInterface{
 
-    private final MongoCollection<User> userCollection;
+    private final MongoCollection<Document> userCollection;
 
     public MongoUserDAO(MongoDatabase database) {
-        this.userCollection = database.getCollection("users", User.class);
+        this.userCollection = database.getCollection("users", Document.class);
     }
 
     @Override
     public void addUser(User user) {
-        userCollection.insertOne(user);
+        UserSerializer userSerializer = new UserSerializer();
+        userCollection.insertOne(userSerializer.serialize(user));
     }
 
     @Override
@@ -35,7 +39,9 @@ public class MongoUserDAO implements UserDataAccessInterface{
 
     @Override
     public User getUserByEmail(String email) {
-        return userCollection.find(Filters.eq("userEmail", email)).first();
+        UserSerializer userSerializer = new UserSerializer();
+        Document bsonUser = userCollection.find(Filters.eq("userEmail", email)).first();
+        return userSerializer.deserialize(bsonUser);
     }
 
     @Override
@@ -45,7 +51,9 @@ public class MongoUserDAO implements UserDataAccessInterface{
 
     public void addRecipe(User user, Recipe recipe) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
-        Bson update = Updates.addToSet("recipes", recipe);
+
+        RecipeSerializer recipeSerializer = new RecipeSerializer();
+        Bson update = Updates.addToSet("recipes", recipeSerializer.serialize(recipe));
         userCollection.updateOne(filter, update);
     }
 

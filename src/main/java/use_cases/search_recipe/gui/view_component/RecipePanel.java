@@ -1,7 +1,6 @@
 package use_cases.search_recipe.gui.view_component;
 
 import entity.Recipe;
-import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.ViewComponent;
 import use_cases._common.gui_common.view_components.IngredientPanel;
@@ -16,8 +15,9 @@ import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
-public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColoredObject {
+public class RecipePanel extends ViewComponent implements ThemeColoredObject {
 
     private RecipeModel recipeModel;
 
@@ -47,9 +47,9 @@ public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColo
         recipeNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
         JPanel imagePanel = new RoundPanel();
-        ImageIcon image = this.loadRoundImage(recipe.getImage());
+        BufferedImage image = recipe.getImage();
         JLabel imageLabel = new JLabel();
-        imageLabel.setIcon(image);
+        imageLabel.setIcon(new ImageIcon(image));
         imagePanel.add(imageLabel);
 
         JPanel nutritionPanel = new RoundPanel();

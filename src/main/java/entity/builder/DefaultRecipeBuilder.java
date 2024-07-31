@@ -5,17 +5,18 @@ import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
-public class EdamamRecipeBuilder implements RecipeBuilder {
+public class DefaultRecipeBuilder implements RecipeBuilder {
     Recipe recipe;
 
-    public EdamamRecipeBuilder(String id) {
+    public DefaultRecipeBuilder(String id) {
         this.recipe = new Recipe(id);
     }
 
-    public EdamamRecipeBuilder() {
+    public DefaultRecipeBuilder() {
         this.recipe = new Recipe();
     }
 
@@ -25,12 +26,12 @@ public class EdamamRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-    public RecipeBuilder buildImage(String image) {
+    public RecipeBuilder buildImage(BufferedImage image) {
         this.recipe.setImage(image);
         return this;
     }
 
-    public RecipeBuilder buildSmallImage(String image) {
+    public RecipeBuilder buildSmallImage(BufferedImage image) {
         this.recipe.setSmallImage(image);
         return this;
     }

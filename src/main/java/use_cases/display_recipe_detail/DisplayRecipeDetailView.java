@@ -2,7 +2,6 @@ package use_cases.display_recipe_detail;
 
 import entity.Nutrition;
 import entity.Recipe;
-import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
@@ -13,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static java.lang.Math.round;
 
-public abstract class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener, ImageLoader {
+public abstract class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener {
     protected DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
 
@@ -100,8 +100,8 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     private JPanel createImagePanel() {
         JPanel imagePanel = new JPanel(new BorderLayout());
         imagePanel.setBackground(claudeWhite);
-        ImageIcon image = this.loadRoundImage(viewModel.getRecipe().getImage());
-        JLabel imageLabel = new JLabel(image);
+        BufferedImage image = viewModel.getRecipe().getImage();
+        JLabel imageLabel = new JLabel(new ImageIcon(image));
         imagePanel.add(imageLabel, BorderLayout.CENTER);
         return imagePanel;
     }

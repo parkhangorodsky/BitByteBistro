@@ -44,7 +44,7 @@ public class MongoDBConnection {
             mongoClient = MongoClients.create(mongoSettings);
             this.database = mongoClient.getDatabase(databaseName).withCodecRegistry(pojoCodecRegistry);
             this.database.runCommand(new Document("ping", 1));
-            System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
+            System.out.println("Pinged the deployment. Successfully connected to MongoDB ✅");
         } catch (MongoException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

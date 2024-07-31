@@ -4,13 +4,15 @@ import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
 
+import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
 public interface RecipeBuilder {
     RecipeBuilder buildName(String name);
-    RecipeBuilder buildImage(String image);
-    RecipeBuilder buildSmallImage(String image);
+    RecipeBuilder buildImage(BufferedImage image);
+    RecipeBuilder buildSmallImage(BufferedImage image);
     RecipeBuilder buildYield(int yield);
     RecipeBuilder buildInstruction(String instruction);
     RecipeBuilder buildIngredientList(List<Ingredient> ingredients);
