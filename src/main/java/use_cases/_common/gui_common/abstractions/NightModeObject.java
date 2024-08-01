@@ -3,6 +3,7 @@ package use_cases._common.gui_common.abstractions;
 import app.LocalAppSetting;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public interface NightModeObject extends PropertyChangeListener {

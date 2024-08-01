@@ -42,6 +42,7 @@ import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 
 // Sign Up UseCase
+import use_cases.settting_preference.*;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
@@ -112,6 +113,12 @@ public class Config {
     private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
+
+    // Set Preference Use Case
+    private final SetPreferenceOutputBoundary SetPreferencePresenter = new SetPreferencePresenter();
+    private final SetPreferenceInputBoundary setPreferenceInteractor = new SetPreferenceInteractor(SetPreferencePresenter);
+    private final SetPreferenceController setPreferenceController = new SetPreferenceController(setPreferenceInteractor);
+
     // ViewModel Getters
     public ViewManagerModel getViewManagerModel() { return viewManagerModel; }
     public SearchRecipeViewModel getSearchRecipeViewModel() { return searchRecipeViewModel; }
@@ -135,8 +142,6 @@ public class Config {
     public SignUpController getSignUpController() { return signUpController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
-
-    public DisplayRecipeDetailPresenter getDisplayRecipeDetailPresenter() { return displayRecipeDetailPresenter; }
-    public DisplayRecipeDetailInteractor getDisplayRecipeDetailInteractor() { return displayRecipeDetailInteractor; }
+    public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
 }

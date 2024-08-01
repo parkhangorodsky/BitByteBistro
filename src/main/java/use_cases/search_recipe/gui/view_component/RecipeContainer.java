@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 public class RecipeContainer extends  JScrollPane implements ThemeColoredObject, NightModeObject {
     public RecipeContainer(JPanel target) {
         super(target);
+        observeNight();
         this.getVerticalScrollBar().setUnitIncrement(5);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         toggleNightMode();

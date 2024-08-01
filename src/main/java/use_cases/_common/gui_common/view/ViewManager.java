@@ -47,8 +47,8 @@ public class ViewManager implements PropertyChangeListener {
         this.views.add((JPanel) view, view.getViewName());
     }
 
-    public void addPopupView(PopUpView popUpView) {
-        this.popUpViews.put(popUpView.getName(), popUpView);
+    public void addPopupView(String viewName, PopUpView popUpView) {
+        this.popUpViews.put(viewName, popUpView);
     }
 
     /**
@@ -78,7 +78,7 @@ public class ViewManager implements PropertyChangeListener {
     private void handlePopUpRequest(PropertyChangeEvent evt) {
         String viewName = (String) evt.getNewValue();
         PopUpView popUpView = popUpViews.get(viewName);
-        popUpView.setVisible(true);
+        popUpView.showPopUp();
     }
 
 

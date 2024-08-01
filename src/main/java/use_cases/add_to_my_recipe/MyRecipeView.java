@@ -35,6 +35,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
 
         JPanel viewPanel = setUpContentView();
 
+        observeNight();
         toggleNightMode();
 
         this.add(viewPanel, BorderLayout.CENTER);

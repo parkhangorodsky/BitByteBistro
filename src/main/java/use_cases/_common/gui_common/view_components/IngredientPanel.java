@@ -55,6 +55,7 @@ public class IngredientPanel extends RoundPanel implements ThemeColoredObject, N
             this.add(singleIngredientPanel);
         }
 
+        observeNight();
         toggleNightMode();
     }
 

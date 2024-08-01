@@ -42,6 +42,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         this.parent = parent;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+        observeNight();
     }
 
     @Override

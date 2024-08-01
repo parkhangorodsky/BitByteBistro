@@ -10,6 +10,7 @@ import java.beans.PropertyChangeEvent;
 public class SearchTextField extends RoundTextField implements NightModeObject {
     public SearchTextField() {
         super();
+        observeNight();
         this.setPreferredSize(new Dimension(400, 40));
 
         this.setFont(new Font(secondaryFont, Font.PLAIN, 14));

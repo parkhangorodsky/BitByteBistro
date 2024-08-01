@@ -36,6 +36,8 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
 
     public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController) {
 
+        observeNight();
+
         this.setLayout(new BorderLayout(2, 3));
         this.setBorder(new EmptyBorder(30, 20, 20, 20));
 

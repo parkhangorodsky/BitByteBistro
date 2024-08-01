@@ -59,6 +59,7 @@ public class AdvancedSearchView extends PopUpView implements StringCaseEditor, N
         super(parent);
         this.advancedSearchRecipeViewModel = advancedSearchRecipeViewModel;
         this.searchRecipeController = searchRecipeController;
+        observeNight();
 
         PopUpView dietPopup = new AdvancedSearchTypeOptionConfigPopUp(this,
                 "Diet", advancedSearchRecipeViewModel.getDietOptions(), dietSelection);

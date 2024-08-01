@@ -17,6 +17,8 @@ public class AdvancedSearchTypeOptionButton extends ViewComponent implements The
     RoundButton configureButton;
 
     public AdvancedSearchTypeOptionButton(String labelName, PopUpView popUp) {
+
+            observeNight();
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
             label = new JLabel(labelName);

@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 public class AdvancedSearchButton extends RoundButton implements NightModeObject {
     public AdvancedSearchButton(String text) {
         super(text);
+        observeNight();
         this.setPreferredSize(new Dimension(140, 40));
         this.setFont(new Font(defaultFont, Font.PLAIN, 12));
         toggleNightMode();

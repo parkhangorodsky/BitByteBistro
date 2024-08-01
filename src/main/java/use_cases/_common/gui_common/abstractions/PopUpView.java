@@ -47,6 +47,18 @@ public abstract class PopUpView extends JFrame implements ThemeColoredObject {
         this.setLocation(newX, newY);
     }
 
+    public void showPopUp() {
+        parent.setEnabled(false);
+        this.setEnabled(true);
+        this.setVisible(true);
+    }
+
+    public void hidePopUp() {
+        parent.setEnabled(true);
+        this.setEnabled(false);
+        this.setVisible(false);
+    }
+
     public void enableParent() {
         this.parent.setEnabled(true);
     }

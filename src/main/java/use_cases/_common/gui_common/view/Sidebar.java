@@ -32,6 +32,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
 
 
     public Sidebar(ViewManagerModel viewManagerModel) {
+
         setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(250, 750));
         this.viewManagerModel = viewManagerModel;
@@ -67,10 +68,11 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         bottomPanel = new JPanel();
         RoundButton settingButton = createSettingButton();
         settingButton.addActionListener(e -> {
-            viewManagerModel.firePropertyChanged("pop up", "Setting");
+            viewManagerModel.firePropertyChanged("pop up", "Preference");
         });
         bottomPanel.add(settingButton);
 
+        observeNight();
         toggleNightMode();
 
         mainPanel.add(titlePanel, BorderLayout.NORTH);

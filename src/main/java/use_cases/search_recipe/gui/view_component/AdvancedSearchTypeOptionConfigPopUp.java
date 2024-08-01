@@ -35,6 +35,9 @@ public class AdvancedSearchTypeOptionConfigPopUp extends PopUpView implements Ni
 
     public AdvancedSearchTypeOptionConfigPopUp(AdvancedSearchView parent, String labelName, Map<String, String>data, List<String> selectedOptions) {
         super(parent);
+
+        observeNight();
+
         this.parent = parent;
         this.labelName = labelName;
         this.data = data;

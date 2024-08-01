@@ -70,6 +70,8 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
 
+        observeNight();
+
 
         // Set Layout
         this.setLayout(new BorderLayout());

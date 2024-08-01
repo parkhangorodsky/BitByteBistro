@@ -21,6 +21,8 @@ public class AdvancedSearchTextOptionField extends ViewComponent implements Them
     RoundButton applyButton;
 
     public AdvancedSearchTextOptionField(AdvancedSearchView parent, String labelName, List<String> excludedIngredients) {
+        observeNight();
+
         // Panel
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 

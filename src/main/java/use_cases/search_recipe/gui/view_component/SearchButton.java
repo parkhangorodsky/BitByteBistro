@@ -10,6 +10,8 @@ public class SearchButton extends RoundButton implements NightModeObject {
 
     public SearchButton() {
         super("Search");
+
+        observeNight();
         this.setPreferredSize(new Dimension(80, 40));
         this.setFont(new Font(defaultFont, Font.PLAIN, 12));
         toggleNightMode();
