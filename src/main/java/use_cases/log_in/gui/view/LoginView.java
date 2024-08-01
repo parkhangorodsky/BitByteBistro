@@ -51,6 +51,7 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
      */
     private void setupUI() {
         setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(1000, 750)); // Set the size to match SwingGUI frame
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
