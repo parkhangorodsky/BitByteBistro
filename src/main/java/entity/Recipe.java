@@ -27,28 +27,6 @@ public class Recipe {
     List<String> mealType;
     List<String> dishType;
 
-    /**
-     * Constructor for the recipe entity.
-     * @param name Name of the recipe
-     * @param image Image of the recipe
-     * @param yield Yields of the recipe
-     * @param instructions Instructions of the recipe
-     * @param ingredientList List of the ingredients
-     * @param nutritionMap Map of nutrition in terms of quantity and unit
-     * @param totalDailyMap Map of nutrition in terms of daily percentage
-     * @param dietLabels List of diet types that the recipe belongs.
-     *                   The diet type labels describe commonly used
-     *                   nutrient level aspects of the recipe.
-     * @param healthLabels List of health type labels. health type labels
-     *                     describe commonly used ingredient level aspects of the recipe.
-     * @param cautions List of caution labels.
-     * @param tags List of tags.
-     * @param cuisineType List of cuisine types labels.
-     * @param mealType List of meal type labels. The meal types refer to the
-     *                 meals in a day the recipe is commonly consumed in.
-     * @param dishType List of dish type labels. The dish types refer to the
-     *                 category of food the recipe would fall under.
-     */
     public Recipe() {
         super();
         this.rating = 0;
