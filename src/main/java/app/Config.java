@@ -90,7 +90,7 @@ public class Config {
     // Recipe To Grocery UseCase
     private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
     private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
-    private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);
+    private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor);
 
     // Display Recipe Detail UseCase
     private final DisplayRecipeDetailPresenter displayRecipeDetailPresenter = new DisplayRecipeDetailPresenter();

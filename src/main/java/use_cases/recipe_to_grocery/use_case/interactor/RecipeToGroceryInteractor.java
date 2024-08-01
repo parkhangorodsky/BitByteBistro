@@ -63,6 +63,7 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
      * @return A ShoppingList containing all ingredients from the recipes.
      */
     public ShoppingList getGroceryList(List<Recipe> recipeList, User user) {
+        System.out.println("get grocery list in interactor is called");
         List<Ingredient> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             for (Ingredient grocery : recipe.getIngredientList()) {

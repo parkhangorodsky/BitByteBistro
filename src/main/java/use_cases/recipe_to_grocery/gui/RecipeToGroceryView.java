@@ -1,5 +1,6 @@
 package use_cases.recipe_to_grocery.gui;
 
+import entity.LoggedUserData;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
@@ -103,8 +104,10 @@ public class RecipeToGroceryView extends View implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        User user = authenticationService.getLoggedInUser(); // Retrieve the logged-in user
+        User user = LoggedUserData.getLoggedInUser(); // Retrieve the logged-in user
+        System.out.println("found currently logged in user");
         if (user != null) {
+            System.out.println("calling convert revipes to grocery list");
             recipeToGroceryController.convertRecipesToGroceryList(user);
         } else {
             System.out.println("No user is currently logged in.");
@@ -120,7 +123,8 @@ public class RecipeToGroceryView extends View implements ActionListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("no recipe")) {
             // Handle empty recipe result
-            SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
+            System.out.println("no recipe found - view");
+            RecipeToGroceryOutputData response = (RecipeToGroceryOutputData) evt.getNewValue();
             loadEmptyResult();
         }
     }

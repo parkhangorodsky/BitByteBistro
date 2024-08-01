@@ -121,7 +121,7 @@ public class SwingGUI implements GUI {
         // Create RecipeToGrocery components
         RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
         RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
-        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
+        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor);
         RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
 
         // Add RecipeToGroceryView to ViewManager

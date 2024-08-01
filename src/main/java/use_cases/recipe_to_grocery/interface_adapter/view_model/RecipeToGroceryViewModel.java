@@ -48,6 +48,7 @@ public class RecipeToGroceryViewModel extends ViewModel {
     public void firePropertyChanged() {
         if (groceryResult != null && groceryResult.getShoppingLists().isEmpty()) {
             support.firePropertyChange("no recipe", null, null);
+            System.out.println("no recipe - view model");
         }
     }
 }

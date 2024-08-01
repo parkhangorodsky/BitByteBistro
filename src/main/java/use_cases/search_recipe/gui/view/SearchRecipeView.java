@@ -135,6 +135,7 @@ public class SearchRecipeView extends View {
         JButton convertToGroceryButton = new JButton("Convert Recipes to Grocery List");
         convertToGroceryButton.addActionListener(e -> {
             if (e.getSource().equals(convertToGroceryButton)) {
+                System.out.println("convert button pressed");
                 viewManagerModel.setActiveView("recipe to grocery");
                 viewManagerModel.firePropertyChanged();
             }
@@ -167,6 +168,7 @@ public class SearchRecipeView extends View {
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
         } else if (evt.getPropertyName().equals("convert")) {
+            System.out.println("switing views");
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
         }
