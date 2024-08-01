@@ -69,7 +69,7 @@ public class Config {
 
     //Database
     private final MongoDBConnection mongoDBConnection = new MongoDBConnection();
-    private final UserDataAccessInterface userDAO = new CSVDataAccessObject("path/to/users.csv");
+    private final UserDataAccessInterface userDAO = new MongoUserDAO(mongoDBConnection.getDatabase());
 
     // GUI
     private final GUI gui = new SwingGUI(this);
@@ -116,7 +116,7 @@ public class Config {
 
     // Set Preference Use Case
     private final SetPreferenceOutputBoundary SetPreferencePresenter = new SetPreferencePresenter();
-    private final SetPreferenceInputBoundary setPreferenceInteractor = new SetPreferenceInteractor(SetPreferencePresenter);
+    private final SetPreferenceInputBoundary setPreferenceInteractor = new SetPreferenceInteractor(SetPreferencePresenter, userDAO);
     private final SetPreferenceController setPreferenceController = new SetPreferenceController(setPreferenceInteractor);
 
     // ViewModel Getters

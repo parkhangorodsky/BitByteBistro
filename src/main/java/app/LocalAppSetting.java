@@ -20,8 +20,8 @@ public class LocalAppSetting {
     }
 
     public static void firePropertyChange(String propertyName) {
-        support.firePropertyChange("nightMode", !nightMode, nightMode);
-        System.out.println("hi");
+        System.out.println("hi1");
+        support.firePropertyChange(propertyName, !nightMode, nightMode);
     }
 
 }

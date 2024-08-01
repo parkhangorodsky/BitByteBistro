@@ -28,6 +28,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
 
     public MyRecipeView(MyRecipeViewModel viewModel) {
 
+        observeNight();
         this.setLayout(new BorderLayout());
         this.viewModel = viewModel;
         this.setViewName(viewModel.getViewName());
@@ -35,7 +36,6 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
 
         JPanel viewPanel = setUpContentView();
 
-        observeNight();
         toggleNightMode();
 
         this.add(viewPanel, BorderLayout.CENTER);
@@ -117,8 +117,8 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
     private JPanel createRecipeItem(Recipe recipe) {
         RoundPanel recipeItem = new RoundPanel();
         recipeItem.setLayout(new BorderLayout());
-        recipeItem.setBackground(LocalAppSetting.isNightMode() ? neonPurpleEmph : claudeWhiteEmph);
         recipeItem.setBorder(new EmptyBorder(10, 10, 10, 10));
+        recipeItem.setBackground(LocalAppSetting.isNightMode() ? neonPurpleEmph : claudewhiteBright);
         recipeItem.setBorderColor(LocalAppSetting.isNightMode() ? neonPurple : claudeWhiteEmph);
 
         JPanel imagePanel = new JPanel();
@@ -155,19 +155,46 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         recipeItem.add(recipeNamePanel, BorderLayout.CENTER);
         recipeItem.add(buttonPanel, BorderLayout.EAST);
 
+        System.out.println(LocalAppSetting.isNightMode());
         return recipeItem;
+
+
     }
 
 
     @Override
     public void setNightMode() {
         this.setBackground(black);
+        if (LoggedUserData.getLoggedInUser() != null) {
+            viewModel.setUser(LoggedUserData.getLoggedInUser());
+            updateMyRecipe();
+        }
         myRecipeContainer.setBackground(black);
+
+
     }
 
     @Override
     public void setDayMode() {
         this.setBackground(claudeWhite);
+        if (LoggedUserData.getLoggedInUser() != null) {
+            viewModel.setUser(LoggedUserData.getLoggedInUser());
+            updateMyRecipe();
+        }
         myRecipeContainer.setBackground(claudeWhite);
+//
+    }
+
+    public void revalidateEverything(JComponent component) {
+        System.out.println("ran");
+
+        for (Component c : component.getComponents()) {
+            if (c instanceof JComponent) {
+                revalidateEverything((JComponent) c);
+            }
+        }
+
+        component.revalidate();
+        component.repaint();
     }
 }

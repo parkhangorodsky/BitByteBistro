@@ -69,6 +69,11 @@ public class CSVDataAccessObject implements UserDataAccessInterface {
     }
 
     @Override
+    public void updateUserPreference(User user, String fieldName, Object value) {
+
+    }
+
+    @Override
     public void deleteUser(User user) {
 
     }

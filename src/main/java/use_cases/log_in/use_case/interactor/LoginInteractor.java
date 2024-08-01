@@ -1,5 +1,6 @@
 package use_cases.log_in.use_case.interactor;
 
+import app.LocalAppSetting;
 import entity.LoggedUserData;
 import entity.User;
 import frameworks.data_access.UserDataAccessInterface;
@@ -45,7 +46,13 @@ public class LoginInteractor implements LoginInputBoundary {
 
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
             // Successful login
-            LoggedUserData.setLoggedInUser(user); // Set the logged-in user in LoggedUserData
+            LoggedUserData.setLoggedInUser(user);
+            LocalAppSetting.setNightMode((boolean) user.getPreference().get("nightMode"));
+            LocalAppSetting.firePropertyChange("nightMode");
+            System.out.println("hi3");
+            System.out.println(user.getPreference().get("nightMode"));
+            System.out.println(LocalAppSetting.isNightMode());
+            // Set the logged-in user in LoggedUserData
 
             if (loginOutputBoundary != null) {
                 loginOutputBoundary.prepareSuccessView(new LoginOutputData(user));

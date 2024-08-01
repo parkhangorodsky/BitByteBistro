@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class UserSerializer implements Serializer<Document, User> {
     private final RecipeSerializer recipeSerializer = new RecipeSerializer();
@@ -26,7 +27,8 @@ public class UserSerializer implements Serializer<Document, User> {
                 .append("userEmail", user.getUserEmail())
                 .append("userPassword", user.getUserPassword())
                 .append("createdAt", user.getCreatedAt())
-                .append("shoppingList", user.getShoppingLists());
+                .append("shoppingList", user.getShoppingLists())
+                .append("preference", user.getPreference());
 
         List<Document> recipes = new ArrayList<>();
         for (Recipe recipe : user.getRecipes()) {
@@ -45,6 +47,7 @@ public class UserSerializer implements Serializer<Document, User> {
         Date createdDate = bson.getDate("createdAt");
         LocalDateTime createdAt = LocalDateTime.ofInstant((createdDate.toInstant()), ZoneId.systemDefault());
         List<ShoppingList> shoppingList = new ArrayList<>();
+        Map<String, Object> preference = bson.get("preference", Map.class);
 
         List<Recipe> recipes = new ArrayList<>();
         for (Document recipe : bson.getList("recipes", Document.class)) {
@@ -54,6 +57,7 @@ public class UserSerializer implements Serializer<Document, User> {
         User user = new User(userName, userEmail, userPassword, createdAt);
         user.setShoppingLists(shoppingList);
         user.setRecipes(recipes);
+        user.setPreference(preference);
         return user;
     }
 }

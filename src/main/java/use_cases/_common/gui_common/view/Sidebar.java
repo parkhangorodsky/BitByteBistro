@@ -30,6 +30,8 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
     RoundButton myRecipeButton;
     RoundButton groceryListButton;
 
+    RoundButton settingButton;
+
 
     public Sidebar(ViewManagerModel viewManagerModel) {
 
@@ -66,7 +68,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         switchPanel.add(groceryListButton);
 
         bottomPanel = new JPanel();
-        RoundButton settingButton = createSettingButton();
+        settingButton = createSettingButton();
         settingButton.addActionListener(e -> {
             viewManagerModel.firePropertyChanged("pop up", "Preference");
         });
@@ -137,6 +139,9 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         myRecipeButton.setBorderColor(black);
         groceryListButton.setBorderColor(black);
 
+        settingButton.setBorderColor(black);
+        settingButton.setHoverColor(black, black, white, neonPinkEmph);
+
     }
 
     @Override
@@ -161,6 +166,9 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         myRecipeButton.setBorderColor(claudeWhiteEmph);
         groceryListButton.setBorderColor(claudeWhiteEmph);
 
+        settingButton.setBorderColor(claudeWhiteEmph);
+        settingButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
+
     }
 
     @Override
@@ -169,6 +177,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
             toggleNightMode();
             this.revalidate();
             this.repaint();
+            System.out.println("hi2");
         }
     }
 }
