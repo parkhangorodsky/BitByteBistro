@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
  * Overview: Abstract class representing the view. Every view extends {@link JPanel}
  * and implements {@link ActionListener} and {@link PropertyChangeListener}
  */
-public abstract class View extends JPanel implements ActionListener, PropertyChangeListener, ThemeColoredObject {
+public abstract class View extends JPanel implements ActionListener, PropertyChangeListener{
     private String viewName; // The name of the view
 
     /**

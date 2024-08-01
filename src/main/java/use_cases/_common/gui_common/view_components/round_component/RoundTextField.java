@@ -15,18 +15,16 @@ import java.awt.geom.RoundRectangle2D;
 public class RoundTextField extends JTextField implements ThemeColoredObject {
 
     private Shape shape;
-    private Color borderColor = claudeWhiteEmph;
+    private Color backgroundColor = getBackground();
+    private Color borderColor = getBackground();
     private final int arc = 10;
     private int borderThickness = 1;
-
     private String placeholder = "";
 
-
-
     public RoundTextField() {
+
         setOpaque(false);
         setMargin(new Insets(0, 15, 0, 15));// As we will be drawing the background ourselves, set it to not opaque
-
         this.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -45,7 +43,7 @@ public class RoundTextField extends JTextField implements ThemeColoredObject {
         // Draws the rounded background
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(getBackground());
+        g2.setColor(backgroundColor);
         g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, arc, arc);
         super.paintComponent(g);
     }
@@ -55,7 +53,7 @@ public class RoundTextField extends JTextField implements ThemeColoredObject {
         // Draws the rounded border
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(borderColor);
+        g2.setColor(getForeground());
         g2.setStroke(new BasicStroke(borderThickness));
         if (getText().isEmpty() && !isFocusOwner()) {
             FontMetrics fm = g.getFontMetrics();
@@ -63,6 +61,7 @@ public class RoundTextField extends JTextField implements ThemeColoredObject {
             int y = (getHeight() - textHeight) / 2 + fm.getAscent();
             g2.drawString(placeholder, getInsets().left, y);
         }
+        g2.setColor(borderColor);
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, arc, arc);
         g2.dispose();
     }
@@ -105,6 +104,13 @@ public class RoundTextField extends JTextField implements ThemeColoredObject {
     @Override
     public void setFont(Font f) {
         super.setFont(f);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void setColor(Color backgroundColor, Color borderColor) {
+        this.backgroundColor = backgroundColor;
+        this.borderColor = borderColor;
         this.revalidate();
         this.repaint();
     }

@@ -49,7 +49,7 @@ public class ShoppingListPanel extends ViewComponent implements ThemeColoredObje
         shoppingListNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
         // IngredientPanel to display list items
-        JPanel ingredientPanel = new IngredientPanel(shoppingList.getListItems(), claudeWhiteEmph);
+        JPanel ingredientPanel = new IngredientPanel(shoppingList.getListItems());
         ingredientPanel.setBackground(claudeWhiteEmph);
 
         // Add components to respective panels

@@ -3,6 +3,7 @@ package use_cases.recipe_to_grocery.gui;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
+import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases.recipe_to_grocery.gui.view_component.ShoppingListContainer;
@@ -25,7 +26,7 @@ import java.awt.event.ActionListener;
  * RecipeToGroceryView is responsible for displaying the recipe to grocery conversion view.
  * It extends View and implements ActionListener to handle user actions and PropertyChangeListener to react to ViewModel changes.
  */
-public class RecipeToGroceryView extends View implements ActionListener {
+public class RecipeToGroceryView extends View implements ActionListener, ThemeColoredObject {
     private RecipeToGroceryViewModel recipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
     private AuthenticationService authenticationService;

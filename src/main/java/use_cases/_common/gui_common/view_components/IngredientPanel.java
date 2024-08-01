@@ -1,6 +1,7 @@
 package use_cases._common.gui_common.view_components;
 
 import entity.Ingredient;
+import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
@@ -8,20 +9,22 @@ import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-public class IngredientPanel extends RoundPanel implements ThemeColoredObject {
+public class IngredientPanel extends RoundPanel implements ThemeColoredObject, NightModeObject {
 
-    public IngredientPanel(List<Ingredient> ingredients, Color color) {
+    JLabel label;
+
+    public IngredientPanel(List<Ingredient> ingredients) {
         super();
 
         setLayout(new VerticalFlowLayout(5));
         setBorder(new EmptyBorder(30, 15, 15, 15));
-        setBackground(claudeWhiteEmph);
         setAlignmentX(LEFT_ALIGNMENT);
         setAlignmentY(TOP_ALIGNMENT);
 
-        JLabel label = new JLabel("Ingredients");
+        label = new JLabel("Ingredients");
         label.setFont(new Font(secondaryFont, Font.PLAIN, 15));
         label.setHorizontalAlignment(JLabel.RIGHT);
         label.setBorder(new EmptyBorder(0, 0, 14, 10));
@@ -30,8 +33,7 @@ public class IngredientPanel extends RoundPanel implements ThemeColoredObject {
         for (Ingredient ingredient : ingredients) {
             JPanel singleIngredientPanel = new JPanel();
             singleIngredientPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-            singleIngredientPanel.setBackground(color);
-            singleIngredientPanel.setOpaque(true);
+            singleIngredientPanel.setOpaque(false);
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
@@ -52,5 +54,55 @@ public class IngredientPanel extends RoundPanel implements ThemeColoredObject {
 
             this.add(singleIngredientPanel);
         }
+
+        toggleNightMode();
     }
+
+    @Override
+    public void setNightMode() {
+
+        this.setBackground(black);
+        this.setBorderColor(neonPinkEmph);
+        label.setForeground(neonPinkEmph);
+
+        for (Component component : getComponents()) {
+            if (component instanceof JPanel) {
+                for (Component subComponent : ((JPanel) component).getComponents()) {
+                    if (subComponent instanceof JLabel) {
+                        subComponent.setForeground(neonPinkEmph);
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void setDayMode() {
+
+        this.setBackground(claudeWhiteEmph);
+        this.setBorderColor(getBackground());
+        label.setForeground(claudeBlack);
+
+        for (Component component : getComponents()) {
+            if (component instanceof JPanel) {
+                for (Component subComponent : ((JPanel) component).getComponents()) {
+                    if (subComponent instanceof JLabel) {
+                        subComponent.setForeground(claudeBlack);
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("nightMode")) {
+            toggleNightMode();
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
 }

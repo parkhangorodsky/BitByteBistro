@@ -68,7 +68,7 @@ public class Config {
 
     //Database
     private final MongoDBConnection mongoDBConnection = new MongoDBConnection();
-    private final UserDataAccessInterface userDAO = new MongoUserDAO(mongoDBConnection.getDatabase());
+    private final UserDataAccessInterface userDAO = new CSVDataAccessObject("path/to/users.csv");
 
     // GUI
     private final GUI gui = new SwingGUI(this);

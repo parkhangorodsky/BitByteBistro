@@ -10,12 +10,10 @@ import java.awt.geom.RoundRectangle2D;
 public class RoundPanel extends JPanel implements ThemeColoredObject {
 
     private int cornerRadius = 10;
-    Color borderColor = claudeWhiteEmph;// Adjust the corner radius as needed
+    Color borderColor = getBackground();// Adjust the corner radius as needed
 
     public RoundPanel() {
         super();
-        setBorderColor(getBackground());
-        setBorder(new LineBorder(this.borderColor));
         setOpaque(false); // Ensure the panel is transparent
     }
 

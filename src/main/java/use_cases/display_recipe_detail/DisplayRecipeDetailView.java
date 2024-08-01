@@ -1,7 +1,9 @@
 package use_cases.display_recipe_detail;
 
+import app.LocalAppSetting;
 import entity.Nutrition;
 import entity.Recipe;
+import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
@@ -23,9 +25,17 @@ import java.util.List;
 
 import static java.lang.Math.round;
 
-public abstract class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener {
+public abstract class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener, NightModeObject {
     protected DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
+
+    JPanel mainPanel;
+
+    JPanel contentPanel;
+    JScrollPane contentScrollPane;
+
+    JLabel titleLabel;
+    RoundButton goToWebsiteButton;
 
     public DisplayRecipeDetailView(JFrame parent, DisplayRecipeDetailViewModel viewModel) {
         super(parent);
@@ -38,20 +48,25 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("initialized")) {
             initialize();
+        } else if (evt.getPropertyName().equals("nightMode")) {
+            toggleNightMode();
+            this.revalidate();
+            this.repaint();
         }
     }
 
-    private void initialize() {
+    protected void initialize() {
         Recipe recipe = viewModel.getRecipe();
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(claudeWhite);
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        JScrollPane contentScrollPane = createContentPanel(recipe);
+        contentScrollPane = createContentPanel(recipe);
         JPanel controlPanel = createControlPanel();
 
         mainPanel.add(contentScrollPane, BorderLayout.CENTER);
         mainPanel.add(controlPanel, BorderLayout.SOUTH);
+
+        toggleNightMode();
 
         this.add(mainPanel);
 
@@ -63,32 +78,31 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     }
 
     private JScrollPane createContentPanel(Recipe recipe) {
-        JPanel contentPanel = new JPanel(new BorderLayout(30,0));
+        contentPanel = new JPanel(new BorderLayout(30,0));
         contentPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
-        contentPanel.setBackground(claudeWhite);
 
         JScrollPane contentScrollPane = new JScrollPane(contentPanel);
-        contentScrollPane.setBackground(claudeWhite);
+        contentScrollPane.setOpaque(false);
         contentScrollPane.setBorder(new LineBorder(contentScrollPane.getBackground(), 0));
         contentScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         contentScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         JPanel leftPanel = new JPanel(new VerticalFlowLayout(20));
-        leftPanel.setBackground(claudeWhite);
+        leftPanel.setOpaque(false);
 
         leftPanel.add(createImagePanel());
         leftPanel.add(createGoToWebsiteButton());
         leftPanel.add(createFoodTypePanel());
         leftPanel.add(createHealthInfoPanel());
-        leftPanel.add(createTypePanel("Tags", recipe.getTags(), claudeWhite));
+        leftPanel.add(createTypePanel("Tags", recipe.getTags(), LocalAppSetting.isNightMode() ? darkPurple : claudeWhiteEmph));
 
         leftPanel.setPreferredSize(new Dimension(300,0));
 
         JPanel rightPanel = new JPanel(new VerticalFlowLayout(20));
-        rightPanel.setBackground(claudeWhite);
+        rightPanel.setOpaque(false);
 
         rightPanel.add(createTitlePanel());
-        rightPanel.add(new IngredientPanel(recipe.getIngredientList(), claudeWhiteEmph));
+        rightPanel.add(new IngredientPanel(recipe.getIngredientList()));
         rightPanel.add(createNutritionPanel());
 
         contentPanel.add(leftPanel, BorderLayout.WEST);
@@ -99,7 +113,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     private JPanel createImagePanel() {
         JPanel imagePanel = new JPanel(new BorderLayout());
-        imagePanel.setBackground(claudeWhite);
+        imagePanel.setOpaque(false);
         BufferedImage image = viewModel.getRecipe().getImage();
         JLabel imageLabel = new JLabel(new ImageIcon(image));
         imagePanel.add(imageLabel, BorderLayout.CENTER);
@@ -108,8 +122,8 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     private JPanel createTitlePanel() {
         JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBackground(claudeWhite);
-        JLabel titleLabel = new JLabel(viewModel.getRecipe().getName());
+        titlePanel.setOpaque(false);
+        titleLabel = new JLabel(viewModel.getRecipe().getName());
         titleLabel.setFont(new Font(defaultFont, Font.PLAIN, 24));
         titlePanel.add(titleLabel, BorderLayout.EAST);
         titlePanel.setBorder(new EmptyBorder(10, 0, 20, 0));
@@ -119,12 +133,13 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     private JPanel createNutritionPanel(){
         Map<String, Nutrition> nutritionMap = viewModel.getRecipe().getNutritionMap();
         JPanel nutritionPanel = new JPanel(new VerticalFlowLayout(5));
-        nutritionPanel.setBackground(claudeWhite);
+        nutritionPanel.setOpaque(false);
+
         JLabel titleLabel = new JLabel("Nutrition");
         titleLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         titleLabel.setFont(new Font(defaultFont, Font.PLAIN, 20));
         titleLabel.setBorder(new EmptyBorder(0, 0, 10, 0));
-        titleLabel.setBackground(claudeWhite);
+        titleLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : claudeBlack);
         nutritionPanel.add(titleLabel);
 
         for (String key : nutritionMap.keySet()) {
@@ -138,33 +153,36 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     }
 
     private JPanel createNutritionRow(Nutrition nutrition){
-        JPanel nutritionRow = new RoundPanel();
+        JPanel nutritionRow = new JPanel();
         nutritionRow.setLayout(new BorderLayout(10,0));
-        nutritionRow.setBackground(claudeWhite);
+        nutritionRow.setBackground(LocalAppSetting.isNightMode() ? black : claudeWhite);
 
-        JPanel namePanel = new RoundPanel();
+        JPanel namePanel = new JPanel();
         namePanel.setLayout(new BorderLayout());
         namePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        namePanel.setBackground(claudeWhite);
+        namePanel.setBackground(LocalAppSetting.isNightMode() ? black : claudeWhite);
+
         JLabel nameLabel = new JLabel(nutrition.getLabel());
         nameLabel.setFont(new Font(secondaryFont, Font.PLAIN, 12));
+        nameLabel.setForeground(LocalAppSetting.isNightMode() ? white : claudeBlack);
         nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
         namePanel.add(nameLabel, BorderLayout.WEST);
 
         JPanel quantityPanel = new RoundPanel();
         quantityPanel.setLayout(new BorderLayout());
         quantityPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        quantityPanel.setBackground(claudeWhiteEmph);
+        quantityPanel.setBackground(LocalAppSetting.isNightMode() ? darkPurple : claudeWhiteEmph);
         String quant = String.format("%.2f", nutrition.getQuantity()) + " " +  nutrition.getUnit();
         JLabel quantityLabel = new JLabel(quant);
         quantityLabel.setFont(new Font(secondaryFont, Font.PLAIN, 12));
+        quantityLabel.setForeground(LocalAppSetting.isNightMode() ? white : claudeBlack);
         quantityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         quantityPanel.add(quantityLabel, BorderLayout.EAST);
 
         JPanel percentPanel = new RoundPanel();
         percentPanel.setLayout(new BorderLayout());
         percentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        percentPanel.setBackground(sunflower);
+        percentPanel.setBackground(LocalAppSetting.isNightMode() ? neonPink : sunflower);
         JLabel percentLabel;
         if (nutrition.getPercentage() != null) {
             String percent = String.format("%.2f", nutrition.getPercentage()) + " %";
@@ -174,6 +192,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
             percentLabel = new JLabel("N/A");
         }
         percentLabel.setFont(new Font(secondaryFont, Font.PLAIN, 12));
+        percentLabel.setForeground(LocalAppSetting.isNightMode() ? white : claudeBlack);
         percentLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         percentPanel.add(percentLabel, BorderLayout.WEST);
 
@@ -187,11 +206,13 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     private JPanel createFoodTypePanel() {
         Recipe recipe = viewModel.getRecipe();
         JPanel typePanel = new JPanel(new VerticalFlowLayout(10));
-        typePanel.setBackground(claudeWhite);
+        typePanel.setOpaque(false);
 
-        JPanel cuisineTypePanel = createTypePanel("Cuisine", recipe.getCuisineType(), claudeWhiteEmph);
-        JPanel mealTypePanel = createTypePanel("Meal", recipe.getMealType(), claudeWhiteEmph);
-        JPanel dishTypePanel = createTypePanel("Dish", recipe.getDishType(), claudeWhiteEmph);
+        Color tagColor = LocalAppSetting.isNightMode() ? darkPurple : claudeWhiteEmph;
+
+        JPanel cuisineTypePanel = createTypePanel("Cuisine", recipe.getCuisineType(), tagColor);
+        JPanel mealTypePanel = createTypePanel("Meal", recipe.getMealType(), tagColor);
+        JPanel dishTypePanel = createTypePanel("Dish", recipe.getDishType(), tagColor);
 
         typePanel.add(cuisineTypePanel);
         typePanel.add(mealTypePanel);
@@ -203,11 +224,13 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     private JPanel createHealthInfoPanel() {
         Recipe recipe = viewModel.getRecipe();
         JPanel typePanel = new JPanel(new VerticalFlowLayout(10));
-        typePanel.setBackground(claudeWhite);
+        typePanel.setOpaque(false);
 
-        JPanel dietPanel = createTypePanel("Diet", recipe.getDietLabels(), claudeWhiteEmph);
-        JPanel healthPanel = createTypePanel("Health", recipe.getHealthLabels(), claudeWhiteEmph);
-        JPanel cautionPanel = createTypePanel("Caution", recipe.getCautions(), claudeWhiteEmph);
+        Color tagColor = LocalAppSetting.isNightMode() ? darkPurple : claudeWhiteEmph;
+
+        JPanel dietPanel = createTypePanel("Diet", recipe.getDietLabels(), tagColor);
+        JPanel healthPanel = createTypePanel("Health", recipe.getHealthLabels(), tagColor);
+        JPanel cautionPanel = createTypePanel("Caution", recipe.getCautions(), tagColor);
 
         typePanel.add(dietPanel);
         typePanel.add(healthPanel);
@@ -220,8 +243,12 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         JPanel typePanel = new JPanel(new BorderLayout());
         JPanel labelPanel = new JPanel(new BorderLayout());
         JLabel typeLabel = new JLabel(labelName);
+
+        typePanel.setOpaque(false);
+        labelPanel.setOpaque(false);
         typeLabel.setFont(new Font(secondaryFont, Font.PLAIN, 12));
-        labelPanel.setBackground(claudeWhite);
+        typeLabel.setForeground(LocalAppSetting.isNightMode() ? white : claudeBlack);
+
         labelPanel.add(typeLabel, BorderLayout.CENTER);
         labelPanel.setPreferredSize(new Dimension(70, 0));
         JPanel typeTags = createTagPanel(types, tagColor);
@@ -233,25 +260,26 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     private JPanel createTagPanel(List<String> tags, Color color) {
         JPanel tagContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        tagContainer.setBackground(claudeWhite);
+        tagContainer.setOpaque(false);
         for (String tag : tags) {
             JPanel tagPanel = new RoundPanel();
             tagPanel.setBackground(color);
             tagPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
             JLabel tagLabel = new JLabel(tag);
             tagLabel.setFont(new Font(secondaryFont, Font.PLAIN, 9));
+            tagLabel.setForeground(LocalAppSetting.isNightMode() ? white : claudeBlack);
             tagPanel.add(tagLabel);
             tagContainer.add(tagPanel);
         }
         return tagContainer;
     }
 
-
     private JPanel createGoToWebsiteButton(){
         JPanel goToWebsitePanel = new JPanel(new BorderLayout());
-        RoundButton goToWebsiteButton = new RoundButton("Open in browser");
+        goToWebsitePanel.setOpaque(false);
+
+        goToWebsiteButton = new RoundButton("Open in browser");
         goToWebsiteButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
-        goToWebsiteButton.setHoverColor(claudeWhite, claudeBlackEmph, claudeBlackEmph, claudeWhite);
 
         goToWebsiteButton.addActionListener(e -> {
             if (Desktop.isDesktopSupported()) {
@@ -276,8 +304,29 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     }
 
-
-
      abstract JPanel createControlPanel();
+
+    public void setNightMode() {
+        mainPanel.setBackground(black);
+        contentPanel.setBackground(black);
+        contentScrollPane.setBackground(black);
+
+        titleLabel.setForeground(neonPinkEmph);
+
+        goToWebsiteButton.setHoverColor(darkPurple, neonPink, white, darkPurple);
+        goToWebsiteButton.setBorderColor(neonPinkEmph);
+
+    }
+
+    public void setDayMode() {
+        mainPanel.setBackground(claudeWhite);
+        contentPanel.setBackground(claudeWhite);
+        contentScrollPane.setBackground(claudeWhite);
+
+        titleLabel.setForeground(claudeBlack);
+
+        goToWebsiteButton.setHoverColor(claudeWhite, claudeBlackEmph, claudeBlackEmph, claudeWhite);
+        goToWebsiteButton.setBorderColor(claudeWhiteEmph);
+    }
 
 }

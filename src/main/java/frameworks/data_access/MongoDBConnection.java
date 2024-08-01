@@ -43,11 +43,14 @@ public class MongoDBConnection {
         try {
             mongoClient = MongoClients.create(mongoSettings);
             this.database = mongoClient.getDatabase(databaseName).withCodecRegistry(pojoCodecRegistry);
+            System.out.println("Connecting to MongoDB. Please wait...  ");
             this.database.runCommand(new Document("ping", 1));
             System.out.println("Pinged the deployment. Successfully connected to MongoDB ✅");
         } catch (MongoException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
+            System.out.println("An error occurred while connecting to server.\n" +
+                    "Please try again in a few minutes 😅");
         }
     }
 
