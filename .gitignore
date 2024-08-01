@@ -14,7 +14,7 @@ src/main/java/.DS_Store
 =======
 # Output
 out
-target/
+/target/*
 
 # IntelliJ spcific
 /.idea/material_theme_project_new.xml

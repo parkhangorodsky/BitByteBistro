@@ -8,6 +8,17 @@ import use_cases._common.interface_adapter_common.view_model.models.ViewManagerM
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.ViewManager;
 
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import entity.User;
+
+import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases._common.gui_common.abstractions.View;
+import use_cases._common.gui_common.view.ViewManager;
+
+import use_cases._common.gui_common.view.ViewManager;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
@@ -103,11 +114,17 @@ public class SwingGUI implements GUI {
         viewManager.addView(signUpView);
 
         // Create SearchRecipe components
+        SearchRecipeController searchRecipeController = config.getSearchRecipeController();
+        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
+        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();// Get the NutritionDisplayController from config
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
+                searchRecipeController,
+                nutritionDisplayController,
+                displayRecipeDetailController,
+                advancedSearchRecipeViewModel,
+                viewManagerModel);
         SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
         SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
-        SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
-        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController(); // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel, viewManagerModel);
 
         // Add SearchRecipeView to ViewManager
         viewManager.addView(searchRecipeView);
@@ -175,18 +192,4 @@ public class SwingGUI implements GUI {
         viewManagerModel.firePropertyChanged();
     }
 
-    // Create UseCasesIntegratedViews
-    /**
-     * This function creates SearchRecipeView, which is a subclass of JPanel (UI container).
-     * Since this function outputs a UI component, it is placed in the GUI class.
-     * Note that this function takes a Controller. The Controller parameter is UseCaseIntegrated.
-     * @param searchRecipeController
-     * @return
-     */
-    @Override
-    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel, viewManagerModel);
-        viewManager.addView(searchRecipeView);
-        return searchRecipeView;
-    }
 }

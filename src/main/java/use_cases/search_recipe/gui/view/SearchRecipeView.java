@@ -2,24 +2,23 @@ package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
+import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundTextField;
-import use_cases._common.gui_common.abstractions.ImageLoader;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 
 
@@ -29,6 +28,8 @@ public class SearchRecipeView extends View {
     private SearchRecipeViewModel searchRecipeViewModel;
     private SearchRecipeController searchRecipeController;
     private SearchRecipePresenter searchRecipePresenter;
+
+    private DisplayRecipeDetailController displayDetailController;
 
 
     public final String viewname = "search recipe";
@@ -45,6 +46,7 @@ public class SearchRecipeView extends View {
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
                             NutritionDisplayController nutritionDisplayController,
+                            DisplayRecipeDetailController displayDetailController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 
@@ -56,6 +58,7 @@ public class SearchRecipeView extends View {
 
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
+        this.displayDetailController = displayDetailController;
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -169,7 +172,7 @@ public class SearchRecipeView extends View {
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));

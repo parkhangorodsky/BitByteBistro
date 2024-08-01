@@ -1,8 +1,6 @@
 package app;
 
 // API
-import entity.Recipe;
-import entity.User;
 import frameworks.api.NutritionAPI;
 import frameworks.api.NutritionDisplayApi;
 import frameworks.api.RecipeAPI;
@@ -14,6 +12,9 @@ import frameworks.gui.SwingGUI;
 
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationService;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
+import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
 import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
@@ -89,6 +90,11 @@ public class Config {
     private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
     private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);
 
+    // Display Recipe Detail UseCase
+    private final DisplayRecipeDetailPresenter displayRecipeDetailPresenter = new DisplayRecipeDetailPresenter();
+    private final DisplayRecipeDetailInteractor displayRecipeDetailInteractor = new DisplayRecipeDetailInteractor(displayRecipeDetailPresenter);
+    private final DisplayRecipeDetailController displayRecipeDetailController = new DisplayRecipeDetailController(displayRecipeDetailInteractor);
+
     // ViewModel Getters
     public ViewManagerModel getViewManagerModel() { return viewManagerModel; }
     public SearchRecipeViewModel getSearchRecipeViewModel() { return searchRecipeViewModel; }
@@ -109,4 +115,8 @@ public class Config {
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
+
+    public DisplayRecipeDetailPresenter getDisplayRecipeDetailPresenter() { return displayRecipeDetailPresenter; }
+    public DisplayRecipeDetailInteractor getDisplayRecipeDetailInteractor() { return displayRecipeDetailInteractor; }
+    public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
 }
