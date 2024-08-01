@@ -2,6 +2,7 @@ package frameworks.gui;
 
 import app.Config;
 import entity.User;
+import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
@@ -86,8 +87,8 @@ public class SwingGUI implements GUI {
 
         // Create Login components
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
-        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authService); // Pass AuthenticationService to LoginPresenter
-        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface(), authService); // Pass AuthenticationService to LoginInteractor
+        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel); // Pass AuthenticationService to LoginPresenter
+        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface()); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
 

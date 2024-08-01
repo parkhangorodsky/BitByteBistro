@@ -31,18 +31,4 @@ public interface DataAccessInterface {
      * @return The user associated with the email address, or null if not found.
      */
     User getUserByEmail(String email);
-
-    /**
-     * Retrieves the currently logged-in user.
-     *
-     * @return The currently logged-in user, or null if no user is logged in.
-     */
-    User getLoggedInUser();
-
-    /**
-     * Sets the currently logged-in user.
-     *
-     * @param user The user to set as logged in.
-     */
-    void setLoggedInUser(User user);
 }
