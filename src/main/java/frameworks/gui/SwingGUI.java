@@ -1,7 +1,6 @@
 package frameworks.gui;
 
 import app.Config;
-import entity.User;
 import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
@@ -52,6 +51,9 @@ public class SwingGUI implements GUI {
     private SignUpViewModel signUpViewModel;
     private RecipeToGroceryViewModel recipeToGroceryViewModel;
 
+    // Config
+    private Config config;
+
     // UI
     private JFrame frame;
     private CardLayout mainCardLayout;
@@ -59,10 +61,12 @@ public class SwingGUI implements GUI {
 
     /**
      * Constructor for the Swing GUI. Takes in a Config Argument and stores ViewModels.
+     *
      * @param config
      */
     public SwingGUI(Config config) {
         // Get ViewModels from config and save it.
+        this.config = config; // Store the config
         this.viewManagerModel = config.getViewManagerModel();
         this.searchRecipeViewModel = config.getSearchRecipeViewModel();
         this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
@@ -73,6 +77,7 @@ public class SwingGUI implements GUI {
 
     /**
      * Initializes all the visible component of GUI.
+     *
      * @param config
      */
     public void initialize(Config config) {
@@ -89,7 +94,7 @@ public class SwingGUI implements GUI {
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel); // Pass AuthenticationService to LoginPresenter
         LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface()); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
-        LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
+        LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel, this); // Pass SwingGUI instance
 
         // Add LoginView to ViewManager
         viewManager.addView(loginView);
@@ -103,25 +108,6 @@ public class SwingGUI implements GUI {
         // Add SignUpView to ViewManager
         viewManager.addView(signUpView);
 
-        // Create SearchRecipe components
-        SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
-        SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
-        SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
-        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController(); // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel, viewManagerModel);
-
-        // Add SearchRecipeView to ViewManager
-        viewManager.addView(searchRecipeView);
-
-        // Create RecipeToGrocery components
-        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
-        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
-        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
-
-        // Add RecipeToGroceryView to ViewManager
-        viewManager.addView(recipeToGroceryView);
-
         // Listen to view changes
         this.viewManagerModel.addPropertyChangeListener(evt -> {
             if ("view change".equals(evt.getPropertyName())) {
@@ -134,7 +120,6 @@ public class SwingGUI implements GUI {
         this.viewManagerModel.setActiveView("LoginView");
         this.frame.pack();
         this.frame.setVisible(true);
-
     }
 
     private void initializeMainFrame() {
@@ -165,6 +150,30 @@ public class SwingGUI implements GUI {
         this.frame.add(mainPanel);
     }
 
+    /**
+     * Initializes other views (SearchRecipe, RecipeToGrocery, etc.) only when the user is logged in.
+     */
+    public void initializeOtherViews() {
+        // Create SearchRecipe components
+        SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
+        SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
+        SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
+        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController(); // Get the NutritionDisplayController from config
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel, viewManagerModel);
+
+        // Add SearchRecipeView to ViewManager
+        viewManager.addView(searchRecipeView);
+
+        // Create RecipeToGrocery components
+        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
+        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
+        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, new AuthenticationService(config.getDataAccessInterface()));
+        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, new AuthenticationService(config.getDataAccessInterface()), viewManagerModel);
+
+        // Add RecipeToGroceryView to ViewManager
+        viewManager.addView(recipeToGroceryView);
+    }
+
     @Override
     public void addView(View view) {
         viewManager.addView(view);
@@ -177,10 +186,12 @@ public class SwingGUI implements GUI {
     }
 
     // Create UseCasesIntegratedViews
+
     /**
      * This function creates SearchRecipeView, which is a subclass of JPanel (UI container).
      * Since this function outputs a UI component, it is placed in the GUI class.
      * Note that this function takes a Controller. The Controller parameter is UseCaseIntegrated.
+     *
      * @param searchRecipeController
      * @return
      */

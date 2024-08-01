@@ -4,6 +4,7 @@ import use_cases._common.gui_common.abstractions.View;
 import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import frameworks.gui.SwingGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,18 +28,20 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
     private LoginController loginController;
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
-
+    private SwingGUI swingGUI; // Add reference to SwingGUI
     /**
-     * Constructs a new LoginView with the specified controller, view model, and view manager model.
+     * Constructs a new LoginView with the specified controller, view model, view manager model, and GUI.
      *
      * @param loginController The controller to handle login actions.
      * @param loginViewModel The view model to manage login state.
      * @param viewManagerModel The view manager model to handle view changes.
+     * @param swingGUI The GUI to initialize other views.
      */
-    public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
+    public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, SwingGUI swingGUI) {
         this.loginController = loginController;
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.swingGUI = swingGUI; // Initialize SwingGUI reference
         this.loginViewModel.addPropertyChangeListener(this);
         setupUI();
     }
@@ -136,6 +139,9 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         if ("errorMessage".equals(evt.getPropertyName())) {
             displayErrorMessage((String) evt.getNewValue());
         } else if ("loggedInUser".equals(evt.getPropertyName())) {
+            // Initialize other views when the user logs in
+            swingGUI.initializeOtherViews();
+
             // Navigate to search recipe view on successful login
             viewManagerModel.setActiveView("search recipe");
             viewManagerModel.firePropertyChanged();
