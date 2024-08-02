@@ -2,12 +2,16 @@ package frameworks.gui;
 
 import app.Config;
 import entity.User;
+import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.ViewManager;
 
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import entity.User;
 
@@ -65,7 +69,8 @@ public class SwingGUI implements GUI {
     // UI
     private JFrame frame;
     private CardLayout mainCardLayout;
-    private JPanel mainPanel;
+    private JPanel viewPanel;
+    private JPanel sideBar;
 
     /**
      * Constructor for the Swing GUI. Takes in a Config Argument and stores ViewModels.
@@ -92,12 +97,12 @@ public class SwingGUI implements GUI {
         createMainPanel();
 
         // Create ViewManager
-        this.viewManager = new ViewManager(this.mainPanel, this.mainCardLayout, this.viewManagerModel);
+        this.viewManager = new ViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
-        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authService); // Pass AuthenticationService to LoginPresenter
-        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface(), authService); // Pass AuthenticationService to LoginInteractor
+        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel); // Pass AuthenticationService to LoginPresenter
+        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface()); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
 
@@ -116,11 +121,14 @@ public class SwingGUI implements GUI {
         // Create SearchRecipe components
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
         NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
-        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();// Get the NutritionDisplayController from config
+        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
+        AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
+        // Get the NutritionDisplayController from config
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
                 searchRecipeController,
                 nutritionDisplayController,
                 displayRecipeDetailController,
+                addToMyRecipeController,
                 advancedSearchRecipeViewModel,
                 viewManagerModel);
         SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
@@ -128,6 +136,11 @@ public class SwingGUI implements GUI {
 
         // Add SearchRecipeView to ViewManager
         viewManager.addView(searchRecipeView);
+
+
+        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
+        viewManager.addView(myRecipeView);
+
 
         // Create RecipeToGrocery components
         RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
@@ -142,7 +155,7 @@ public class SwingGUI implements GUI {
         this.viewManagerModel.addPropertyChangeListener(evt -> {
             if ("view change".equals(evt.getPropertyName())) {
                 String newViewName = (String) evt.getNewValue();
-                mainCardLayout.show(mainPanel, newViewName);
+                mainCardLayout.show(viewPanel, newViewName);
             }
         });
 
@@ -176,8 +189,15 @@ public class SwingGUI implements GUI {
     }
 
     private void createMainPanel() {
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        sideBar = new Sidebar(this.viewManagerModel);
+
         this.mainCardLayout = new CardLayout();
-        this.mainPanel = new JPanel(mainCardLayout);
+        this.viewPanel = new JPanel(mainCardLayout);
+
+        mainPanel.add(sideBar, BorderLayout.WEST);
+        mainPanel.add(viewPanel, BorderLayout.CENTER);
         this.frame.add(mainPanel);
     }
 

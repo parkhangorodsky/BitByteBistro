@@ -1,6 +1,5 @@
 package use_cases.display_recipe_detail;
 
-import entity.Ingredient;
 import entity.Recipe;
 
 import java.util.ArrayList;

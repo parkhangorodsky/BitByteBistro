@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class SearchButton extends RoundButton {
 
-    public SearchButton(String text) {
-        super(text);
+    public SearchButton() {
+        super("Search");
         this.setPreferredSize(new Dimension(80, 40));
         this.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlack, claudeBlack);
         this.setForegroundColor(claudeBlack);

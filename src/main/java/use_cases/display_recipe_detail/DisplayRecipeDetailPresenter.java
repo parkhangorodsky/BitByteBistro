@@ -7,12 +7,11 @@ public class DisplayRecipeDetailPresenter implements DisplayRecipeDetailOutputBo
     public DisplayRecipeDetailPresenter() {
     }
 
-
     @Override
     public void prepareSuccessView(DisplayRecipeResultOutputData outputData) {
         DisplayRecipeDetailViewModel viewModel = outputData.getViewModel();
         Recipe recipe = outputData.getRecipe();
         viewModel.setRecipe(recipe);
-        viewModel.firePropertyChange();
+        viewModel.firePropertyChange("initialized");
     }
 }

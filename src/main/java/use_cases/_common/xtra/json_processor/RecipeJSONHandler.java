@@ -26,8 +26,10 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
     default Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
 
         // Extract necessary information from the JSON object using appropriate methods that matches the data structure.
+        String uri = recipeJSON.getString("uri");
         String name = recipeJSON.getString("label");
         String image = recipeJSON.getJSONObject("images").getJSONObject("REGULAR").getString("url");
+        String smallImage = recipeJSON.getJSONObject("images").getJSONObject("THUMBNAIL").getString("url");
         int yield = recipeJSON.getInt("yield");
         List<String> dietLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dietLabels"));
         List<String> healthLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "healthLabels"));
@@ -40,9 +42,10 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         List<String> mealType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "mealType"));
         List<String> dishType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dishType"));
 
-        RecipeBuilder builder = new EdamamRecipeBuilder()
+        RecipeBuilder builder = new EdamamRecipeBuilder(uri.substring(uri.length() - 32))
                 .buildName(name)
                 .buildImage(image)
+                .buildSmallImage(smallImage)
                 .buildDietLabels(dietLabels)
                 .buildHealthLabels(healthLabels)
                 .buildCautions(cautions)

@@ -1,5 +1,6 @@
 package entity.builder;
 
+
 import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
@@ -8,7 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 public class EdamamRecipeBuilder implements RecipeBuilder {
-    Recipe recipe = new Recipe();
+    Recipe recipe;
+
+    public EdamamRecipeBuilder(String id) {
+        this.recipe = new Recipe(id);
+    }
+
+    public EdamamRecipeBuilder() {
+        this.recipe = new Recipe();
+    }
 
     @Override
     public RecipeBuilder buildName(String name) {
@@ -18,6 +27,11 @@ public class EdamamRecipeBuilder implements RecipeBuilder {
 
     public RecipeBuilder buildImage(String image) {
         this.recipe.setImage(image);
+        return this;
+    }
+
+    public RecipeBuilder buildSmallImage(String image) {
+        this.recipe.setSmallImage(image);
         return this;
     }
 
@@ -81,6 +95,7 @@ public class EdamamRecipeBuilder implements RecipeBuilder {
         this.recipe.setDishType(dishTypes);
         return this;
     }
+
 
     @Override
     public Recipe get() {

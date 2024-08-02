@@ -76,17 +76,23 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
 
         JSONObject nutritionJSONObject = new JSONObject();
 
-        Response response = client.newCall(request).execute();
-        if (response.isSuccessful()) {
-            return new JSONObject(response.body().string());
-        } else if (response.code() == 555) {
-            nutritionJSONObject.put("error", 555);
-            nutritionJSONObject.put("displayMessage", "could not retrieve nutritional information for this recipe");
-            return nutritionJSONObject;
-        } else {
-            System.out.println("Request failed with code: " + response.code());
-            System.out.println("Response message: " + response.message());
-            throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + " with URL: " + endpoint);
+        try(Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                return new JSONObject(response.body().string());
+            } else if (response.code() == 555) {
+                nutritionJSONObject.put("error", 555);
+                nutritionJSONObject.put("displayMessage", "could not retrieve nutritional information for this recipe");
+                return nutritionJSONObject;
+            } else {
+                System.out.println("Request failed with code: " + response.code());
+                System.out.println("Response message: " + response.message());
+                throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + " with URL: " + endpoint);
+            }
+        } catch (IOException e) {
+            System.out.println("IOException\n " + e.getMessage());
+            throw new IOException();
         }
+
+
     }
 }

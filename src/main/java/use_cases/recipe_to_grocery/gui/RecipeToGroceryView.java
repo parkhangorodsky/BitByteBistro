@@ -61,7 +61,7 @@ public class RecipeToGroceryView extends View implements ActionListener {
         this.setLayout(new BorderLayout());
 
         // Sidebar
-        Sidebar sidebar = new Sidebar();
+//        Sidebar sidebar = new Sidebar();
 
         // MainPanel
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -78,7 +78,7 @@ public class RecipeToGroceryView extends View implements ActionListener {
         // Pack input & output panel
         mainPanel.add(shoppingListContainer, BorderLayout.CENTER);
 
-        this.add(sidebar, BorderLayout.WEST);
+//        this.add(sidebar, BorderLayout.WEST);
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
