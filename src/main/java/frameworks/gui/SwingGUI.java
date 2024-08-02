@@ -157,20 +157,19 @@ public class SwingGUI implements GUI {
     }
 
     private void createMainPanel() {
-
         JPanel mainPanel = new JPanel(new BorderLayout());
-        sideBar = new Sidebar(this.viewManagerModel);
 
         this.mainCardLayout = new CardLayout();
         this.viewPanel = new JPanel(mainCardLayout);
 
-        mainPanel.add(sideBar, BorderLayout.WEST);
         mainPanel.add(viewPanel, BorderLayout.CENTER);
         this.frame.add(mainPanel);
     }
 
     public void initializeOtherViews() {
-
+        JPanel mainPanel = (JPanel) this.frame.getContentPane().getComponent(0);
+        sideBar = new Sidebar(this.viewManagerModel);
+        mainPanel.add(sideBar, BorderLayout.WEST);
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
         // Create SearchRecipe components
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
