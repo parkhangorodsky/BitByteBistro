@@ -47,12 +47,14 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             this.dispose();
         });
 
+        Recipe recipe = viewModel.getRecipe();
+
         // Create a popup menu for the "Add To" button
         JPopupMenu addToMenu = new JPopupMenu();
         JMenuItem addToMyRecipeItem = new JMenuItem("Add to My Recipe");
 
         addToMyRecipeItem.addActionListener(e -> {
-            addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
+            addToMyRecipeController.execute(recipe, viewModel);
         });
 
         addToMenu.add(addToMyRecipeItem);
@@ -64,7 +66,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                 JMenuItem groceryListItem = new JMenuItem("Add to " + list);
                 groceryListItem.addActionListener(e -> {
                     // Logic to add to the selected grocery list
-                    addToGroceryList(viewModel.getRecipe(), list);
+                    addToGroceryList(recipe, list);
                 });
                 addToMenu.add(groceryListItem);
             }
@@ -74,7 +76,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
         createNewGroceryListItem.addActionListener(e -> {
             // Logic to create a new grocery list and add the recipe to it
-            createNewGroceryListAndAdd(viewModel.getRecipe());
+            createNewGroceryListAndAdd(recipe);
         });
         addToMenu.add(createNewGroceryListItem);
 
@@ -92,17 +94,20 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     };
 
     private void addToGroceryList(Recipe recipe, ShoppingList list) {
-        addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
-        recipeToGroceryController.convertRecipesToGroceryList(new ArrayList<>(Collections.singletonList(viewModel.getRecipe())));
+        addToMyRecipeController.execute(recipe, viewModel);
+        ArrayList<Recipe> recipes = new ArrayList<>(Collections.singletonList(recipe));
+        recipeToGroceryController.convertRecipesToGroceryList(recipes, list);
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
-        addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
+        addToMyRecipeController.execute(recipe, viewModel);
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         if (newListName != null && !newListName.trim().isEmpty()) {
             System.out.println("Creating new grocery list and adding recipe to: " + newListName);
         }
-        recipeToGroceryController.convertRecipesToGroceryList(new ArrayList<>(Collections.singletonList(viewModel.getRecipe())));
+        ArrayList<Recipe> recipes = new ArrayList<>(Collections.singletonList(recipe));
+        ShoppingList list = new ShoppingList(user.getUserName(), newListName, recipe.getIngredientList());
+        recipeToGroceryController.convertRecipesToGroceryList(recipes, list);
     }
 
     @Override
