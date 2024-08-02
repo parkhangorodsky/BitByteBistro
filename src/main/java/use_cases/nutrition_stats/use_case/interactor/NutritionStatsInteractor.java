@@ -38,9 +38,10 @@ public class NutritionStatsInteractor implements NutritionStatsInputBoundary {
      */
     @Override
     public void execute(NutritionStatsInputData nutritionStatsInputData) {
+        int numberOfRecipes = nutritionStatsInputData.getNumberOfRecipes();
         List<Nutrition> nutritionList = nutritionAPI.getNutrition(nutritionStatsInputData);
 
-        NutritionStatsOutputData nutritionStatsOutputData = new NutritionStatsOutputData(nutritionList);
+        NutritionStatsOutputData nutritionStatsOutputData = new NutritionStatsOutputData(nutritionList, numberOfRecipes);
         nutritionStatsPresenter.prepareSuccessView(nutritionStatsOutputData);
     }
 }
