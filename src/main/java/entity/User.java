@@ -14,8 +14,8 @@ public class User {
     private String userEmail;
     private String userPassword;
     private LocalDateTime createdAt;
-    private List<Recipe> recipes;
-    private List<ShoppingList> shoppingLists;
+    private ArrayList<Recipe> recipes;
+    private ArrayList<ShoppingList> shoppingLists;
 
     /**
      * Constructs a new User with the specified details.
@@ -75,7 +75,7 @@ public class User {
      *
      * @return The list of shopping lists.
      */
-    public List<ShoppingList> getShoppingLists() {
+    public ArrayList<ShoppingList> getShoppingLists() {
         return shoppingLists;
     }
 
@@ -84,7 +84,7 @@ public class User {
      *
      * @return The list of recipes.
      */
-    public List<Recipe> getRecipes() {
+    public ArrayList<Recipe> getRecipes() {
         return recipes;
     }
 
