@@ -35,65 +35,29 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
-    /**
-     * Retrieves the unique identifier of the ingredient.
-     *
-     * @return The ingredient ID.
-     */
+    // An empty constructor for auto serialization
+    public Ingredient() {}
+
     public String getIngredientID() {
         return ingredientID;
     }
-
-    /**
-     * Retrieves the name of the ingredient.
-     *
-     * @return The ingredient name.
-     */
     public String getIngredientName() {
         return ingredientName;
     }
-
-    /**
-     * Retrieves the unit of measurement for the quantity.
-     *
-     * @return The quantity unit.
-     */
-    public String getIngredientMeasure() {
-        return quantityUnit;
-    }
-
-    /**
-     * Retrieves the category or type of the ingredient.
-     *
-     * @return The ingredient category.
-     */
-    public String getIngredientCategory() {
+    public String getQuantityUnit() {return quantityUnit;}
+    public String getCategory() {
         return category;
     }
-
-    /**
-     * Retrieves the current quantity of the ingredient.
-     *
-     * @return The ingredient quantity.
-     */
-    public float getIngredientQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    /**
-     * Sets the quantity of the ingredient to the specified value.
-     *
-     * @param quantity The new quantity to set.
-     */
-    public void setIngredientQuantity(float quantity) {
-        this.quantity = quantity;
-    }
+    public void setIngredientID(String ingredientID) {this.ingredientID = ingredientID;}
+    public void setIngredientName(String ingredientName) {this.ingredientName = ingredientName;}
+    public void setQuantityUnit(String quantityUnit) {this.quantityUnit = quantityUnit;}
+    public void setCategory(String category) {this.category = category;}
+    public void setQuantity(float quantity) {this.quantity = quantity;}
 
-    /**
-     * Increases the quantity of the ingredient by the specified amount.
-     *
-     * @param quantity The quantity to add.
-     */
     public void addIngredientQuantity(float quantity) {
         this.quantity += quantity;
     }
@@ -105,6 +69,6 @@ public class Ingredient {
      */
     @Override
     public String toString() {
-        return this.getIngredientQuantity() + " " + this.getIngredientMeasure() + " " + this.getIngredientName();
+        return this.getQuantity() + " " + this.getQuantityUnit() + " " + this.getIngredientName();
     }
 }

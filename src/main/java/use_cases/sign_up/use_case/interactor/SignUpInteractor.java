@@ -1,7 +1,7 @@
 package use_cases.sign_up.use_case.interactor;
 
 import entity.User;
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 import use_cases.sign_up.use_case.input_data.SignUpInputBoundary;
 import use_cases.sign_up.use_case.input_data.SignUpInputData;
 import use_cases.sign_up.use_case.output_data.SignUpOutputBoundary;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 public class SignUpInteractor implements SignUpInputBoundary {
     private final SignUpOutputBoundary signUpOutputBoundary;
-    private final DataAccessInterface DAO;
+    private final UserDataAccessInterface DAO;
 
     /**
      * Constructs a new SignUpInteractor with the specified output boundary and DAO.
@@ -24,7 +24,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
      * @param outputBoundary The boundary to handle the output of the sign-up process.
      * @param dao The data access object to interact with the data source.
      */
-    public SignUpInteractor(SignUpOutputBoundary outputBoundary, DataAccessInterface dao) {
+    public SignUpInteractor(SignUpOutputBoundary outputBoundary, UserDataAccessInterface dao) {
         this.signUpOutputBoundary = outputBoundary;
         this.DAO = dao;
     }

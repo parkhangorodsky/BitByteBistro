@@ -1,8 +1,7 @@
 package use_cases.add_to_my_recipe;
 
+import entity.LoggedUserData;
 import entity.Recipe;
-import use_cases._common.gui_common.abstractions.ImageLoader;
-import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
@@ -15,11 +14,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.foreign.PaddingLayout;
 
-public class MyRecipeView extends View implements ImageLoader {
+public class MyRecipeView extends View {
     private MyRecipeViewModel viewModel;
     private JPanel myRecipeContainer;
     private JScrollPane myRecipeScrollPane;
@@ -43,7 +41,10 @@ public class MyRecipeView extends View implements ImageLoader {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("added recipe")) {
+        if (evt.getPropertyName().equals("init")) {
+            viewModel.setUser(LoggedUserData.getLoggedInUser());
+            updateMyRecipe();
+        } else if (evt.getPropertyName().equals("added recipe")) {
             updateMyRecipe();
         }
     }
@@ -109,8 +110,8 @@ public class MyRecipeView extends View implements ImageLoader {
 
         JPanel imagePanel = new JPanel();
         imagePanel.setBackground(claudeWhiteEmph);
-        ImageIcon image = loadRoundImage(recipe.getSmallImage());
-        imagePanel.add(new JLabel(image));
+        BufferedImage image = recipe.getSmallImage();
+        imagePanel.add(new JLabel(new ImageIcon(image)));
 
         JPanel recipeNamePanel = new JPanel(new BorderLayout());
         recipeNamePanel.setBackground(claudeWhiteEmph);

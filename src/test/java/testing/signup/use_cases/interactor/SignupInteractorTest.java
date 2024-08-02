@@ -1,15 +1,13 @@
 package testing.signup.use_cases.interactor;
 
 import entity.User;
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_cases.sign_up.use_case.input_data.SignUpInputData;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 import use_cases.sign_up.use_case.output_data.SignUpOutputBoundary;
 import use_cases.sign_up.use_case.output_data.SignUpOutputData;
-
-import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -21,12 +19,12 @@ import static org.mockito.Mockito.*;
 public class SignupInteractorTest {
     private SignUpInteractor interactor;
     private SignUpOutputBoundary outputBoundary;
-    private DataAccessInterface dao;
+    private UserDataAccessInterface dao;
 
     @BeforeEach
     void setUp() {
         outputBoundary = mock(SignUpOutputBoundary.class);
-        dao = mock(DataAccessInterface.class);
+        dao = mock(UserDataAccessInterface.class);
         interactor = new SignUpInteractor(outputBoundary, dao);
     }
 

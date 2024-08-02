@@ -1,10 +1,6 @@
 package use_cases.display_recipe_detail;
 
-import entity.LoggedUserData;
-import entity.Recipe;
-import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
-import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 
 import javax.swing.*;

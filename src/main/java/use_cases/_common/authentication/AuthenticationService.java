@@ -1,17 +1,17 @@
 package use_cases._common.authentication;
 
 import entity.User;
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 
 /**
  * Service for user authentication and session management.
  */
 public class AuthenticationService implements AuthenticationInterface {
 
-    private final DataAccessInterface dataAccess;
+    private final UserDataAccessInterface dataAccess;
     private User loggedInUser;
 
-    public AuthenticationService(DataAccessInterface dataAccess) {
+    public AuthenticationService(UserDataAccessInterface dataAccess) {
         this.dataAccess = dataAccess;
     }
 

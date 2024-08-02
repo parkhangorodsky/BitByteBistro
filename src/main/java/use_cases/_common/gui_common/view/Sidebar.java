@@ -47,6 +47,9 @@ public class Sidebar extends JPanel implements ThemeColoredObject {
         homeButton = createMenu("Home");
         searchButton = createMenu("Search Recipe");
         myRecipeButton = createMenu("My Recipe");
+        myRecipeButton.addActionListener(e -> {
+            viewManagerModel.firePropertyChanged("init", "My Recipe");
+        });
         groceryListButton = createMenu("Grocery List");
 
         switchPanel.add(homeButton);

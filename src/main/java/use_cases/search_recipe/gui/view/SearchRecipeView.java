@@ -9,11 +9,9 @@ import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
-import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundTextField;
 

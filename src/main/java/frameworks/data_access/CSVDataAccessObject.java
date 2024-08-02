@@ -1,5 +1,6 @@
 package frameworks.data_access;
 
+import entity.Recipe;
 import entity.User;
 
 import java.io.*;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CSVDataAccessObject implements DataAccessInterface {
+public class CSVDataAccessObject implements UserDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
@@ -62,6 +63,16 @@ public class CSVDataAccessObject implements DataAccessInterface {
         this.save();
     }
 
+    @Override
+    public void updateUser(User user) {
+
+    }
+
+    @Override
+    public void deleteUser(User user) {
+
+    }
+
     private void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
             writer.write(String.join(",", headers.keySet()));
@@ -86,5 +97,10 @@ public class CSVDataAccessObject implements DataAccessInterface {
     @Override
     public User getUserByEmail(String identifier) {
         return accounts.get(identifier);
+    }
+
+    @Override
+    public void addRecipe(User user, Recipe recipe) {
+
     }
 }

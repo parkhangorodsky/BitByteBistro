@@ -7,6 +7,8 @@ import frameworks.api.RecipeAPI;
 import frameworks.api.EdamamRecipeApi;
 
 // GUI
+import frameworks.data_access.MongoDBConnection;
+import frameworks.data_access.MongoUserDAO;
 import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 
@@ -46,7 +48,7 @@ import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
 // Data Access
-import frameworks.data_access.DataAccessInterface;
+import frameworks.data_access.UserDataAccessInterface;
 import frameworks.data_access.CSVDataAccessObject;
 
 public class Config {
@@ -63,11 +65,16 @@ public class Config {
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
     private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
-    private final DataAccessInterface dataAccessInterface = new CSVDataAccessObject("path/to/users.csv"); // Update path accordingly
+
+    //Database
+    private final MongoDBConnection mongoDBConnection = new MongoDBConnection();
+    private final UserDataAccessInterface userDAO = new MongoUserDAO(mongoDBConnection.getDatabase());
+
+    // GUI
     private final GUI gui = new SwingGUI(this);
 
     // Authentication Service
-    private final AuthenticationService authenticationService = new AuthenticationService(dataAccessInterface);
+    private final AuthenticationService authenticationService = new AuthenticationService(userDAO);
 
     // UseCases
     // Search Recipe
@@ -82,12 +89,12 @@ public class Config {
 
     // Login UseCase
     private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, dataAccessInterface);
+    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
     private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
-    private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, dataAccessInterface);
+    private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, userDAO);
     private final SignUpController signUpController = new SignUpController(signUpInteractor);
 
     // Recipe To Grocery UseCase
@@ -102,7 +109,7 @@ public class Config {
 
     // Add to my recipe UseCase
     private final AddToMyRecipePresenter addToMyRecipePresenter = new AddToMyRecipePresenter(myRecipeViewModel);
-    private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter);
+    private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
     // ViewModel Getters
@@ -117,7 +124,7 @@ public class Config {
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
     public NutritionAPI getNutritionAPI() { return nutritionAPI; }
-    public DataAccessInterface getDataAccessInterface() { return dataAccessInterface; }
+    public UserDataAccessInterface getDataAccessInterface() { return userDAO; }
     public GUI getGUI() { return gui; }
 
     // UseCase Getters

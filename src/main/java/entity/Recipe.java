@@ -2,20 +2,21 @@ package entity;
 
 import use_cases._common.xtra.hashing.MD5HashGenerator;
 
+import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class Recipe implements MD5HashGenerator {
 
     private String name;
-    private String image;
-    private String smallImage;
+    private BufferedImage image;
+    private BufferedImage smallImage;
     private int yield;
     private String instructions;
 
     private List<Ingredient> ingredientList;
     private Map<String, Nutrition> nutritionMap;
-    private Map<String, Nutrition> totalDailyMap;
 
     private String id;
 
@@ -64,8 +65,9 @@ public class Recipe implements MD5HashGenerator {
     public String getId() {return this.id;}
     public List<Ingredient> getIngredientList() {return this.ingredientList;}
     public String getName() {return this.name;}
-    public String getImage() {return this.image;}
-    public String getSmallImage() {return this.smallImage;}
+    public BufferedImage getImage() {return this.image;}
+    public BufferedImage getSmallImage() {return this.smallImage;}
+    public int getYield() {return this.yield;}
     public Map<String, Nutrition> getNutritionMap() {return this.nutritionMap;}
     public List<String> getDietLabels() {return this.dietLabels;}
     public List<String> getHealthLabels() {return this.healthLabels;}
@@ -76,14 +78,14 @@ public class Recipe implements MD5HashGenerator {
     public List<String> getDishType() {return this.dishType;}
     public String getInstructions() {return this.instructions;}
 
+    public void setId(String id) {this.id = id;}
     public void setName(String name) {this.name = name;}
-    public void setImage(String image) {this.image = image;}
-    public void setSmallImage(String smallImage) {this.smallImage = smallImage;}
+    public void setImage(BufferedImage image) {this.image = image;}
+    public void setSmallImage(BufferedImage smallImage) {this.smallImage = smallImage;}
     public void setYield(int yield) {this.yield = yield;}
     public void setInstructions(String instructions) {this.instructions = instructions;}
     public void setIngredientList(List<Ingredient> ingredientList) {this.ingredientList = ingredientList;}
     public void setNutritionMap(Map<String, Nutrition> nutritionMap) {this.nutritionMap = nutritionMap;}
-    public void setTotalDailyMap(Map<String, Nutrition> totalDailyMap) {this.totalDailyMap = totalDailyMap;}
     public void setDietLabels(List<String> dietLabels) {this.dietLabels = dietLabels;}
     public void setHealthLabels(List<String> healthLabels) {this.healthLabels = healthLabels;}
     public void setCautions(List<String> cautions) {this.cautions = cautions;}
@@ -93,17 +95,17 @@ public class Recipe implements MD5HashGenerator {
     public void setDishType(List<String> dishType) {this.dishType = dishType;}
 
 
-    @Override
-    public String toString() {
-
-        String name = "Menu: <" + this.name + ">\n";
-        String instruction = "Instructions: " + this.instructions + "\n";
-        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
-        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
-        StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
-        for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
-
-
-        return name + instruction + ingredients + nutritions;
-    }
+//    @Override
+//    public String toString() {
+//
+//        String name = "Menu: <" + this.name + ">\n";
+//        String instruction = "Instructions: " + this.instructions + "\n";
+//        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
+//        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
+//        StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
+//        for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
+//
+//
+//        return name + instruction + ingredients + nutritions;
+//    }
 }

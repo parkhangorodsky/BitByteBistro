@@ -1,21 +1,22 @@
 package use_cases._common.xtra.json_processor;
 
-import com.sun.source.tree.Tree;
 import entity.Ingredient;
 import entity.Nutrition;
 import entity.Recipe;
-import entity.builder.EdamamRecipeBuilder;
+import entity.builder.DefaultRecipeBuilder;
 import entity.builder.RecipeBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_cases._common.gui_common.abstractions.BufferedImageLoader;
 
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 /**
  * Overview: The utility interface that provides the default method for
  * converting recipe from JSONObject to the instance of Recipe class.
  */
-public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
+public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler, BufferedImageLoader {
 
     /**
      * Converts a JSONObject representation of a recipe into a Recipe object.
@@ -28,8 +29,10 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         // Extract necessary information from the JSON object using appropriate methods that matches the data structure.
         String uri = recipeJSON.getString("uri");
         String name = recipeJSON.getString("label");
-        String image = recipeJSON.getJSONObject("images").getJSONObject("REGULAR").getString("url");
-        String smallImage = recipeJSON.getJSONObject("images").getJSONObject("THUMBNAIL").getString("url");
+        String imageUrl = recipeJSON.getJSONObject("images").getJSONObject("REGULAR").getString("url");
+        BufferedImage image = loadBufferedRoundImage(imageUrl);
+        String smallImageRul = recipeJSON.getJSONObject("images").getJSONObject("THUMBNAIL").getString("url");
+        BufferedImage smallImage = loadBufferedRoundImage(smallImageRul);
         int yield = recipeJSON.getInt("yield");
         List<String> dietLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dietLabels"));
         List<String> healthLabels = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "healthLabels"));
@@ -42,7 +45,7 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         List<String> mealType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "mealType"));
         List<String> dishType = JSONStringArrayToList(handleNullJSONArray(recipeJSON, "dishType"));
 
-        RecipeBuilder builder = new EdamamRecipeBuilder(uri.substring(uri.length() - 32))
+        RecipeBuilder builder = new DefaultRecipeBuilder(uri.substring(uri.length() - 32))
                 .buildName(name)
                 .buildImage(image)
                 .buildSmallImage(smallImage)
