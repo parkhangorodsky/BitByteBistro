@@ -1,8 +1,6 @@
 package app;
 
 // API
-import entity.Recipe;
-import entity.User;
 import frameworks.api.NutritionAPI;
 import frameworks.api.NutritionDisplayApi;
 import frameworks.api.RecipeAPI;
@@ -97,8 +95,6 @@ public class Config {
     private final DisplayRecipeDetailInteractor displayRecipeDetailInteractor = new DisplayRecipeDetailInteractor(displayRecipeDetailPresenter);
     private final DisplayRecipeDetailController displayRecipeDetailController = new DisplayRecipeDetailController(displayRecipeDetailInteractor);
 
-
-
     // ViewModel Getters
     public ViewManagerModel getViewManagerModel() { return viewManagerModel; }
     public SearchRecipeViewModel getSearchRecipeViewModel() { return searchRecipeViewModel; }
@@ -115,7 +111,6 @@ public class Config {
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-
     public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }

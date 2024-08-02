@@ -47,7 +47,6 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
                 .buildHealthLabels(healthLabels)
                 .buildCautions(cautions)
                 .buildNutritionMap(nutritionMap)
-                .buildTotalDailyMap(totalDailyMap)
                 .buildTags(tags)
                 .buildCuisineType(cuisineType)
                 .buildMealType(mealType)
@@ -119,13 +118,4 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler {
         }
         return ingredientList;
     }
-
-
-
-
-
-
-
-
-
 }
