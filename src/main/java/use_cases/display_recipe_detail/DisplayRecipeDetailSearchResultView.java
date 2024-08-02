@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView {
     private AddToMyRecipeController addToMyRecipeController;
@@ -91,18 +93,16 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     private void addToGroceryList(Recipe recipe, ShoppingList list) {
         addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
-        recipeToGroceryController.convertRecipesToGroceryList(user);
+        recipeToGroceryController.convertRecipesToGroceryList(new ArrayList<>(Collections.singletonList(viewModel.getRecipe())));
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
         addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
-        // You can interact with the viewModel or other controllers as needed
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         if (newListName != null && !newListName.trim().isEmpty()) {
             System.out.println("Creating new grocery list and adding recipe to: " + newListName);
-            // For example, you might have a method in a controller like:
-            // groceryListController.createNewListAndAddRecipe(newListName, recipe);
         }
+        recipeToGroceryController.convertRecipesToGroceryList(new ArrayList<>(Collections.singletonList(viewModel.getRecipe())));
     }
 
     @Override

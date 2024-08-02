@@ -1,9 +1,12 @@
 package use_cases.recipe_to_grocery.interface_adapter.controller;
 
+import entity.Recipe;
 import entity.User;
 import entity.LoggedUserData;
 import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
 import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInputBoundary;
+
+import java.util.ArrayList;
 
 /**
  * Controller for handling the conversion of recipes to a grocery list of ingredients.
@@ -26,11 +29,11 @@ public class RecipeToGroceryController {
     /**
      * Converts a list of recipes to a shopping list of ingredients for the logged-in user.
      *
-     * @param user The logged-in user from whose saved recipes the controller creates shopping lists.
+     * @param recipes A list of recipes from which the controller creates shopping lists.
      */
-    public void convertRecipesToGroceryList(User user) {
+    public void convertRecipesToGroceryList(ArrayList<Recipe> recipes) {
         // Prepare input data
-        RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(user);
+        RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(recipes);
 
         // Execute the use case
         recipeToGroceryInteractor.execute(recipeToGroceryInputData);

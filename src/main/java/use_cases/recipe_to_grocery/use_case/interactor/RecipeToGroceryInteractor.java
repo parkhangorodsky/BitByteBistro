@@ -1,9 +1,6 @@
 package use_cases.recipe_to_grocery.use_case.interactor;
 
-import entity.Ingredient;
-import entity.ShoppingList;
-import entity.Recipe;
-import entity.User;
+import entity.*;
 
 import frameworks.api.RecipeAPI;
 
@@ -42,7 +39,7 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
      */
     @Override
     public void execute(RecipeToGroceryInputData recipeToGroceryInputData) {
-        User user = recipeToGroceryInputData.getUser();
+        User user = LoggedUserData.getLoggedInUser();
         List<Recipe> recipes = user.getRecipes();
 
         // Convert recipes to grocery list
@@ -63,7 +60,29 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
      * @return A ShoppingList containing all ingredients from the recipes.
      */
     public ShoppingList getGroceryList(List<Recipe> recipeList, User user) {
-        System.out.println("get grocery list in interactor is called");
+        List<Ingredient> groceries = new ArrayList<>();
+        for (Recipe recipe : recipeList) {
+            for (Ingredient grocery : recipe.getIngredientList()) {
+                if (groceries.contains(grocery)) {
+                    Ingredient item = groceries.get(groceries.indexOf(grocery));
+                    float more = grocery.getIngredientQuantity();
+                    item.addIngredientQuantity(more);
+                } else {
+                    groceries.add(grocery);
+                }
+            }
+        }
+        List<ShoppingList> existingLists = user.getShoppingLists();
+        String listName;
+        if (!existingLists.isEmpty()) {
+            listName = "list" + existingLists.size();
+        } else {listName = "list1";}
+        ShoppingList newShoppingList = new ShoppingList(user.getUserName(), listName, groceries);
+        user.addShoppingList(newShoppingList);
+        return newShoppingList;
+    }
+
+    public ShoppingList getGroceryList(List<Recipe> recipeList, ShoppingList shoppingList, User user) {
         List<Ingredient> groceries = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             for (Ingredient grocery : recipe.getIngredientList()) {

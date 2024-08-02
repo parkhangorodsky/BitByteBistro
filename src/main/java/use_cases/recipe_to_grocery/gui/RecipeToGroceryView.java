@@ -105,10 +105,8 @@ public class RecipeToGroceryView extends View implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         User user = LoggedUserData.getLoggedInUser(); // Retrieve the logged-in user
-        System.out.println("found currently logged in user");
         if (user != null) {
-            System.out.println("calling convert recipes to grocery list");
-            recipeToGroceryController.convertRecipesToGroceryList(user);
+            recipeToGroceryController.convertRecipesToGroceryList();
         } else {
             System.out.println("No user is currently logged in.");
         }
@@ -123,7 +121,6 @@ public class RecipeToGroceryView extends View implements ActionListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("no recipe")) {
             // Handle empty recipe result
-            System.out.println("no recipe found - view");
             RecipeToGroceryOutputData response = (RecipeToGroceryOutputData) evt.getNewValue();
             loadEmptyResult();
         }
