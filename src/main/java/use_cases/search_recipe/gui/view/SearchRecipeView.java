@@ -1,6 +1,8 @@
 package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
+import use_cases._common.gui_common.abstractions.NightModeObject;
+import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
@@ -23,7 +25,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
 
-public class SearchRecipeView extends View {
+public class SearchRecipeView extends View implements ThemeColoredObject, NightModeObject {
 
     private ViewManagerModel viewManagerModel;
     private SearchRecipeViewModel searchRecipeViewModel;
@@ -39,6 +41,8 @@ public class SearchRecipeView extends View {
     // Components
     private RoundTextField recipeName;
     private RoundButton searchButton;
+
+    private JPanel mainPanel;
     private JPanel inputPanel;
     private JPanel outputPanel;
     private JScrollPane recipeContainer;
@@ -65,26 +69,25 @@ public class SearchRecipeView extends View {
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
 
+        observeNight();
+
 
         // Set Layout
         this.setLayout(new BorderLayout());
 
         // MainPanel
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(claudeWhite);
 
         // Initialize input & output panel
         inputPanel = new JPanel();
-        inputPanel.setBackground(claudeWhite);
         inputPanel.setPreferredSize(new Dimension(800,100));
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
-        inputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
+        inputPanel.setBorder(new EmptyBorder(20,20,20,20));
         inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
 
         outputPanel = new JPanel();
-        outputPanel.setBackground(claudeWhite);
-        outputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
+        outputPanel.setBorder(new EmptyBorder(20,20,20,20));
         outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
 
 
@@ -139,6 +142,8 @@ public class SearchRecipeView extends View {
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
 
+        toggleNightMode();
+
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
@@ -167,6 +172,10 @@ public class SearchRecipeView extends View {
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
+        } else if (evt.getPropertyName().equals("nightMode")) {
+            toggleNightMode();
+            this.revalidate();
+            this.repaint();
         }
         outputPanel.revalidate();
         outputPanel.repaint();
@@ -204,6 +213,20 @@ public class SearchRecipeView extends View {
     }
 
 
+    @Override
+    public void setNightMode() {
+        mainPanel.setBackground(Color.BLACK);
+        inputPanel.setBackground(Color.BLACK);
+        outputPanel.setBackground(Color.BLACK);
+
+    }
+
+    @Override
+    public void setDayMode() {
+        mainPanel.setBackground(claudeWhite);
+        inputPanel.setBackground(claudeWhite);
+        outputPanel.setBackground(claudeWhite);
+    }
 }
 
 

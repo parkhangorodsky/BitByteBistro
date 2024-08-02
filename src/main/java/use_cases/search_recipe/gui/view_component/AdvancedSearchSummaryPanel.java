@@ -24,5 +24,4 @@ public class AdvancedSearchSummaryPanel extends RoundPanel {
         this.add(summaryTextPanel, BorderLayout.CENTER);
     }
 
-
 }

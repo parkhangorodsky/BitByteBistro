@@ -2,8 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a user entity in the application.
@@ -17,6 +16,7 @@ public class User {
     private LocalDateTime createdAt;
     private List<Recipe> recipes;
     private List<ShoppingList> shoppingLists;
+    private Map<String, Object> preference;
 
     /**
      * Constructs a new User with the specified details.
@@ -34,6 +34,8 @@ public class User {
         this.createdAt = createdAt;
         this.shoppingLists = new ArrayList<>();
         this.recipes = new ArrayList<>();
+        this.preference = new HashMap<>();
+        preference.put("nightMode", false);
     }
 
     // Constructor with empty argument for MongoDB
@@ -50,6 +52,7 @@ public class User {
     public LocalDateTime getCreatedAt() {return createdAt;}
     public List<Recipe> getRecipes() {return recipes;}
     public List<ShoppingList> getShoppingLists() {return shoppingLists;}
+    public Map<String, Object> getPreference() {return preference;}
 
     public void setUserName(String userName) {this.userName = userName;}
     public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
@@ -57,6 +60,7 @@ public class User {
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
     public void setShoppingLists(List<ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
+    public void setPreference(Map<String, Object> preference) {this.preference = preference;}
 
     /**
      * Adds a shopping list to the user's list of shopping lists.
@@ -71,6 +75,10 @@ public class User {
      * @param recipe The recipe to add.
      */
     public void addRecipe(Recipe recipe) {this.recipes.add(recipe);}
+
+    public void updatePreference(String key, Object value) {
+        this.preference.put(key, value);
+    }
 
     /**
      * Returns a string representation of the user.

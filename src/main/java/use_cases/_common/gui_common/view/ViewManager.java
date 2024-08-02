@@ -1,5 +1,6 @@
 package use_cases._common.gui_common.view;
 
+import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 
@@ -7,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Overview: ViewManager class stores all the views associated with the application,
@@ -18,6 +21,7 @@ public class ViewManager implements PropertyChangeListener {
     private JPanel views; // Container for all the views
     private CardLayout cardLayout; // Layout manager
     private ViewManagerModel viewManagerModel; // The view model that stores the current view state.
+    private Map<String, PopUpView> popUpViews;
 
     /**
      * Constructs a new ViewManager with the specified views container, layout manager, and view manager model.
@@ -31,6 +35,7 @@ public class ViewManager implements PropertyChangeListener {
         this.cardLayout = cardLayout;
         this.viewManagerModel = viewManagerModel;
         this.viewManagerModel.addPropertyChangeListener(this);
+        this.popUpViews = new HashMap<>();
     }
 
     /**
@@ -40,6 +45,10 @@ public class ViewManager implements PropertyChangeListener {
      */
     public void addView(View view) {
         this.views.add((JPanel) view, view.getViewName());
+    }
+
+    public void addPopupView(String viewName, PopUpView popUpView) {
+        this.popUpViews.put(viewName, popUpView);
     }
 
     /**
@@ -53,6 +62,7 @@ public class ViewManager implements PropertyChangeListener {
         if (evt.getPropertyName().equals("view change")) {
             String newViewName = (String) evt.getNewValue();
             cardLayout.show(views, newViewName);
+
         } else if (evt.getPropertyName().equals("init")) {
             for (Component component : views.getComponents()) {
                 View componentView = (View) component;
@@ -60,6 +70,16 @@ public class ViewManager implements PropertyChangeListener {
                     componentView.propertyChange(evt);
                 }
             }
+        } else if (evt.getPropertyName().equals("pop up")) {
+            handlePopUpRequest(evt);
         }
     }
+
+    private void handlePopUpRequest(PropertyChangeEvent evt) {
+        String viewName = (String) evt.getNewValue();
+        PopUpView popUpView = popUpViews.get(viewName);
+        popUpView.showPopUp();
+    }
+
+
 }

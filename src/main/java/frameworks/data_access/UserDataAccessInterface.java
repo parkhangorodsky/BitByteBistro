@@ -19,6 +19,7 @@ public interface UserDataAccessInterface {
     void addUser(User user);
 
     void updateUser(User user);
+    void updateUserPreference(User user, String fieldName, Object value);
     void deleteUser(User user);
 
 

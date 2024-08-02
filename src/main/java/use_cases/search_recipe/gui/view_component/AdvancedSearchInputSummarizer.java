@@ -1,5 +1,6 @@
 package use_cases.search_recipe.gui.view_component;
 
+import app.LocalAppSetting;
 import use_cases._common.gui_common.abstractions.StringCaseEditor;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases.search_recipe.gui.view.AdvancedSearchView;
@@ -188,7 +189,7 @@ public class AdvancedSearchInputSummarizer implements ThemeColoredObject, String
     private void addToSummary(Font font, String text) {
         JLabel label = new JLabel(text);
         label.setFont(font);
-        label.setForeground(claudeBlack);
+        label.setForeground(LocalAppSetting.isNightMode() ? mint : claudeBlack);
         label.setAlignmentX(RIGHT_ALIGNMENT);
         label.setAlignmentY(BOTTOM_ALIGNMENT);
         displayPanel.add(label);

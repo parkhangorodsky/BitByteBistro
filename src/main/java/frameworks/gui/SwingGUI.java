@@ -38,6 +38,7 @@ import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.gui.view.LoginView;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 
+import use_cases.settting_preference.PreferenceView;
 import use_cases.sign_up.gui.view.SignUpView;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
@@ -150,6 +151,12 @@ public class SwingGUI implements GUI {
 
         // Add RecipeToGroceryView to ViewManager
         viewManager.addView(recipeToGroceryView);
+
+
+        //Create PopUpView
+        PreferenceView preferenceView = new PreferenceView(frame, config.getSetPreferenceController());
+        frame.setEnabled(true);
+        viewManager.addPopupView("Preference", preferenceView);
 
         // Listen to view changes
         this.viewManagerModel.addPropertyChangeListener(evt -> {
