@@ -21,6 +21,7 @@ import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
+import use_cases.filter_recipe.FilterRecipeController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
 import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
@@ -113,6 +114,8 @@ public class Config {
     private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
+    // Filter My Recipe Usecase
+    private  final FilterRecipeController filterRecipeController = new FilterRecipeController(myRecipeViewModel);
 
     // Set Preference Use Case
     private final SetPreferenceOutputBoundary SetPreferencePresenter = new SetPreferencePresenter();
@@ -141,6 +144,7 @@ public class Config {
     public SignUpController getSignUpController() { return signUpController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
+    public FilterRecipeController getFilterRecipeController() { return filterRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
 }

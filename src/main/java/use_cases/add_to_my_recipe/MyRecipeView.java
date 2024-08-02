@@ -9,30 +9,43 @@ import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.filter_recipe.FilterRecipeController;
 import use_cases.search_recipe.gui.view_component.SearchButton;
 import use_cases.search_recipe.gui.view_component.SearchTextField;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 public class MyRecipeView extends View implements ThemeColoredObject, NightModeObject {
-    private MyRecipeViewModel viewModel;
 
+    private MyRecipeViewModel viewModel;
     private JPanel myRecipeContainer;
     private JScrollPane myRecipeScrollPane;
 
-    public MyRecipeView(MyRecipeViewModel viewModel) {
+    JTextField textField;
+    JButton searchButton;
+
+
+    private FilterRecipeController filterController;
+
+    public MyRecipeView(MyRecipeViewModel viewModel, FilterRecipeController filterController) {
 
         observeNight();
-        this.setLayout(new BorderLayout());
         this.viewModel = viewModel;
-        this.setViewName(viewModel.getViewName());
         this.viewModel.addPropertyChangeListener(this);
+        this.setViewName(viewModel.getViewName());
+        this.filterController = filterController;
+
+        this.setLayout(new BorderLayout());
 
         JPanel viewPanel = setUpContentView();
 
@@ -49,10 +62,13 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("init")) {
-            viewModel.setUser(LoggedUserData.getLoggedInUser());
-            updateMyRecipe();
+            LoggedUserData.getLoggedInUser().getRecipes().sort(null);
+            viewModel.setRecipes(LoggedUserData.getLoggedInUser().getRecipes());
+            filterController.execute("");
         } else if (evt.getPropertyName().equals("added recipe")) {
-            updateMyRecipe();
+            filterController.execute(textField.getText());
+        } else if (evt.getPropertyName().equals("update")) {
+            updateMyRecipe(viewModel.getRecipes());
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
             this.revalidate();
@@ -78,8 +94,32 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         outputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         outputPanel.setLayout(new BorderLayout());
 
-        JTextField textField = new SearchTextField();
-        JButton searchButton = new SearchButton();
+        textField = new SearchTextField();
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            private void textChanged() {
+                filterController.execute(textField.getText());
+            }
+        });
+
+        searchButton = new SearchButton();
+        searchButton.addActionListener(e -> {
+            filterController.execute(textField.getText());
+        });
 
         inputPanel.add(textField);
         inputPanel.add(searchButton);
@@ -99,10 +139,10 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         return mainPanel;
     }
 
-    private void updateMyRecipe() {
+    private void updateMyRecipe(List<Recipe> recipes) {
         myRecipeContainer.removeAll();
 
-        for (Recipe recipe : viewModel.getUser().getRecipes()) {
+        for (Recipe recipe : recipes) {
             JPanel recipeItem = createRecipeItem(recipe);
             myRecipeContainer.add(recipeItem);
         }
@@ -155,7 +195,6 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         recipeItem.add(recipeNamePanel, BorderLayout.CENTER);
         recipeItem.add(buttonPanel, BorderLayout.EAST);
 
-        System.out.println(LocalAppSetting.isNightMode());
         return recipeItem;
 
 
@@ -166,8 +205,8 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
     public void setNightMode() {
         this.setBackground(black);
         if (LoggedUserData.getLoggedInUser() != null) {
-            viewModel.setUser(LoggedUserData.getLoggedInUser());
-            updateMyRecipe();
+            viewModel.setRecipes(LoggedUserData.getLoggedInUser().getRecipes());
+            updateMyRecipe(viewModel.getRecipes());
         }
         myRecipeContainer.setBackground(black);
 
@@ -178,23 +217,11 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
     public void setDayMode() {
         this.setBackground(claudeWhite);
         if (LoggedUserData.getLoggedInUser() != null) {
-            viewModel.setUser(LoggedUserData.getLoggedInUser());
-            updateMyRecipe();
+            viewModel.setRecipes(LoggedUserData.getLoggedInUser().getRecipes());
+            updateMyRecipe(viewModel.getRecipes());
         }
         myRecipeContainer.setBackground(claudeWhite);
 //
     }
 
-    public void revalidateEverything(JComponent component) {
-        System.out.println("ran");
-
-        for (Component c : component.getComponents()) {
-            if (c instanceof JComponent) {
-                revalidateEverything((JComponent) c);
-            }
-        }
-
-        component.revalidate();
-        component.repaint();
-    }
 }

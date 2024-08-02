@@ -5,6 +5,8 @@ import entity.Recipe;
 import entity.User;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 
+import java.util.List;
+
 public class AddToMyRecipeController {
     AddToMyRecipeInteractor interator;
 
@@ -15,10 +17,9 @@ public class AddToMyRecipeController {
     public void execute(Recipe recipe, PropertyChangeFirer parentModel){
         User user = LoggedUserData.getLoggedInUser();
         if (user != null) {
-            AddToMyRecipeInputData inputData = new AddToMyRecipeInputData(recipe, user, parentModel);
+            AddToMyRecipeInputData inputData = new AddToMyRecipeInputData(recipe, parentModel);
             interator.execute(inputData);
         }
-
     }
 
 }

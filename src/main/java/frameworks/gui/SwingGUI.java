@@ -139,7 +139,7 @@ public class SwingGUI implements GUI {
         viewManager.addView(searchRecipeView);
 
 
-        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
+        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel(), config.getFilterRecipeController());
         viewManager.addView(myRecipeView);
 
 

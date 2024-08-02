@@ -57,6 +57,7 @@ public class ViewManager implements PropertyChangeListener {
      *
      * @param evt the property change event
      */
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("view change")) {
@@ -70,6 +71,7 @@ public class ViewManager implements PropertyChangeListener {
                     componentView.propertyChange(evt);
                 }
             }
+
         } else if (evt.getPropertyName().equals("pop up")) {
             handlePopUpRequest(evt);
         }

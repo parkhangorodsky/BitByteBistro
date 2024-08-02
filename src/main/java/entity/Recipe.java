@@ -1,5 +1,6 @@
 package entity;
 
+import org.jetbrains.annotations.NotNull;
 import use_cases._common.xtra.hashing.MD5HashGenerator;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Recipe implements MD5HashGenerator {
+public class Recipe implements MD5HashGenerator, Comparable<Recipe>{
 
     private String name;
     private BufferedImage image;
@@ -94,6 +95,10 @@ public class Recipe implements MD5HashGenerator {
     public void setMealType(List<String> mealType) {this.mealType = mealType;}
     public void setDishType(List<String> dishType) {this.dishType = dishType;}
 
+    @Override
+    public int compareTo(@NotNull Recipe o) {
+        return this.getName().compareToIgnoreCase(o.getName());
+    }
 
 //    @Override
 //    public String toString() {
