@@ -3,6 +3,7 @@ package use_cases.display_recipe_detail;
 import entity.LoggedUserData;
 import entity.Recipe;
 import entity.ShoppingList;
+import entity.User;
 import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
@@ -19,12 +20,13 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private AddToMyRecipeController addToMyRecipeController;
     private RecipeToGroceryController recipeToGroceryController;
     private ArrayList<ShoppingList> userGroceryLists;
+    User user = LoggedUserData.getLoggedInUser();
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController, RecipeToGroceryController recipeToGroceryController) {
         super(parent, viewModel);
         this.addToMyRecipeController = addToMyRecipeController;
         this.recipeToGroceryController = recipeToGroceryController;
-        this.userGroceryLists = LoggedUserData.getLoggedInUser().getShoppingLists(); // Initialize the grocery lists
+        this.userGroceryLists = user.getShoppingLists(); // Initialize the grocery lists
     }
 
 
@@ -89,11 +91,11 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     private void addToGroceryList(Recipe recipe, ShoppingList list) {
         addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
-        recipeToGroceryController.convertRecipesToGroceryList(LoggedUserData.getLoggedInUser());
+        recipeToGroceryController.convertRecipesToGroceryList(user);
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
-        // Implement logic to create a new grocery list and add the recipe to it
+        addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
         // You can interact with the viewModel or other controllers as needed
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         if (newListName != null && !newListName.trim().isEmpty()) {

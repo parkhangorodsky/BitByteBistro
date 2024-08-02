@@ -77,10 +77,12 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
             }
         }
         List<ShoppingList> existingLists = user.getShoppingLists();
-        String listName = "list1";
+        String listName;
         if (!existingLists.isEmpty()) {
             listName = "list" + existingLists.size();
-        }
-        return new ShoppingList(user.getUserName(), listName, groceries);
+        } else {listName = "list1";}
+        ShoppingList newShoppingList = new ShoppingList(user.getUserName(), listName, groceries);
+        user.addShoppingList(newShoppingList);
+        return newShoppingList;
     }
 }

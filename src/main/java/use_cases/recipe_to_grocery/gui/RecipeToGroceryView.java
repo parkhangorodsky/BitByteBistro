@@ -107,7 +107,7 @@ public class RecipeToGroceryView extends View implements ActionListener {
         User user = LoggedUserData.getLoggedInUser(); // Retrieve the logged-in user
         System.out.println("found currently logged in user");
         if (user != null) {
-            System.out.println("calling convert revipes to grocery list");
+            System.out.println("calling convert recipes to grocery list");
             recipeToGroceryController.convertRecipesToGroceryList(user);
         } else {
             System.out.println("No user is currently logged in.");

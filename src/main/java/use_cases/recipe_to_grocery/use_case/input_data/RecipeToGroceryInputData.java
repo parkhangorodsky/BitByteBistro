@@ -1,5 +1,6 @@
 package use_cases.recipe_to_grocery.use_case.input_data;
 
+import entity.LoggedUserData;
 import entity.User;
 
 /**
@@ -15,7 +16,7 @@ public class RecipeToGroceryInputData {
      * @param user The User object representing the logged-in user.
      */
     public RecipeToGroceryInputData(User user) {
-        this.user = user;
+        this.user = LoggedUserData.getLoggedInUser();
     }
 
     /**
