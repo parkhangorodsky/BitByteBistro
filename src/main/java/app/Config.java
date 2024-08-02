@@ -48,6 +48,12 @@ import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
+// Logout UseCase
+
+import use_cases.logout.use_case.interactor.LogoutInteractor;
+import use_cases.logout.interface_adapter.presenter.LogoutPresenter;
+import use_cases.logout.interface_adapter.controller.LogoutController;
+
 // Data Access
 import frameworks.data_access.UserDataAccessInterface;
 import frameworks.data_access.CSVDataAccessObject;
@@ -98,6 +104,12 @@ public class Config {
     private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, userDAO);
     private final SignUpController signUpController = new SignUpController(signUpInteractor);
 
+    // Logout UseCase
+
+    private final LogoutPresenter logoutPresenter = new LogoutPresenter(viewManagerModel);
+    private final LogoutInteractor logoutInteractor = new LogoutInteractor(logoutPresenter);
+    private final LogoutController logoutController = new LogoutController(logoutInteractor);
+
     // Recipe To Grocery UseCase
     private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
     private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
@@ -136,10 +148,10 @@ public class Config {
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-
     public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
+    public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
