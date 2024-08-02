@@ -1,9 +1,7 @@
 package use_cases.nutrition_display.use_case.input_data;
 
 import entity.Ingredient;
-import entity.Nutrition;
-import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInputBoundary;
-import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
+
 
 import java.util.List;
 

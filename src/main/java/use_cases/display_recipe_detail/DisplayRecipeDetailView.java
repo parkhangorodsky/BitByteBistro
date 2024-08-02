@@ -24,7 +24,7 @@ import java.util.List;
 import static java.lang.Math.round;
 
 public abstract class DisplayRecipeDetailView extends PopUpView implements PropertyChangeListener, ImageLoader {
-    private DisplayRecipeDetailViewModel viewModel;
+    protected DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
 
     public DisplayRecipeDetailView(JFrame parent, DisplayRecipeDetailViewModel viewModel) {
@@ -36,11 +36,9 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
         if (evt.getPropertyName().equals("initialized")) {
             initialize();
         }
-
     }
 
     private void initialize() {

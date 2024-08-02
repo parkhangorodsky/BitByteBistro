@@ -10,6 +10,7 @@ import java.util.Map;
 public interface RecipeBuilder {
     RecipeBuilder buildName(String name);
     RecipeBuilder buildImage(String image);
+    RecipeBuilder buildSmallImage(String image);
     RecipeBuilder buildYield(int yield);
     RecipeBuilder buildInstruction(String instruction);
     RecipeBuilder buildIngredientList(List<Ingredient> ingredients);

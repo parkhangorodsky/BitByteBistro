@@ -1,8 +1,6 @@
 package app;
 
 // API
-import entity.Recipe;
-import entity.User;
 import frameworks.api.NutritionAPI;
 import frameworks.api.NutritionDisplayApi;
 import frameworks.api.RecipeAPI;
@@ -14,6 +12,10 @@ import frameworks.gui.SwingGUI;
 
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationService;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
+import use_cases.add_to_my_recipe.AddToMyRecipePresenter;
+import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
@@ -51,8 +53,9 @@ public class Config {
 
     // View Models
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
-    private final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("search recipe");
-    private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel();
+    private final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("Search Recipe");
+    private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
+    private final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("Grocery List");
@@ -97,12 +100,16 @@ public class Config {
     private final DisplayRecipeDetailInteractor displayRecipeDetailInteractor = new DisplayRecipeDetailInteractor(displayRecipeDetailPresenter);
     private final DisplayRecipeDetailController displayRecipeDetailController = new DisplayRecipeDetailController(displayRecipeDetailInteractor);
 
-
+    // Add to my recipe UseCase
+    private final AddToMyRecipePresenter addToMyRecipePresenter = new AddToMyRecipePresenter(myRecipeViewModel);
+    private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter);
+    private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
     // ViewModel Getters
     public ViewManagerModel getViewManagerModel() { return viewManagerModel; }
     public SearchRecipeViewModel getSearchRecipeViewModel() { return searchRecipeViewModel; }
     public AdvancedSearchRecipeViewModel getAdvancedSearchRecipeViewModel() { return advancedSearchRecipeViewModel; }
+    public MyRecipeViewModel getMyRecipeViewModel() { return myRecipeViewModel; }
     public LoginViewModel getLoginViewModel() { return loginViewModel; }
     public SignUpViewModel getSignUpViewModel() { return signUpViewModel; }
     public RecipeToGroceryViewModel getRecipeToGroceryViewModel() { return recipeToGroceryViewModel; }
@@ -120,6 +127,7 @@ public class Config {
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
+    public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
 
     public DisplayRecipeDetailPresenter getDisplayRecipeDetailPresenter() { return displayRecipeDetailPresenter; }
     public DisplayRecipeDetailInteractor getDisplayRecipeDetailInteractor() { return displayRecipeDetailInteractor; }
