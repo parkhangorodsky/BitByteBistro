@@ -26,8 +26,10 @@ public class NutritionStatsController {
      * @param shoppingList the recipe for which the nutritional information will be retrieved for.
      */
     public void execute(ShoppingList shoppingList) {
+        // placeholder will change to be shoppingList.getListRecipes.size()
+        int placeholder = 5;
         NutritionStatsInputData nutritionStatsInputData = new NutritionStatsInputData(
-                shoppingList.getShoppingListName(), shoppingList.getListItems());
+                shoppingList.getShoppingListName(), shoppingList.getListItems(), placeholder);
         nutritionStatsInteractor.execute(nutritionStatsInputData);
     }
 }
