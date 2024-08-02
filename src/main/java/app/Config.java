@@ -55,7 +55,7 @@ public class Config {
     private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel();
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
-    private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
+    private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("Grocery List");
 
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();

@@ -131,23 +131,12 @@ public class SearchRecipeView extends View {
         // Output Components
         recipeContainer = new RecipeContainer(outputPanel);
 
-        // Navigate to RecipeToGroceryView
-        JButton convertToGroceryButton = new JButton("Convert Recipes to Grocery List");
-        convertToGroceryButton.addActionListener(e -> {
-            if (e.getSource().equals(convertToGroceryButton)) {
-                System.out.println("convert button pressed");
-                viewManagerModel.setActiveView("recipe to grocery");
-                viewManagerModel.firePropertyChanged();
-            }
-        });
-
 
         // Pack input & output panel
 //        inputPanel.add(title);
         inputPanel.add(advancedSearchButton);
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
-        inputPanel.add(convertToGroceryButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
@@ -167,10 +156,6 @@ public class SearchRecipeView extends View {
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
-        } else if (evt.getPropertyName().equals("convert")) {
-            System.out.println("switing views");
-            viewManagerModel.setActiveView("recipe to grocery");
-            viewManagerModel.firePropertyChanged();
         }
         outputPanel.revalidate();
         outputPanel.repaint();
