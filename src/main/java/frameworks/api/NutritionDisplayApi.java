@@ -53,15 +53,9 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("title", inputData.getTitle());
 
-        // temp lines for the temp view:
-        System.out.println("the recipe '" + inputData.getTitle() + "' has the following ingredients: ");
-
         List<String> ingredientList = new ArrayList<>();
         for (Ingredient ingredient : inputData.getIngredients()) {
             ingredientList.add(ingredient.toString());
-
-            // temp lines for the temp view:
-            System.out.println(ingredient.toString());
         }
         jsonMap.put("ingr", ingredientList);
 
