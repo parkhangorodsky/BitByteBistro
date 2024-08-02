@@ -7,6 +7,7 @@ import use_cases._common.gui_common.abstractions.ImageLoader;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,11 +17,13 @@ import java.util.ArrayList;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView {
     private AddToMyRecipeController addToMyRecipeController;
+    private RecipeToGroceryController recipeToGroceryController;
     private ArrayList<ShoppingList> userGroceryLists;
 
-    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController) {
+    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController, RecipeToGroceryController recipeToGroceryController) {
         super(parent, viewModel);
         this.addToMyRecipeController = addToMyRecipeController;
+        this.recipeToGroceryController = recipeToGroceryController;
         this.userGroceryLists = LoggedUserData.getLoggedInUser().getShoppingLists(); // Initialize the grocery lists
     }
 
@@ -71,9 +74,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         });
         addToMenu.add(createNewGroceryListItem);
 
-//        addToButton.addActionListener(e -> {
-//            addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
-//        });
+
         addToButton.addActionListener(e -> {
             addToMenu.show(addToButton, addToButton.getWidth() / 2, addToButton.getHeight() / 2);
         });
@@ -87,11 +88,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     };
 
     private void addToGroceryList(Recipe recipe, ShoppingList list) {
-        // Implement logic to add recipe to the specified grocery list
-        // You can interact with the viewModel or other controllers as needed
-        System.out.println("Adding recipe to grocery list: " + list.getShoppingListName());
-        // For example, you might have a method in a controller like:
-        // groceryListController.addRecipeToList(recipe, list);
+        addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
+        recipeToGroceryController.convertRecipesToGroceryList(LoggedUserData.getLoggedInUser());
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
