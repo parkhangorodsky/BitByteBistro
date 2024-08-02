@@ -6,6 +6,7 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.logout.interface_adapter.controller.LogoutController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +20,7 @@ import java.util.Arrays;
  */
 public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObject {
     ViewManagerModel viewManagerModel;
+    LogoutController logoutController;
 
     JPanel mainPanel;
     JPanel titlePanel;
@@ -29,15 +31,18 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
     RoundButton searchButton;
     RoundButton myRecipeButton;
     RoundButton groceryListButton;
+    RoundButton logoutButton;
+
 
     RoundButton settingButton;
 
 
-    public Sidebar(ViewManagerModel viewManagerModel) {
+    public Sidebar(ViewManagerModel viewManagerModel,LogoutController logoutController) {
 
         setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(250, 750));
         this.viewManagerModel = viewManagerModel;
+        this.logoutController = logoutController;
 
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -62,6 +67,12 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         });
         groceryListButton = createMenu("Grocery List");
 
+        logoutButton = new RoundButton(null);
+        logoutButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/logout.png")));
+        logoutButton.setToolTipText("Logout");
+        logoutButton.addActionListener(e -> logoutController.logout());
+
+        switchPanel.add(logoutButton);
         switchPanel.add(homeButton);
         switchPanel.add(searchButton);
         switchPanel.add(myRecipeButton);
