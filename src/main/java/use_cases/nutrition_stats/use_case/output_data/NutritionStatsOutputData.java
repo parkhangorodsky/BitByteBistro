@@ -2,19 +2,26 @@ package use_cases.nutrition_stats.use_case.output_data;
 
 import entity.Nutrition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NutritionStatsOutputData {
-    private List<Nutrition> nutritionInfo;
+    private List<Nutrition> nutritionInfoTotal;
+    private List<Nutrition> nutritionInfoAverage;
 
     /**
      * Constructs a NutritionStatsOutputData object
      * with the specified nutritional information.
      *
-     * @param nutritionInfo the list of recipes found by the search
+     * @param nutritionInfoTotal the list of recipes found by the search
      */
-    public NutritionStatsOutputData(List<Nutrition> nutritionInfo) {
-        this.nutritionInfo = nutritionInfo;
+    public NutritionStatsOutputData(List<Nutrition> nutritionInfoTotal, Integer numberOfRecipes) {
+        this.nutritionInfoTotal = nutritionInfoTotal;
+        this.nutritionInfoAverage = new ArrayList<>();
+        for (Nutrition nutrition : nutritionInfoTotal) {
+            Nutrition averageNutrition = new Nutrition(nutrition.getLabel(), nutrition.getQuantity()/numberOfRecipes, nutrition.getUnit());
+            this.nutritionInfoAverage.add(averageNutrition);
+        }
     }
 
     /**
@@ -22,6 +29,7 @@ public class NutritionStatsOutputData {
      * @return the nutritional information of a recipe.
      */
     public List<Nutrition> getNutrition() {
-        return nutritionInfo;
+        return nutritionInfoTotal;
     }
+    public List<Nutrition> getNutritionInfoAverage() {return nutritionInfoAverage;}
 }
