@@ -98,9 +98,11 @@ public class RecipeToGroceryView extends View implements ActionListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("recipe(s) found")) {
+            System.out.println("view: recipes were found");
             RecipeToGroceryOutputData response = (RecipeToGroceryOutputData) evt.getNewValue();
             loadShoppingList(response);
         }else if (evt.getPropertyName().equals("no recipe")) {
+            System.out.println("view: no recipe found");
             // Handle empty recipe result
             loadEmptyResult();
         }
