@@ -122,7 +122,6 @@ public class Config {
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-
     public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
