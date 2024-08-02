@@ -114,11 +114,6 @@ public class SwingGUI implements GUI {
         viewManager.addView(signUpView);
 
 
-        //Create PopUpView
-        PreferenceView preferenceView = new PreferenceView(frame, config.getSetPreferenceController());
-        frame.setEnabled(true);
-        viewManager.addPopupView("Preference", preferenceView);
-
         // Listen to view changes
         this.viewManagerModel.addPropertyChangeListener(evt -> {
             if ("view change".equals(evt.getPropertyName())) {
@@ -168,7 +163,7 @@ public class SwingGUI implements GUI {
 
     public void initializeOtherViews() {
         JPanel mainPanel = (JPanel) this.frame.getContentPane().getComponent(0);
-        sideBar = new Sidebar(this.viewManagerModel);
+        sideBar = new Sidebar(this.viewManagerModel, config.getLogoutController());
         mainPanel.add(sideBar, BorderLayout.WEST);
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
         // Create SearchRecipe components
@@ -201,6 +196,11 @@ public class SwingGUI implements GUI {
 
         // Add RecipeToGroceryView to ViewManager
         viewManager.addView(recipeToGroceryView);
+
+        //Create PopUpView
+        PreferenceView preferenceView = new PreferenceView(frame, config.getSetPreferenceController());
+        frame.setEnabled(true);
+        viewManager.addPopupView("Preference", preferenceView);
 
     }
 

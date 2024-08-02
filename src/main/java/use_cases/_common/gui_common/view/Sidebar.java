@@ -67,8 +67,8 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         });
         groceryListButton = createMenu("Grocery List");
 
-        logoutButton = new RoundButton(null);
-        logoutButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/logout.png")));
+        logoutButton = new RoundButton("logout");
+//        logoutButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/logout.png")));
         logoutButton.setToolTipText("Logout");
         logoutButton.addActionListener(e -> logoutController.logout());
 
