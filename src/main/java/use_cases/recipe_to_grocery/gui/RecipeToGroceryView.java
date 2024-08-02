@@ -29,7 +29,6 @@ import java.awt.event.ActionListener;
 public class RecipeToGroceryView extends View implements ActionListener {
     private RecipeToGroceryViewModel recipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
-    private AuthenticationService authenticationService;
 
     public final String viewName = "recipe to grocery";
 
@@ -56,7 +55,6 @@ public class RecipeToGroceryView extends View implements ActionListener {
 
         // Make connection to Controller
         this.recipeToGroceryController = recipeToGroceryController;
-        this.authenticationService = authenticationService;
 
         // Set Layout
         this.setLayout(new BorderLayout());
@@ -84,6 +82,32 @@ public class RecipeToGroceryView extends View implements ActionListener {
     }
 
     /**
+     * Handles user action events, specifically triggering recipe to grocery conversion.
+     *
+     * @param e The action event triggered.
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    }
+
+    /**
+     * Listens to property change events from the ViewModel.
+     *
+     * @param evt The property change event fired.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("recipe(s) found")) {
+            RecipeToGroceryOutputData response = (RecipeToGroceryOutputData) evt.getNewValue();
+            loadShoppingList(response);
+        }else if (evt.getPropertyName().equals("no recipe")) {
+            // Handle empty recipe result
+            loadEmptyResult();
+        }
+    }
+
+
+    /**
      * Loads shopping lists into the view based on the output data from recipe to grocery conversion.
      *
      * @param response The output data containing shopping lists.
@@ -95,35 +119,6 @@ public class RecipeToGroceryView extends View implements ActionListener {
             outputPanel.add(shoppingListPanel);
         }
         SwingUtilities.invokeLater(() -> shoppingListContainer.getVerticalScrollBar().setValue(0));
-    }
-
-    /**
-     * Handles user action events, specifically triggering recipe to grocery conversion.
-     *
-     * @param e The action event triggered.
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        User user = LoggedUserData.getLoggedInUser(); // Retrieve the logged-in user
-        if (user != null) {
-            recipeToGroceryController.convertRecipesToGroceryList();
-        } else {
-            System.out.println("No user is currently logged in.");
-        }
-    }
-
-    /**
-     * Listens to property change events from the ViewModel.
-     *
-     * @param evt The property change event fired.
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("no recipe")) {
-            // Handle empty recipe result
-            RecipeToGroceryOutputData response = (RecipeToGroceryOutputData) evt.getNewValue();
-            loadEmptyResult();
-        }
     }
 
     /**

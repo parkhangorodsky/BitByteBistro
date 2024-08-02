@@ -40,11 +40,12 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
     @Override
     public void execute(RecipeToGroceryInputData recipeToGroceryInputData) {
         ArrayList<Recipe> recipes = recipeToGroceryInputData.getRecipes();
+        ShoppingList user_shoppingList = recipeToGroceryInputData.getShoppingList();
         User user = LoggedUserData.getLoggedInUser();
 
         // Convert recipes to grocery list
         ShoppingList shoppingList = getGroceryList(recipes, user);
-        List<ShoppingList> shoppingLists = new ArrayList<>();
+        ArrayList<ShoppingList> shoppingLists = new ArrayList<>();
         shoppingLists.add(shoppingList);
 
         // Prepare output data and notify presenter

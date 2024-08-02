@@ -8,6 +8,8 @@ import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
@@ -21,7 +23,7 @@ public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColo
 
     private RecipeModel recipeModel;
 
-    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController) {
+    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController, RecipeToGroceryController recipeToGroceryController) {
 
         this.setBackground(claudeWhite);
         this.setLayout(new BorderLayout(2, 3));
@@ -68,13 +70,14 @@ public class RecipePanel extends ViewComponent implements ImageLoader, ThemeColo
         detailButton.setPressedColor(claudeWhite);
         detailButton.addActionListener(e -> {
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
-            DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel, addToMyRecipeController);
+            DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel, addToMyRecipeController, recipeToGroceryController);
             displayRecipeDetailController.execute(recipe, viewModel);
             display.setVisible(true);
             display.enableParent();
         });
 
         extraInfoPanel.add(detailButton);
+
 
         topPanel.add(recipeNameLabel);
 

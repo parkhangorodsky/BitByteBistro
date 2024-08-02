@@ -32,13 +32,6 @@ public class RecipeToGroceryController {
      *
      * @param recipes A list of recipes from which the controller creates shopping lists.
      */
-    public void convertRecipesToGroceryList(ArrayList<Recipe> recipes) {
-        // Prepare input data
-        RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(recipes);
-
-        // Execute the use case
-        recipeToGroceryInteractor.execute(recipeToGroceryInputData);
-    }
 
     public void convertRecipesToGroceryList(ArrayList<Recipe> recipes, ShoppingList shoppingList) {
         // Prepare input data

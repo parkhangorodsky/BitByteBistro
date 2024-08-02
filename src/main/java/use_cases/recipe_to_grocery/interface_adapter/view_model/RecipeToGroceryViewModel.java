@@ -1,10 +1,12 @@
 package use_cases.recipe_to_grocery.interface_adapter.view_model;
 
+import entity.ShoppingList;
 import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
 /**
  * View model class for managing data related to converting recipes to a grocery list view.
@@ -24,6 +26,10 @@ public class RecipeToGroceryViewModel extends ViewModel {
         super(viewName);
     }
 
+    public RecipeToGroceryOutputData getGroceryResult() {
+        return groceryResult;
+    }
+
     /**
      * Sets the grocery list result data.
      *
@@ -31,6 +37,10 @@ public class RecipeToGroceryViewModel extends ViewModel {
      */
     public void setGroceryResult(RecipeToGroceryOutputData groceryResult) {
         this.groceryResult = groceryResult;
+    }
+
+    public ArrayList<ShoppingList> getShoppingList(RecipeToGroceryOutputData outputData) {
+        return outputData.getShoppingLists();
     }
 
     /**
@@ -48,7 +58,6 @@ public class RecipeToGroceryViewModel extends ViewModel {
     public void firePropertyChanged() {
         if (groceryResult != null && groceryResult.getShoppingLists().isEmpty()) {
             support.firePropertyChange("no recipe", null, null);
-            System.out.println("no recipe - view model");
         }
     }
 }
