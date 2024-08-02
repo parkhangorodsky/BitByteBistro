@@ -1,6 +1,7 @@
 package use_cases.recipe_to_grocery.interface_adapter.controller;
 
 import entity.Recipe;
+import entity.ShoppingList;
 import entity.User;
 import entity.LoggedUserData;
 import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
@@ -34,6 +35,14 @@ public class RecipeToGroceryController {
     public void convertRecipesToGroceryList(ArrayList<Recipe> recipes) {
         // Prepare input data
         RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(recipes);
+
+        // Execute the use case
+        recipeToGroceryInteractor.execute(recipeToGroceryInputData);
+    }
+
+    public void convertRecipesToGroceryList(ArrayList<Recipe> recipes, ShoppingList shoppingList) {
+        // Prepare input data
+        RecipeToGroceryInputData recipeToGroceryInputData = new RecipeToGroceryInputData(recipes, shoppingList);
 
         // Execute the use case
         recipeToGroceryInteractor.execute(recipeToGroceryInputData);

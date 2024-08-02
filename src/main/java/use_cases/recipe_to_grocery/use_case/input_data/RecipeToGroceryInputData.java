@@ -2,8 +2,10 @@ package use_cases.recipe_to_grocery.use_case.input_data;
 
 import entity.LoggedUserData;
 import entity.Recipe;
+import entity.ShoppingList;
 import entity.User;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 
 /**
@@ -12,6 +14,7 @@ import java.util.ArrayList;
  */
 public class RecipeToGroceryInputData {
     private ArrayList<Recipe> recipes;
+    private ShoppingList shoppingList;
 
     /**
      * Constructs a RecipeToGroceryInputData object with the specified user.
@@ -20,5 +23,18 @@ public class RecipeToGroceryInputData {
      */
     public RecipeToGroceryInputData(ArrayList<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public RecipeToGroceryInputData(ArrayList<Recipe> recipes, ShoppingList shoppingList) {
+        this.recipes = recipes;
+        this.shoppingList = shoppingList;
+    }
+
+    public ArrayList<Recipe> getRecipes () {
+        return recipes;
+    }
+
+    public ShoppingList getShoppingList () {
+        return shoppingList;
     }
 }
