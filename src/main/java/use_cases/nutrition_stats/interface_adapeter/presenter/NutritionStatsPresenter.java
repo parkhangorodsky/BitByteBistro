@@ -13,7 +13,6 @@ import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewMode
  * Encapsulation: This class encapsulates the logic for updating the nutritionStatsViewModel.
  */
 public class NutritionStatsPresenter implements NutritionStatsOutputBoundary{
-
     private NutritionStatsViewModel nutritionStatsViewModel;
     private ViewManagerModel viewManagerModel;
 
@@ -21,9 +20,9 @@ public class NutritionStatsPresenter implements NutritionStatsOutputBoundary{
      * Constructs a NutritionStatsPresenter with the specified view manager and search recipe view model.
      *
      * @param viewManagerModel the model managing the active view
-     * @param searchRecipeViewModel the view model for displaying recipe search results
+     * @param nutritionStatsViewModel the view model for displaying recipe search results
      */
-    public NutritionStatsPresenter(ViewManagerModel viewManagerModel, SearchRecipeViewModel searchRecipeViewModel) {
+    public NutritionStatsPresenter(ViewManagerModel viewManagerModel, NutritionStatsViewModel nutritionStatsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.nutritionStatsViewModel = nutritionStatsViewModel;
     }
@@ -33,9 +32,14 @@ public class NutritionStatsPresenter implements NutritionStatsOutputBoundary{
      * Will update the nutrition display view model with the search results and notify the view manager model.
      * Currently, does nothing.
      *
-     * @param nutritionStatsOutputData the nutrition information data for a specific recipe
+     * @param nutritionalInfo the nutrition information data for a specific recipe
      */
     @Override
-    public void prepareSuccessView(NutritionStatsOutputData nutritionStatsOutputData) {
+    public void prepareSuccessView(NutritionStatsOutputData nutritionalInfo) {
+        nutritionStatsViewModel.setNutritionalStatistics(nutritionalInfo);
+        nutritionStatsViewModel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(nutritionStatsViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }
