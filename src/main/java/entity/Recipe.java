@@ -7,61 +7,51 @@ import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Overview: Represents a recipe entity.
+ * Encapsulation: This class encapsulates the data that a recipe should / can store.
+ * The attribute include name, images, yield, instructions, ingredients, nutrition information, and categorization labels.
+ */
 public class Recipe implements MD5HashGenerator {
 
-    private String name;
-    private BufferedImage image;
-    private BufferedImage smallImage;
-    private int yield;
-    private String instructions;
+    private String id; // Unique identifier for the recipe, generated using MD5 hash.
+    private String name; //The name of the recipe.
+    private BufferedImage image; // The main image associated with the recipe.
+    private BufferedImage smallImage; // A smaller version of the image, typically used for previews or thumbnails.
+    private int yield; // The number of servings the recipe yields.
+    private String instructions; // The instructions or steps to prepare the recipe.
 
-    private List<Ingredient> ingredientList;
-    private Map<String, Nutrition> nutritionMap;
+    private List<Ingredient> ingredientList; // List of ingredients required for the recipe.
+    private Map<String, Nutrition> nutritionMap; // Map containing nutrition information, where the key is the type of nutrition and the value is the nutrition details.
 
-    private String id;
+    List<String> dietLabels; // List of diet labels applicable to the recipe (e.g., vegetarian, vegan).
+    List<String> healthLabels; // List of health labels applicable to the recipe (e.g., low-fat, low-sodium).
+    List<String> cautions;  // List of cautions or warnings related to the recipe (e.g., allergens).
+    List<String> tags; // List of tags or keywords associated with the recipe.
+    List<String> cuisineType; // List of cuisine types that the recipe falls under (e.g., Italian, Mexican).
+    List<String> mealType; // List of meal types that the recipe can be categorized into (e.g., breakfast, dinner).
+    List<String> dishType; // List of dish types (e.g., appetizer, main course).
 
-    List<String> dietLabels;
-    List<String> healthLabels;
-    List<String> cautions;
-    List<String> tags;
-    List<String> cuisineType;
-    List<String> mealType;
-    List<String> dishType;
-
-//    /**
-//     * Constructor for the recipe entity.
-//     * @param name Name of the recipe
-//     * @param image Image of the recipe
-//     * @param yield Yields of the recipe
-//     * @param instructions Instructions of the recipe
-//     * @param ingredientList List of the ingredients
-//     * @param nutritionMap Map of nutrition in terms of quantity and unit
-//     * @param totalDailyMap Map of nutrition in terms of daily percentage
-//     * @param dietLabels List of diet types that the recipe belongs.
-//     *                   The diet type labels describe commonly used
-//     *                   nutrient level aspects of the recipe.
-//     * @param healthLabels List of health type labels. health type labels
-//     *                     describe commonly used ingredient level aspects of the recipe.
-//     * @param cautions List of caution labels.
-//     * @param tags List of tags.
-//     * @param cuisineType List of cuisine types labels.
-//     * @param mealType List of meal type labels. The meal types refer to the
-//     *                 meals in a day the recipe is commonly consumed in.
-//     * @param dishType List of dish type labels. The dish types refer to the
-//     *                 category of food the recipe would fall under.
-//     */
+    /**
+     * Default constructor that generates a unique ID for the recipe using the current time and a UUID.
+     */
     public Recipe() {
         String input = LocalDateTime.now() + UUID.randomUUID().toString();
         this.id = "recipe_" + generateMD5(input);
     }
 
+    /**
+     * Constructs a Recipe with a specified ID. This constructor is used when id is provided by external sources.
+     *
+     * @param id The unique identifier for the recipe.
+     */
     public Recipe(String id) {
         this.id = id;
     }
+
     /**
      * Getters
      */
-
     public String getId() {return this.id;}
     public List<Ingredient> getIngredientList() {return this.ingredientList;}
     public String getName() {return this.name;}
@@ -78,6 +68,9 @@ public class Recipe implements MD5HashGenerator {
     public List<String> getDishType() {return this.dishType;}
     public String getInstructions() {return this.instructions;}
 
+    /**
+     * Setters
+     */
     public void setId(String id) {this.id = id;}
     public void setName(String name) {this.name = name;}
     public void setImage(BufferedImage image) {this.image = image;}
@@ -94,18 +87,4 @@ public class Recipe implements MD5HashGenerator {
     public void setMealType(List<String> mealType) {this.mealType = mealType;}
     public void setDishType(List<String> dishType) {this.dishType = dishType;}
 
-
-//    @Override
-//    public String toString() {
-//
-//        String name = "Menu: <" + this.name + ">\n";
-//        String instruction = "Instructions: " + this.instructions + "\n";
-//        StringBuilder ingredients = new StringBuilder().append("<Ingedients>\n>");
-//        for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
-//        StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
-//        for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
-//
-//
-//        return name + instruction + ingredients + nutritions;
-//    }
 }
