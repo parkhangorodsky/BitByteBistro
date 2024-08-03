@@ -67,6 +67,9 @@ public class SwingGUI implements GUI {
     private SignUpViewModel signUpViewModel;
     private RecipeToGroceryViewModel recipeToGroceryViewModel;
 
+    // Config
+    private Config config;
+
     // UI
     private JFrame frame;
     private CardLayout mainCardLayout;
@@ -79,6 +82,7 @@ public class SwingGUI implements GUI {
      */
     public SwingGUI(Config config) {
         // Get ViewModels from config and save it.
+        this.config = config;
         this.viewManagerModel = config.getViewManagerModel();
         this.searchRecipeViewModel = config.getSearchRecipeViewModel();
         this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
@@ -105,7 +109,7 @@ public class SwingGUI implements GUI {
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel); // Pass AuthenticationService to LoginPresenter
         LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface()); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
-        LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
+        LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel, this); // Pass SwingGUI instance
 
         // Add LoginView to ViewManager
         viewManager.addView(loginView);
@@ -118,45 +122,6 @@ public class SwingGUI implements GUI {
 
         // Add SignUpView to ViewManager
         viewManager.addView(signUpView);
-
-        // Create HomeView components
-        HomeView homeView = new HomeView(viewManagerModel);
-        viewManager.addView(homeView);
-
-        // Create SearchRecipe components
-        SearchRecipeController searchRecipeController = config.getSearchRecipeController();
-        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
-        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
-        AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
-        RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
-        // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
-                searchRecipeController,
-                nutritionDisplayController,
-                displayRecipeDetailController,
-                addToMyRecipeController,
-                recentlyViewedRecipesController,
-                advancedSearchRecipeViewModel,
-                viewManagerModel);
-        SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
-        SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
-
-        // Add SearchRecipeView to ViewManager
-        viewManager.addView(searchRecipeView);
-
-
-        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
-        viewManager.addView(myRecipeView);
-
-
-        // Create RecipeToGrocery components
-        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
-        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
-        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
-
-        // Add RecipeToGroceryView to ViewManager
-        viewManager.addView(recipeToGroceryView);
 
 
         //Create PopUpView
@@ -202,16 +167,58 @@ public class SwingGUI implements GUI {
     }
 
     private void createMainPanel() {
-
         JPanel mainPanel = new JPanel(new BorderLayout());
-        sideBar = new Sidebar(this.viewManagerModel);
 
         this.mainCardLayout = new CardLayout();
         this.viewPanel = new JPanel(mainCardLayout);
 
-        mainPanel.add(sideBar, BorderLayout.WEST);
         mainPanel.add(viewPanel, BorderLayout.CENTER);
         this.frame.add(mainPanel);
+    }
+
+    public void initializeOtherViews() {
+        JPanel mainPanel = (JPanel) this.frame.getContentPane().getComponent(0);
+        sideBar = new Sidebar(this.viewManagerModel);
+        mainPanel.add(sideBar, BorderLayout.WEST);
+        AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
+
+        // Create HomeView components
+        HomeView homeView = new HomeView(viewManagerModel);
+        viewManager.addView(homeView);
+
+        // Create SearchRecipe components
+        SearchRecipeController searchRecipeController = config.getSearchRecipeController();
+        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
+        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
+        AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
+        RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
+        // Get the NutritionDisplayController from config
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
+                searchRecipeController,
+                nutritionDisplayController,
+                displayRecipeDetailController,
+                addToMyRecipeController,
+                recentlyViewedRecipesController,
+                advancedSearchRecipeViewModel,
+                viewManagerModel);
+
+        // Add SearchRecipeView to ViewManager
+        viewManager.addView(searchRecipeView);
+
+
+        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
+        viewManager.addView(myRecipeView);
+
+
+        // Create RecipeToGrocery components
+        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
+        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
+        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
+        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
+
+        // Add RecipeToGroceryView to ViewManager
+        viewManager.addView(recipeToGroceryView);
+
     }
 
     @Override
