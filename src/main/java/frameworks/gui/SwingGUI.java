@@ -103,7 +103,6 @@ public class SwingGUI implements GUI {
 
         // Create ViewManagers
         this.authenticationViewManager = new AppViewManager(this.loginPanel, this.loginCardLayout, this.authenticationViewManagerModel);
-        this.viewManager = new AppViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, authenticationViewManagerModel, authenticationViewModel);
@@ -158,12 +157,11 @@ public class SwingGUI implements GUI {
     }
 
     public void initializeLoginFrame() {
-        initializeMainFrame();
-        createMainPanel();
         loginFrame = new JFrame("Login");
         loginFrame.setSize(1000, 750);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setLayout(new BorderLayout());
+        this.mainFrame.setLocationRelativeTo(null);
     }
 
     private void createMainPanel() {
@@ -183,6 +181,11 @@ public class SwingGUI implements GUI {
 
 
     public void initializeOtherViews() {
+        initializeMainFrame();
+        createMainPanel();
+
+        this.viewManager = new AppViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
+
         JPanel mainPanel = (JPanel) this.mainFrame.getContentPane().getComponent(0);
         sideBar = new Sidebar(this.viewManagerModel, config.getLogoutController());
         mainPanel.add(sideBar, BorderLayout.WEST);

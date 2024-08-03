@@ -3,14 +3,16 @@ package use_cases._common.gui_common.abstractions;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Overview: AbstractViewManager class provides the basic functionalities
  * for managing views using CardLayout and ViewManagerModel.
  */
-public abstract class ViewManager {
+public abstract class ViewManager implements PropertyChangeListener {
 
-    private CardLayout cardLayout; // Layout manager
+    protected CardLayout cardLayout; // Layout manager
     private ViewManagerModel viewManagerModel; // The view model that stores the current view state.
 
     /**
@@ -29,11 +31,8 @@ public abstract class ViewManager {
      *
      * @param viewName the name of the view to switch to
      */
-    public void showView(String viewName) {
-        cardLayout.show(getViewsContainer(), viewName);
-    }
+    public abstract void showView(String viewName);
 
-    protected abstract Container getViewsContainer();
 
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -41,5 +40,12 @@ public abstract class ViewManager {
 
     public ViewManagerModel getViewManagerModel() {
         return viewManagerModel;
+    }
+
+    public void propertyChange(PropertyChangeEvent evt){
+        if ("view change".equals(evt.getPropertyName())) {
+            String newViewName = (String) evt.getNewValue();
+            showView(newViewName);
+        }
     }
 }

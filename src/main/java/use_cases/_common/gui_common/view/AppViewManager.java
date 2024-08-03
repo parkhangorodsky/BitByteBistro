@@ -37,6 +37,10 @@ public class AppViewManager extends ViewManager implements PropertyChangeListene
     }
 
     @Override
+    public void showView(String viewName) {
+        cardLayout.show(getViewsContainer(), viewName);
+    }
+
     protected Container getViewsContainer() {
         return views;
     }
