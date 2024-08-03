@@ -114,11 +114,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             this.revalidate();
             this.repaint();
         }
-        else if (evt.getPropertyName().equals("themeColor")) {
-
-        }
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
     @Override
