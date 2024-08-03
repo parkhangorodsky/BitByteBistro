@@ -4,6 +4,7 @@ import use_cases._common.gui_common.abstractions.View;
 import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import frameworks.gui.SwingGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
     private LoginController loginController;
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
+    private SwingGUI swingGUI;
 
     /**
      * Constructs a new LoginView with the specified controller, view model, and view manager model.
@@ -35,10 +37,11 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
      * @param loginViewModel The view model to manage login state.
      * @param viewManagerModel The view manager model to handle view changes.
      */
-    public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
+    public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, SwingGUI swingGUI) {
         this.loginController = loginController;
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.swingGUI = swingGUI;
         this.loginViewModel.addPropertyChangeListener(this);
         setupUI();
     }
@@ -48,6 +51,7 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
      */
     private void setupUI() {
         setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(1000, 750)); // Set the size to match SwingGUI frame
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
@@ -136,6 +140,8 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         if ("errorMessage".equals(evt.getPropertyName())) {
             displayErrorMessage((String) evt.getNewValue());
         } else if ("loggedInUser".equals(evt.getPropertyName())) {
+            // Initialize other views when the user logs in
+            swingGUI.initializeOtherViews();
             // Navigate to search recipe view on successful login
             viewManagerModel.setActiveView("search recipe");
             viewManagerModel.firePropertyChanged();
