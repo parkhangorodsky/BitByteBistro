@@ -33,7 +33,6 @@ public class MongoUserDAO implements UserDataAccessInterface{
     public void updateUser(User user) {
     }
 
-
     @Override
     public void deleteUser(User user) {
         userCollection.deleteOne(Filters.eq("userEmail", user.getUserEmail()));
