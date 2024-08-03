@@ -95,9 +95,9 @@ public class Config {
     private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
 
     // Login UseCase
-    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
-    private final LoginController loginController = new LoginController(loginInteractor);
+//    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
+//    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
+//    private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
@@ -149,7 +149,7 @@ public class Config {
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
     public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
-    public LoginController getLoginController() { return loginController; }
+//    public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }

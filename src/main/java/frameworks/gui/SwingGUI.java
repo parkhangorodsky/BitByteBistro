@@ -5,6 +5,7 @@ import entity.User;
 import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.abstractions.View;
@@ -60,6 +61,7 @@ public class SwingGUI implements GUI, PropertyChangeListener {
     private LoginViewModel loginViewModel;
     private SignUpViewModel signUpViewModel;
     private RecipeToGroceryViewModel recipeToGroceryViewModel;
+    private AuthenticationViewModel authenticationViewModel;
 
     // Config
     private Config config;
@@ -87,6 +89,7 @@ public class SwingGUI implements GUI, PropertyChangeListener {
         this.loginViewModel = config.getLoginViewModel();
         this.signUpViewModel = config.getSignUpViewModel();
         this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
+        this.authenticationViewModel = new AuthenticationViewModel("AuthView", this);
     }
 
     /**
@@ -106,7 +109,7 @@ public class SwingGUI implements GUI, PropertyChangeListener {
         this.viewManager = new ViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
-        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, authenticationViewManagerModel);
+        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, authenticationViewManagerModel, authenticationViewModel);
         LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface());
         LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, authenticationViewManagerModel, this);
