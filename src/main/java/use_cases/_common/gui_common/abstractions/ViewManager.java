@@ -8,7 +8,7 @@ import java.awt.*;
  * Overview: AbstractViewManager class provides the basic functionalities
  * for managing views using CardLayout and ViewManagerModel.
  */
-public abstract class AbstractViewManager {
+public abstract class ViewManager {
 
     private CardLayout cardLayout; // Layout manager
     private ViewManagerModel viewManagerModel; // The view model that stores the current view state.
@@ -19,7 +19,7 @@ public abstract class AbstractViewManager {
      * @param cardLayout       the CardLayout used to manage the views
      * @param viewManagerModel the model that manages the view state
      */
-    public AbstractViewManager(CardLayout cardLayout, ViewManagerModel viewManagerModel) {
+    public ViewManager(CardLayout cardLayout, ViewManagerModel viewManagerModel) {
         this.cardLayout = cardLayout;
         this.viewManagerModel = viewManagerModel;
     }

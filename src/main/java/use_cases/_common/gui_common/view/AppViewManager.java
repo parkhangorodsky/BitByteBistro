@@ -3,7 +3,7 @@ package use_cases._common.gui_common.view;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
-import use_cases._common.gui_common.abstractions.AbstractViewManager;
+import use_cases._common.gui_common.abstractions.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.util.Map;
  * and switches between different views in the GUI.
  * It listens to property changes in the ViewManagerModel and updates the displayed view accordingly.
  */
-public class ViewManager extends AbstractViewManager implements PropertyChangeListener {
+public class AppViewManager extends ViewManager implements PropertyChangeListener {
 
     private JPanel views; // Container for all the views
     private Map<String, PopUpView> popUpViews;
@@ -29,7 +29,7 @@ public class ViewManager extends AbstractViewManager implements PropertyChangeLi
      * @param cardLayout       the CardLayout used to manage the views
      * @param viewManagerModel the model that manages the view state
      */
-    public ViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
+    public AppViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
         super(cardLayout, viewManagerModel);
         this.views = views;
         this.getViewManagerModel().addPropertyChangeListener(this);

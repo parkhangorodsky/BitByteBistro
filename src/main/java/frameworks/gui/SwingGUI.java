@@ -1,8 +1,6 @@
 package frameworks.gui;
 
 import app.Config;
-import entity.User;
-import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.gui_common.view.*;
@@ -10,28 +8,17 @@ import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view.ViewManager;
+import use_cases._common.gui_common.view.AppViewManager;
 
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-import entity.User;
 
-import use_cases._common.authentication.AuthenticationService;
-import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
-import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view.ViewManager;
-
-import use_cases._common.gui_common.view.ViewManager;
-import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
-import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
-import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
-import use_cases.search_recipe.use_case.interactor.SearchRecipeInteractor;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
 
 import use_cases.log_in.interface_adapter.controller.LoginController;
@@ -56,15 +43,15 @@ import use_cases.recipe_to_grocery.gui.RecipeToGroceryView;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class SwingGUI implements GUI {
 
     private final ViewManagerModel authenticationViewManagerModel;
+
     // ViewManager
     private ViewManagerModel viewManagerModel;
-    private ViewManager viewManager;
-    private ViewManager authenticationViewManager;
+    private AppViewManager viewManager;
+    private AppViewManager authenticationViewManager;
 
     // ViewModels
     private SearchRecipeViewModel searchRecipeViewModel;
@@ -101,7 +88,6 @@ public class SwingGUI implements GUI {
         this.signUpViewModel = config.getSignUpViewModel();
         this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
         this.authenticationViewModel = config.getAuthenticationViewModel();
-
         this.authenticationViewModel.addPropertyChangeListener(this);
 
     }
@@ -116,8 +102,8 @@ public class SwingGUI implements GUI {
         createLoginPanel();
 
         // Create ViewManagers
-        this.authenticationViewManager = new ViewManager(this.loginPanel, this.loginCardLayout, this.authenticationViewManagerModel);
-        this.viewManager = new ViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
+        this.authenticationViewManager = new AppViewManager(this.loginPanel, this.loginCardLayout, this.authenticationViewManagerModel);
+        this.viewManager = new AppViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, authenticationViewManagerModel, authenticationViewModel);
