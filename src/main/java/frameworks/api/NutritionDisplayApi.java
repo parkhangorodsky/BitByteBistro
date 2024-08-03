@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import use_cases._common.xtra.exceptions.HttpResponseException;
 import use_cases._common.xtra.json_processor.NutritionJSONHandler;
-import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
 import use_cases.nutrition_stats.use_case.input_data.NutritionStatsInputData;
 
 import java.io.IOException;

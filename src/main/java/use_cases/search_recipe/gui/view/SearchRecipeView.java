@@ -6,7 +6,6 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
@@ -51,7 +50,6 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
-                            NutritionDisplayController nutritionDisplayController,
                             DisplayRecipeDetailController displayDetailController,
                             AddToMyRecipeController addToMyRecipeController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
@@ -107,7 +105,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         recipeName = new SearchTextField();
         recipeName.addActionListener( e -> {
             if (e.getSource().equals(recipeName)) {
-                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
+                getRecipeResult(searchRecipeViewModel, searchRecipeController);
             }
         });
 
@@ -115,7 +113,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         searchButton = new SearchButton();
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
-                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
+                getRecipeResult(searchRecipeViewModel, searchRecipeController);
             }
         });
 
@@ -147,14 +145,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void getRecipeResult(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
+    private void getRecipeResult(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController) {
         String queryString = recipeName.getText();
         if (queryString != null && !queryString.isEmpty()) {
             searchRecipeController.execute(queryString);
             SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
-            for (Recipe recipe : recipes) {
-                nutritionDisplayController.execute(recipe);
-            }
         }
     }
 

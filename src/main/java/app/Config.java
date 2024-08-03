@@ -21,9 +21,6 @@ import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
-import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
-import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
-import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
@@ -83,11 +80,6 @@ public class Config {
     private final SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
     private final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
 
-    // Nutrition Display
-    private final NutritionDisplayPresenter nutritionDisplayPresenter = new NutritionDisplayPresenter(viewManagerModel, searchRecipeViewModel);
-    private final NutritionDisplayInteractor nutritionDisplayInteractor = new NutritionDisplayInteractor(nutritionDisplayPresenter, nutritionAPI);
-    private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
-
     // Login UseCase
     private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
     private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
@@ -136,7 +128,6 @@ public class Config {
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-    public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
