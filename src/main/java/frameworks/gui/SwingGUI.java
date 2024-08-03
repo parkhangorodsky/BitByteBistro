@@ -270,7 +270,7 @@ public class SwingGUI implements GUI {
             // Dispose of all frames on logout
             disposeAllFrames();
             // Optionally, re-initialize the login frame
-            initializeLoginFrame();
+            initialize(config);
         }
 
     }
