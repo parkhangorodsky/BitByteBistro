@@ -43,8 +43,10 @@ import use_cases.recipe_to_grocery.gui.RecipeToGroceryView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class SwingGUI implements GUI {
+public class SwingGUI implements GUI, PropertyChangeListener {
 
     private final ViewManagerModel authenticationViewManagerModel;
     // ViewManager
@@ -158,7 +160,7 @@ public class SwingGUI implements GUI {
     public void initializeLoginFrame() {
         initializeMainFrame();
         createMainPanel();
-        loginFrame = new JFrame();
+        loginFrame = new JFrame("Login");
         loginFrame.setSize(1000, 750);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setLayout(new BorderLayout());
@@ -223,7 +225,7 @@ public class SwingGUI implements GUI {
 
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
-        this.loginFrame.setVisible(false);
+        this.loginFrame.dispose();
 
     }
 
@@ -236,6 +238,15 @@ public class SwingGUI implements GUI {
     public void setActiveView(View view) {
         viewManagerModel.setActiveView(view.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("authenticationSuccess".equals(evt.getPropertyName())) {
+            // Handle authentication success
+            initializeOtherViews();
+        }
+        // Other property changes...
     }
 
     // Create UseCasesIntegratedViews
