@@ -6,6 +6,9 @@ import entity.builder.RecipeBuilder;
 import org.bson.Document;
 import org.bson.types.Binary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecipeSerializer implements Serializer<Document, Recipe> {
     private final BufferedImageSerializer bufferedImageSerializer = new BufferedImageSerializer();
     private final NutritionSerializer nutritionMapSerializer = new NutritionSerializer();
@@ -64,6 +67,23 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
         }
 
         return recipeBuiler.get();
+    }
+
+    public List<Document> serializeRecipeList(List<Recipe> recipeList){
+        List<Document> documentList = new ArrayList<>();
+        for (Recipe recipe : recipeList) {
+            documentList.add(serialize(recipe));
+        }
+
+        return documentList;
+    }
+
+    public List<Recipe> deserializeRecipeList(List<Document> bsonList){
+        List<Recipe> recipeList = new ArrayList<>();
+        for (Document document : bsonList) {
+            recipeList.add(deserialize(document));
+        }
+        return recipeList;
     }
 
 }
