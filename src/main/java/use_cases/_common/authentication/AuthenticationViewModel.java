@@ -1,5 +1,6 @@
 package use_cases._common.authentication;
 
+import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
@@ -13,19 +14,19 @@ import java.beans.PropertyChangeSupport;
  */
 public class AuthenticationViewModel extends ViewModel {
     private final PropertyChangeSupport support;
-    private final SwingGUI swingGUI;
+    private final GUI gui;
 
     /**
      * Constructs a new AuthenticationViewModel with the specified view name and SwingGUI instance.
      *
      * @param viewName The name of the view.
-     * @param swingGUI The instance of SwingGUI to handle property changes.
+     * @param gui The instance of SwingGUI to handle property changes.
      */
-    public AuthenticationViewModel(String viewName, SwingGUI swingGUI) {
+    public AuthenticationViewModel(String viewName, GUI gui) {
         super(viewName);  // Call to the parameterized constructor of the superclass
         this.support = new PropertyChangeSupport(this);
-        this.swingGUI = swingGUI;
-        this.addPropertyChangeListener(swingGUI);
+        this.gui = gui;
+        this.addPropertyChangeListener(gui);
     }
 
     /**

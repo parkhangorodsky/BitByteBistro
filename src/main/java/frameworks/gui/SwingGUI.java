@@ -58,7 +58,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class SwingGUI implements GUI, PropertyChangeListener {
+public class SwingGUI implements GUI {
 
     private final ViewManagerModel authenticationViewManagerModel;
     // ViewManager
