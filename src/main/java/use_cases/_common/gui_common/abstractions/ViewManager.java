@@ -2,6 +2,7 @@ package use_cases._common.gui_common.abstractions;
 
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,7 +12,7 @@ import java.beans.PropertyChangeListener;
  * for managing views using CardLayout and ViewManagerModel.
  */
 public abstract class ViewManager implements PropertyChangeListener {
-
+    protected JPanel views;
     protected CardLayout cardLayout; // Layout manager
     private ViewManagerModel viewManagerModel; // The view model that stores the current view state.
 
@@ -26,12 +27,18 @@ public abstract class ViewManager implements PropertyChangeListener {
         this.viewManagerModel = viewManagerModel;
     }
 
+    public void addView(View view) {
+        this.views.add((JPanel) view, view.getViewName());
+    }
+
     /**
      * Switches to the specified view.
      *
      * @param viewName the name of the view to switch to
      */
-    public abstract void showView(String viewName);
+    public void showView(String viewName) {
+        cardLayout.show(views, viewName);
+    }
 
 
     public CardLayout getCardLayout() {

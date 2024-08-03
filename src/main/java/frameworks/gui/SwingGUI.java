@@ -3,6 +3,7 @@ package frameworks.gui;
 import app.Config;
 
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.authentication.AuthenticationViewManager;
 import use_cases._common.gui_common.view.*;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.view.Sidebar;
@@ -51,7 +52,7 @@ public class SwingGUI implements GUI {
     // ViewManager
     private ViewManagerModel viewManagerModel;
     private AppViewManager viewManager;
-    private AppViewManager authenticationViewManager;
+    private AuthenticationViewManager authenticationViewManager;
 
     // ViewModels
     private SearchRecipeViewModel searchRecipeViewModel;
@@ -102,7 +103,7 @@ public class SwingGUI implements GUI {
         createLoginPanel();
 
         // Create ViewManagers
-        this.authenticationViewManager = new AppViewManager(this.loginPanel, this.loginCardLayout, this.authenticationViewManagerModel);
+        this.authenticationViewManager = new AuthenticationViewManager(this.loginPanel, this.loginCardLayout, this.authenticationViewManagerModel);
 
         // Create Login components
         LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, authenticationViewManagerModel, authenticationViewModel);

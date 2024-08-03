@@ -19,7 +19,6 @@ import java.util.Map;
  */
 public class AppViewManager extends ViewManager implements PropertyChangeListener {
 
-    private JPanel views; // Container for all the views
     private Map<String, PopUpView> popUpViews;
 
     /**
@@ -36,23 +35,6 @@ public class AppViewManager extends ViewManager implements PropertyChangeListene
         this.popUpViews = new HashMap<>();
     }
 
-    @Override
-    public void showView(String viewName) {
-        cardLayout.show(getViewsContainer(), viewName);
-    }
-
-    protected Container getViewsContainer() {
-        return views;
-    }
-
-    /**
-     * Adds a view to the ViewManager.
-     *
-     * @param view the view to be added
-     */
-    public void addView(View view) {
-        this.views.add((JPanel) view, view.getViewName());
-    }
 
     public void addPopupView(String viewName, PopUpView popUpView) {
         this.popUpViews.put(viewName, popUpView);
