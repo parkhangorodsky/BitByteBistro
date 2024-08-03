@@ -5,13 +5,22 @@ import entity.User;
 import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
-import use_cases._common.gui_common.view.Sidebar;
+import use_cases._common.gui_common.view.*;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases._common.gui_common.abstractions.View;
+
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.add_to_my_recipe.MyRecipeView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import entity.User;
+
+import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.ViewManager;
 
-import use_cases.add_to_my_recipe.AddToMyRecipeController;
-import use_cases.add_to_my_recipe.MyRecipeView;
+import use_cases._common.gui_common.view.ViewManager;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 
@@ -171,6 +180,11 @@ public class SwingGUI implements GUI {
         sideBar = new Sidebar(this.viewManagerModel);
         mainPanel.add(sideBar, BorderLayout.WEST);
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
+
+        // Create HomeView components
+        HomeView homeView = new HomeView(viewManagerModel);
+        viewManager.addView(homeView);
+
         // Create SearchRecipe components
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
         NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
@@ -214,14 +228,5 @@ public class SwingGUI implements GUI {
         viewManagerModel.setActiveView(view.getViewName());
         viewManagerModel.firePropertyChanged();
     }
-
-    // Create UseCasesIntegratedViews
-    /**
-     * This function creates SearchRecipeView, which is a subclass of JPanel (UI container).
-     * Since this function outputs a UI component, it is placed in the GUI class.
-     * Note that this function takes a Controller. The Controller parameter is UseCaseIntegrated.
-     * @param searchRecipeController
-     * @return
-     */
 
 }

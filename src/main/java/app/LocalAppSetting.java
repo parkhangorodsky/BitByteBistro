@@ -15,13 +15,12 @@ public class LocalAppSetting {
     public static void setNightMode(boolean update) {
         nightMode = update;
     }
+
     public static void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
     public static void firePropertyChange(String propertyName) {
-        System.out.println("hi1");
         support.firePropertyChange(propertyName, !nightMode, nightMode);
     }
-
 }
