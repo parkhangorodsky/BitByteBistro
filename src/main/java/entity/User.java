@@ -1,6 +1,5 @@
 package entity;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -65,7 +64,7 @@ public class User {
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
     public void setShoppingLists(List<ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
-    public void setRecentlyViewedRecipes(Recipe recipe) {
+    public void addRecentlyViewedRecipe(Recipe recipe) {
         if (this.recentlyViewedRecipes.size() >= 5) {
             this.recentlyViewedRecipes.remove(0); // one sec
             this.recentlyViewedRecipes.add(recipe);
