@@ -143,8 +143,8 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
             // Initialize other views when the user logs in
             swingGUI.initializeOtherViews();
             // Navigate to search recipe view on successful login
-            viewManagerModel.setActiveView("search recipe");
-            viewManagerModel.firePropertyChanged();
+//            viewManagerModel.setActiveView("search recipe");
+//            viewManagerModel.firePropertyChanged();
         }
     }
 
