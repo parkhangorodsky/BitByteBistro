@@ -26,6 +26,6 @@ public class RecentlyViewedRecipesInteractor implements RecentlyViewedRecipesInp
         LoggedUserData.getLoggedInUser().addRecentlyViewedRecipe(inputData.getNewRecipe());
 
         // write in DAO
-        userDAO.updateRecentlyViewedRecipes(user, recentlyViewedRecipes);
+        userDAO.updateRecentlyViewedRecipes(user);
     }
 }
