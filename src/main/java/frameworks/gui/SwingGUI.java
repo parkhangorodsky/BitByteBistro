@@ -101,6 +101,7 @@ public class SwingGUI implements GUI {
         this.signUpViewModel = config.getSignUpViewModel();
         this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
         this.authenticationViewModel = config.getAuthenticationViewModel();
+
         this.authenticationViewModel.addPropertyChangeListener(this);
 
     }
@@ -243,7 +244,7 @@ public class SwingGUI implements GUI {
 
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
-        this.loginFrame.dispose();
+
 
     }
 
@@ -262,6 +263,7 @@ public class SwingGUI implements GUI {
     public void propertyChange(PropertyChangeEvent evt) {
         if ("authenticationSuccess".equals(evt.getPropertyName())) {
             // Handle authentication success
+            this.loginFrame.dispose();
             initializeOtherViews();
         }
         // Other property changes...
