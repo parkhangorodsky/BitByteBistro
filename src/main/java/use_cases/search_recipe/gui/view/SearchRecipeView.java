@@ -169,6 +169,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
+        } else if (evt.getPropertyName().equals("api fail")) {
+            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                    "Unable to connect to API. Please try again later",
+                    "API Error",
+                    JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
