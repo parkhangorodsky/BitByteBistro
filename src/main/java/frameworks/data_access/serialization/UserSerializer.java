@@ -28,9 +28,10 @@ public class UserSerializer implements Serializer<Document, User> {
                 .append("userPassword", user.getUserPassword())
                 .append("createdAt", user.getCreatedAt())
                 .append("shoppingList", user.getShoppingLists())
-                .append("preference", user.getPreference())
-                .append("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()))
-                .append("recipes", recipeSerializer.serializeRecipeList(user.getRecipes()));
+                .append("preference", user.getPreference());
+
+        document.append("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
+        document.append("recipes", recipeSerializer.serializeRecipeList(user.getRecipes()));
 
         return document;
     }

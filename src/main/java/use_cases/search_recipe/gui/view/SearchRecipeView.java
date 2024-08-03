@@ -56,6 +56,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
                             NutritionDisplayController nutritionDisplayController,
                             DisplayRecipeDetailController displayDetailController,
                             AddToMyRecipeController addToMyRecipeController,
+                            RecentlyViewedRecipesController recentlyViewedRecipesController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 
@@ -70,6 +71,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.searchRecipeController = searchRecipeController;
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
+        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
 
         observeNight();
 

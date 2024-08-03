@@ -41,7 +41,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         loginViewModel.firePropertyChange("loggedInUser", null, outputData.getUser());
         viewManagerModel.setActiveView("Home");
         viewManagerModel.firePropertyChanged();
-        System.out.println("Login success: " + LoggedUserData.getLoggedInUser().getRecipes());
+        System.out.println("Login Successful ✅");
     }
 
     /**

@@ -71,6 +71,7 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
 
     public List<Document> serializeRecipeList(List<Recipe> recipeList){
         List<Document> documentList = new ArrayList<>();
+
         for (Recipe recipe : recipeList) {
             documentList.add(serialize(recipe));
         }
@@ -80,8 +81,11 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
 
     public List<Recipe> deserializeRecipeList(List<Document> bsonList){
         List<Recipe> recipeList = new ArrayList<>();
-        for (Document document : bsonList) {
-            recipeList.add(deserialize(document));
+
+        if (bsonList != null && !bsonList.isEmpty()) {
+            for (Document document : bsonList) {
+                recipeList.add(deserialize(document));
+            }
         }
         return recipeList;
     }

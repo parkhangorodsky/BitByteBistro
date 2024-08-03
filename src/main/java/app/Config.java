@@ -148,4 +148,5 @@ public class Config {
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
+    public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
 }

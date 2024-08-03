@@ -65,7 +65,9 @@ public class MongoUserDAO implements UserDataAccessInterface{
     @Override
     public void updateRecentlyViewedRecipes(User user) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
-        Bson update = Updates.set("recentlyViewdRecipes", user.getRecentlyViewedRecipes());
+
+        RecipeSerializer recipeSerializer = new RecipeSerializer();
+        Bson update = Updates.set("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         userCollection.updateOne(filter, update);
 
     }
