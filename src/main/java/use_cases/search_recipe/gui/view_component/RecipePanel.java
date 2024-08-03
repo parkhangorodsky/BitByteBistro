@@ -12,6 +12,7 @@ import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
 
     RoundButton detailButton;
 
-    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController) {
+    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController, RecentlyViewedRecipesController recentlyViewedRecipesController) {
 
         observeNight();
 
@@ -77,7 +78,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
 
         detailButton = new RoundButton("Detail");
         detailButton.addActionListener(e -> {
-            LoggedUserData.getLoggedInUser().addRecentlyViewedRecipe(recipe);
+            recentlyViewedRecipesController.execute(recipe);
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
             DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel, addToMyRecipeController);
             displayRecipeDetailController.execute(recipe, viewModel);
