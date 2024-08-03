@@ -17,6 +17,7 @@ public class User {
     private List<Recipe> recipes;
     private List<ShoppingList> shoppingLists;
     private Map<String, Object> preference;
+    private List<Recipe> recentlyViewedRecipes;
 
     /**
      * Constructs a new User with the specified details.
@@ -35,6 +36,8 @@ public class User {
         this.shoppingLists = new ArrayList<>();
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
+        this.recentlyViewedRecipes = new ArrayList<>();
+        this.recentlyViewedRecipes.add(new Recipe());
         preference.put("nightMode", false);
     }
 
@@ -53,6 +56,7 @@ public class User {
     public List<Recipe> getRecipes() {return recipes;}
     public List<ShoppingList> getShoppingLists() {return shoppingLists;}
     public Map<String, Object> getPreference() {return preference;}
+    public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
 
     public void setUserName(String userName) {this.userName = userName;}
     public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
@@ -61,6 +65,15 @@ public class User {
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
     public void setShoppingLists(List<ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
+    public void setRecentlyViewedRecipes(Recipe recipe) {
+        if (this.recentlyViewedRecipes.size() >= 5) {
+            this.recentlyViewedRecipes.remove(0); // one sec
+            this.recentlyViewedRecipes.add(recipe);
+        }
+        else {
+            this.recentlyViewedRecipes.add(recipe);
+        }
+    }
 
     /**
      * Adds a shopping list to the user's list of shopping lists.
