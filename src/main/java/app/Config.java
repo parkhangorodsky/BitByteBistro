@@ -14,6 +14,7 @@ import frameworks.gui.SwingGUI;
 
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
 import use_cases.add_to_my_recipe.AddToMyRecipePresenter;
@@ -68,6 +69,7 @@ public class Config {
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
+    private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
 
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
@@ -106,7 +108,7 @@ public class Config {
 
     // Logout UseCase
 
-    private final LogoutPresenter logoutPresenter = new LogoutPresenter(viewManagerModel);
+    private final LogoutPresenter logoutPresenter = new LogoutPresenter(authenticationViewModel, viewManagerModel);
     private final LogoutInteractor logoutInteractor = new LogoutInteractor(logoutPresenter);
     private final LogoutController logoutController = new LogoutController(logoutInteractor);
 
@@ -156,4 +158,8 @@ public class Config {
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
+
+    public AuthenticationViewModel getAuthenticationViewModel() {
+        return authenticationViewModel;
+    }
 }

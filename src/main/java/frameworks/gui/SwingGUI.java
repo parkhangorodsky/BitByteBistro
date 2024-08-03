@@ -100,7 +100,9 @@ public class SwingGUI implements GUI {
         this.loginViewModel = config.getLoginViewModel();
         this.signUpViewModel = config.getSignUpViewModel();
         this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
-        this.authenticationViewModel = new AuthenticationViewModel("AuthView", this);
+        this.authenticationViewModel = config.getAuthenticationViewModel();
+        this.authenticationViewModel.addPropertyChangeListener(this);
+
     }
 
     /**
@@ -111,9 +113,6 @@ public class SwingGUI implements GUI {
         // Initialize the frames
         initializeLoginFrame();
         createLoginPanel();
-
-//        initializeMainFrame();
-//        createMainPanel();
 
         // Create ViewManagers
         this.authenticationViewManager = new ViewManager(this.loginPanel, this.loginCardLayout, this.authenticationViewManagerModel);
@@ -266,6 +265,21 @@ public class SwingGUI implements GUI {
             initializeOtherViews();
         }
         // Other property changes...
+        if ("logoutSuccess".equals(evt.getPropertyName())){
+            System.out.println("hi");
+            // Dispose of all frames on logout
+            disposeAllFrames();
+            // Optionally, re-initialize the login frame
+            initializeLoginFrame();
+        }
+
+    }
+
+    public void disposeAllFrames() {
+        Frame[] frames = Frame.getFrames();
+        for (Frame frame : frames) {
+            frame.dispose();
+        }
     }
 
 
