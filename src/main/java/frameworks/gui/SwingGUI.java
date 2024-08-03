@@ -5,10 +5,9 @@ import entity.User;
 import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
-import use_cases._common.gui_common.view.Sidebar;
+import use_cases._common.gui_common.view.*;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view.ViewManager;
 
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.MyRecipeView;
@@ -118,6 +117,10 @@ public class SwingGUI implements GUI {
 
         // Add SignUpView to ViewManager
         viewManager.addView(signUpView);
+
+        // Create HomeView components
+        HomeView homeView = new HomeView(viewManagerModel);
+        viewManager.addView(homeView);
 
         // Create SearchRecipe components
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
