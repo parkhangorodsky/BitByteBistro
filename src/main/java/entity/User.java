@@ -63,6 +63,7 @@ public class User {
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
     public void setShoppingLists(List<ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
+    public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
         if (this.recentlyViewedRecipes.size() >= 5) {
             this.recentlyViewedRecipes.remove(0);
