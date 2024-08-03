@@ -36,7 +36,6 @@ public class User {
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
-        this.recentlyViewedRecipes.add(new Recipe());
         preference.put("nightMode", false);
     }
 
@@ -66,12 +65,9 @@ public class User {
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
         if (this.recentlyViewedRecipes.size() >= 5) {
-            this.recentlyViewedRecipes.remove(0); // one sec
-            this.recentlyViewedRecipes.add(recipe);
+            this.recentlyViewedRecipes.remove(0);
         }
-        else {
-            this.recentlyViewedRecipes.add(recipe);
-        }
+        this.recentlyViewedRecipes.add(recipe);
     }
 
     /**
