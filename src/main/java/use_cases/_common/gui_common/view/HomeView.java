@@ -70,8 +70,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     }
 
     private void loadRecentlyViewedRecipes() {
-//        List<Recipe> recentlyViewedRecipes = LoggedUserData.getLoggedInUser().getRecentlyViewedRecipes();
-        List<Recipe> recentlyViewedRecipes = new ArrayList<>();
+        List<Recipe> recentlyViewedRecipes = LoggedUserData.getLoggedInUser().getRecentlyViewedRecipes();
         recentlyViewedPanel.removeAll();
 
         // Add title to recently viewed panel
