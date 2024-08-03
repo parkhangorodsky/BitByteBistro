@@ -1,5 +1,6 @@
 package use_cases.settting_preference;
 
+import app.LocalAppSetting;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.abstractions.View;
@@ -15,6 +16,8 @@ public class PreferenceView extends PopUpView implements NightModeObject {
 
     JFrame parent;
     SetPreferenceController controller;
+
+    JCheckBox nightModeCheckBox;
 
     public PreferenceView(JFrame parent, SetPreferenceController setPreferenceController) {
         super(parent);
@@ -34,7 +37,7 @@ public class PreferenceView extends PopUpView implements NightModeObject {
 
         JPanel settingPanel = new JPanel(new VerticalFlowLayout(5));
         settingPanel.setBorder(new EmptyBorder(30, 5, 5, 5));
-        JCheckBox nightModeCheckBox = new JCheckBox("Night Mode");
+        nightModeCheckBox = new JCheckBox("Night Mode");
         nightModeCheckBox.setFont(new Font(defaultFont, Font.PLAIN, 12));
         settingPanel.add(nightModeCheckBox);
 
@@ -60,18 +63,26 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         this.add(mainPanel);
         this.pack();
         this.positionFrameAtCenter(parent);
-        this.showPopUp();
+    }
+
+    private void updateNightModeCheckBox(boolean nightMode) {
+        if (nightMode) {
+            nightModeCheckBox.setSelected(true);
+        } else {
+            nightModeCheckBox.setSelected(false);
+        }
     }
 
 
     @Override
     public void setNightMode() {
+        updateNightModeCheckBox(LocalAppSetting.isNightMode());
 
     }
 
     @Override
     public void setDayMode() {
-
+        updateNightModeCheckBox(LocalAppSetting.isNightMode());
     }
 
     @Override

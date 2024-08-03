@@ -49,9 +49,6 @@ public class LoginInteractor implements LoginInputBoundary {
             LoggedUserData.setLoggedInUser(user);
             LocalAppSetting.setNightMode((boolean) user.getPreference().get("nightMode"));
             LocalAppSetting.firePropertyChange("nightMode");
-            System.out.println("hi3");
-            System.out.println(user.getPreference().get("nightMode"));
-            System.out.println(LocalAppSetting.isNightMode());
             // Set the logged-in user in LoggedUserData
 
             if (loginOutputBoundary != null) {

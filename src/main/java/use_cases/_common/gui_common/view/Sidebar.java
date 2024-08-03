@@ -188,7 +188,6 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
             toggleNightMode();
             this.revalidate();
             this.repaint();
-            System.out.println("hi2");
         }
     }
 }

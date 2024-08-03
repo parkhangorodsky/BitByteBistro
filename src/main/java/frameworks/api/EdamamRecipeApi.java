@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
+import use_cases._common.xtra.exceptions.HttpResponseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,12 +96,6 @@ public class EdamamRecipeApi implements RecipeAPI, RecipeJSONHandler {
             System.out.println("Request failed with code: " + response.code());
             System.out.println("Response message: " + response.message());
             throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + "with URL: " + endpoint);
-        }
-    }
-
-    private class HttpResponseException extends RuntimeException {
-        public HttpResponseException(String message) {
-            super(message);
         }
     }
 }

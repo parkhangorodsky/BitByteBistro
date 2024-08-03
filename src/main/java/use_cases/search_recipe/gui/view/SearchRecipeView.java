@@ -23,7 +23,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 
 
@@ -109,14 +108,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         recipeName = new SearchTextField();
         recipeName.addActionListener( e -> {
             if (e.getSource().equals(recipeName)) {
-                String queryString = recipeName.getText();
-                if (queryString != null && !queryString.isEmpty()) {
-                    searchRecipeController.execute(queryString);
-                    SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
-                    for (Recipe recipe : recipes) {
-                        nutritionDisplayController.execute(recipe);
-                    }
-                }
+                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
             }
         });
 
@@ -124,14 +116,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         searchButton = new SearchButton();
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
-                String queryString = recipeName.getText();
-                if (queryString != null && !queryString.isEmpty()) {
-                    searchRecipeController.execute(queryString);
-                    SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
-                    for (Recipe recipe : recipes) {
-                        nutritionDisplayController.execute(recipe);
-                    }
-                }
+                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
             }
         });
 
@@ -163,6 +148,17 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
+    private void getRecipeResult(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
+        String queryString = recipeName.getText();
+        if (queryString != null && !queryString.isEmpty()) {
+            searchRecipeController.execute(queryString);
+            SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
+            for (Recipe recipe : recipes) {
+                nutritionDisplayController.execute(recipe);
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
     }
@@ -174,6 +170,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
+        } else if (evt.getPropertyName().equals("api fail")) {
+            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                    "Unable to connect to API. Please try again later",
+                    "API Error",
+                    JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
