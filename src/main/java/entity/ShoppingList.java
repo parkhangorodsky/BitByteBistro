@@ -9,7 +9,6 @@ public class ShoppingList {
     private User listOwner;
     private String shoppingListName; // changed the name of this
     private List<Ingredient> listItems;
-    private final LocalDateTime creationDate;
     private String listStatus;
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
@@ -25,7 +24,6 @@ public class ShoppingList {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
         this.listItems = listItems;
-        this.creationDate = LocalDateTime.now();
         this.listStatus = "in progress";
         this.estimatedTotalCost = 0.00; // TODO: implement method to compute this
         this.recipes = new ArrayList<>();
@@ -54,11 +52,6 @@ public class ShoppingList {
     public void setListItems(List<Ingredient> listItems) {
         this.listItems = listItems;
     }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-    // no setCreationDate since it's final and not changeable
 
     public String getListStatus() {
         return listStatus;
