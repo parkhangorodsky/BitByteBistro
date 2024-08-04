@@ -102,7 +102,7 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
 
         // Password Label
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font(defaultFont, Font.BOLD, 14));
+        passwordLabel.setFont(new Font(defaultFont, Font.PLAIN, 14));
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.NONE;
