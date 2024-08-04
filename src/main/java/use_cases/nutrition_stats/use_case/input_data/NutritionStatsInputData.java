@@ -1,16 +1,13 @@
-package use_cases.nutrition_display.use_case.input_data;
+package use_cases.nutrition_stats.use_case.input_data;
 
 import entity.Ingredient;
 
-
 import java.util.List;
 
-/**
- * Input data for retrieving nutritional information. This class encapsulates the request criteria.
- */
-public class NutritionDisplayInputData {
+public class NutritionStatsInputData {
     private String title;
     private List<Ingredient> ingredients;
+    private int numberOfRecipes;
 
     /**
      * Class constructor for nutritional information input data.
@@ -18,9 +15,10 @@ public class NutritionDisplayInputData {
      * @param ingredients list of ingredients (including quantities and units) of the recipe.
      *
      */
-    public NutritionDisplayInputData(String title, List<Ingredient> ingredients) {
+    public NutritionStatsInputData(String title, List<Ingredient> ingredients, int numberOfRecipes) {
         this.title = title;
         this.ingredients = ingredients;
+        this.numberOfRecipes = numberOfRecipes;
     }
 
     //Getters
@@ -35,4 +33,10 @@ public class NutritionDisplayInputData {
      * @return The list of ingredients (including quantities and units) for the recipe.
      */
     public List<Ingredient> getIngredients() {return ingredients;}
+
+    /**
+     * Gets the number of recipes in a shopping list.
+     * @return The number of recipe in the shopping list.
+     */
+    public int getNumberOfRecipes() {return numberOfRecipes;}
 }

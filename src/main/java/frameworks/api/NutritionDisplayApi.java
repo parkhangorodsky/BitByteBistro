@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import use_cases._common.xtra.exceptions.HttpResponseException;
 import use_cases._common.xtra.json_processor.NutritionJSONHandler;
-import use_cases.nutrition_display.use_case.input_data.NutritionDisplayInputData;
+import use_cases.nutrition_stats.use_case.input_data.NutritionStatsInputData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
 
 
     @Override
-    public List<Nutrition> getNutrition(NutritionDisplayInputData inputData) {
+    public List<Nutrition> getNutrition(NutritionStatsInputData inputData) {
         try {
             String endpoint = createURL();
             JSONObject responseJSON =  getResponse(endpoint, inputData);
@@ -47,21 +47,15 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
         return base_url + "?app_id=" + API_ID + "&app_key=" + API_KEY;
     }
 
-    private JSONObject getResponse(String endpoint, NutritionDisplayInputData inputData) throws JSONException, IOException, HttpResponseException {
+    private JSONObject getResponse(String endpoint, NutritionStatsInputData inputData) throws JSONException, IOException, HttpResponseException {
         OkHttpClient client = new OkHttpClient();
 
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("title", inputData.getTitle());
 
-        // temp lines for the temp view:
-        System.out.println("the recipe '" + inputData.getTitle() + "' has the following ingredients: ");
-
         List<String> ingredientList = new ArrayList<>();
         for (Ingredient ingredient : inputData.getIngredients()) {
             ingredientList.add(ingredient.toString());
-
-            // temp lines for the temp view:
-            System.out.println(ingredient.toString());
         }
         jsonMap.put("ingr", ingredientList);
 

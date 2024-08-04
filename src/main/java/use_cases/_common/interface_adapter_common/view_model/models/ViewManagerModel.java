@@ -27,8 +27,7 @@ public class ViewManagerModel {
 
     /**
      * Get the name of the active view.
-     *
-     * @param activeViewName the name of the new active view
+
      */
     public String getActiveView() {
         return activeViewName;

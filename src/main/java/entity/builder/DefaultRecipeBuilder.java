@@ -9,16 +9,36 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A concrete implementation of the RecipeBuilder interface.
+ * This class provides methods to set various attributes of a Recipe
+ * and returns the configured Recipe object.
+ */
 public class DefaultRecipeBuilder implements RecipeBuilder {
     Recipe recipe;
 
+    /**
+     * Constructs a DefaultRecipeBuilder with a specified recipe ID.
+     * Initializes a new Recipe with the given ID.
+     *
+     * @param id The unique identifier for the recipe.
+     */
     public DefaultRecipeBuilder(String id) {
         this.recipe = new Recipe(id);
     }
 
+    /**
+     * Constructs a DefaultRecipeBuilder with a new Recipe object.
+     * Initializes a new Recipe with a generated ID.
+     */
     public DefaultRecipeBuilder() {
         this.recipe = new Recipe();
     }
+
+
+    /**
+     * Builder methods
+     */
 
     @Override
     public RecipeBuilder buildName(String name) {
@@ -92,7 +112,11 @@ public class DefaultRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-
+    /**
+     * Returns the built Recipe object.
+     *
+     * @return The Recipe instance.
+     */
     @Override
     public Recipe get() {
         return this.recipe;

@@ -14,6 +14,7 @@ import frameworks.gui.SwingGUI;
 
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
 import use_cases.add_to_my_recipe.AddToMyRecipePresenter;
@@ -21,9 +22,6 @@ import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
-import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
-import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
-import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesInteractor;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
@@ -50,6 +48,12 @@ import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
+// Logout UseCase
+
+import use_cases.logout.use_case.interactor.LogoutInteractor;
+import use_cases.logout.interface_adapter.presenter.LogoutPresenter;
+import use_cases.logout.interface_adapter.controller.LogoutController;
+
 // Data Access
 import frameworks.data_access.UserDataAccessInterface;
 import frameworks.data_access.CSVDataAccessObject;
@@ -64,6 +68,7 @@ public class Config {
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
+    private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
 
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
@@ -85,20 +90,21 @@ public class Config {
     private final SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
     private final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
 
-    // Nutrition Display
-    private final NutritionDisplayPresenter nutritionDisplayPresenter = new NutritionDisplayPresenter(viewManagerModel, searchRecipeViewModel);
-    private final NutritionDisplayInteractor nutritionDisplayInteractor = new NutritionDisplayInteractor(nutritionDisplayPresenter, nutritionAPI);
-    private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
-
     // Login UseCase
-    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
-    private final LoginController loginController = new LoginController(loginInteractor);
+//    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
+//    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
+//    private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
     private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, userDAO);
     private final SignUpController signUpController = new SignUpController(signUpInteractor);
+
+    // Logout UseCase
+
+    private final LogoutPresenter logoutPresenter = new LogoutPresenter(authenticationViewModel, viewManagerModel);
+    private final LogoutInteractor logoutInteractor = new LogoutInteractor(logoutPresenter);
+    private final LogoutController logoutController = new LogoutController(logoutInteractor);
 
     // Recipe To Grocery UseCase
     private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
@@ -141,12 +147,16 @@ public class Config {
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-    public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
-    public LoginController getLoginController() { return loginController; }
+//    public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
+    public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
+
+    public AuthenticationViewModel getAuthenticationViewModel() {
+        return authenticationViewModel;
+    }
 }
