@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ShoppingList {
 
-    private String listOwner;
+    private User listOwner;
     private String shoppingListName; // changed the name of this
     private List<Ingredient> listItems;
     private final LocalDateTime creationDate;
@@ -21,7 +21,7 @@ public class ShoppingList {
      * @param shoppingListName name of shopping list - possibly the date but not necessarily
      * @param listItems list of items in the grocery list
      */
-    public ShoppingList(String listOwner, String shoppingListName, List<Ingredient> listItems) {
+    public ShoppingList(User listOwner, String shoppingListName, List<Ingredient> listItems) {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
         this.listItems = listItems;
@@ -31,11 +31,11 @@ public class ShoppingList {
         this.recipes = new ArrayList<>();
     }
 
-    public String getListOwner() {
+    public User getListOwner() {
         return listOwner;
     }
 
-    public void setListOwner(String listOwner) {
+    public void setListOwner(User listOwner) {
         this.listOwner = listOwner;
     }
 
