@@ -15,7 +15,6 @@ import frameworks.gui.SwingGUI;
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationInterface;
 import use_cases._common.authentication.AuthenticationService;
-import use_cases._common.authentication.AuthenticationViewManager;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
@@ -26,6 +25,7 @@ import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesInteractor;
+import use_cases.filter_recipe.FilterRecipeController;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
@@ -127,6 +127,8 @@ public class Config {
     private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
+    // Filter My Recipe Usecase
+    private  final FilterRecipeController filterRecipeController = new FilterRecipeController(myRecipeViewModel);
     // Add to my recently viewed recipes UseCase
     private final RecentlyViewedRecipesInteractor recentlyViewedRecipesInteractor = new RecentlyViewedRecipesInteractor(userDAO);
     private final RecentlyViewedRecipesController recentlyViewedRecipesController = new RecentlyViewedRecipesController(recentlyViewedRecipesInteractor);
@@ -160,6 +162,7 @@ public class Config {
     public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
+    public FilterRecipeController getFilterRecipeController() { return filterRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
