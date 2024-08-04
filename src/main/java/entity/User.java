@@ -32,7 +32,11 @@ public class User {
         this.userEmail = userEmail; // Validate email format
         this.userPassword = userPassword; // Encrypt password
         this.createdAt = createdAt;
+
         this.shoppingLists = new ArrayList<>();
+        List<Ingredient> ingredients = new ArrayList<>();
+        this.shoppingLists.add(new ShoppingList(userName, "shopping list", ingredients));
+
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
@@ -62,6 +66,7 @@ public class User {
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
     public void setShoppingLists(List<ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
+    public void setShoppingList(ShoppingList shoppingList) {this.shoppingLists.add(shoppingList);}
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
     public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
