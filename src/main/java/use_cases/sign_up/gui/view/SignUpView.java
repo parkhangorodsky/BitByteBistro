@@ -2,6 +2,7 @@ package use_cases.sign_up.gui.view;
 
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
@@ -26,7 +27,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
     private RoundTextField emailField;
     private RoundTextField userIDField;
     private RoundPasswordField passwordField;
-    private JButton signUpButton;
+    private RoundButton signUpButton;
     private JLabel errorMessageLabel;
     private SignUpController signUpController;
     private SignUpViewModel signUpViewModel;
@@ -142,11 +143,13 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         backgroundPanel.add(passwordField, gbc);
 
         // Sign Up Button
-        signUpButton = new JButton("Sign Up");
+        signUpButton = new RoundButton("Sign Up");
         signUpButton.setFont(new Font(defaultFont, Font.BOLD, 15));
         signUpButton.setForeground(claudeBlack);
         signUpButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding inside button
         signUpButton.addActionListener(this);
+        signUpButton.setHoverColor(claudeWhite, claudeWhite, claudeBlack, claudeBlackEmph);
+        signUpButton.setBorderColor(claudeWhite);
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
