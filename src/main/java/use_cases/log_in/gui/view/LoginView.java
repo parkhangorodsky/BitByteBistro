@@ -50,62 +50,86 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
      * Sets up the user interface for the login view.
      */
     private void setupUI() {
-        setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(1000, 750)); // Set the size to match SwingGUI frame
+
+        setLayout(new BorderLayout()); // Use BorderLayout for the main layout
+
+        // Header Label
+        JLabel headerLabel = new JLabel("Welcome to BitByteBistro");
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerLabel.setForeground(new Color(70, 130, 180)); // Match button color for consistency
+        headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        headerLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // Padding around header
+        add(headerLabel, BorderLayout.NORTH);
+
+        // Background Panel
+        JPanel backgroundPanel = new JPanel(new GridBagLayout());
+        backgroundPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Adding padding
+        backgroundPanel.setBackground(new Color(238, 237, 227)); // Set background color
+        add(backgroundPanel, BorderLayout.CENTER); // Add the background panel to the center
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
         // Email Label
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(new JLabel("Email:"), gbc);
+        backgroundPanel.add(emailLabel, gbc);
 
         // Email Field
+        emailField = new JTextField(20);
+        emailField.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        emailField = new JTextField(20);
-        add(emailField, gbc);
+        backgroundPanel.add(emailField, gbc);
 
         // Password Label
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
-        add(new JLabel("Password:"), gbc);
+        backgroundPanel.add(passwordLabel, gbc);
 
         // Password Field
+        passwordField = new JPasswordField(20);
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        passwordField = new JPasswordField(20);
-        add(passwordField, gbc);
+        backgroundPanel.add(passwordField, gbc);
 
         // Login Button
+        loginButton = new JButton("Login");
+        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loginButton.setBackground(new Color(70, 130, 180)); // Set a nice color for the button
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding inside button
+        loginButton.addActionListener(this);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
-        loginButton = new JButton("Login");
-        loginButton.addActionListener(this);
-        add(loginButton, gbc);
+        backgroundPanel.add(loginButton, gbc);
 
         // Error Message Label
+        errorMessageLabel = new JLabel();
+        errorMessageLabel.setForeground(Color.RED);
+        errorMessageLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        errorMessageLabel = new JLabel();
-        errorMessageLabel.setForeground(Color.RED);
-        add(errorMessageLabel, gbc);
+        backgroundPanel.add(errorMessageLabel, gbc);
 
         // Switch to Sign Up Label
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
         switchToSignUpLabel = new JLabel("Don't have an account? Sign Up");
+        switchToSignUpLabel.setFont(new Font("Arial", Font.ITALIC, 12));
         switchToSignUpLabel.setForeground(Color.BLUE);
         switchToSignUpLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         switchToSignUpLabel.addMouseListener(new MouseAdapter() {
@@ -115,8 +139,13 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
                 viewManagerModel.firePropertyChanged();
             }
         });
-        add(switchToSignUpLabel, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        backgroundPanel.add(switchToSignUpLabel, gbc);
     }
+
 
     /**
      * Handles the action events for the login button.
