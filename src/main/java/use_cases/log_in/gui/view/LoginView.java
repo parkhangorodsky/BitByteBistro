@@ -94,6 +94,7 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         emailField.setMargin(new Insets(5,7,3,7));
         emailField.setFont(new Font(defaultFont, Font.PLAIN, 14));
         emailField.setColor(white, claudeWhiteEmph);
+        emailField.setForeground(claudeBlack);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -114,20 +115,12 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         passwordField.setMargin(new Insets(5,7,3,7));
         passwordField.setBackground(white);
         passwordField.setBorder(BorderFactory.createLineBorder(claudeWhiteEmph));
+        passwordField.setForeground(claudeBlack);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         backgroundPanel.add(passwordField, gbc);
-
-//        //
-//        RoundTextField passwordFieldHider = new RoundTextField();
-//        passwordFieldHider.setPreferredSize(new Dimension(100, 30));
-//        passwordFieldHider.setMargin(new Insets(5,7,3,7));
-//        gbc.gridx = 1;
-//        gbc.gridy = 2;
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
-//        backgroundPanel.add(passwordFieldHider, gbc);
 
 
 
@@ -148,8 +141,8 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
 
         // Error Message Label
         errorMessageLabel = new JLabel();
-        errorMessageLabel.setForeground(Color.RED);
-        errorMessageLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        errorMessageLabel.setForeground(errorRed);
+        errorMessageLabel.setFont(new Font(defaultFont, Font.PLAIN, 12));
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
