@@ -68,7 +68,7 @@ public class User {
         if (this.recentlyViewedRecipes.size() >= 5) {
             this.recentlyViewedRecipes.remove(0);
         }
-        this.recentlyViewedRecipes.add(recipe);
+//        this.recentlyViewedRecipes.add(recipe);
     }
 
     /**
