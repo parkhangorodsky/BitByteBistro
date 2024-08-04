@@ -9,6 +9,7 @@ import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
 import frameworks.data_access.serialization.RecipeSerializer;
+import frameworks.data_access.serialization.ShoppingListSerializer;
 import frameworks.data_access.serialization.UserSerializer;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -65,7 +66,9 @@ public class MongoUserDAO implements UserDataAccessInterface{
     public void addShoppingList(User user, ShoppingList shoppingList) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
-
+        ShoppingListSerializer shoppingListSerializer = new ShoppingListSerializer();
+        Bson update = Updates.addToSet("shoppingLists", shoppingListSerializer.serialize(shoppingList));
+        userCollection.updateOne(filter, update);
     }
 
     @Override
