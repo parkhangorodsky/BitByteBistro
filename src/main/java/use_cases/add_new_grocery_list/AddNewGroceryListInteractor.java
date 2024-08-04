@@ -17,7 +17,7 @@ public class AddNewGroceryListInteractor implements AddNewGroceryListInputBounda
     }
     public void execute(AddNewGroceryListInputData inputData) {
         User user = LoggedUserData.getLoggedInUser();
-        ShoppingList shoppingList = new ShoppingList(user.getUserName(), inputData.getShoppingListName());
+        ShoppingList shoppingList = new ShoppingList(user, inputData.getShoppingListName());
 
         for (ShoppingList userShoppingLists : user.getShoppingLists()) {
             if (userShoppingLists.getShoppingListName().equals(inputData.getShoppingListName())) {
@@ -29,6 +29,6 @@ public class AddNewGroceryListInteractor implements AddNewGroceryListInputBounda
         user.addShoppingList(shoppingList);
         // userDAO.addRecipe(user, newRecipe); - for seonghyun to do.
 
-        presenter.prepareSuccessView(shoppingList);
+        presenter.prepareSuccessView(inputData.getParentModel());
     }
 }
