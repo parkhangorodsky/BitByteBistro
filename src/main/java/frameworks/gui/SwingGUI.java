@@ -2,38 +2,24 @@ package frameworks.gui;
 
 import app.Config;
 
+import frameworks.gui.view_factory.SwingViewFactory;
+import frameworks.gui.view_factory.ViewFactory;
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewManager;
-import use_cases._common.gui_common.view.*;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.view.AppViewManager;
 
-import use_cases.add_to_my_recipe.AddToMyRecipeController;
-import use_cases.add_to_my_recipe.MyRecipeView;
-import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-
-import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
-import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
-import use_cases.search_recipe.gui.view.SearchRecipeView;
 
-import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
-import use_cases.log_in.gui.view.LoginView;
 
 import use_cases.settting_preference.PreferenceView;
-import use_cases.sign_up.gui.view.SignUpView;
-import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 
-import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
-import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
-import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
-import use_cases.recipe_to_grocery.gui.RecipeToGroceryView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +43,9 @@ public class SwingGUI implements GUI {
     // Config
     private Config config;
 
+    // View Factory
+    private ViewFactory viewFactory;
+
     // UI
     private JFrame mainFrame;
     private JPanel sideBar;
@@ -75,6 +64,8 @@ public class SwingGUI implements GUI {
     @Override
     public void initialize(Config config) {
         this.config = config;
+        this.viewFactory = new SwingViewFactory(config);
+
         this.viewManagerModel = config.getViewManagerModel();
         this.searchRecipeViewModel = config.getSearchRecipeViewModel();
         this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
@@ -97,19 +88,11 @@ public class SwingGUI implements GUI {
         // Create ViewManagers
         this.authenticationViewManager = new AuthenticationViewManager(this.loginPanel, this.loginCardLayout, this.viewManagerModel);
 
-        // Create Login components
-        LoginController loginController = config.getLoginController();
-        LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel, this);
-
         // Add LoginView to authentication ViewManager with a unique card name
-        authenticationViewManager.addView(loginView);
-
-        // Create Sign-Up components
-        SignUpController signUpController = config.getSignUpController();
-        SignUpView signUpView = new SignUpView(signUpController, signUpViewModel, viewManagerModel);
+        authenticationViewManager.addView(viewFactory.generateLoginView());
 
         // Add SignUpView to authentication ViewManager with a unique card name
-        authenticationViewManager.addView(signUpView);
+        authenticationViewManager.addView(viewFactory.generateSignUpView());
 
         // Show the login view by default
         this.viewManagerModel.setActiveView("LoginView");
@@ -147,39 +130,10 @@ public class SwingGUI implements GUI {
 
         AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
 
-        // Create HomeView components
-        HomeView homeView = new HomeView(viewManagerModel);
-        viewManager.addView(homeView);
-
-        // Create SearchRecipe components
-        SearchRecipeController searchRecipeController = config.getSearchRecipeController();
-        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
-        AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
-        RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
-        // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
-                searchRecipeController,
-                displayRecipeDetailController,
-                addToMyRecipeController,
-                recentlyViewedRecipesController,
-                advancedSearchRecipeViewModel,
-                viewManagerModel);
-
-        // Add SearchRecipeView to ViewManager
-        viewManager.addView(searchRecipeView);
-
-
-        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
-        viewManager.addView(myRecipeView);
-
-        // Create RecipeToGrocery components
-        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
-        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
-        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
-
-        // Add RecipeToGroceryView to ViewManager
-        viewManager.addView(recipeToGroceryView);
+        viewManager.addView(viewFactory.generateHomeView());
+        viewManager.addView(viewFactory.generateSearchRecipeView());
+        viewManager.addView(viewFactory.generateMyRecipeView());
+        viewManager.addView(viewFactory.generateSearchRecipeView());
 
         //Create PopUpView
         PreferenceView preferenceView = new PreferenceView(mainFrame, config.getSetPreferenceController());

@@ -13,6 +13,7 @@ import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 
 // Interface Adapters
+import use_cases._common.authentication.AuthenticationInterface;
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewManager;
 import use_cases._common.authentication.AuthenticationViewModel;
@@ -148,6 +149,7 @@ public class Config {
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
     public NutritionAPI getNutritionAPI() { return nutritionAPI; }
     public UserDataAccessInterface getDataAccessInterface() { return userDAO; }
+    public AuthenticationInterface getAuthenticationService() { return authenticationService; }
     public GUI getGUI() { return gui; }
 
     // UseCase Getters

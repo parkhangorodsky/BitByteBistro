@@ -28,7 +28,6 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
     private LoginController loginController;
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
-    private SwingGUI swingGUI;
 
     /**
      * Constructs a new LoginView with the specified controller, view model, and view manager model.
@@ -37,11 +36,10 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
      * @param loginViewModel The view model to manage login state.
      * @param viewManagerModel The view manager model to handle view changes.
      */
-    public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, SwingGUI swingGUI) {
+    public LoginView(LoginController loginController, LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
         this.loginController = loginController;
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.swingGUI = swingGUI;
         this.loginViewModel.addPropertyChangeListener(this);
         setupUI();
     }
