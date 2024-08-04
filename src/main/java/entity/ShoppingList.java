@@ -17,12 +17,11 @@ public class ShoppingList {
      * Requires:
      * @param listOwner owner of the grocery list
      * @param shoppingListName name of shopping list - possibly the date but not necessarily
-     * @param listItems list of items in the grocery list
      */
-    public ShoppingList(User listOwner, String shoppingListName, List<Ingredient> listItems) {
+    public ShoppingList(User listOwner, String shoppingListName) {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
-        this.listItems = listItems;
+        this.listItems = new ArrayList<>();
         this.estimatedTotalCost = 0.00; // TODO: implement method to compute this
         this.recipes = new ArrayList<>();
     }
