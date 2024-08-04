@@ -3,7 +3,6 @@ package frameworks.gui;
 import app.Config;
 
 import frameworks.gui.view_factory.SwingViewFactory;
-import frameworks.gui.view_factory.ViewFactory;
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewManager;
 import use_cases._common.authentication.AuthenticationViewModel;
@@ -11,44 +10,29 @@ import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.view.AppViewManager;
 
-import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
-import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
-
-import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
-
 import use_cases.settting_preference.PreferenceView;
-import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
-
-import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
-public class SwingGUI implements GUI {
+public class SwingGUI extends GUI {
 
     // ViewManager
     private ViewManagerModel viewManagerModel;
+    private AuthenticationViewModel authenticationViewModel;
+
     private AppViewManager viewManager;
     private AuthenticationViewManager authenticationViewManager;
 
-    // ViewModels
-    private SearchRecipeViewModel searchRecipeViewModel;
-    private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
-    private LoginViewModel loginViewModel;
-    private SignUpViewModel signUpViewModel;
-    private RecipeToGroceryViewModel recipeToGroceryViewModel;
-    private AuthenticationViewModel authenticationViewModel;
+    // View Factory
+
 
     // Config
     private Config config;
 
-    // View Factory
-    private ViewFactory viewFactory;
-
     // UI
     private JFrame mainFrame;
-    private JPanel sideBar;
 
     private CardLayout loginCardLayout;
     private JPanel loginPanel;
@@ -67,11 +51,6 @@ public class SwingGUI implements GUI {
         this.viewFactory = new SwingViewFactory(config);
 
         this.viewManagerModel = config.getViewManagerModel();
-        this.searchRecipeViewModel = config.getSearchRecipeViewModel();
-        this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
-        this.loginViewModel = config.getLoginViewModel();
-        this.signUpViewModel = config.getSignUpViewModel();
-        this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
         this.authenticationViewModel = config.getAuthenticationViewModel();
         this.authenticationViewModel.addPropertyChangeListener(this);
 
@@ -116,7 +95,7 @@ public class SwingGUI implements GUI {
         this.mainCardLayout = new CardLayout();
         this.viewPanel = new JPanel(mainCardLayout);
 
-        sideBar = new Sidebar(this.viewManagerModel, config.getLogoutController());
+        JPanel sideBar = new Sidebar(config.getViewManagerModel(), config.getLogoutController());
 
         mainPanel.add(viewPanel, BorderLayout.CENTER);
         mainPanel.add(sideBar, BorderLayout.WEST);

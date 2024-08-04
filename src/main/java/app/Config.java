@@ -64,8 +64,6 @@ public class Config {
 
     // View Models
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
-//    // TODO: create abstraction
-//    private final ViewManagerModel authenticationViewManagerModel = new ViewManagerModel();
 
     private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
