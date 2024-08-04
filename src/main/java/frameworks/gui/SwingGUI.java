@@ -18,6 +18,7 @@ import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import entity.User;
 
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
@@ -200,11 +201,13 @@ public class SwingGUI implements GUI {
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
         DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
         AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
+        RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
         // Get the NutritionDisplayController from config
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
                 searchRecipeController,
                 displayRecipeDetailController,
                 addToMyRecipeController,
+                recentlyViewedRecipesController,
                 advancedSearchRecipeViewModel,
                 viewManagerModel);
 

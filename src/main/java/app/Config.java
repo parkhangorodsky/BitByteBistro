@@ -22,6 +22,8 @@ import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesInteractor;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
@@ -119,6 +121,9 @@ public class Config {
     private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
+    // Add to my recently viewed recipes UseCase
+    private final RecentlyViewedRecipesInteractor recentlyViewedRecipesInteractor = new RecentlyViewedRecipesInteractor(userDAO);
+    private final RecentlyViewedRecipesController recentlyViewedRecipesController = new RecentlyViewedRecipesController(recentlyViewedRecipesInteractor);
 
     // Set Preference Use Case
     private final SetPreferenceOutputBoundary SetPreferencePresenter = new SetPreferencePresenter();
@@ -149,6 +154,7 @@ public class Config {
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
+    public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
 
     public AuthenticationViewModel getAuthenticationViewModel() {
         return authenticationViewModel;

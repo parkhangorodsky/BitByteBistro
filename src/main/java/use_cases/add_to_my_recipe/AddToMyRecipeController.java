@@ -13,7 +13,7 @@ import use_cases._common.interface_adapter_common.presenter.abstractions.Propert
  * information about where action was occured to the use case interactor.
  */
 public class AddToMyRecipeController {
-    AddToMyRecipeInteractor interator;
+    AddToMyRecipeInteractor interactor;
 
     /**
      * Constructor for AddToMyRecipeController
@@ -21,7 +21,7 @@ public class AddToMyRecipeController {
      * @param interactor The interactor responsible for adding recipes to the user's recipes.
      */
     public AddToMyRecipeController(AddToMyRecipeInteractor interactor) {
-        this.interator = interactor;
+        this.interactor = interactor;
     }
 
     /**
@@ -35,7 +35,7 @@ public class AddToMyRecipeController {
         User user = LoggedUserData.getLoggedInUser();
         if (user != null) {
             AddToMyRecipeInputData inputData = new AddToMyRecipeInputData(recipe, user, parentModel);
-            interator.execute(inputData);
+            interactor.execute(inputData);
         }
 
     }

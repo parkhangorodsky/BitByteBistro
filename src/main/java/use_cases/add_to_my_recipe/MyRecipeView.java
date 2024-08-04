@@ -155,7 +155,6 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         recipeItem.add(recipeNamePanel, BorderLayout.CENTER);
         recipeItem.add(buttonPanel, BorderLayout.EAST);
 
-        System.out.println(LocalAppSetting.isNightMode());
         return recipeItem;
 
 

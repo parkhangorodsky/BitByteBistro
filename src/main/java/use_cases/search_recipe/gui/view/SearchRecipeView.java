@@ -7,6 +7,7 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
@@ -34,6 +35,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
     private DisplayRecipeDetailController displayDetailController;
     private AddToMyRecipeController addToMyRecipeController;
+    private RecentlyViewedRecipesController recentlyViewedRecipesController;
 
 
     public final String viewname;
@@ -53,6 +55,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
                             SearchRecipeController searchRecipeController,
                             DisplayRecipeDetailController displayDetailController,
                             AddToMyRecipeController addToMyRecipeController,
+                            RecentlyViewedRecipesController recentlyViewedRecipesController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 
@@ -67,6 +70,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.searchRecipeController = searchRecipeController;
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
+        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
 
         observeNight();
 
@@ -186,7 +190,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController, recentlyViewedRecipesController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));

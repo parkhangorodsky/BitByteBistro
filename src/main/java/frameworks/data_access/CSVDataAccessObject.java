@@ -108,4 +108,8 @@ public class CSVDataAccessObject implements UserDataAccessInterface {
     public void addRecipe(User user, Recipe recipe) {
 
     }
+
+    @Override
+    public void updateRecentlyViewedRecipes(User user) {
+    }
 }
