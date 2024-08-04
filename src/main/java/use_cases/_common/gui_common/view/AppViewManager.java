@@ -3,6 +3,7 @@ package use_cases._common.gui_common.view;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases._common.gui_common.abstractions.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +17,8 @@ import java.util.Map;
  * and switches between different views in the GUI.
  * It listens to property changes in the ViewManagerModel and updates the displayed view accordingly.
  */
-public class ViewManager implements PropertyChangeListener {
+public class AppViewManager extends ViewManager implements PropertyChangeListener {
 
-    private JPanel views; // Container for all the views
-    private CardLayout cardLayout; // Layout manager
-    private ViewManagerModel viewManagerModel; // The view model that stores the current view state.
     private Map<String, PopUpView> popUpViews;
 
     /**
@@ -30,22 +28,13 @@ public class ViewManager implements PropertyChangeListener {
      * @param cardLayout       the CardLayout used to manage the views
      * @param viewManagerModel the model that manages the view state
      */
-    public ViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
+    public AppViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
+        super(cardLayout, viewManagerModel);
         this.views = views;
-        this.cardLayout = cardLayout;
-        this.viewManagerModel = viewManagerModel;
-        this.viewManagerModel.addPropertyChangeListener(this);
+        this.getViewManagerModel().addPropertyChangeListener(this);
         this.popUpViews = new HashMap<>();
     }
 
-    /**
-     * Adds a view to the ViewManager.
-     *
-     * @param view the view to be added
-     */
-    public void addView(View view) {
-        this.views.add((JPanel) view, view.getViewName());
-    }
 
     public void addPopupView(String viewName, PopUpView popUpView) {
         this.popUpViews.put(viewName, popUpView);
@@ -59,9 +48,9 @@ public class ViewManager implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("view change")) {
+        if ("view change".equals(evt.getPropertyName())) {
             String newViewName = (String) evt.getNewValue();
-            cardLayout.show(views, newViewName);
+            showView(newViewName);
 
         } else if (evt.getPropertyName().equals("init")) {
             for (Component component : views.getComponents()) {
@@ -71,15 +60,14 @@ public class ViewManager implements PropertyChangeListener {
                 }
             }
         } else if (evt.getPropertyName().equals("pop up")) {
-            handlePopUpRequest(evt);
+            handlePopUpRequest((String) evt.getNewValue());
         }
     }
 
-    private void handlePopUpRequest(PropertyChangeEvent evt) {
-        String viewName = (String) evt.getNewValue();
+    private void handlePopUpRequest(String viewName) {
         PopUpView popUpView = popUpViews.get(viewName);
-        popUpView.showPopUp();
+        if (popUpView != null) {
+            popUpView.showPopUp();
+        }
     }
-
-
 }
