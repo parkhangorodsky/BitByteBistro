@@ -35,16 +35,12 @@ public class CoreFunctionalityController {
      * @param parentModel The model that will be notified of property changes.
      */
     public void execute(Recipe recipe, PropertyChangeFirer parentModel){
-        List<Ingredient> shoppingListIngredients;
+        List<Ingredient> newIngredients = recipe.getIngredientList();
         User user = LoggedUserData.getLoggedInUser();
         // for now, just works for one shopping list
-        if (!user.getShoppingLists().isEmpty()) {
-            shoppingListIngredients = user.getShoppingLists().getFirst().getListItems();
-        } else {
-            shoppingListIngredients = null;
-        }
+
         if (user != null) {
-            CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, user, shoppingListIngredients, parentModel);
+            CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, user, newIngredients, parentModel);
             interactor.execute(inputData);
         }
 
