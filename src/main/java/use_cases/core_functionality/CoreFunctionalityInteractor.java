@@ -34,26 +34,17 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         User user = inputData.getLoggedInUser();
         Recipe newRecipe = inputData.getRecipe();
         if (!inputData.getLoggedInUser().getShoppingLists().isEmpty()) {
-            System.out.println("not empty");
             shoppingList = user.getShoppingLists().getFirst();
             shoppingList.addRecipe(inputData.getRecipe());
-            shoppingList.addIngredients(inputData.getNewIngredients());
 //        userDAO.addRecipeToShoppingList(user, newRecipe);
 //        userDAO.addIngredientsToShoppingList(user, newIngredients);
         }
         else {
-            System.out.println("ShoppingList is empty");
             shoppingList = new ShoppingList(user.getUserName(), "shopping list", inputData.getNewIngredients());
             shoppingList.addRecipe(inputData.getRecipe());
             user.setShoppingList(shoppingList);
         }
-        System.out.println(shoppingList);
-        List<ShoppingList> shoppingLists = new ArrayList<>();
-        shoppingLists.add(shoppingList);
-        user.setShoppingLists(shoppingLists);
-        System.out.println(user.getShoppingLists().getFirst().getListItems());
         CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(user, inputData.getParentModel());
-        System.out.println(user.getShoppingLists().getFirst().getRecipes());
         presenter.prepareSuccessView(outputData);
     }
 }
