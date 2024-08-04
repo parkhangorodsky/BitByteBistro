@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingList {
@@ -11,8 +12,8 @@ public class ShoppingList {
     private final LocalDateTime creationDate;
     private String listStatus;
     private Double estimatedTotalCost;
+    private List<Recipe> recipes;
 
-    // Tony 到此一游
 
     /**
      * Requires:
@@ -27,6 +28,7 @@ public class ShoppingList {
         this.creationDate = LocalDateTime.now();
         this.listStatus = "in progress";
         this.estimatedTotalCost = 0.00; // TODO: implement method to compute this
+        this.recipes = new ArrayList<>();
     }
 
     public String getListOwner() {
@@ -72,5 +74,25 @@ public class ShoppingList {
 
     public void setEstimatedTotalCost(Double estimatedTotalCost) {
         this.estimatedTotalCost = estimatedTotalCost;
+    }
+
+    public List<Recipe> getRecipes() {return recipes;}
+    public void addRecipe(Recipe recipe) {this.recipes.add(recipe);}
+    public void addIngredients(List<Ingredient> ingredients) {
+        for (int i = 0; i < this.getListItems().size(); i++) {
+            for (Ingredient newIngredient : ingredients) {
+                Ingredient oldIngredient = this.getListItems().get(i);
+                if (oldIngredient.getIngredientName().equals(newIngredient.getIngredientName()) && oldIngredient.getQuantityUnit() == newIngredient.getQuantityUnit()) {
+                    float newQuantity = oldIngredient.getQuantity() + newIngredient.getQuantity();
+                    this.getListItems().set(i, new Ingredient(oldIngredient.getIngredientID(),
+                            oldIngredient.getIngredientName(),
+                            oldIngredient.getQuantityUnit(),
+                            oldIngredient.getCategory(),
+                            newQuantity));
+                }
+                this.getListItems().add(newIngredient);
+            }
+        }
+
     }
 }
