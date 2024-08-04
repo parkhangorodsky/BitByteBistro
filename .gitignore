@@ -1,24 +1,10 @@
-<<<<<<< HEAD
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-.idea
-src/main/.DS_Store
-src/.DS_Store
-src/main/java/.DS_Store
-=======
-# Output
-out
-target
 
-# IntelliJ spcific
-/.idea/material_theme_project_new.xml
-/.idea/workspace.xml
-.idea/material_theme_project_new.xml
-.idea/workspace.xml
->>>>>>> origin/feature/search-recipe-through-api
+# Output Code
+out/
+target/
+
+# IntelliJ Specific
+.idea/
+
+# Mac Os Specific
+.DS_store

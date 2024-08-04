@@ -53,6 +53,8 @@ public class ShoppingList {
         this.listItems = listItems;
     }
 
+    public void addListItems(List<Ingredient> listItems) {this.listItems.addAll(listItems);}
+
     public LocalDateTime getCreationDate() {
         return creationDate;
     }

@@ -18,4 +18,5 @@ public abstract class View extends JPanel implements ActionListener, PropertyCha
     public String getViewName() {
         return viewName;
     };
+    public void setViewName(String viewName) {this.viewName = viewName;};
 }

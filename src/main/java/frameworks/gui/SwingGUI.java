@@ -1,26 +1,45 @@
 package frameworks.gui;
 
 import app.Config;
+import entity.User;
+import entity.LoggedUserData;
+
+import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.gui_common.view.Sidebar;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases._common.gui_common.abstractions.View;
+import use_cases._common.gui_common.view.ViewManager;
+
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+import use_cases.add_to_my_recipe.MyRecipeView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
+
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
-import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.search_recipe.use_case.interactor.SearchRecipeInteractor;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
-import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view.ViewManager;
+
 import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.log_in.interface_adapter.presenter.LoginPresenter;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.gui.view.LoginView;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
-import use_cases.search_recipe.use_case.interactor.SearchRecipeInteractor;
+
 import use_cases.sign_up.gui.view.SignUpView;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
+
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
+import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
+import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
+import use_cases.recipe_to_grocery.gui.RecipeToGroceryView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,11 +55,13 @@ public class SwingGUI implements GUI {
     private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
     private LoginViewModel loginViewModel;
     private SignUpViewModel signUpViewModel;
+    private RecipeToGroceryViewModel recipeToGroceryViewModel;
 
     // UI
     private JFrame frame;
     private CardLayout mainCardLayout;
-    private JPanel mainPanel;
+    private JPanel viewPanel;
+    private JPanel sideBar;
 
     /**
      * Constructor for the Swing GUI. Takes in a Config Argument and stores ViewModels.
@@ -53,6 +74,7 @@ public class SwingGUI implements GUI {
         this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
         this.loginViewModel = config.getLoginViewModel();
         this.signUpViewModel = config.getSignUpViewModel();
+        this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
     }
 
     /**
@@ -66,11 +88,12 @@ public class SwingGUI implements GUI {
         createMainPanel();
 
         // Create ViewManager
-        this.viewManager = new ViewManager(this.mainPanel, this.mainCardLayout, this.viewManagerModel);
+        this.viewManager = new ViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
 
         // Create Login components
-        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface());
+        AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
+        LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel); // Pass AuthenticationService to LoginPresenter
+        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, config.getDataAccessInterface()); // Pass AuthenticationService to LoginInteractor
         LoginController loginController = new LoginController(loginInteractor);
         LoginView loginView = new LoginView(loginController, loginViewModel, viewManagerModel);
 
@@ -87,20 +110,44 @@ public class SwingGUI implements GUI {
         viewManager.addView(signUpView);
 
         // Create SearchRecipe components
-        SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(viewManagerModel, searchRecipeViewModel);
-        SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, config.getRecipeAPI());
-        SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
-        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController(); // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
+        SearchRecipeController searchRecipeController = config.getSearchRecipeController();
+        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
+        DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
+        AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
+
+        RecipeToGroceryController recipeToGroceryController = config.getRecipeToGroceryController();
+
+        // Get the NutritionDisplayController from config
+        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
+                searchRecipeController,
+                nutritionDisplayController,
+                displayRecipeDetailController,
+                addToMyRecipeController,
+                recipeToGroceryController,
+                advancedSearchRecipeViewModel,
+                viewManagerModel);
 
         // Add SearchRecipeView to ViewManager
         viewManager.addView(searchRecipeView);
+
+
+        MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
+        viewManager.addView(myRecipeView);
+
+
+        // Create RecipeToGrocery components
+        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
+        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
+        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
+
+        // Add RecipeToGroceryView to ViewManager
+        viewManager.addView(recipeToGroceryView);
 
         // Listen to view changes
         this.viewManagerModel.addPropertyChangeListener(evt -> {
             if ("view change".equals(evt.getPropertyName())) {
                 String newViewName = (String) evt.getNewValue();
-                mainCardLayout.show(mainPanel, newViewName);
+                mainCardLayout.show(viewPanel, newViewName);
             }
         });
 
@@ -108,6 +155,7 @@ public class SwingGUI implements GUI {
         this.viewManagerModel.setActiveView("LoginView");
         this.frame.pack();
         this.frame.setVisible(true);
+
     }
 
     private void initializeMainFrame() {
@@ -133,8 +181,15 @@ public class SwingGUI implements GUI {
     }
 
     private void createMainPanel() {
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        sideBar = new Sidebar(this.viewManagerModel);
+
         this.mainCardLayout = new CardLayout();
-        this.mainPanel = new JPanel(mainCardLayout);
+        this.viewPanel = new JPanel(mainCardLayout);
+
+        mainPanel.add(sideBar, BorderLayout.WEST);
+        mainPanel.add(viewPanel, BorderLayout.CENTER);
         this.frame.add(mainPanel);
     }
 
@@ -157,10 +212,5 @@ public class SwingGUI implements GUI {
      * @param searchRecipeController
      * @return
      */
-    @Override
-    public SearchRecipeView createUseCaseIntegratedSearchRecipeView(SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
-        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel, searchRecipeController, nutritionDisplayController, advancedSearchRecipeViewModel);
-        viewManager.addView(searchRecipeView);
-        return searchRecipeView;
-    }
+
 }

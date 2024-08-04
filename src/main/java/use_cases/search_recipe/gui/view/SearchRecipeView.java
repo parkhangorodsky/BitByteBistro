@@ -1,11 +1,16 @@
 package use_cases.search_recipe.gui.view;
 
 import entity.Recipe;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
+import use_cases.search_recipe.interface_adapter.view_model.RecipeModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 import use_cases._common.gui_common.abstractions.View;
@@ -15,6 +20,7 @@ import use_cases._common.gui_common.view_components.round_component.RoundTextFie
 import use_cases._common.gui_common.abstractions.ImageLoader;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,12 +30,17 @@ import java.beans.PropertyChangeEvent;
 
 public class SearchRecipeView extends View {
 
+    private ViewManagerModel viewManagerModel;
     private SearchRecipeViewModel searchRecipeViewModel;
     private SearchRecipeController searchRecipeController;
     private SearchRecipePresenter searchRecipePresenter;
 
+    private DisplayRecipeDetailController displayDetailController;
+    private AddToMyRecipeController addToMyRecipeController;
+    private RecipeToGroceryController recipeToGroceryController;
 
-    public final String viewname = "search recipe";
+
+    public final String viewname;
 
     // Components
     private RoundTextField recipeName;
@@ -43,28 +54,38 @@ public class SearchRecipeView extends View {
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
                             NutritionDisplayController nutritionDisplayController,
-                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel) {
+                            DisplayRecipeDetailController displayDetailController,
+                            AddToMyRecipeController addToMyRecipeController,
+                            RecipeToGroceryController recipeToGroceryController,
+                            AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
+                            ViewManagerModel viewManagerModel) {
+
+        this.viewManagerModel = viewManagerModel;
 
         // Add PropertyChangeListener to corresponding ViewModel
         this.searchRecipeViewModel = searchRecipeViewModel;
         searchRecipeViewModel.addPropertyChangeListener(this);
+        this.viewname = searchRecipeViewModel.getViewName();
 
         // Make connection to Controller
         this.searchRecipeController = searchRecipeController;
+        this.displayDetailController = displayDetailController;
+        this.addToMyRecipeController = addToMyRecipeController;
+        this.recipeToGroceryController = recipeToGroceryController;
+
 
         // Set Layout
         this.setLayout(new BorderLayout());
 
-        // Sidebar
-        Sidebar sidebar = new Sidebar();
-
         // MainPanel
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(claudeWhite);
 
         // Initialize input & output panel
         inputPanel = new JPanel();
         inputPanel.setBackground(claudeWhite);
-        inputPanel.setPreferredSize(new Dimension(800,80));
+        inputPanel.setPreferredSize(new Dimension(800,100));
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
         inputPanel.setBorder(BorderFactory.createLineBorder(claudeWhite, 20));
         inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
@@ -103,7 +124,7 @@ public class SearchRecipeView extends View {
         });
 
         // Search Button
-        searchButton = new SearchButton("Search");
+        searchButton = new SearchButton();
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
                 String queryString = recipeName.getText();
@@ -120,6 +141,7 @@ public class SearchRecipeView extends View {
         // Output Components
         recipeContainer = new RecipeContainer(outputPanel);
 
+
         // Pack input & output panel
 //        inputPanel.add(title);
         inputPanel.add(advancedSearchButton);
@@ -129,7 +151,6 @@ public class SearchRecipeView extends View {
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
 
-        this.add(sidebar, BorderLayout.WEST);
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
@@ -139,7 +160,7 @@ public class SearchRecipeView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("search recipe".equals(evt.getPropertyName())) {
+        if (evt.getPropertyName().equals("search recipe")) {
             SearchRecipeOutputData response = (SearchRecipeOutputData) evt.getNewValue();
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
@@ -153,7 +174,7 @@ public class SearchRecipeView extends View {
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController, recipeToGroceryController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));

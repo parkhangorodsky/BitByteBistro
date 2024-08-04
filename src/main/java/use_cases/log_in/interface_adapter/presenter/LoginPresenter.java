@@ -1,5 +1,6 @@
 package use_cases.log_in.interface_adapter.presenter;
 
+import entity.LoggedUserData;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
@@ -13,10 +14,12 @@ import use_cases.log_in.use_case.output_data.LoginOutputData;
 public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
+
     /**
-     * Constructs a new LoginPresenter with the specified view model.
+     * Constructs a new LoginPresenter with the specified view model and view manager model.
      *
      * @param loginViewModel The view model to update based on the login result.
+     * @param viewManagerModel The model to manage view transitions.
      */
     public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
         this.loginViewModel = loginViewModel;
@@ -32,11 +35,13 @@ public class LoginPresenter implements LoginOutputBoundary {
      */
     @Override
     public void prepareSuccessView(LoginOutputData outputData) {
-        // Clear any previous error messages
+
         loginViewModel.setErrorMessage("");
-        // Perform additional actions on successful login, like navigation
-        viewManagerModel.setActiveView("search recipe");
+        LoggedUserData.setLoggedInUser(outputData.getUser());
+        loginViewModel.firePropertyChange("loggedInUser", null, outputData.getUser());
+        viewManagerModel.setActiveView("Search Recipe");
         viewManagerModel.firePropertyChanged();
+        System.out.println("Login success: " + LoggedUserData.getLoggedInUser().getRecipes());
     }
 
     /**

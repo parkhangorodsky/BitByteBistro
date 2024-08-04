@@ -1,7 +1,7 @@
 package use_cases.log_in.use_case.interactor;
 
+import entity.LoggedUserData;
 import entity.User;
-import frameworks.data_access.CSVDataAccessObject;
 import frameworks.data_access.DataAccessInterface;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
@@ -17,7 +17,6 @@ import use_cases.log_in.use_case.output_data.LoginOutputData;
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginOutputBoundary loginOutputBoundary;
     private final DataAccessInterface DAO;
-    private User loggedInUser;
 
     /**
      * Constructs a new LoginInteractor with the specified output boundary and DAO.
@@ -28,15 +27,6 @@ public class LoginInteractor implements LoginInputBoundary {
     public LoginInteractor(LoginOutputBoundary loginOutputBoundary, DataAccessInterface dao) {
         this.loginOutputBoundary = loginOutputBoundary;
         this.DAO = dao;
-    }
-
-    /**
-     * Returns the currently logged-in user.
-     *
-     * @return The logged-in user, or null if no user is logged in.
-     */
-    public User getLoggedInUser() {
-        return loggedInUser;
     }
 
     /**
@@ -55,10 +45,10 @@ public class LoginInteractor implements LoginInputBoundary {
 
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
             // Successful login
-            loggedInUser = user;
-            ((CSVDataAccessObject) DAO).setLoggedInUser(user); // Set the logged-in user in the DAO
+            LoggedUserData.setLoggedInUser(user); // Set the logged-in user in LoggedUserData
+
             if (loginOutputBoundary != null) {
-                loginOutputBoundary.prepareSuccessView(new LoginOutputData(loggedInUser));
+                loginOutputBoundary.prepareSuccessView(new LoginOutputData(user));
             }
         } else {
             // Failed login

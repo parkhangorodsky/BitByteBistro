@@ -1,13 +1,15 @@
 package entity;
 
-import java. util. ArrayList;
-import java.util.List;
-import java.util.Map;
+import use_cases._common.xtra.hashing.MD5HashGenerator;
 
-public class Recipe {
+import java.time.LocalDateTime;
+import java.util.*;
+
+public class Recipe implements MD5HashGenerator {
 
     private String name;
     private String image;
+    private String smallImage;
     private int yield;
     private String instructions;
 
@@ -15,9 +17,7 @@ public class Recipe {
     private Map<String, Nutrition> nutritionMap;
     private Map<String, Nutrition> totalDailyMap;
 
-    private float rating;
-    private float estimatedCostPerServing;
-    private boolean privacyStatus;
+    private String id;
 
     List<String> dietLabels;
     List<String> healthLabels;
@@ -27,77 +27,71 @@ public class Recipe {
     List<String> mealType;
     List<String> dishType;
 
-    /**
-     * Constructor for the recipe entity.
-     * @param name Name of the recipe
-     * @param image Image of the recipe
-     * @param yield Yields of the recipe
-     * @param instructions Instructions of the recipe
-     * @param ingredientList List of the ingredients
-     * @param nutritionMap Map of nutrition in terms of quantity and unit
-     * @param totalDailyMap Map of nutrition in terms of daily percentage
-     * @param dietLabels List of diet types that the recipe belongs.
-     *                   The diet type labels describe commonly used
-     *                   nutrient level aspects of the recipe.
-     * @param healthLabels List of health type labels. health type labels
-     *                     describe commonly used ingredient level aspects of the recipe.
-     * @param cautions List of caution labels.
-     * @param tags List of tags.
-     * @param cuisineType List of cuisine types labels.
-     * @param mealType List of meal type labels. The meal types refer to the
-     *                 meals in a day the recipe is commonly consumed in.
-     * @param dishType List of dish type labels. The dish types refer to the
-     *                 category of food the recipe would fall under.
-     */
-    public Recipe(String name,
-                  String image,
-                  int yield,
-                  String instructions,
-                  List<Ingredient> ingredientList,
-                  Map<String, Nutrition> nutritionMap,
-                  Map<String, Nutrition> totalDailyMap,
-                  List<String> dietLabels,
-                  List<String> healthLabels,
-                  List<String> cautions,
-                  List<String> tags,
-                  List<String> cuisineType,
-                  List<String> mealType,
-                  List<String> dishType) {
-
-        this.name = name;
-        this.image = image;
-        this.yield = yield;
-        this.instructions = instructions;
-        this.ingredientList = ingredientList;
-        this.nutritionMap = nutritionMap;
-        this.totalDailyMap = totalDailyMap;
-
-        this.dietLabels = dietLabels;
-        this.healthLabels = healthLabels;
-        this.cautions = cautions;
-        this.tags = tags;
-        this.cuisineType = cuisineType;
-        this.mealType = mealType;
-        this.dishType = dishType;
-
-        this.rating = 0;
-        this.estimatedCostPerServing = 0;
-        this.privacyStatus = true;
+//    /**
+//     * Constructor for the recipe entity.
+//     * @param name Name of the recipe
+//     * @param image Image of the recipe
+//     * @param yield Yields of the recipe
+//     * @param instructions Instructions of the recipe
+//     * @param ingredientList List of the ingredients
+//     * @param nutritionMap Map of nutrition in terms of quantity and unit
+//     * @param totalDailyMap Map of nutrition in terms of daily percentage
+//     * @param dietLabels List of diet types that the recipe belongs.
+//     *                   The diet type labels describe commonly used
+//     *                   nutrient level aspects of the recipe.
+//     * @param healthLabels List of health type labels. health type labels
+//     *                     describe commonly used ingredient level aspects of the recipe.
+//     * @param cautions List of caution labels.
+//     * @param tags List of tags.
+//     * @param cuisineType List of cuisine types labels.
+//     * @param mealType List of meal type labels. The meal types refer to the
+//     *                 meals in a day the recipe is commonly consumed in.
+//     * @param dishType List of dish type labels. The dish types refer to the
+//     *                 category of food the recipe would fall under.
+//     */
+    public Recipe() {
+        String input = LocalDateTime.now() + UUID.randomUUID().toString();
+        this.id = "recipe_" + generateMD5(input);
     }
 
+    public Recipe(String id) {
+        this.id = id;
+    }
     /**
      * Getters
      */
 
-    public List<Ingredient> getIngredientList() {
-        return this.ingredientList;
-    }
-    public String getName() {
-        return this.name;
-    }
-    public String getImage() {
-        return this.image;
-    }
+    public String getId() {return this.id;}
+    public List<Ingredient> getIngredientList() {return this.ingredientList;}
+    public String getName() {return this.name;}
+    public String getImage() {return this.image;}
+    public String getSmallImage() {return this.smallImage;}
+    public Map<String, Nutrition> getNutritionMap() {return this.nutritionMap;}
+    public List<String> getDietLabels() {return this.dietLabels;}
+    public List<String> getHealthLabels() {return this.healthLabels;}
+    public List<String> getCautions() {return this.cautions;}
+    public List<String> getTags() {return this.tags;}
+    public List<String> getCuisineType() {return this.cuisineType;}
+    public List<String> getMealType() {return this.mealType;}
+    public List<String> getDishType() {return this.dishType;}
+    public String getInstructions() {return this.instructions;}
+
+    public void setName(String name) {this.name = name;}
+    public void setImage(String image) {this.image = image;}
+    public void setSmallImage(String smallImage) {this.smallImage = smallImage;}
+    public void setYield(int yield) {this.yield = yield;}
+    public void setInstructions(String instructions) {this.instructions = instructions;}
+    public void setIngredientList(List<Ingredient> ingredientList) {this.ingredientList = ingredientList;}
+    public void setNutritionMap(Map<String, Nutrition> nutritionMap) {this.nutritionMap = nutritionMap;}
+    public void setTotalDailyMap(Map<String, Nutrition> totalDailyMap) {this.totalDailyMap = totalDailyMap;}
+    public void setDietLabels(List<String> dietLabels) {this.dietLabels = dietLabels;}
+    public void setHealthLabels(List<String> healthLabels) {this.healthLabels = healthLabels;}
+    public void setCautions(List<String> cautions) {this.cautions = cautions;}
+    public void setTags(List<String> tags) {this.tags = tags;}
+    public void setCuisineType(List<String> cuisineType) {this.cuisineType = cuisineType;}
+    public void setMealType(List<String> mealType) {this.mealType = mealType;}
+    public void setDishType(List<String> dishType) {this.dishType = dishType;}
+
 
     @Override
     public String toString() {
@@ -108,10 +102,8 @@ public class Recipe {
         for (Ingredient grocery : this.ingredientList) {ingredients.append(grocery.toString()).append("\n");}
         StringBuilder nutritions = new StringBuilder().append("<Nutritions>\n>");
         for (String nutrition : this.nutritionMap.keySet()) {nutritions.append(nutritionMap.get(nutrition).toString()).append("\n");}
-        String rating = "Rating: " + this.rating + "\n";
-        String estimated = "Estimated Cost: " + this.estimatedCostPerServing + "\n";
-        String privacyStatus = "Privacy Status: " + this.privacyStatus;
 
-        return name + instruction + ingredients + nutritions + rating + estimated + privacyStatus;
+
+        return name + instruction + ingredients + nutritions;
     }
 }
