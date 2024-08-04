@@ -14,6 +14,7 @@ import frameworks.gui.SwingGUI;
 
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.authentication.AuthenticationViewManager;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
@@ -62,13 +63,17 @@ public class Config {
 
     // View Models
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
+//    // TODO: create abstraction
+//    private final ViewManagerModel authenticationViewManagerModel = new ViewManagerModel();
+
+    private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
+    private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
+
     private final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("Search Recipe");
     private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
     private final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
-    private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
-    private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
 
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
@@ -79,7 +84,7 @@ public class Config {
     private final UserDataAccessInterface userDAO = new MongoUserDAO(mongoDBConnection.getDatabase());
 
     // GUI
-    private final GUI gui = new SwingGUI(this);
+    private final GUI gui = new SwingGUI();
 
     // Authentication Service
     private final AuthenticationService authenticationService = new AuthenticationService(userDAO);
@@ -91,9 +96,9 @@ public class Config {
     private final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
 
     // Login UseCase
-//    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
-//    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
-//    private final LoginController loginController = new LoginController(loginInteractor);
+    LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authenticationViewModel);
+    private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
+    private final LoginController loginController = new LoginController(loginInteractor);
 
     // Sign Up UseCase
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
@@ -148,6 +153,7 @@ public class Config {
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
 //    public LoginController getLoginController() { return loginController; }
+    public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
