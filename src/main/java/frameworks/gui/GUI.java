@@ -9,7 +9,5 @@ import java.beans.PropertyChangeListener;
 
 public interface GUI extends PropertyChangeListener {
     public void initialize(Config config);
-    public void addView(View view);
-    public void setActiveView(View view);
 
 }

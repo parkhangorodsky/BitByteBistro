@@ -35,7 +35,6 @@ public class AppViewManager extends ViewManager implements PropertyChangeListene
         this.popUpViews = new HashMap<>();
     }
 
-
     public void addPopupView(String viewName, PopUpView popUpView) {
         this.popUpViews.put(viewName, popUpView);
     }
