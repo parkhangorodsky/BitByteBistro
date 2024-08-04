@@ -30,10 +30,6 @@ public class ShoppingList {
         return listOwner;
     }
 
-    public void setListOwner(User listOwner) {
-        this.listOwner = listOwner;
-    }
-
     public String getShoppingListName() {
         return shoppingListName;
     }
@@ -59,6 +55,11 @@ public class ShoppingList {
     }
 
     public List<Recipe> getRecipes() {return recipes;}
+
+    public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
+
+    public void addItem(Ingredient item) {this.listItems.add(item);}
+
     public void addRecipe(Recipe recipe) {this.recipes.add(recipe);}
 
 }
