@@ -1,5 +1,6 @@
 package frameworks.data_access.serialization;
 
+import entity.Ingredient;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
@@ -35,43 +36,16 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
     @Override
     public ShoppingList deserialize(Document bson){
 
-        String listOwner = bson.getString("userName");
+        User listOwner = userSerializer.deserialize(bson);
         String name = bson.getString("name");
-        List<Ingredient>
-        Date createdDate = bson.getDate("createdAt");
-        LocalDateTime createdAt = LocalDateTime.ofInstant((createdDate.toInstant()), ZoneId.systemDefault());
-        List<ShoppingList> shoppingList = new ArrayList<>();
+        List<Ingredient> groceries = ingredientSerializer.deserializeList(bson.getList("groceries", Document.class));
+        Double cost = bson.getDouble("cost");
         List<Recipe> recipes = recipeSerializer.deserializeRecipeList(bson.getList("recipes", Document.class));
-        List<Recipe> recentlyViewedRecipes = recipeSerializer.deserializeRecipeList(bson.getList("recentlyViewedRecipes", Document.class));
-        Map<String, Object> preference = bson.get("preference", Map.class);
 
-        User user = new User(userName, userEmail, userPassword, createdAt);
-        user.setShoppingLists(shoppingList);
-        user.setRecipes(recipes);
-        user.setRecentlyViewedRecipes(recentlyViewedRecipes);
-        user.setPreference(preference);
-        return user;
-    }
-
-    public List<Document> serializeRecipeList(List<Recipe> recipeList){
-        List<Document> documentList = new ArrayList<>();
-
-        for (Recipe recipe : recipeList) {
-            documentList.add(serialize(recipe));
-        }
-
-        return documentList;
-    }
-
-    public List<Recipe> deserializeRecipeList(List<Document> bsonList){
-        List<Recipe> recipeList = new ArrayList<>();
-
-        if (bsonList != null && !bsonList.isEmpty()) {
-            for (Document document : bsonList) {
-                recipeList.add(deserialize(document));
-            }
-        }
-        return recipeList;
+        ShoppingList shoppingList = new ShoppingList(listOwner, name, groceries);
+        shoppingList.setEstimatedTotalCost(cost);
+        //add recipes associated with shoppinglist once changed shopping list entity to have set recipes
+        return shoppingList;
     }
 
 }
