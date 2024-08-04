@@ -1,5 +1,6 @@
 package use_cases.display_recipe_detail;
 
+import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
@@ -53,9 +54,9 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         });
 
 
-        addToGroceryButton.addActionListener(e -> {
-            coreFunctionalityController.execute(viewModel.getRecipe(), viewModel);
-        });
+//        addToGroceryButton.addActionListener(e -> {
+//            coreFunctionalityController.execute(viewModel.getShoppingList, viewModel.getRecipe(), viewModel);
+//        });
 
         buttonPanel.add(addToRecipesButton);
         buttonPanel.add(addToGroceryButton);
