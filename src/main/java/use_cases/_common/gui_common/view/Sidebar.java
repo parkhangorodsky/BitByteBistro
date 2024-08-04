@@ -155,6 +155,8 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
 
         settingButton.setBorderColor(black);
         settingButton.setHoverColor(black, black, white, neonPinkEmph);
+        logoutButton.setBorderColor(black);
+        logoutButton.setHoverColor(black, black, white, neonPinkEmph);
 
     }
 
@@ -185,7 +187,6 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
 
         logoutButton.setBorderColor(claudeWhiteEmph);
         logoutButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
-
 
     }
 
