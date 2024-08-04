@@ -79,19 +79,24 @@ public class ShoppingList {
     public List<Recipe> getRecipes() {return recipes;}
     public void addRecipe(Recipe recipe) {this.recipes.add(recipe);}
     public void addIngredients(List<Ingredient> ingredients) {
-        for (int i = 0; i < this.getListItems().size(); i++) {
-            for (Ingredient newIngredient : ingredients) {
-                Ingredient oldIngredient = this.getListItems().get(i);
-                if (oldIngredient.getIngredientName().equals(newIngredient.getIngredientName()) && oldIngredient.getQuantityUnit() == newIngredient.getQuantityUnit()) {
-                    float newQuantity = oldIngredient.getQuantity() + newIngredient.getQuantity();
-                    this.getListItems().set(i, new Ingredient(oldIngredient.getIngredientID(),
-                            oldIngredient.getIngredientName(),
-                            oldIngredient.getQuantityUnit(),
-                            oldIngredient.getCategory(),
-                            newQuantity));
+        if (this.getListItems() != null) {
+            for (int i = 0; i < this.getListItems().size(); i++) {
+                for (Ingredient newIngredient : ingredients) {
+                    Ingredient oldIngredient = this.getListItems().get(i);
+                    if (oldIngredient.getIngredientName().equals(newIngredient.getIngredientName()) && oldIngredient.getQuantityUnit() == newIngredient.getQuantityUnit()) {
+                        float newQuantity = oldIngredient.getQuantity() + newIngredient.getQuantity();
+                        this.getListItems().set(i, new Ingredient(oldIngredient.getIngredientID(),
+                                oldIngredient.getIngredientName(),
+                                oldIngredient.getQuantityUnit(),
+                                oldIngredient.getCategory(),
+                                newQuantity));
+                    }
+                    this.listItems.add(newIngredient);
                 }
-                this.getListItems().add(newIngredient);
             }
+        }
+        else {
+            this.setListItems(ingredients);
         }
 
     }
