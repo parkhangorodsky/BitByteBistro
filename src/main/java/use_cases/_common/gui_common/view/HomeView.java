@@ -51,13 +51,15 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         // Add any additional components here
         // For example, a welcome label
         JLabel welcomeLabel = new JLabel("Welcome to your BitByteBistro Home Page!");
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        welcomeLabel.setFont(new Font(defaultFont, Font.BOLD, 24));
+        welcomeLabel.setForeground(claudeBlack);
         contentPanel.add(welcomeLabel);
 
         // Initialize recently viewed panel
         recentlyViewedPanel = new JPanel();
         recentlyViewedPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         recentlyViewedPanel.setLayout(new BoxLayout(recentlyViewedPanel, BoxLayout.Y_AXIS));
+        recentlyViewedPanel.setBackground(claudeWhite);
         loadRecentlyViewedRecipes();
 
         // Pack content panel into main panel
@@ -75,13 +77,15 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
         // Add title to recently viewed panel
         JLabel recentlyViewedTitle = new JLabel("Recently Viewed Recipes...");
-        recentlyViewedTitle.setFont(new Font("Arial", Font.BOLD, 18));
+        recentlyViewedTitle.setFont(new Font(defaultFont, Font.BOLD, 18));
+        recentlyViewedTitle.setForeground(claudeBlack);
         recentlyViewedTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         recentlyViewedPanel.add(recentlyViewedTitle);
 
         if (recentlyViewedRecipes.isEmpty()) {
             JLabel noRecipesLabel = new JLabel("No recently viewed recipes");
-            noRecipesLabel.setFont(new Font("Arial", Font.ITALIC, 16));
+            noRecipesLabel.setFont(new Font(defaultFont, Font.ITALIC, 16));
+            noRecipesLabel.setForeground(claudeBlack);
             noRecipesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             recentlyViewedPanel.add(noRecipesLabel);
         }
@@ -92,7 +96,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                 recipePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
                 JLabel recipeNameLabel = new JLabel(recipe.getName());
-                recipeNameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+                recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
                 recipePanel.add(recipeNameLabel, BorderLayout.CENTER);
 
                 recentlyViewedPanel.add(recipePanel);
