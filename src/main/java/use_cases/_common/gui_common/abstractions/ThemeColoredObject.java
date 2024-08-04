@@ -37,6 +37,9 @@ public interface ThemeColoredObject {
     Color orange = new Color(255, 109, 0);
     Color brightOrange = new Color(255, 145, 0);
 
+    Color errorRed = new Color(186, 16, 16);
+    Color successGreen = new Color(2, 105, 9, 255) ;
+
     String defaultFont = "Hoefler Text";
     String secondaryFont = "Avenir Next";
 }
