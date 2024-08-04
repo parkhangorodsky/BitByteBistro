@@ -48,7 +48,7 @@ public class NutritionStatsViewModel extends ViewModel {
      */
     public void firePropertyChanged() {
         if (!nutritionalStatistics.getNutritionInfoAverage().isEmpty()) {
-            support.firePropertyChange("home view", null, this.nutritionalStatistics);
+            support.firePropertyChange("Home", null, this.nutritionalStatistics);
         } else {
             support.firePropertyChange("empty result", null, null);
         }
