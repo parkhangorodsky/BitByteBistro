@@ -31,9 +31,9 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
     RoundButton searchButton;
     RoundButton myRecipeButton;
     RoundButton groceryListButton;
+
+
     RoundButton logoutButton;
-
-
     RoundButton settingButton;
 
 
@@ -67,12 +67,6 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         });
         groceryListButton = createMenu("Grocery List");
 
-        logoutButton = new RoundButton("logout");
-//        logoutButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/logout.png")));
-        logoutButton.setToolTipText("Logout");
-        logoutButton.addActionListener(e -> logoutController.logout());
-
-        switchPanel.add(logoutButton);
         switchPanel.add(homeButton);
         switchPanel.add(searchButton);
         switchPanel.add(myRecipeButton);
@@ -83,7 +77,10 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         settingButton.addActionListener(e -> {
             viewManagerModel.firePropertyChanged("pop up", "Preference");
         });
+        logoutButton = createLogoutButton();
+        logoutButton.addActionListener(e -> logoutController.logout());
         bottomPanel.add(settingButton);
+        bottomPanel.add(logoutButton);
 
         observeNight();
         toggleNightMode();
@@ -93,6 +90,12 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         this.add(mainPanel, BorderLayout.CENTER);
+    }
+
+    private RoundButton createLogoutButton() {
+        RoundButton logoutButton = new RoundButton("Logout");
+        logoutButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
+        return logoutButton;
     }
 
     private RoundButton createSettingButton() {
@@ -179,6 +182,10 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
 
         settingButton.setBorderColor(claudeWhiteEmph);
         settingButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
+
+        logoutButton.setBorderColor(claudeWhiteEmph);
+        logoutButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
+
 
     }
 
