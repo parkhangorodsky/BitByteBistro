@@ -32,11 +32,7 @@ public class User {
         this.userEmail = userEmail; // Validate email format
         this.userPassword = userPassword; // Encrypt password
         this.createdAt = createdAt;
-
         this.shoppingLists = new ArrayList<>();
-        List<Ingredient> ingredients = new ArrayList<>();
-        this.shoppingLists.add(new ShoppingList(userName, "shopping list", ingredients));
-
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
