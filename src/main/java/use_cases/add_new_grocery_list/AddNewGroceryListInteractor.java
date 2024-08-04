@@ -21,7 +21,7 @@ public class AddNewGroceryListInteractor implements AddNewGroceryListInputBounda
 
         for (ShoppingList userShoppingLists : user.getShoppingLists()) {
             if (userShoppingLists.getShoppingListName().equals(inputData.getShoppingListName())) {
-                presenter.prepareFailureView("recipe already exists", inputData.getParentModel());
+                presenter.prepareFailureView("grocery list already exists", inputData.getParentModel());
                 return;
             }
         }
