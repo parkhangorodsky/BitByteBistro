@@ -35,7 +35,7 @@ public class User {
 
         this.shoppingLists = new ArrayList<>();
         List<Ingredient> ingredients = new ArrayList<>();
-        this.shoppingLists.add(new ShoppingList(userName, "shopping list", ingredients));
+        this.shoppingLists.add(new ShoppingList(this, "shopping list"));
 
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
