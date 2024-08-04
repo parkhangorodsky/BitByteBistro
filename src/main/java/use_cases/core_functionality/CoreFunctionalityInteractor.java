@@ -43,9 +43,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         user.addShoppingList(updatedShoppingList);
         userDAO.addShoppingList(user, updatedShoppingList);
 
-
-        // inputData.getShoppingList should get change to the updated shopping list once the method is implemented.
-        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(inputData.getShoppingList(), inputData.getParentModel());
+        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(updatedShoppingList, inputData.getParentModel());
         presenter.prepareSuccessView(outputData);
     }
 
