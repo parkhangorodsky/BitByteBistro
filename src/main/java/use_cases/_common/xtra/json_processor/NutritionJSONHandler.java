@@ -4,9 +4,7 @@ import entity.Nutrition;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * The utility interface that provides the default method for converting nutritional information
@@ -34,19 +32,18 @@ public interface NutritionJSONHandler extends JSONNullHandler {
              nutritions.add(calorieFact);
 
              JSONObject totalNutrients = nutritionJSONObject.getJSONObject("totalNutrients");
-             Iterator<String> keys = totalNutrients.keys();
+             Set<String> keys = totalNutrients.keySet();
+             for (String category : keys) {
+                 String label = totalNutrients.getJSONObject(category).getString("label");
+                 float quantity = totalNutrients.getJSONObject(category).getFloat("quantity");
+                 String unit = totalNutrients.getJSONObject(category).getString("unit");
 
-             while(keys.hasNext()) {
-                 String category = keys.next();
-                 if (totalNutrients.get(category) instanceof JSONObject) {
-                     String label = totalNutrients.getJSONObject(category).getString("label");
-                     float quantity = totalNutrients.getJSONObject(category).getFloat("quantity");
-                     String unit = totalNutrients.getJSONObject(category).getString("unit");
-
-                     Nutrition nutritionFact = new Nutrition(label, quantity, unit);
-                     nutritions.add(nutritionFact);
-                 }
+                 Nutrition nutritionFact = new Nutrition(label, quantity, unit);
+                 nutritions.add(nutritionFact);
              }
+
+             // Sort the nutritions list using Collections.sort with a custom comparator
+             nutritions.sort(Comparator.comparing(Nutrition::getLabel));
          }
 
          return nutritions;
