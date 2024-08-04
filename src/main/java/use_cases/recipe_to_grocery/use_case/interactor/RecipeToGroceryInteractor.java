@@ -39,12 +39,12 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
      */
     @Override
     public void execute(RecipeToGroceryInputData recipeToGroceryInputData) {
-        ArrayList<Recipe> recipes = recipeToGroceryInputData.getRecipes();
+        Recipe recipe = recipeToGroceryInputData.getRecipe();
         ShoppingList user_shoppingList = recipeToGroceryInputData.getShoppingList();
         User user = LoggedUserData.getLoggedInUser();
 
         // Convert recipes to grocery list
-        ShoppingList shoppingList = getGroceryList(recipes, user);
+        ShoppingList shoppingList = getGroceryList(recipe, user);
         ArrayList<ShoppingList> shoppingLists = new ArrayList<>();
         shoppingLists.add(shoppingList);
 
@@ -56,11 +56,11 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
     /**
      * Converts a list of recipes into a single ShoppingList for the given user.
      *
-     * @param recipeList The list of recipes to convert.
+     * @param recipe The list of recipes to convert.
      * @param user       The user for whom the grocery list is prepared.
      * @return A ShoppingList containing all ingredients from the recipes.
      */
-    public ShoppingList getGroceryList(List<Recipe> recipeList, User user) {
+    public ShoppingList getGroceryList(Recipe recipe, User user) {
         List<ShoppingList> existingLists = user.getShoppingLists();
         String listName;
         if (!existingLists.isEmpty()) {
@@ -69,22 +69,21 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
 
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         ShoppingList newShoppingList = new ShoppingList(user.getUserName(), listName, ingredients);
-        List<Ingredient> groceries = collapseIngredients(recipeList, newShoppingList);
+        List<Ingredient> groceries = collapseIngredients(recipe, newShoppingList);
 
         newShoppingList.addListItems(groceries);
         return newShoppingList;
     }
 
-    public ShoppingList getGroceryList(List<Recipe> recipeList, ShoppingList shoppingList, User user) {
-        List<Ingredient> groceries = collapseIngredients(recipeList, shoppingList);
+    public ShoppingList getGroceryList(Recipe recipe, ShoppingList shoppingList, User user) {
+        List<Ingredient> groceries = collapseIngredients(recipe, shoppingList);
 
         shoppingList.addListItems(groceries);
         return shoppingList;
     }
 
-    private List<Ingredient> collapseIngredients(List<Recipe> recipeList, ShoppingList shoppingList) {
+    private List<Ingredient> collapseIngredients(Recipe recipe, ShoppingList shoppingList) {
         List<Ingredient> groceries = shoppingList.getListItems();
-        for (Recipe recipe : recipeList) {
             for (Ingredient grocery : recipe.getIngredientList()) {
                 if (groceries.contains(grocery)) {
                     Ingredient item = groceries.get(groceries.indexOf(grocery));
@@ -94,7 +93,6 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
                     groceries.add(grocery);
                 }
             }
-        }
         return groceries;
     }
 }

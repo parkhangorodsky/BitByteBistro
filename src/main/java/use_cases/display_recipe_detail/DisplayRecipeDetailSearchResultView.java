@@ -93,9 +93,9 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         return controlPanel;
     };
 
+
     private void addToGroceryList(Recipe recipe, ShoppingList list) {
-        ArrayList<Recipe> recipes = new ArrayList<>(Collections.singletonList(recipe));
-        recipeToGroceryController.convertRecipesToGroceryList(recipes, list);
+        recipeToGroceryController.convertRecipesToGroceryList(recipe, list);
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
