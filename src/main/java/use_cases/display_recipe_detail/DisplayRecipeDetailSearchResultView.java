@@ -81,8 +81,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         // Option to create a new grocery list
         JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
         createNewGroceryListItem.addActionListener(e -> {
-            // Logic to create a new grocery list and add the recipe to it
-            // Inject controller
+            createNewGroceryListAndAdd(recipe);
         });
         addToMenu.add(createNewGroceryListItem);
 
@@ -107,6 +106,19 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
         coreFunctionalityController.execute(shoppingList, recipe, viewModel);
     }
+
+
+    private void createNewGroceryListAndAdd(Recipe recipe) {
+        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
+        if (newListName != null && !newListName.trim().isEmpty()) {
+            // inject add new grocery list controller
+            // this returns the new shopping list
+            // change print statement below
+            System.out.println("Creating new grocery list and adding recipe to: " + newListName);
+        }
+        coreFunctionalityController.execute(shoppingList, recipe, viewModel);
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
