@@ -35,9 +35,14 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
     @Override
     public void prepareSuccessView(SearchRecipeOutputData recipes) {
         searchRecipeViewModel.setRecipeSearchResult(recipes);
-        searchRecipeViewModel.firePropertyChanged();
+        searchRecipeViewModel.firePropertyChange();
 
         viewManagerModel.setActiveView(searchRecipeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareFailView(String propertyName) {
+        searchRecipeViewModel.firePropertyChange(propertyName);
     }
 }

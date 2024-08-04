@@ -1,5 +1,6 @@
 package use_cases.search_recipe.gui.view_component;
 
+import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
@@ -76,6 +77,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
 
         detailButton = new RoundButton("Detail");
         detailButton.addActionListener(e -> {
+            LoggedUserData.getLoggedInUser().addRecentlyViewedRecipe(recipe);
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
             DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel, addToMyRecipeController);
             displayRecipeDetailController.execute(recipe, viewModel);

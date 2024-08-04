@@ -1,6 +1,7 @@
 package use_cases.log_in.interface_adapter.presenter;
 
 import entity.LoggedUserData;
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
@@ -14,6 +15,7 @@ import use_cases.log_in.use_case.output_data.LoginOutputData;
 public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final AuthenticationViewModel authenticationViewModel;
 
     /**
      * Constructs a new LoginPresenter with the specified view model and view manager model.
@@ -21,9 +23,10 @@ public class LoginPresenter implements LoginOutputBoundary {
      * @param loginViewModel The view model to update based on the login result.
      * @param viewManagerModel The model to manage view transitions.
      */
-    public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
+    public LoginPresenter(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel, AuthenticationViewModel authenticationViewModel) {
         this.loginViewModel = loginViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.authenticationViewModel = authenticationViewModel;
     }
 
     /**
@@ -38,10 +41,10 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         loginViewModel.setErrorMessage("");
         LoggedUserData.setLoggedInUser(outputData.getUser());
-        loginViewModel.firePropertyChange("loggedInUser", null, outputData.getUser());
-        viewManagerModel.setActiveView("Search Recipe");
-        viewManagerModel.firePropertyChanged();
         System.out.println("Login success: " + LoggedUserData.getLoggedInUser().getRecipes());
+        authenticationViewModel.firePropertyChange("authenticationSuccess", null, outputData.getUser());
+//        viewManagerModel.setActiveView("Search Recipe");
+//        viewManagerModel.firePropertyChanged();
     }
 
     /**

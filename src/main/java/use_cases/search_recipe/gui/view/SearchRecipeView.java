@@ -1,5 +1,6 @@
 package use_cases.search_recipe.gui.view;
 
+import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
@@ -121,7 +122,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         recipeContainer = new RecipeContainer(outputPanel);
 
         // Navigate to RecipeToGroceryView
-        JButton convertToGroceryButton = new JButton("Convert Recipes to Grocery List");
+        JButton convertToGroceryButton = new JButton(LoggedUserData.getLoggedInUser().getUserName());
         convertToGroceryButton.addActionListener(e -> {
             if (e.getSource().equals(convertToGroceryButton)) {
                 viewManagerModel.setActiveView("recipe to grocery");
@@ -164,6 +165,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
+        } else if (evt.getPropertyName().equals("api fail")) {
+            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                    "Unable to connect to API. Please try again later",
+                    "API Error",
+                    JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();

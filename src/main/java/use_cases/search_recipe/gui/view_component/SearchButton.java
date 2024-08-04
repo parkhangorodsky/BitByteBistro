@@ -25,6 +25,7 @@ public class SearchButton extends RoundButton implements NightModeObject {
 
     @Override
     public void setDayMode() {
+        this.setBorderColor(claudeWhiteEmph);
         this.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlack, claudeBlack);
     }
 

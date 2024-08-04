@@ -17,4 +17,5 @@ public interface SearchRecipeOutputBoundary {
      * @param recipes the search results data
      */
     void prepareSuccessView(SearchRecipeOutputData recipes);
+    void prepareFailView(String message);
 }
