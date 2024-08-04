@@ -164,6 +164,7 @@ public class SwingGUI implements GUI {
         loginFrame.setSize(1000, 750);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setLayout(new BorderLayout());
+        loginFrame.setLocationRelativeTo(null);
     }
 
     private void createMainPanel() {
