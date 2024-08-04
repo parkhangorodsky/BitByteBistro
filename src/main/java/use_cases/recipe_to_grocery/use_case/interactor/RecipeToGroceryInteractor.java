@@ -80,6 +80,8 @@ public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, 
         if (!existingLists.isEmpty()) {
             listName = "list" + existingLists.size();
         }
-        return new ShoppingList(user.getUserName(), listName, groceries);
+        ShoppingList sl = new ShoppingList(user, listName);
+        sl.setListItems(groceries);
+        return sl;
     }
 }
