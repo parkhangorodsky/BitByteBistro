@@ -1,4 +1,4 @@
-package use_cases.settting_preference;
+package use_cases.setting_preference;
 
 import app.LocalAppSetting;
 
