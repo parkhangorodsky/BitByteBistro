@@ -42,9 +42,10 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
         Double cost = bson.getDouble("cost");
         List<Recipe> recipes = recipeSerializer.deserializeRecipeList(bson.getList("recipes", Document.class));
 
-        ShoppingList shoppingList = new ShoppingList(listOwner, name, groceries);
+        ShoppingList shoppingList = new ShoppingList(listOwner, name);
+        shoppingList.setListItems(groceries);
         shoppingList.setEstimatedTotalCost(cost);
-        //add recipes associated with shoppinglist once changed shopping list entity to have set recipes
+        shoppingList.setRecipes(recipes);
         return shoppingList;
     }
 
