@@ -1,12 +1,13 @@
 package use_cases.search_recipe.gui.view;
 
+import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.gui.view_component.*;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
@@ -34,6 +35,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
     private DisplayRecipeDetailController displayDetailController;
     private AddToMyRecipeController addToMyRecipeController;
+    private RecentlyViewedRecipesController recentlyViewedRecipesController;
 
 
     public final String viewname;
@@ -51,9 +53,9 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
-                            NutritionDisplayController nutritionDisplayController,
                             DisplayRecipeDetailController displayDetailController,
                             AddToMyRecipeController addToMyRecipeController,
+                            RecentlyViewedRecipesController recentlyViewedRecipesController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 
@@ -68,6 +70,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.searchRecipeController = searchRecipeController;
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
+        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
 
         observeNight();
 
@@ -107,7 +110,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         recipeName = new SearchTextField();
         recipeName.addActionListener( e -> {
             if (e.getSource().equals(recipeName)) {
-                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
+                getRecipeResult(searchRecipeViewModel, searchRecipeController);
             }
         });
 
@@ -115,7 +118,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         searchButton = new SearchButton();
         searchButton.addActionListener(e -> {
             if (e.getSource().equals(searchButton)) {
-                getRecipeResult(searchRecipeViewModel, searchRecipeController, nutritionDisplayController);
+                getRecipeResult(searchRecipeViewModel, searchRecipeController);
             }
         });
 
@@ -123,7 +126,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         recipeContainer = new RecipeContainer(outputPanel);
 
         // Navigate to RecipeToGroceryView
-        JButton convertToGroceryButton = new JButton("Convert Recipes to Grocery List");
+        JButton convertToGroceryButton = new JButton(LoggedUserData.getLoggedInUser().getUserName());
         convertToGroceryButton.addActionListener(e -> {
             if (e.getSource().equals(convertToGroceryButton)) {
                 viewManagerModel.setActiveView("recipe to grocery");
@@ -147,14 +150,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void getRecipeResult(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController, NutritionDisplayController nutritionDisplayController) {
+    private void getRecipeResult(SearchRecipeViewModel searchRecipeViewModel, SearchRecipeController searchRecipeController) {
         String queryString = recipeName.getText();
         if (queryString != null && !queryString.isEmpty()) {
             searchRecipeController.execute(queryString);
             SearchRecipeOutputData recipes = searchRecipeViewModel.getRecipeSearchResult();
-            for (Recipe recipe : recipes) {
-                nutritionDisplayController.execute(recipe);
-            }
         }
     }
 
@@ -169,6 +169,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
             loadSearchResult(response);
         } else if (evt.getPropertyName().equals("empty result")) {
             loadEmptyResult();
+        } else if (evt.getPropertyName().equals("api fail")) {
+            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                    "Unable to connect to API. Please try again later",
+                    "API Error",
+                    JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("convert")) {
             viewManagerModel.setActiveView("recipe to grocery");
             viewManagerModel.firePropertyChanged();
@@ -185,7 +190,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController, recentlyViewedRecipesController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));

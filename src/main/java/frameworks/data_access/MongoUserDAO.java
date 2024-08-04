@@ -12,6 +12,7 @@ import frameworks.data_access.serialization.UserSerializer;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.List;
 import java.util.logging.Filter;
 import java.util.prefs.Preferences;
 
@@ -32,7 +33,6 @@ public class MongoUserDAO implements UserDataAccessInterface{
     @Override
     public void updateUser(User user) {
     }
-
 
     @Override
     public void deleteUser(User user) {
@@ -59,6 +59,16 @@ public class MongoUserDAO implements UserDataAccessInterface{
         RecipeSerializer recipeSerializer = new RecipeSerializer();
         Bson update = Updates.addToSet("recipes", recipeSerializer.serialize(recipe));
         userCollection.updateOne(filter, update);
+    }
+
+    @Override
+    public void updateRecentlyViewedRecipes(User user) {
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+
+        RecipeSerializer recipeSerializer = new RecipeSerializer();
+        Bson update = Updates.set("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
+        userCollection.updateOne(filter, update);
+
     }
 
     public void updateUserPreference(User user, String fieldName, Object value) {

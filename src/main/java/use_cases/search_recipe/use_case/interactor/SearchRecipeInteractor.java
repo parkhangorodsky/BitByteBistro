@@ -53,6 +53,11 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary, Recipe
         SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(recipeList);
 
         // Prepare the success view.
-        searchRecipePresenter.prepareSuccessView(searchRecipeOutputData);
+        if (recipeList == null) {
+            searchRecipePresenter.prepareFailView("api fail");
+        } else {
+            searchRecipePresenter.prepareSuccessView(searchRecipeOutputData);
+        }
+
     }
 }

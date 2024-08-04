@@ -14,7 +14,5 @@ public class DisplayRecipeDetailController {
     public void execute(Recipe recipe, DisplayRecipeDetailViewModel viewModel) {
         DisplayRecipeDetailInputData inputData = new DisplayRecipeDetailInputData(recipe, viewModel);
         interactor.execute(inputData);
-    };
-
-
+    }
 }

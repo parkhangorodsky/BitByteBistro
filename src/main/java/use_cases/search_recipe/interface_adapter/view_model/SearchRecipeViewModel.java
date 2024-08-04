@@ -61,13 +61,18 @@ public class SearchRecipeViewModel extends ViewModel {
      * Notifies all registered listeners that the search results have changed.
      * Fires a property change event with "search recipe" if there are results, otherwise fires "empty result".
      */
-    public void firePropertyChanged() {
+    public void firePropertyChange() {
         if (!recipeSearchResult.getRecipes().isEmpty()) {
             support.firePropertyChange("search recipe", null, this.recipeSearchResult);
         } else {
             support.firePropertyChange("empty result", null, null);
         }
     }
+
+    public void firePropertyChange(String propertyName) {
+        support.firePropertyChange(propertyName,null,  null);
+    }
+
 
     /**
      * Adds a property change listener to this view model.

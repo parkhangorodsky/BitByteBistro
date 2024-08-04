@@ -63,7 +63,6 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         this.add(mainPanel);
         this.pack();
         this.positionFrameAtCenter(parent);
-        this.showPopUp();
     }
 
     private void updateNightModeCheckBox(boolean nightMode) {

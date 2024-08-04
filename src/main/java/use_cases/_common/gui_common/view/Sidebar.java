@@ -6,6 +6,7 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.logout.interface_adapter.controller.LogoutController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +20,7 @@ import java.util.Arrays;
  */
 public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObject {
     ViewManagerModel viewManagerModel;
+    LogoutController logoutController;
 
     JPanel mainPanel;
     JPanel titlePanel;
@@ -30,14 +32,17 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
     RoundButton myRecipeButton;
     RoundButton groceryListButton;
 
+
+    RoundButton logoutButton;
     RoundButton settingButton;
 
 
-    public Sidebar(ViewManagerModel viewManagerModel) {
+    public Sidebar(ViewManagerModel viewManagerModel,LogoutController logoutController) {
 
         setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(250, 750));
         this.viewManagerModel = viewManagerModel;
+        this.logoutController = logoutController;
 
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -72,7 +77,10 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         settingButton.addActionListener(e -> {
             viewManagerModel.firePropertyChanged("pop up", "Preference");
         });
+        logoutButton = createLogoutButton();
+        logoutButton.addActionListener(e -> logoutController.logout());
         bottomPanel.add(settingButton);
+        bottomPanel.add(logoutButton);
 
         observeNight();
         toggleNightMode();
@@ -82,6 +90,12 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         this.add(mainPanel, BorderLayout.CENTER);
+    }
+
+    private RoundButton createLogoutButton() {
+        RoundButton logoutButton = new RoundButton("Logout");
+        logoutButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
+        return logoutButton;
     }
 
     private RoundButton createSettingButton() {
@@ -141,6 +155,8 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
 
         settingButton.setBorderColor(black);
         settingButton.setHoverColor(black, black, white, neonPinkEmph);
+        logoutButton.setBorderColor(black);
+        logoutButton.setHoverColor(black, black, white, neonPinkEmph);
 
     }
 
@@ -168,6 +184,9 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
 
         settingButton.setBorderColor(claudeWhiteEmph);
         settingButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
+
+        logoutButton.setBorderColor(claudeWhiteEmph);
+        logoutButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
 
     }
 

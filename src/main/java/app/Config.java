@@ -13,7 +13,9 @@ import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 
 // Interface Adapters
+import use_cases._common.authentication.AuthenticationInterface;
 import use_cases._common.authentication.AuthenticationService;
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
 import use_cases.add_to_my_recipe.AddToMyRecipePresenter;
@@ -21,10 +23,9 @@ import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesInteractor;
 import use_cases.filter_recipe.FilterRecipeController;
-import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
-import use_cases.nutrition_display.interface_adapter.presenter.NutritionDisplayPresenter;
-import use_cases.nutrition_display.use_case.interactor.NutritionDisplayInteractor;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
@@ -49,6 +50,12 @@ import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
+// Logout UseCase
+
+import use_cases.logout.use_case.interactor.LogoutInteractor;
+import use_cases.logout.interface_adapter.presenter.LogoutPresenter;
+import use_cases.logout.interface_adapter.controller.LogoutController;
+
 // Data Access
 import frameworks.data_access.UserDataAccessInterface;
 import frameworks.data_access.CSVDataAccessObject;
@@ -57,10 +64,15 @@ public class Config {
 
     // View Models
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
+//    // TODO: create abstraction
+//    private final ViewManagerModel authenticationViewManagerModel = new ViewManagerModel();
+
+    private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
+    private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
+
     private final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("Search Recipe");
     private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
     private final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
-    private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
 
@@ -73,7 +85,7 @@ public class Config {
     private final UserDataAccessInterface userDAO = new MongoUserDAO(mongoDBConnection.getDatabase());
 
     // GUI
-    private final GUI gui = new SwingGUI(this);
+    private final GUI gui = new SwingGUI();
 
     // Authentication Service
     private final AuthenticationService authenticationService = new AuthenticationService(userDAO);
@@ -84,13 +96,8 @@ public class Config {
     private final SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(searchRecipePresenter, recipeAPI);
     private final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeInteractor);
 
-    // Nutrition Display
-    private final NutritionDisplayPresenter nutritionDisplayPresenter = new NutritionDisplayPresenter(viewManagerModel, searchRecipeViewModel);
-    private final NutritionDisplayInteractor nutritionDisplayInteractor = new NutritionDisplayInteractor(nutritionDisplayPresenter, nutritionAPI);
-    private final NutritionDisplayController nutritionDisplayController = new NutritionDisplayController(nutritionDisplayInteractor);
-
     // Login UseCase
-    private final LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel);
+    LoginPresenter loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authenticationViewModel);
     private final LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, userDAO);
     private final LoginController loginController = new LoginController(loginInteractor);
 
@@ -98,6 +105,12 @@ public class Config {
     private final SignUpPresenter signUpPresenter = new SignUpPresenter(signUpViewModel, viewManagerModel);
     private final SignUpInteractor signUpInteractor = new SignUpInteractor(signUpPresenter, userDAO);
     private final SignUpController signUpController = new SignUpController(signUpInteractor);
+
+    // Logout UseCase
+
+    private final LogoutPresenter logoutPresenter = new LogoutPresenter(authenticationViewModel, viewManagerModel);
+    private final LogoutInteractor logoutInteractor = new LogoutInteractor(logoutPresenter);
+    private final LogoutController logoutController = new LogoutController(logoutInteractor);
 
     // Recipe To Grocery UseCase
     private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
@@ -116,6 +129,9 @@ public class Config {
 
     // Filter My Recipe Usecase
     private  final FilterRecipeController filterRecipeController = new FilterRecipeController(myRecipeViewModel);
+    // Add to my recently viewed recipes UseCase
+    private final RecentlyViewedRecipesInteractor recentlyViewedRecipesInteractor = new RecentlyViewedRecipesInteractor(userDAO);
+    private final RecentlyViewedRecipesController recentlyViewedRecipesController = new RecentlyViewedRecipesController(recentlyViewedRecipesInteractor);
 
     // Set Preference Use Case
     private final SetPreferenceOutputBoundary SetPreferencePresenter = new SetPreferencePresenter();
@@ -135,16 +151,23 @@ public class Config {
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
     public NutritionAPI getNutritionAPI() { return nutritionAPI; }
     public UserDataAccessInterface getDataAccessInterface() { return userDAO; }
+    public AuthenticationInterface getAuthenticationService() { return authenticationService; }
     public GUI getGUI() { return gui; }
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-    public NutritionDisplayController getNutritionDisplayController() { return nutritionDisplayController; }
+//    public LoginController getLoginController() { return loginController; }
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
+    public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public FilterRecipeController getFilterRecipeController() { return filterRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
+    public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
+
+    public AuthenticationViewModel getAuthenticationViewModel() {
+        return authenticationViewModel;
+    }
 }

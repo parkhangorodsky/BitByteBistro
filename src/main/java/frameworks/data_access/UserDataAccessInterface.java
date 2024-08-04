@@ -3,6 +3,8 @@ package frameworks.data_access;
 import entity.Recipe;
 import entity.User;
 
+import java.util.List;
+
 /**
  * Interface for data access operations related to user data.
  * This interface defines methods for checking the existence of a user by email,
@@ -40,4 +42,6 @@ public interface UserDataAccessInterface {
     User getUserByEmail(String email);
 
     void addRecipe(User user, Recipe recipe);
+
+    void updateRecentlyViewedRecipes(User user);
 }

@@ -15,6 +15,7 @@ public class RecipeContainer extends  JScrollPane implements ThemeColoredObject,
         observeNight();
         this.getVerticalScrollBar().setUnitIncrement(5);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         toggleNightMode();
     }
 
