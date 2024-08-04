@@ -3,7 +3,6 @@ package frameworks.gui;
 import app.Config;
 
 import frameworks.gui.view_factory.SwingViewFactory;
-import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewManager;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.view.Sidebar;
@@ -60,6 +59,14 @@ public class SwingGUI extends GUI {
     /**
      * Initializes all the visible component of GUI.
      */
+
+    private void initializeLoginFrame() {
+        this.mainFrame = createFrame();
+        this.loginCardLayout = new CardLayout();
+        this.loginPanel = new JPanel(this.loginCardLayout);
+        this.mainFrame.add(loginPanel, BorderLayout.CENTER);
+    }
+
     private void initializeLoginView() {
         // Initialize the frames
         initializeLoginFrame();
@@ -81,12 +88,7 @@ public class SwingGUI extends GUI {
         this.mainFrame.setVisible(true);
     }
 
-    private void initializeLoginFrame() {
-        this.mainFrame = createFrame();
-        this.loginCardLayout = new CardLayout();
-        this.loginPanel = new JPanel(this.loginCardLayout);
-        this.mainFrame.add(loginPanel, BorderLayout.CENTER);
-    }
+
 
     private void initializeAppFrame() {
         this.mainFrame = createFrame();
@@ -106,8 +108,6 @@ public class SwingGUI extends GUI {
         initializeAppFrame();
 
         this.viewManager = new AppViewManager(this.viewPanel, this.mainCardLayout, this.viewManagerModel);
-
-        AuthenticationService authService = new AuthenticationService(config.getDataAccessInterface());
 
         viewManager.addView(viewFactory.generateHomeView());
         viewManager.addView(viewFactory.generateSearchRecipeView());

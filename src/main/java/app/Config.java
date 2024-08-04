@@ -13,8 +13,6 @@ import frameworks.gui.GUI;
 import frameworks.gui.SwingGUI;
 
 // Interface Adapters
-import use_cases._common.authentication.AuthenticationInterface;
-import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
@@ -26,10 +24,6 @@ import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesInteractor;
 import use_cases.filter_recipe.FilterRecipeController;
-import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
-import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
-import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
-import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
@@ -58,7 +52,6 @@ import use_cases.logout.interface_adapter.controller.LogoutController;
 
 // Data Access
 import frameworks.data_access.UserDataAccessInterface;
-import frameworks.data_access.CSVDataAccessObject;
 
 public class Config {
 
@@ -72,8 +65,6 @@ public class Config {
     private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
     private final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
-    private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
-
     // Auxiliary
     private final RecipeAPI recipeAPI = new EdamamRecipeApi();
     private final NutritionAPI nutritionAPI = new NutritionDisplayApi();
@@ -84,9 +75,6 @@ public class Config {
 
     // GUI
     private final GUI gui = new SwingGUI();
-
-    // Authentication Service
-    private final AuthenticationService authenticationService = new AuthenticationService(userDAO);
 
     // UseCases
     // Search Recipe
@@ -111,9 +99,6 @@ public class Config {
     private final LogoutController logoutController = new LogoutController(logoutInteractor);
 
     // Recipe To Grocery UseCase
-    private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-    private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
-    private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);
 
     // Display Recipe Detail UseCase
     private final DisplayRecipeDetailPresenter displayRecipeDetailPresenter = new DisplayRecipeDetailPresenter();
@@ -143,29 +128,23 @@ public class Config {
     public MyRecipeViewModel getMyRecipeViewModel() { return myRecipeViewModel; }
     public LoginViewModel getLoginViewModel() { return loginViewModel; }
     public SignUpViewModel getSignUpViewModel() { return signUpViewModel; }
-    public RecipeToGroceryViewModel getRecipeToGroceryViewModel() { return recipeToGroceryViewModel; }
 
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
     public NutritionAPI getNutritionAPI() { return nutritionAPI; }
     public UserDataAccessInterface getDataAccessInterface() { return userDAO; }
-    public AuthenticationInterface getAuthenticationService() { return authenticationService; }
     public GUI getGUI() { return gui; }
 
     // UseCase Getters
     public SearchRecipeController getSearchRecipeController() { return searchRecipeController; }
-//    public LoginController getLoginController() { return loginController; }
     public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public LogoutController getLogoutController() { return logoutController; }
-    public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public FilterRecipeController getFilterRecipeController() { return filterRecipeController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
 
-    public AuthenticationViewModel getAuthenticationViewModel() {
-        return authenticationViewModel;
-    }
+    public AuthenticationViewModel getAuthenticationViewModel() {return authenticationViewModel;}
 }

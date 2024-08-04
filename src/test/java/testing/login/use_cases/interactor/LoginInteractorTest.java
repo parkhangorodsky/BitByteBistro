@@ -8,7 +8,6 @@ import use_cases.log_in.use_case.input_data.LoginInputData;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
-import use_cases._common.authentication.AuthenticationService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,7 +19,6 @@ public class LoginInteractorTest {
     private LoginInteractor interactor;
     private LoginOutputBoundary presenter;
     private UserDataAccessInterface dao;
-    private AuthenticationService authService;
 
     /**
      * Sets up the test environment before each test.
