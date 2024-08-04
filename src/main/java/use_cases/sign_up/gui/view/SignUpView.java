@@ -1,5 +1,6 @@
 package use_cases.sign_up.gui.view;
 
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
@@ -9,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -102,14 +105,38 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         errorMessageLabel = new JLabel();
         errorMessageLabel.setForeground(Color.RED);
         add(errorMessageLabel, gbc);
+
+        // Login Label
+        JLabel loginLabel = new JLabel("Already have an account? Login here");
+        loginLabel.setForeground(Color.BLUE);
+        loginLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        loginLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                viewManagerModel.setActiveView("LoginView");
+                viewManagerModel.firePropertyChanged();
+            }
+        });
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(loginLabel, gbc);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Clear the text fields
         String userID = userIDField.getText();
         String email = emailField.getText();
         char[] password = passwordField.getPassword();
+        userIDField.setText("");
+        emailField.setText("");
+        passwordField.setText("");
         signUpController.signUp(userID, email, new String(password));
+
     }
 
     @Override
@@ -123,6 +150,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
 
     public void displayErrorMessage(String message) {
         errorMessageLabel.setText(message);
+        errorMessageLabel.setForeground(Color.RED);
     }
 
     public void displaySuccessMessage(String message) {
