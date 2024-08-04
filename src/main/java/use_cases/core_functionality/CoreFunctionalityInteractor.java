@@ -3,6 +3,7 @@ package use_cases.core_functionality;
 import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary{
@@ -33,18 +34,25 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         User user = inputData.getLoggedInUser();
         Recipe newRecipe = inputData.getRecipe();
         if (!inputData.getLoggedInUser().getShoppingLists().isEmpty()) {
+            System.out.println("not empty");
             shoppingList = user.getShoppingLists().getFirst();
             shoppingList.addRecipe(inputData.getRecipe());
-            shoppingList.addIngredients(inputData.getShoppingListIngredients());
+            shoppingList.addIngredients(inputData.getNewIngredients());
 //        userDAO.addRecipeToShoppingList(user, newRecipe);
 //        userDAO.addIngredientsToShoppingList(user, newIngredients);
         }
         else {
-            shoppingList = new ShoppingList(user.getUserName(), "shopping list", inputData.getShoppingListIngredients());
+            System.out.println("ShoppingList is empty");
+            shoppingList = new ShoppingList(user.getUserName(), "shopping list", inputData.getNewIngredients());
+            shoppingList.addRecipe(inputData.getRecipe());
             user.setShoppingList(shoppingList);
         }
         System.out.println(shoppingList);
-        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(inputData.getLoggedInUser(), inputData.getParentModel());
+        List<ShoppingList> shoppingLists = new ArrayList<>();
+        shoppingLists.add(shoppingList);
+        user.setShoppingLists(shoppingLists);
+        System.out.println(user.getShoppingLists().getFirst().getListItems());
+        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(user, inputData.getParentModel());
         System.out.println(user.getShoppingLists().getFirst().getRecipes());
         presenter.prepareSuccessView(outputData);
     }
