@@ -112,10 +112,10 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         passwordField = new RoundPasswordField(20);
         passwordField.setFont(new Font(defaultFont, Font.PLAIN, 14));
         passwordField.setPreferredSize(new Dimension(100, 30));
-        passwordField.setMargin(new Insets(5,7,3,7));
         passwordField.setBackground(white);
         passwordField.setBorder(BorderFactory.createLineBorder(claudeWhiteEmph));
         passwordField.setForeground(claudeBlack);
+        passwordField.setMargin(new Insets(5,7,3,7));
 
         gbc.gridx = 1;
         gbc.gridy = 2;

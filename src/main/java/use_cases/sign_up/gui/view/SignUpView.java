@@ -131,11 +131,11 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         // Password Field
         passwordField = new RoundPasswordField(20);
         passwordField.setPreferredSize(new Dimension(100, 30));
-        passwordField.setMargin(new Insets(5, 7, 3, 7));
         passwordField.setFont(new Font(defaultFont, Font.PLAIN, 14));
         passwordField.setBackground(Color.WHITE);
         passwordField.setBorder(BorderFactory.createLineBorder(claudeWhiteEmph));
         passwordField.setForeground(claudeBlack);
+        passwordField.setMargin(new Insets(5, 7, 3, 7));
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;

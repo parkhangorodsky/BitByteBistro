@@ -147,7 +147,7 @@ public class SwingGUI implements GUI {
         this.mainFrame.setLayout(new BorderLayout());
         this.mainFrame.setResizable(true);
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.mainFrame.setTitle("");
+        this.mainFrame.setTitle("BitByteBistro");
         ImageIcon icon = new ImageIcon("src/main/resources/images/smiley.png");
         this.mainFrame.setIconImage(icon.getImage());
         this.mainFrame.getContentPane().setBackground(new Color(238, 237, 227));
@@ -160,7 +160,7 @@ public class SwingGUI implements GUI {
     }
 
     public void initializeLoginFrame() {
-        loginFrame = new JFrame("Login");
+        loginFrame = new JFrame("BitByteBistro");
         loginFrame.setSize(1000, 750);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setLayout(new BorderLayout());
