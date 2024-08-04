@@ -94,13 +94,11 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     };
 
     private void addToGroceryList(Recipe recipe, ShoppingList list) {
-        addToMyRecipeController.execute(recipe, viewModel);
         ArrayList<Recipe> recipes = new ArrayList<>(Collections.singletonList(recipe));
         recipeToGroceryController.convertRecipesToGroceryList(recipes, list);
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
-        addToMyRecipeController.execute(recipe, viewModel);
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         if (newListName != null && !newListName.trim().isEmpty()) {
             System.out.println("Creating new grocery list and adding recipe to: " + newListName);
