@@ -1,9 +1,6 @@
 package use_cases.core_functionality;
 
-import entity.Ingredient;
-import entity.LoggedUserData;
-import entity.Recipe;
-import entity.User;
+import entity.*;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 
 import java.util.List;
@@ -31,19 +28,14 @@ public class CoreFunctionalityController {
      * Executes the action of adding a recipe to the logged-in user's grocery list through the interactor.
      * If a user is logged in, this method creates an input data object and passes it to the interactor for execution.
      *
-     * @param recipe      The recipe to be added to the user's recipes.
+     * @param shoppingList    The ShoppingList the recipe (and ingredients will be added to)
+     * @param recipe   The recipe to be added to the user's recipes.
      * @param parentModel The model that will be notified of property changes.
      */
-    public void execute(Recipe recipe, PropertyChangeFirer parentModel){
-        List<Ingredient> newIngredients = recipe.getIngredientList();
-        User user = LoggedUserData.getLoggedInUser();
-        // for now, just works for one shopping list
+    public void execute(ShoppingList shoppingList, Recipe recipe, PropertyChangeFirer parentModel){
 
-        if (user != null) {
-            CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, user, newIngredients, parentModel);
-            interactor.execute(inputData);
-        }
-
+        CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
+        interactor.execute(inputData);
     }
 
 }
