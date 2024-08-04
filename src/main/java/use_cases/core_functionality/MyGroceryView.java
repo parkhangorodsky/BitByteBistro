@@ -29,8 +29,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     private JPanel myGroceryContainer;
     private JScrollPane myGroceryScrollPane;
-    private JPanel ingredientListPanel;
-
 
     public MyGroceryView(MyGroceryViewModel viewModel) {
 
@@ -99,12 +97,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         myGroceryScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         myGroceryScrollPane.setBorder(new LineBorder(claudeWhite, 0));
 
-        ingredientListPanel = new JPanel(); // INGREDIENT VIEW CHANGE
-        ingredientListPanel.setLayout(new VerticalFlowLayout(10)); // INGREDIENT VIEW CHANGE
-        ingredientListPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // INGREDIENT VIEW CHANGE
-
         outputPanel.add(myGroceryScrollPane);
-        outputPanel.add(ingredientListPanel, BorderLayout.SOUTH); // INGREDIENT VIEW CHANGE
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(outputPanel, BorderLayout.CENTER);
@@ -114,16 +107,12 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     private void updateMyGrocery() {
         myGroceryContainer.removeAll();
-        ingredientListPanel.removeAll(); // INGREDIENT VIEW CHANGE
 
         if (!viewModel.getUser().getShoppingLists().isEmpty()) { // CHANGED LINE: Check if shopping lists are not empty
             for (Recipe recipe : viewModel.getUser().getShoppingLists().getFirst().getRecipes()) {
                 JPanel recipeItem = createRecipeItem(recipe);
                 myGroceryContainer.add(recipeItem);
             }
-            List<Ingredient> ingredients = viewModel.getUser().getShoppingLists().getFirst().getListItems(); // INGREDIENT VIEW CHANGE
-            JPanel ingredientList = createIngredientListPanel(ingredients);
-            ingredientListPanel.add(ingredientList);
         } else {
             JLabel emptyLabel = new JLabel("No recipes in your shopping list.");
             emptyLabel.setFont(new Font(defaultFont, Font.PLAIN, 18));
@@ -135,8 +124,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         myGroceryContainer.revalidate();
         myGroceryContainer.repaint();
-        ingredientListPanel.revalidate(); // INGREDIENT VIEW CHANGE
-        ingredientListPanel.repaint(); // INGREDIENT VIEW CHANGE
     }
 
     private JPanel createRecipeItem(Recipe recipe) {
@@ -185,27 +172,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     }
 
-
-    private JPanel createIngredientListPanel(List<Ingredient> ingredients) { // INGREDIENT VIEW CHANGE
-        JPanel ingredientPanel = new JPanel(); // INGREDIENT VIEW CHANGE
-        ingredientPanel.setLayout(new BorderLayout()); // INGREDIENT VIEW CHANGE
-        ingredientPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // INGREDIENT VIEW CHANGE
-
-        StringBuilder ingredientsText = new StringBuilder(); // INGREDIENT VIEW CHANGE
-        for (Ingredient item : ingredients) { // INGREDIENT VIEW CHANGE
-            ingredientsText.append(item.toString()).append("<br>"); // INGREDIENT VIEW CHANGE
-        } // INGREDIENT VIEW CHANGE
-
-        JLabel ingredientLabel = new JLabel("<html>" + ingredientsText.toString() + "</html>"); // INGREDIENT VIEW CHANGE
-        ingredientLabel.setFont(new Font(defaultFont, Font.PLAIN, 18)); // INGREDIENT VIEW CHANGE
-        ingredientLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black); // INGREDIENT VIEW CHANGE
-
-        ingredientPanel.add(ingredientLabel, BorderLayout.CENTER); // INGREDIENT VIEW CHANGE
-
-        return ingredientPanel; // INGREDIENT VIEW CHANGE
-    }
-
-
     @Override
     public void setNightMode() {
         this.setBackground(black);
@@ -214,7 +180,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             updateMyGrocery();
         }
         myGroceryContainer.setBackground(black);
-        ingredientListPanel.setBackground(black); // INGREDIENT VIEW CHANGE
 
     }
 
@@ -226,7 +191,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             updateMyGrocery();
         }
         myGroceryContainer.setBackground(claudeWhite);
-        ingredientListPanel.setBackground(claudeWhite); // INGREDIENT VIEW CHANGE
 //
     }
 
