@@ -2,6 +2,7 @@ package use_cases.log_in.gui.view;
 
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPasswordField;
 import use_cases._common.gui_common.view_components.round_component.RoundTextField;
 import use_cases.log_in.interface_adapter.controller.LoginController;
@@ -25,7 +26,7 @@ import java.awt.event.MouseEvent;
 public class LoginView extends View implements ActionListener, PropertyChangeListener, ThemeColoredObject {
     private RoundTextField emailField;
     private JPasswordField passwordField;
-    private JButton loginButton;
+    private RoundButton loginButton;
     private JLabel errorMessageLabel;
     private JLabel switchToSignUpLabel;
     private LoginController loginController;
@@ -126,12 +127,14 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
 
 
         // Login Button
-        loginButton = new JButton("Login");
+        loginButton = new RoundButton("Login");
         loginButton.setFont(new Font(defaultFont, Font.BOLD, 15));
         loginButton.setBackground(claudeWhite); // Set a nice color for the button
         loginButton.setForeground(claudeBlack);
         loginButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding inside button
         loginButton.addActionListener(this);
+        loginButton.setHoverColor(claudeWhite, claudeWhite, claudeBlack, claudeBlackEmph);
+        loginButton.setBorderColor(claudeWhite);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
