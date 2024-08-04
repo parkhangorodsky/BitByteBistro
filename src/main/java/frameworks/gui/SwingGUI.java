@@ -1,8 +1,6 @@
 package frameworks.gui;
 
 import app.Config;
-import entity.User;
-import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewManager;
@@ -15,8 +13,8 @@ import use_cases._common.gui_common.view.AppViewManager;
 
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.MyRecipeView;
+import use_cases.core_functionality.*;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-import entity.User;
 
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
@@ -30,7 +28,7 @@ import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.gui.view.LoginView;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 
-import use_cases.settting_preference.PreferenceView;
+import use_cases.setting_preference.PreferenceView;
 import use_cases.sign_up.gui.view.SignUpView;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
@@ -201,12 +199,14 @@ public class SwingGUI implements GUI {
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
         DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
         AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
+        CoreFunctionalityController coreFunctionalityController = config.getCoreFunctionalityController();
         RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
         // Get the NutritionDisplayController from config
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
                 searchRecipeController,
                 displayRecipeDetailController,
                 addToMyRecipeController,
+                coreFunctionalityController,
                 recentlyViewedRecipesController,
                 advancedSearchRecipeViewModel,
                 viewManagerModel);
@@ -218,6 +218,8 @@ public class SwingGUI implements GUI {
         MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
         viewManager.addView(myRecipeView);
 
+        MyGroceryView myGroceryView = new MyGroceryView(config.getMyGroceryViewModel());
+        viewManager.addView(myGroceryView);
 
         // Create RecipeToGrocery components
         RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
