@@ -1,6 +1,8 @@
 package frameworks.gui;
 
 import app.Config;
+import entity.User;
+import entity.LoggedUserData;
 
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewManager;
@@ -14,8 +16,7 @@ import use_cases._common.gui_common.view.AppViewManager;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-
-import use_cases.nutrition_display.interface_adapter.controller.NutritionDisplayController;
+import entity.User;
 
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
@@ -197,13 +198,11 @@ public class SwingGUI implements GUI {
 
         // Create SearchRecipe components
         SearchRecipeController searchRecipeController = config.getSearchRecipeController();
-        NutritionDisplayController nutritionDisplayController = config.getNutritionDisplayController();
         DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
         AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
         // Get the NutritionDisplayController from config
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
                 searchRecipeController,
-                nutritionDisplayController,
                 displayRecipeDetailController,
                 addToMyRecipeController,
                 advancedSearchRecipeViewModel,
