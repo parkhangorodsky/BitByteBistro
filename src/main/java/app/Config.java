@@ -19,6 +19,10 @@ import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
 import use_cases.add_to_my_recipe.AddToMyRecipePresenter;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
+import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.core_functionality.CoreFunctionalityInteractor;
+import use_cases.core_functionality.CoreFunctionalityPresenter;
+import use_cases.core_functionality.MyGroceryViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
@@ -42,7 +46,7 @@ import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 
 // Sign Up UseCase
-import use_cases.settting_preference.*;
+import use_cases.setting_preference.*;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
@@ -65,6 +69,7 @@ public class Config {
     private final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("Search Recipe");
     private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
     private final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
+    private final MyGroceryViewModel myGroceryViewModel = new MyGroceryViewModel("Grocery List");
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
@@ -121,6 +126,11 @@ public class Config {
     private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
+    // Add to my grocery UseCase
+    private final CoreFunctionalityPresenter coreFunctionalityPresenter = new CoreFunctionalityPresenter(myRecipeViewModel);
+    private final CoreFunctionalityInteractor coreFunctionalityInteractor = new CoreFunctionalityInteractor(coreFunctionalityPresenter, userDAO);
+    private final CoreFunctionalityController coreFunctionalityController = new CoreFunctionalityController(coreFunctionalityInteractor);
+
     // Add to my recently viewed recipes UseCase
     private final RecentlyViewedRecipesInteractor recentlyViewedRecipesInteractor = new RecentlyViewedRecipesInteractor(userDAO);
     private final RecentlyViewedRecipesController recentlyViewedRecipesController = new RecentlyViewedRecipesController(recentlyViewedRecipesInteractor);
@@ -152,6 +162,7 @@ public class Config {
     public LogoutController getLogoutController() { return logoutController; }
     public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
+    public CoreFunctionalityController getCoreFunctionalityController() { return coreFunctionalityController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
@@ -159,4 +170,6 @@ public class Config {
     public AuthenticationViewModel getAuthenticationViewModel() {
         return authenticationViewModel;
     }
+
+    public MyGroceryViewModel getMyGroceryViewModel() {return myGroceryViewModel;}
 }
