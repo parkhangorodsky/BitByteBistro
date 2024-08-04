@@ -2,6 +2,7 @@ package use_cases.log_in.gui.view;
 
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases._common.gui_common.view_components.round_component.RoundPasswordField;
 import use_cases._common.gui_common.view_components.round_component.RoundTextField;
 import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
@@ -22,7 +23,7 @@ import java.awt.event.MouseEvent;
  * It extends the View class and implements ActionListener and PropertyChangeListener to respond to UI actions and property changes.
  */
 public class LoginView extends View implements ActionListener, PropertyChangeListener, ThemeColoredObject {
-    private JTextField emailField;
+    private RoundTextField emailField;
     private JPasswordField passwordField;
     private JButton loginButton;
     private JLabel errorMessageLabel;
@@ -92,6 +93,7 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         emailField.setPreferredSize(new Dimension(100, 30));
         emailField.setMargin(new Insets(5,7,3,7));
         emailField.setFont(new Font(defaultFont, Font.PLAIN, 14));
+        emailField.setColor(white, claudeWhiteEmph);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -105,13 +107,14 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         gbc.fill = GridBagConstraints.NONE;
         backgroundPanel.add(passwordLabel, gbc);
 
-
         // Password Field
-        passwordField = new JPasswordField(20);
-        passwordField.setBorder(null);
+        passwordField = new RoundPasswordField(20);
         passwordField.setFont(new Font(defaultFont, Font.PLAIN, 14));
         passwordField.setPreferredSize(new Dimension(100, 30));
         passwordField.setMargin(new Insets(5,7,3,7));
+        passwordField.setBackground(white);
+        passwordField.setBorder(BorderFactory.createLineBorder(claudeWhiteEmph));
+
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -131,9 +134,9 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
 
         // Login Button
         loginButton = new JButton("Login");
-        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
-        loginButton.setBackground(new Color(70, 130, 180)); // Set a nice color for the button
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setFont(new Font(defaultFont, Font.BOLD, 15));
+        loginButton.setBackground(claudeWhite); // Set a nice color for the button
+        loginButton.setForeground(claudeBlack);
         loginButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding inside button
         loginButton.addActionListener(this);
         gbc.gridx = 0;
@@ -155,8 +158,8 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
 
         // Switch to Sign Up Label
         switchToSignUpLabel = new JLabel("Don't have an account? Sign Up");
-        switchToSignUpLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-        switchToSignUpLabel.setForeground(Color.BLUE);
+        switchToSignUpLabel.setFont(new Font(defaultFont, Font.ITALIC, 12));
+        switchToSignUpLabel.setForeground(claudeBlackEmph);
         switchToSignUpLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         switchToSignUpLabel.addMouseListener(new MouseAdapter() {
             @Override
