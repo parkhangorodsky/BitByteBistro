@@ -1,6 +1,7 @@
 package frameworks.data_access;
 
 import entity.Recipe;
+import entity.ShoppingList;
 import entity.User;
 
 import java.util.List;
@@ -44,4 +45,6 @@ public interface UserDataAccessInterface {
     void addRecipe(User user, Recipe recipe);
 
     void updateRecentlyViewedRecipes(User user);
+
+    void addShoppingList(User user, ShoppingList shoppingList);
 }
