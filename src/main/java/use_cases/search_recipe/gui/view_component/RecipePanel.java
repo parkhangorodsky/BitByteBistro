@@ -9,6 +9,7 @@ import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
@@ -36,7 +37,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
 
     RoundButton detailButton;
 
-    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController, RecentlyViewedRecipesController recentlyViewedRecipesController) {
+    public RecipePanel(Recipe recipe, DisplayRecipeDetailController displayRecipeDetailController, AddToMyRecipeController addToMyRecipeController, CoreFunctionalityController coreFunctionalityController, RecentlyViewedRecipesController recentlyViewedRecipesController) {
 
         observeNight();
 
@@ -80,7 +81,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
         detailButton.addActionListener(e -> {
             recentlyViewedRecipesController.execute(recipe);
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
-            DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel, addToMyRecipeController);
+            DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this), viewModel, addToMyRecipeController, coreFunctionalityController);
             displayRecipeDetailController.execute(recipe, viewModel);
             display.setVisible(true);
             display.enableParent();

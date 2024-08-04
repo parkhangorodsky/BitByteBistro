@@ -3,6 +3,7 @@ package use_cases.display_recipe_detail;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,16 +12,19 @@ import java.beans.PropertyChangeEvent;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private AddToMyRecipeController addToMyRecipeController;
+    private CoreFunctionalityController coreFunctionalityController;
 
     JPanel controlPanel;
 
     JPanel buttonPanel;
     RoundButton closeButton;
-    RoundButton addToButton;
+    RoundButton addToRecipesButton;
+    RoundButton addToGroceryButton;
 
-    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController) {
+    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController, CoreFunctionalityController coreFunctionalityController) {
         super(parent, viewModel);
         this.addToMyRecipeController = addToMyRecipeController;
+        this.coreFunctionalityController = coreFunctionalityController;
     }
 
     protected void initialize() {
@@ -36,17 +40,25 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
-        addToButton = new RoundButton("Add To");
+        addToRecipesButton = new RoundButton("Add To My Recipes");
+        addToGroceryButton = new RoundButton("Add To My Grocery List");
+
 
         closeButton.addActionListener(e -> {
             this.dispose();
         });
 
-        addToButton.addActionListener(e -> {
+        addToRecipesButton.addActionListener(e -> {
             addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
         });
 
-        buttonPanel.add(addToButton);
+
+        addToGroceryButton.addActionListener(e -> {
+            coreFunctionalityController.execute(viewModel.getRecipe(), viewModel);
+        });
+
+        buttonPanel.add(addToRecipesButton);
+        buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
 
         controlPanel.add(buttonPanel, BorderLayout.EAST);
@@ -82,8 +94,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         closeButton.setHoverColor(neonPink, darkPurple, white, white);
         closeButton.setBorderColor(neonPurple);
-        addToButton.setHoverColor(neonPink, darkPurple, white, white);
-        addToButton.setBorderColor(neonPurple);
+        addToRecipesButton.setHoverColor(neonPink, darkPurple, white, white);
+        addToRecipesButton.setBorderColor(neonPurple);
 
         super.setNightMode();
     }
@@ -95,8 +107,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
         closeButton.setBorderColor(claudeWhite);
-        addToButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
-        addToButton.setBorderColor(claudeWhite);
+        addToRecipesButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        addToRecipesButton.setBorderColor(claudeWhite);
 
         super.setDayMode();
     }
