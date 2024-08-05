@@ -31,10 +31,10 @@ import use_cases.display_recipe_detail.DisplayRecipeDetailInteractor;
 import use_cases.display_recipe_detail.DisplayRecipeDetailPresenter;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesInteractor;
-import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
-import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
-import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
-import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
+//import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+//import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
+//import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
+//import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
@@ -71,7 +71,7 @@ public class Config {
     private final MyGroceryViewModel myGroceryViewModel = new MyGroceryViewModel("Grocery List");
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
-    private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
+//    private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
     private final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", getGUI());
 
     // Auxiliary
@@ -110,10 +110,10 @@ public class Config {
     private final LogoutInteractor logoutInteractor = new LogoutInteractor(logoutPresenter);
     private final LogoutController logoutController = new LogoutController(logoutInteractor);
 
-    // Recipe To Grocery UseCase
-    private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-    private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
-    private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);
+//    // Recipe To Grocery UseCase
+//    private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
+//    private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
+//    private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);
 
     // Display Recipe Detail UseCase
     private final DisplayRecipeDetailPresenter displayRecipeDetailPresenter = new DisplayRecipeDetailPresenter();
@@ -151,7 +151,7 @@ public class Config {
     public MyRecipeViewModel getMyRecipeViewModel() { return myRecipeViewModel; }
     public LoginViewModel getLoginViewModel() { return loginViewModel; }
     public SignUpViewModel getSignUpViewModel() { return signUpViewModel; }
-    public RecipeToGroceryViewModel getRecipeToGroceryViewModel() { return recipeToGroceryViewModel; }
+//    public RecipeToGroceryViewModel getRecipeToGroceryViewModel() { return recipeToGroceryViewModel; }
 
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
@@ -164,7 +164,7 @@ public class Config {
 //    public LoginController getLoginController() { return loginController; }
     public SignUpController getSignUpController() { return signUpController; }
     public LogoutController getLogoutController() { return logoutController; }
-    public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
+//    public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
     public CoreFunctionalityController getCoreFunctionalityController() { return coreFunctionalityController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
