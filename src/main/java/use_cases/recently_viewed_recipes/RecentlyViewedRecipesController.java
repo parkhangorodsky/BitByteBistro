@@ -7,21 +7,34 @@ import use_cases._common.interface_adapter_common.presenter.abstractions.Propert
 
 import java.util.List;
 
+/**
+ * Handles user interactions related to recently viewed recipes and delegates
+ * the processing of these interactions to the interactor.
+ */
 public class RecentlyViewedRecipesController {
 
-    RecentlyViewedRecipesInteractor interactor;
+    private final RecentlyViewedRecipesInteractor interactor;
 
+    /**
+     * Constructs a RecentlyViewedRecipesController with the specified interactor.
+     *
+     * @param interactor The interactor responsible for processing recently viewed recipes.
+     */
     public RecentlyViewedRecipesController(RecentlyViewedRecipesInteractor interactor) {
         this.interactor = interactor;
     }
 
-    public void execute(Recipe recipe){
+    /**
+     * Executes the use case for updating recently viewed recipes.
+     *
+     * @param recipe The recipe to add to the recently viewed list.
+     */
+    public void execute(Recipe recipe) {
         User user = LoggedUserData.getLoggedInUser();
-        List<Recipe> recentlyViewedRecipes = user.getRecentlyViewedRecipes();
         if (user != null) {
+            List<Recipe> recentlyViewedRecipes = user.getRecentlyViewedRecipes();
             RecentlyViewedRecipesInputData inputData = new RecentlyViewedRecipesInputData(recentlyViewedRecipes, user, recipe);
             interactor.execute(inputData);
         }
-
     }
 }
