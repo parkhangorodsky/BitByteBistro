@@ -77,7 +77,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
             for (ShoppingList list : userGroceryLists) {
-                JMenuItem groceryListItem = new JMenuItem("Add to " + list);
+                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
                     addToGroceryList(recipe, list);
                 });
@@ -118,7 +118,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         if (newListName != null && !newListName.trim().isEmpty()) {
             addNewGroceryListController.execute(newListName, viewModel);
-            System.out.println("Creating new grocery list and adding recipe to: " + newListName);
         }
         ShoppingList newShoppingList = user.getShoppingList(newListName);
         coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
