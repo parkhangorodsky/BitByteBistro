@@ -68,7 +68,6 @@ public class Config {
     private final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("Search Recipe");
     private final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
     private final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
-    private final MyGroceryViewModel myGroceryViewModel = new MyGroceryViewModel("Grocery List");
     private final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     private final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
 //    private final RecipeToGroceryViewModel recipeToGroceryViewModel = new RecipeToGroceryViewModel("recipe to grocery");
@@ -110,10 +109,6 @@ public class Config {
     private final LogoutInteractor logoutInteractor = new LogoutInteractor(logoutPresenter);
     private final LogoutController logoutController = new LogoutController(logoutInteractor);
 
-//    // Recipe To Grocery UseCase
-//    private final RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-//    private final RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, recipeAPI);
-//    private final RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authenticationService);
 
     // Display Recipe Detail UseCase
     private final DisplayRecipeDetailPresenter displayRecipeDetailPresenter = new DisplayRecipeDetailPresenter();
@@ -125,11 +120,6 @@ public class Config {
     private final AddToMyRecipeInteractor addToMyRecipeInteractor = new AddToMyRecipeInteractor(addToMyRecipePresenter, userDAO);
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
-    // Add to my grocery UseCase
-    private final CoreFunctionalityPresenter coreFunctionalityPresenter = new CoreFunctionalityPresenter(myGroceryViewModel);
-    private final CoreFunctionalityInteractor coreFunctionalityInteractor = new CoreFunctionalityInteractor(coreFunctionalityPresenter, userDAO);
-    private final CoreFunctionalityController coreFunctionalityController = new CoreFunctionalityController(coreFunctionalityInteractor);
-
     // Add to my recently viewed recipes UseCase
     private final RecentlyViewedRecipesInteractor recentlyViewedRecipesInteractor = new RecentlyViewedRecipesInteractor(userDAO);
     private final RecentlyViewedRecipesController recentlyViewedRecipesController = new RecentlyViewedRecipesController(recentlyViewedRecipesInteractor);
@@ -139,11 +129,6 @@ public class Config {
     private final SetPreferenceInputBoundary setPreferenceInteractor = new SetPreferenceInteractor(setPreferencePresenter, userDAO);
     private final SetPreferenceController setPreferenceController = new SetPreferenceController(setPreferenceInteractor);
 
-    // AddNewGrocery Use Case
-    private final AddNewGroceryListPresenter addNewGroceryListPresenter = new AddNewGroceryListPresenter(myGroceryViewModel);
-    private final AddNewGroceryListInteractor addNewGroceryListInteractor = new AddNewGroceryListInteractor(addNewGroceryListPresenter, userDAO);
-    private final AddNewGroceryListController addNewGroceryListController = new AddNewGroceryListController(addNewGroceryListInteractor);
-
     // ViewModel Getters
     public ViewManagerModel getViewManagerModel() { return viewManagerModel; }
     public SearchRecipeViewModel getSearchRecipeViewModel() { return searchRecipeViewModel; }
@@ -151,7 +136,6 @@ public class Config {
     public MyRecipeViewModel getMyRecipeViewModel() { return myRecipeViewModel; }
     public LoginViewModel getLoginViewModel() { return loginViewModel; }
     public SignUpViewModel getSignUpViewModel() { return signUpViewModel; }
-//    public RecipeToGroceryViewModel getRecipeToGroceryViewModel() { return recipeToGroceryViewModel; }
 
     // Auxiliary Getters
     public RecipeAPI getRecipeAPI() { return recipeAPI; }
@@ -166,15 +150,11 @@ public class Config {
     public LogoutController getLogoutController() { return logoutController; }
 //    public RecipeToGroceryController getRecipeToGroceryController() { return recipeToGroceryController; }
     public AddToMyRecipeController getAddToMyRecipeController() { return addToMyRecipeController; }
-    public CoreFunctionalityController getCoreFunctionalityController() { return coreFunctionalityController; }
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
-    public AddNewGroceryListController getAddNewGroceryListController() { return addNewGroceryListController; }
 
     public AuthenticationViewModel getAuthenticationViewModel() {
         return authenticationViewModel;
     }
-
-    public MyGroceryViewModel getMyGroceryViewModel() {return myGroceryViewModel;}
 }
