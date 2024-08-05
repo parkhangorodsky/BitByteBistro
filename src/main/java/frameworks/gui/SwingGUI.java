@@ -218,7 +218,7 @@ public class SwingGUI implements GUI {
         MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
         viewManager.addView(myRecipeView);
 
-        MyGroceryView myGroceryView = new MyGroceryView(config.getMyGroceryViewModel());
+        MyGroceryView myGroceryView = new MyGroceryView(config.getMyGroceryViewModel(), config.getAddNewGroceryListController());
         viewManager.addView(myGroceryView);
 
 //        // Create RecipeToGrocery components

@@ -3,12 +3,13 @@ package use_cases.core_functionality;
 import entity.LoggedUserData;
 import entity.ShoppingList;
 import entity.User;
+import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class MyGroceryViewModel extends ViewModel {
+public class MyGroceryViewModel extends ViewModel implements PropertyChangeFirer {
     private User user;
     private PropertyChangeSupport support;
 

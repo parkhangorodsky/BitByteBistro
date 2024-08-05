@@ -15,6 +15,9 @@ import frameworks.gui.SwingGUI;
 // Interface Adapters
 import use_cases._common.authentication.AuthenticationService;
 import use_cases._common.authentication.AuthenticationViewModel;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.add_new_grocery_list.AddNewGroceryListInteractor;
+import use_cases.add_new_grocery_list.AddNewGroceryListPresenter;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.AddToMyRecipeInteractor;
 import use_cases.add_to_my_recipe.AddToMyRecipePresenter;
@@ -123,7 +126,7 @@ public class Config {
     private final AddToMyRecipeController addToMyRecipeController = new AddToMyRecipeController(addToMyRecipeInteractor);
 
     // Add to my grocery UseCase
-    private final CoreFunctionalityPresenter coreFunctionalityPresenter = new CoreFunctionalityPresenter(myRecipeViewModel);
+    private final CoreFunctionalityPresenter coreFunctionalityPresenter = new CoreFunctionalityPresenter(myGroceryViewModel);
     private final CoreFunctionalityInteractor coreFunctionalityInteractor = new CoreFunctionalityInteractor(coreFunctionalityPresenter, userDAO);
     private final CoreFunctionalityController coreFunctionalityController = new CoreFunctionalityController(coreFunctionalityInteractor);
 
@@ -132,9 +135,14 @@ public class Config {
     private final RecentlyViewedRecipesController recentlyViewedRecipesController = new RecentlyViewedRecipesController(recentlyViewedRecipesInteractor);
 
     // Set Preference Use Case
-    private final SetPreferenceOutputBoundary SetPreferencePresenter = new SetPreferencePresenter();
-    private final SetPreferenceInputBoundary setPreferenceInteractor = new SetPreferenceInteractor(SetPreferencePresenter, userDAO);
+    private final SetPreferenceOutputBoundary setPreferencePresenter = new SetPreferencePresenter();
+    private final SetPreferenceInputBoundary setPreferenceInteractor = new SetPreferenceInteractor(setPreferencePresenter, userDAO);
     private final SetPreferenceController setPreferenceController = new SetPreferenceController(setPreferenceInteractor);
+
+    // AddNewGrocery Use Case
+    private final AddNewGroceryListPresenter addNewGroceryListPresenter = new AddNewGroceryListPresenter(myGroceryViewModel);
+    private final AddNewGroceryListInteractor addNewGroceryListInteractor = new AddNewGroceryListInteractor(addNewGroceryListPresenter, userDAO);
+    private final AddNewGroceryListController addNewGroceryListController = new AddNewGroceryListController(addNewGroceryListInteractor);
 
     // ViewModel Getters
     public ViewManagerModel getViewManagerModel() { return viewManagerModel; }
@@ -162,6 +170,7 @@ public class Config {
     public SetPreferenceController getSetPreferenceController() { return setPreferenceController; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return displayRecipeDetailController; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return recentlyViewedRecipesController; }
+    public AddNewGroceryListController getAddNewGroceryListController() { return addNewGroceryListController; }
 
     public AuthenticationViewModel getAuthenticationViewModel() {
         return authenticationViewModel;
