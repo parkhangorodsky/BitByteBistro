@@ -11,6 +11,7 @@ import use_cases._common.interface_adapter_common.view_model.models.ViewManagerM
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view.AppViewManager;
 
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.core_functionality.*;
@@ -200,6 +201,7 @@ public class SwingGUI implements GUI {
         DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
         AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
         CoreFunctionalityController coreFunctionalityController = config.getCoreFunctionalityController();
+        AddNewGroceryListController addNewGroceryListController = config.getAddNewGroceryListController();
         RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
         // Get the NutritionDisplayController from config
         SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
@@ -208,6 +210,7 @@ public class SwingGUI implements GUI {
                 addToMyRecipeController,
                 coreFunctionalityController,
                 recentlyViewedRecipesController,
+                addNewGroceryListController,
                 advancedSearchRecipeViewModel,
                 viewManagerModel);
 

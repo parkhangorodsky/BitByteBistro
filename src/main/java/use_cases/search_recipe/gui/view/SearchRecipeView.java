@@ -5,6 +5,7 @@ import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
@@ -38,6 +39,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
     private RecentlyViewedRecipesController recentlyViewedRecipesController;
+    private AddNewGroceryListController addNewGroceryListController;
 
 
     public final String viewname;
@@ -59,6 +61,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
                             AddToMyRecipeController addToMyRecipeController,
                             CoreFunctionalityController coreFunctionalityController,
                             RecentlyViewedRecipesController recentlyViewedRecipesController,
+                            AddNewGroceryListController addNewGroceryListController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 
@@ -75,6 +78,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.addToMyRecipeController = addToMyRecipeController;
         this.coreFunctionalityController = coreFunctionalityController;
         this.recentlyViewedRecipesController = recentlyViewedRecipesController;
+        this.addNewGroceryListController = addNewGroceryListController;
 
         observeNight();
 
@@ -183,7 +187,8 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController, coreFunctionalityController, recentlyViewedRecipesController);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController,
+                    coreFunctionalityController, recentlyViewedRecipesController, addNewGroceryListController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));
