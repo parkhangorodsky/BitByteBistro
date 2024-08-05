@@ -29,7 +29,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
     RoundButton searchButton;
     RoundButton myRecipeButton;
     RoundButton groceryListButton;
-
+    RoundButton myFridgeButton;
 
     RoundButton logoutButton;
     RoundButton settingButton;
@@ -64,6 +64,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
             viewManagerModel.firePropertyChanged("init", "My Recipe");
         });
         groceryListButton = createMenu("Grocery List");
+        myFridgeButton = createMenu("My Fridge");
         myRecipeButton.addActionListener(e -> {
             viewManagerModel.firePropertyChanged("init", "grocery");
         });
@@ -72,6 +73,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         switchPanel.add(searchButton);
         switchPanel.add(myRecipeButton);
         switchPanel.add(groceryListButton);
+        switchPanel.add(myFridgeButton);
 
         bottomPanel = new JPanel();
         settingButton = createSettingButton();
@@ -143,16 +145,19 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         searchButton.setHoverColor(black, black, white, neonPinkEmph);
         myRecipeButton.setHoverColor(black, black, white, neonPinkEmph);
         groceryListButton.setHoverColor(black, black, white, neonPinkEmph);
+        myFridgeButton.setHoverColor(black, black, white, neonPinkEmph);
 
         homeButton.setPressedColor(neonPurpleEmph);
         searchButton.setPressedColor(neonPurpleEmph);
         myRecipeButton.setPressedColor(neonPurpleEmph);
         groceryListButton.setPressedColor(neonPurpleEmph);
+        myFridgeButton.setPressedColor(neonPurpleEmph);
 
         homeButton.setBorderColor(black);
         searchButton.setBorderColor(black);
         myRecipeButton.setBorderColor(black);
         groceryListButton.setBorderColor(black);
+        myFridgeButton.setBorderColor(black);
 
         settingButton.setBorderColor(black);
         settingButton.setHoverColor(black, black, white, neonPinkEmph);
@@ -172,16 +177,19 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         searchButton.setHoverColor(claudeWhiteEmph, claudeWhite, claudeBlackEmph, claudeBlack);
         myRecipeButton.setHoverColor(claudeWhiteEmph, claudeWhite, claudeBlackEmph, claudeBlack);
         groceryListButton.setHoverColor(claudeWhiteEmph, claudeWhite, claudeBlackEmph, claudeBlack);
+        myFridgeButton.setHoverColor(claudeWhiteEmph, claudeWhite, claudeBlackEmph, claudeBlack);
 
         homeButton.setPressedColor(claudeWhite);
         searchButton.setPressedColor(claudeWhite);
         myRecipeButton.setPressedColor(claudeWhite);
         groceryListButton.setPressedColor(claudeWhite);
+        myFridgeButton.setPressedColor(claudeWhite);
 
         homeButton.setBorderColor(claudeWhiteEmph);
         searchButton.setBorderColor(claudeWhiteEmph);
         myRecipeButton.setBorderColor(claudeWhiteEmph);
         groceryListButton.setBorderColor(claudeWhiteEmph);
+        myFridgeButton.setBorderColor(ThemeColoredObject.claudeWhiteEmph);
 
         settingButton.setBorderColor(claudeWhiteEmph);
         settingButton.setHoverColor(claudeWhiteEmph, claudeWhiteEmph, claudeBlackEmph, claudeBlack);
