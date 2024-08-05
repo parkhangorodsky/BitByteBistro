@@ -83,7 +83,7 @@ public class User {
      *
      * @param shoppingList The shopping list to add.
      */
-    public void addShoppingList(ShoppingList shoppingList) {this.shoppingLists.add(shoppingList);}
+    public void addShoppingList(ShoppingList shoppingList) {this.shoppingLists.put(shoppingList.getShoppingListName(), shoppingList);}
 
     /**
      * Adds a recipe to the user's list of recipes.
