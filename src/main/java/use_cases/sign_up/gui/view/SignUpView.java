@@ -177,6 +177,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
             public void mouseClicked(MouseEvent e) {
                 viewManagerModel.setActiveView("LoginView");
                 viewManagerModel.firePropertyChanged();
+                errorMessageLabel.setText("");
             }
         });
 
