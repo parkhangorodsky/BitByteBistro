@@ -1,6 +1,7 @@
 package use_cases.settting_preference;
 
 import app.LocalAppSetting;
+import entity.LoggedUserData;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.abstractions.View;
@@ -53,6 +54,8 @@ public class PreferenceView extends PopUpView implements NightModeObject {
             this.hidePopUp();
         });
 
+        loadPreference();
+
         buttonPanel.add(applyButton);
         buttonPanel.add(closeButton);
 
@@ -64,6 +67,14 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         this.pack();
         this.positionFrameAtCenter(parent);
     }
+
+    private void loadPreference() {
+        if ((boolean) LoggedUserData.getLoggedInUser().getPreference().get("nightMode")) {
+            nightModeCheckBox.setSelected(true);
+        }
+    }
+
+
 
     private void updateNightModeCheckBox(boolean nightMode) {
         if (nightMode) {
