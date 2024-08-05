@@ -1,32 +1,53 @@
 package use_cases.display_recipe_detail;
 
+import entity.LoggedUserData;
+import entity.Recipe;
+import entity.ShoppingList;
+import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private AddToMyRecipeController addToMyRecipeController;
+    private CoreFunctionalityController coreFunctionalityController;
+    private AddNewGroceryListController addNewGroceryListController;
+    private List<ShoppingList> userGroceryLists;
+    User user = LoggedUserData.getLoggedInUser();
+
+    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
+                                               AddToMyRecipeController addToMyRecipeController,
+                                               CoreFunctionalityController coreFunctionalityController,
+                                               AddNewGroceryListController addNewGroceryListController) {
+        super(parent, viewModel);
+        this.addToMyRecipeController = addToMyRecipeController;
+        this.coreFunctionalityController = coreFunctionalityController;
+        this.addNewGroceryListController = addNewGroceryListController;
+        this.userGroceryLists = user.getShoppingLists(); // Initialize the grocery lists
+    }
+
 
     JPanel controlPanel;
 
     JPanel buttonPanel;
     RoundButton closeButton;
-    RoundButton addToButton;
+    RoundButton addToRecipesButton;
+    RoundButton addToGroceryButton;
 
-    public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel, AddToMyRecipeController addToMyRecipeController) {
-        super(parent, viewModel);
-        this.addToMyRecipeController = addToMyRecipeController;
-    }
 
     protected void initialize() {
         super.initialize();
         observeNight();
     }
+
 
     @Override
     public JPanel createControlPanel() {
@@ -36,17 +57,49 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
-        addToButton = new RoundButton("Add To");
+        addToRecipesButton = new RoundButton("Add To My Recipes");
+        addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
+
 
         closeButton.addActionListener(e -> {
             this.dispose();
         });
 
-        addToButton.addActionListener(e -> {
-            addToMyRecipeController.execute(viewModel.getRecipe(), viewModel);
+        Recipe recipe = viewModel.getRecipe();
+
+        addToRecipesButton.addActionListener(e -> {
+            addToMyRecipeController.execute(recipe, viewModel);
         });
 
-        buttonPanel.add(addToButton);
+
+        JPopupMenu addToMenu = new JPopupMenu();
+        JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
+
+        if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
+            for (ShoppingList list : userGroceryLists) {
+                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
+                groceryListItem.addActionListener(e -> {
+                    addToGroceryList(recipe, list);
+                });
+                addToMenu.add(groceryListItem);
+            }
+        }
+
+        // Option to create a new grocery list
+        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
+        createNewGroceryListItem.addActionListener(e -> {
+            createNewGroceryListAndAdd(recipe);
+        });
+        addToMenu.add(createNewGroceryListItem);
+
+
+        addToGroceryButton.addActionListener(e -> {
+            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
+        });
+
+
+        buttonPanel.add(addToRecipesButton);
+        buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
 
         controlPanel.add(buttonPanel, BorderLayout.EAST);
@@ -55,6 +108,22 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         return controlPanel;
     };
+
+    private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
+        coreFunctionalityController.execute(shoppingList, recipe, viewModel);
+    }
+
+
+    private void createNewGroceryListAndAdd(Recipe recipe) {
+        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
+        if (newListName != null && !newListName.trim().isEmpty()) {
+            addNewGroceryListController.execute(newListName, viewModel);
+        }
+        ShoppingList newShoppingList = user.getShoppingList(newListName);
+        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+    }
+
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("recipe already exists")) {
@@ -82,8 +151,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         closeButton.setHoverColor(neonPink, darkPurple, white, white);
         closeButton.setBorderColor(neonPurple);
-        addToButton.setHoverColor(neonPink, darkPurple, white, white);
-        addToButton.setBorderColor(neonPurple);
+        addToRecipesButton.setHoverColor(neonPink, darkPurple, white, white);
+        addToRecipesButton.setBorderColor(neonPurple);
 
         super.setNightMode();
     }
@@ -95,8 +164,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
         closeButton.setBorderColor(claudeWhite);
-        addToButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
-        addToButton.setBorderColor(claudeWhite);
+        addToRecipesButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        addToRecipesButton.setBorderColor(claudeWhite);
 
         super.setDayMode();
     }
