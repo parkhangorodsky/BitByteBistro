@@ -26,7 +26,7 @@ import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.filter_recipe.FilterRecipeController;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.log_in.interface_adapter.controller.LoginController;
-import use_cases.settting_preference.SetPreferenceController;
+import use_cases.setting_preference.SetPreferenceController;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.logout.interface_adapter.controller.LogoutController;
 

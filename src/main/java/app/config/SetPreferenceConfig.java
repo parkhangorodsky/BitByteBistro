@@ -1,6 +1,6 @@
 package app.config;
 
-import use_cases.settting_preference.*;
+import use_cases.setting_preference.*;
 
 import static app.config.DataAccessConfig.userDAO;
 

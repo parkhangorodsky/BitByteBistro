@@ -1,6 +1,6 @@
 package use_cases.add_new_grocery_list;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.ShoppingList;
 import entity.User;
 import frameworks.data_access.UserDataAccessInterface;

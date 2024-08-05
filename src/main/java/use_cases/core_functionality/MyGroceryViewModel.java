@@ -1,7 +1,6 @@
 package use_cases.core_functionality;
 
-import entity.LoggedUserData;
-import entity.ShoppingList;
+import app.local.LoggedUserData;
 import entity.User;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
