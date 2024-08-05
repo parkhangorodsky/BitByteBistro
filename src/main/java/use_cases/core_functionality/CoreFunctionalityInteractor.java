@@ -1,5 +1,6 @@
 package use_cases.core_functionality;
 
+import app.local.LoggedUserData;
 import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 

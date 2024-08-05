@@ -1,6 +1,6 @@
 package frameworks.gui.view_factory.division;
 
-import app.Config;
+import app.config.Config;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
 
 public class SearchRecipeViewSwingDivision implements ViewFactoryDivision<SearchRecipeView> {

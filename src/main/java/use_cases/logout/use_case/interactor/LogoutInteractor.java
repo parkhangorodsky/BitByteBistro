@@ -1,6 +1,6 @@
 package use_cases.logout.use_case.interactor;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import use_cases.logout.use_case.output.LogoutOutputBoundary;
 
 public class LogoutInteractor {

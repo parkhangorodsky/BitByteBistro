@@ -1,6 +1,6 @@
 package use_cases.setting_preference;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.User;
 import frameworks.data_access.UserDataAccessInterface;
 

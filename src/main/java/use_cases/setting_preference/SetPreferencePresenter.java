@@ -1,6 +1,6 @@
 package use_cases.setting_preference;
 
-import app.LocalAppSetting;
+import app.local.LocalAppSetting;
 
 public class SetPreferencePresenter implements SetPreferenceOutputBoundary{
 

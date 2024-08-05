@@ -1,4 +1,4 @@
-package app;
+package app.local;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

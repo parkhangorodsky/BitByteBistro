@@ -1,5 +1,6 @@
 package app;
 
+import app.config.Config;
 import frameworks.gui.GUI;
 
 public class Main {

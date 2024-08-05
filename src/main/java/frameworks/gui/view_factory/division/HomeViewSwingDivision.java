@@ -1,6 +1,6 @@
 package frameworks.gui.view_factory.division;
 
-import app.Config;
+import app.config.Config;
 import use_cases._common.gui_common.view.HomeView;
 
 public class HomeViewSwingDivision implements ViewFactoryDivision<HomeView> {

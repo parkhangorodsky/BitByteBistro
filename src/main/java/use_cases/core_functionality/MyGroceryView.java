@@ -1,6 +1,7 @@
 package use_cases.core_functionality;
 
-import app.LocalAppSetting;
+import app.local.LocalAppSetting;
+import app.local.LoggedUserData;
 import entity.*;
 
 import java.awt.*;

@@ -1,4 +1,6 @@
-package entity;
+package app.local;
+
+import entity.User;
 
 public class LoggedUserData {
     private static User loggedInUser;

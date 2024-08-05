@@ -1,6 +1,6 @@
 package use_cases.search_recipe.gui.view;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
@@ -22,7 +22,6 @@ import use_cases._common.gui_common.view_components.round_component.RoundTextFie
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;

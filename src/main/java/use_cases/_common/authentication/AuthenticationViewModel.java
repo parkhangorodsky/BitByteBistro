@@ -26,7 +26,6 @@ public class AuthenticationViewModel extends ViewModel {
         super(viewName);  // Call to the parameterized constructor of the superclass
         this.support = new PropertyChangeSupport(this);
         this.gui = gui;
-        this.addPropertyChangeListener(gui);
     }
 
     /**

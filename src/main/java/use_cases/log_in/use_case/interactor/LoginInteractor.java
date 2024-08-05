@@ -1,7 +1,7 @@
 package use_cases.log_in.use_case.interactor;
 
-import app.LocalAppSetting;
-import entity.LoggedUserData;
+import app.local.LocalAppSetting;
+import app.local.LoggedUserData;
 import entity.User;
 import frameworks.data_access.UserDataAccessInterface;
 import use_cases.log_in.use_case.input_data.LoginInputBoundary;

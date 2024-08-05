@@ -1,6 +1,5 @@
 package use_cases.search_recipe.gui.view_component;
 
-import entity.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;

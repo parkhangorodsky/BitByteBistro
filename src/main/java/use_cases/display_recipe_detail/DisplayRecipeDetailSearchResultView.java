@@ -1,6 +1,6 @@
 package use_cases.display_recipe_detail;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
