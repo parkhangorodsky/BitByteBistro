@@ -33,6 +33,10 @@ public class ViewManagerModel {
         return activeViewName;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
     /**
      * Fires a property change event to notify listeners that the active view has changed.
      */
@@ -42,14 +46,5 @@ public class ViewManagerModel {
 
     public void firePropertyChanged(String propertyName, String viewName) {
         support.firePropertyChange(propertyName, null, viewName);
-    }
-
-    /**
-     * Adds a property change listener to the support.
-     *
-     * @param propertyChangeListener the listener to be added
-     */
-    public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
-        support.addPropertyChangeListener(propertyChangeListener);
     }
 }

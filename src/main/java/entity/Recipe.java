@@ -1,8 +1,8 @@
 package entity;
 
+import org.jetbrains.annotations.NotNull;
 import use_cases._common.xtra.hashing.MD5HashGenerator;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -12,7 +12,7 @@ import java.util.*;
  * Encapsulation: This class encapsulates the data that a recipe should / can store.
  * The attribute include name, images, yield, instructions, ingredients, nutrition information, and categorization labels.
  */
-public class Recipe implements MD5HashGenerator {
+public class Recipe implements MD5HashGenerator, Comparable<Recipe>{
 
     private String id; // Unique identifier for the recipe, generated using MD5 hash.
     private String name; //The name of the recipe.
@@ -87,4 +87,8 @@ public class Recipe implements MD5HashGenerator {
     public void setMealType(List<String> mealType) {this.mealType = mealType;}
     public void setDishType(List<String> dishType) {this.dishType = dishType;}
 
+    @Override
+    public int compareTo(@NotNull Recipe o) {
+        return this.getName().compareToIgnoreCase(o.getName());
+    }
 }

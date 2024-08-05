@@ -2,6 +2,7 @@ package use_cases.recipe_to_grocery.gui;
 
 import entity.ShoppingList;
 import entity.User;
+import use_cases._common.authentication.AuthenticationInterface;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases.recipe_to_grocery.gui.view_component.ShoppingListContainer;
@@ -26,7 +27,7 @@ import java.awt.event.ActionListener;
 public class RecipeToGroceryView extends View implements ActionListener, ThemeColoredObject {
     private RecipeToGroceryViewModel recipeToGroceryViewModel;
     private RecipeToGroceryController recipeToGroceryController;
-    private AuthenticationService authenticationService;
+    private AuthenticationInterface authenticationService;
 
     public final String viewName = "recipe to grocery";
 
@@ -44,7 +45,7 @@ public class RecipeToGroceryView extends View implements ActionListener, ThemeCo
      */
     public RecipeToGroceryView(RecipeToGroceryViewModel recipeToGroceryViewModel,
                                RecipeToGroceryController recipeToGroceryController,
-                               AuthenticationService authenticationService,
+                               AuthenticationInterface authenticationService,
                                ViewManagerModel viewManagerModel) {
 
         // Add PropertyChangeListener to corresponding ViewModel

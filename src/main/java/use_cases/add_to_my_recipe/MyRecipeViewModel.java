@@ -15,7 +15,7 @@ import java.util.List;
  * display the MyRecipeView and firing property change upon updates.
  */
 public class MyRecipeViewModel extends ViewModel {
-    private User user;
+    private List<Recipe> recipes;
     private PropertyChangeSupport support;
 
     public MyRecipeViewModel(String viewName) {
@@ -28,16 +28,13 @@ public class MyRecipeViewModel extends ViewModel {
     }
 
     public void firePropertyChange(String propertyName) {
-        if (propertyName.equals("added recipe")) {
-            this.user = LoggedUserData.getLoggedInUser();
-            support.firePropertyChange(propertyName, null, user.getRecipes());
-        }
+        support.firePropertyChange(propertyName, null, recipes);
     }
 
-    public User getUser() {
-        return user;
+    public List<Recipe> getRecipes() {return recipes;}
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
     }
-    public void setUser(User user) {this.user = user;}
 
 
 
