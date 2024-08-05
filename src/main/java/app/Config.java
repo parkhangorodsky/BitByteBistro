@@ -44,7 +44,7 @@ import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
 
 // Sign Up UseCase
-import use_cases.settting_preference.*;
+import use_cases.setting_preference.*;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
