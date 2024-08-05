@@ -6,6 +6,8 @@ import use_cases.add_to_my_recipe.MyRecipeView;
 public class MyRecipeViewSwingDivision implements ViewFactoryDivision<MyRecipeView> {
     @Override
     public MyRecipeView generate(Config config) {
-        return new MyRecipeView(config.getMyRecipeViewModel(), config.getFilterRecipeController());
+        return new MyRecipeView(
+                config.getMyRecipeViewModel(),
+                config.getFilterRecipeController());
     }
 }

@@ -18,6 +18,7 @@ import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
+import use_cases.core_functionality.MyGroceryViewModel;
 
 // Use Case Controllers
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
@@ -29,6 +30,8 @@ import use_cases.log_in.interface_adapter.controller.LoginController;
 import use_cases.setting_preference.SetPreferenceController;
 import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.logout.interface_adapter.controller.LogoutController;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.core_functionality.CoreFunctionalityController;
 
 public class Config {
 
@@ -40,6 +43,7 @@ public class Config {
     public SearchRecipeViewModel getSearchRecipeViewModel() { return ViewModelConfig.searchRecipeViewModel; }
     public AdvancedSearchRecipeViewModel getAdvancedSearchRecipeViewModel() { return ViewModelConfig.advancedSearchRecipeViewModel; }
     public MyRecipeViewModel getMyRecipeViewModel() { return ViewModelConfig.myRecipeViewModel; }
+    public MyGroceryViewModel MyGroceryViewModel() { return ViewModelConfig.myGroceryViewModel; }
 
     // Frameworks & Drivers Getters
     public RecipeAPI getRecipeAPI() { return ApiConfig.recipeAPI; }
@@ -57,5 +61,7 @@ public class Config {
     public SetPreferenceController getSetPreferenceController() { return SetPreferenceConfig.controller; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return DisplayRecipeDetailConfig.controller; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return RecentlyViewedRecipeConfig.controller; }
+    public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
+    public CoreFunctionalityController getCoreFunctionalityController() { return CoreFunctionalityConfig.controller; }
 
 }
