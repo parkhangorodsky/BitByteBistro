@@ -14,7 +14,7 @@ public class User {
     private String userPassword;
     private LocalDateTime createdAt;
     private List<Recipe> recipes;
-    private List<ShoppingList> shoppingLists;
+    private HashMap<String, ShoppingList> shoppingLists;
     private Map<String, Object> preference;
     private List<Recipe> recentlyViewedRecipes;
 
@@ -32,7 +32,7 @@ public class User {
         this.userEmail = userEmail; // Validate email format
         this.userPassword = userPassword; // Encrypt password
         this.createdAt = createdAt;
-        this.shoppingLists = new ArrayList<>();
+        this.shoppingLists = new HashMap<>();
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
@@ -52,7 +52,8 @@ public class User {
     public String getUserPassword() {return userPassword;}
     public LocalDateTime getCreatedAt() {return createdAt;}
     public List<Recipe> getRecipes() {return recipes;}
-    public List<ShoppingList> getShoppingLists() {return shoppingLists;}
+    public List<ShoppingList> getShoppingLists() {return new ArrayList<>(shoppingLists.values());}
+    public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
     public Map<String, Object> getPreference() {return preference;}
     public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
 
@@ -61,7 +62,13 @@ public class User {
     public void setUserPassword(String userPassword) {this.userPassword = userPassword;}
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
-    public void setShoppingLists(List<ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
+    public void setShoppingLists(List<ShoppingList> shoppingLists) {
+        HashMap<String, ShoppingList> shoppingListHashMap = new HashMap<>();
+        for (ShoppingList shoppingList : shoppingLists) {
+            shoppingListHashMap.put(shoppingList.getShoppingListName(), shoppingList);
+            this.shoppingLists = shoppingListHashMap;
+        }
+    }
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
     public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
