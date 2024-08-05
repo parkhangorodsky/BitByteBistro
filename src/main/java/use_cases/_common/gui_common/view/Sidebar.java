@@ -1,6 +1,6 @@
 package use_cases._common.gui_common.view;
 
-import app.LocalAppSetting;
+import app.local.LocalAppSetting;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
@@ -12,8 +12,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Sidebar is a custom JPanel that serves as a sidebar component shared across different views.

@@ -1,8 +1,7 @@
 package use_cases.filter_recipe;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.Recipe;
-import entity.User;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
 
 import java.util.ArrayList;

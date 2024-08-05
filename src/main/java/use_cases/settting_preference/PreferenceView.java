@@ -1,9 +1,8 @@
 package use_cases.settting_preference;
 
-import app.LocalAppSetting;
+import app.local.LocalAppSetting;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
-import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 

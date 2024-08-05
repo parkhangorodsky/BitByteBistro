@@ -1,6 +1,6 @@
 package use_cases.display_recipe_detail;
 
-import app.LocalAppSetting;
+import app.local.LocalAppSetting;
 import entity.Nutrition;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;

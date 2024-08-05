@@ -1,6 +1,6 @@
 package use_cases.search_recipe.gui.view_component;
 
-import app.LocalAppSetting;
+import app.local.LocalAppSetting;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
