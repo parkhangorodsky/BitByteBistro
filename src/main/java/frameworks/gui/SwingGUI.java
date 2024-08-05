@@ -201,6 +201,7 @@ public class SwingGUI implements GUI {
         DisplayRecipeDetailController displayRecipeDetailController = config.getDisplayRecipeDetailController();
         AddToMyRecipeController addToMyRecipeController = config.getAddToMyRecipeController();
         RecentlyViewedRecipesController recentlyViewedRecipesController = config.getRecentlyViewedRecipesController();
+
         // Get the NutritionDisplayController from config
 //        SearchRecipeView searchRecipeView = new SearchRecipeView(searchRecipeViewModel,
 //                searchRecipeController,
@@ -215,7 +216,6 @@ public class SwingGUI implements GUI {
         // Add SearchRecipeView to ViewManager
 //        viewManager.addView(searchRecipeView);
 
-
         MyRecipeView myRecipeView = new MyRecipeView(config.getMyRecipeViewModel());
         viewManager.addView(myRecipeView);
 
@@ -226,7 +226,6 @@ public class SwingGUI implements GUI {
 
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
-
 
     }
 
