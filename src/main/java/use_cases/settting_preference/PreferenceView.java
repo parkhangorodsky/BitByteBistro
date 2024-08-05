@@ -18,6 +18,14 @@ public class PreferenceView extends PopUpView implements NightModeObject {
     JFrame parent;
     SetPreferenceController controller;
 
+    JPanel mainPanel;
+
+    JLabel titleLabel;
+
+    RoundButton applyButton;
+    RoundButton closeButton;
+
+
     JCheckBox nightModeCheckBox;
 
     public PreferenceView(JFrame parent, SetPreferenceController setPreferenceController) {
@@ -27,29 +35,32 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         this.parent = parent;
         this.controller = setPreferenceController;
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10,10));
+        mainPanel = new JPanel(new BorderLayout(10,10));
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
         mainPanel.setPreferredSize(new Dimension(300, 300));
 
         JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("Preferences");
+        titlePanel.setOpaque(false);
+        titleLabel = new JLabel("Preferences");
+        titlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         titleLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
         titlePanel.add(titleLabel, BorderLayout.NORTH);
 
         JPanel settingPanel = new JPanel(new VerticalFlowLayout(5));
+        settingPanel.setOpaque(false);
         settingPanel.setBorder(new EmptyBorder(30, 5, 5, 5));
         nightModeCheckBox = new JCheckBox("Night Mode");
         nightModeCheckBox.setFont(new Font(defaultFont, Font.PLAIN, 12));
         settingPanel.add(nightModeCheckBox);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        RoundButton applyButton = new RoundButton("Apply");
+        buttonPanel.setOpaque(false);
+        applyButton = new RoundButton("Apply");
         applyButton.addActionListener(e -> {
             controller.execute(nightModeCheckBox.isSelected());
-            this.hidePopUp();
         });
 
-        RoundButton closeButton = new RoundButton("Close");
+        closeButton = new RoundButton("Close");
         closeButton.addActionListener(e -> {
             this.hidePopUp();
         });
@@ -62,6 +73,8 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         mainPanel.add(titlePanel, BorderLayout.NORTH);
         mainPanel.add(settingPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        toggleNightMode();
 
         this.add(mainPanel);
         this.pack();
@@ -88,16 +101,39 @@ public class PreferenceView extends PopUpView implements NightModeObject {
     @Override
     public void setNightMode() {
         updateNightModeCheckBox(LocalAppSetting.isNightMode());
+        mainPanel.setBackground(black);
+        nightModeCheckBox.setForeground(neonPinkEmph);
+
+        titleLabel.setForeground(neonPurpleEmph);
+
+        closeButton.setHoverColor(darkPurple, neonPinkEmph, white, white);
+        closeButton.setBorderColor(neonPurple);
+
+        applyButton.setHoverColor(darkPurple, neonPinkEmph, white, white);
+        applyButton.setBorderColor(neonPurple);
 
     }
 
     @Override
     public void setDayMode() {
         updateNightModeCheckBox(LocalAppSetting.isNightMode());
+        mainPanel.setBackground(claudeWhite);
+        nightModeCheckBox.setForeground(claudeBlack);
+
+        titleLabel.setForeground(claudeBlack);
+
+        closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        closeButton.setBorderColor(claudeWhiteEmph);
+        applyButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        applyButton.setBorderColor(claudeWhiteEmph);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getPropertyName().equals("nightMode")) {
+            toggleNightMode();
+            this.revalidate();
+            this.repaint();
+        }
     }
 }
