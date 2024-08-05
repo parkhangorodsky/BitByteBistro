@@ -35,8 +35,6 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         Recipe recipe = inputData.getRecipe();
 
         ShoppingList updatedShoppingList = getGroceryList(recipe, shoppingList);
-        user.addRecipe(recipe);
-        userDAO.addRecipe(user, recipe);
 
         // UPDATE USER (LOCALLY AND IN DATABASE)
         //some way to update an existing shopping list instead of adding the updated one on top
