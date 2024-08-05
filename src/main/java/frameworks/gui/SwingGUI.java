@@ -35,11 +35,11 @@ import use_cases.sign_up.interface_adapter.presenter.SignUpPresenter;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 import use_cases.sign_up.use_case.interactor.SignUpInteractor;
 
-import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
-import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
-import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
-import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
-import use_cases.recipe_to_grocery.gui.RecipeToGroceryView;
+//import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
+//import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
+//import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryPresenter;
+//import use_cases.recipe_to_grocery.use_case.interactor.RecipeToGroceryInteractor;
+//import use_cases.recipe_to_grocery.gui.RecipeToGroceryView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +59,7 @@ public class SwingGUI implements GUI {
     private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
     private LoginViewModel loginViewModel;
     private SignUpViewModel signUpViewModel;
-    private RecipeToGroceryViewModel recipeToGroceryViewModel;
+//    private RecipeToGroceryViewModel recipeToGroceryViewModel;
     private AuthenticationViewModel authenticationViewModel;
 
     // Config
@@ -87,7 +87,7 @@ public class SwingGUI implements GUI {
         this.advancedSearchRecipeViewModel = config.getAdvancedSearchRecipeViewModel();
         this.loginViewModel = config.getLoginViewModel();
         this.signUpViewModel = config.getSignUpViewModel();
-        this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
+//        this.recipeToGroceryViewModel = config.getRecipeToGroceryViewModel();
         this.authenticationViewModel = config.getAuthenticationViewModel();
         this.authenticationViewModel.addPropertyChangeListener(this);
 
@@ -221,14 +221,14 @@ public class SwingGUI implements GUI {
         MyGroceryView myGroceryView = new MyGroceryView(config.getMyGroceryViewModel(), config.getAddNewGroceryListController());
         viewManager.addView(myGroceryView);
 
-        // Create RecipeToGrocery components
-        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
-        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
-        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
-        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
+//        // Create RecipeToGrocery components
+//        RecipeToGroceryPresenter recipeToGroceryPresenter = new RecipeToGroceryPresenter(viewManagerModel, recipeToGroceryViewModel);
+//        RecipeToGroceryInteractor recipeToGroceryInteractor = new RecipeToGroceryInteractor(recipeToGroceryPresenter, config.getRecipeAPI());
+//        RecipeToGroceryController recipeToGroceryController = new RecipeToGroceryController(recipeToGroceryInteractor, authService);
+//        RecipeToGroceryView recipeToGroceryView = new RecipeToGroceryView(recipeToGroceryViewModel, recipeToGroceryController, authService, viewManagerModel);
 
-        // Add RecipeToGroceryView to ViewManager
-        viewManager.addView(recipeToGroceryView);
+//        // Add RecipeToGroceryView to ViewManager
+//        viewManager.addView(recipeToGroceryView);
 
         //Create PopUpView
         PreferenceView preferenceView = new PreferenceView(mainFrame, config.getSetPreferenceController());
