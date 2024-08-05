@@ -28,8 +28,6 @@ public class LoginInteractorTest {
     void setUp() {
         presenter = mock(LoginOutputBoundary.class);
         dao = mock(UserDataAccessInterface.class);
-        authService = mock(AuthenticationService.class);
-        interactor = new LoginInteractor(presenter, dao, authService);
     }
 
     /**
@@ -40,8 +38,6 @@ public class LoginInteractorTest {
     void testSuccessfulLogin() {
         User user = new User("userId", "test@example.com", "password", null);
         when(dao.getUserByEmail("test@example.com")).thenReturn(user);
-        when(authService.authenticate("test@example.com", "password")).thenReturn(true);
-        when(authService.getLoggedInUser()).thenReturn(user);
 
         interactor.execute(new LoginInputData("test@example.com", "password"));
 
@@ -55,7 +51,6 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginWithIncorrectEmail() {
         when(dao.getUserByEmail("test@example.com")).thenReturn(null);
-        when(authService.authenticate("test@example.com", "password")).thenReturn(false);
 
         interactor.execute(new LoginInputData("test@example.com", "password"));
 
@@ -70,7 +65,6 @@ public class LoginInteractorTest {
     void testFailedLoginWithIncorrectPassword() {
         User user = new User("userId", "test@example.com", "correctPassword", null);
         when(dao.getUserByEmail("test@example.com")).thenReturn(user);
-        when(authService.authenticate("test@example.com", "wrongPassword")).thenReturn(false);
 
         interactor.execute(new LoginInputData("test@example.com", "wrongPassword"));
 

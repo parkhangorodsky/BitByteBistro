@@ -1,6 +1,6 @@
 package frameworks.gui.view_factory.division;
 
-import app.Config;
+import app.config.Config;
 import use_cases.log_in.gui.view.LoginView;
 
 public class LoginViewSwingDivision implements ViewFactoryDivision<LoginView> {

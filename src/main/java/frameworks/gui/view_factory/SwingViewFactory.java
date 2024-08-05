@@ -1,6 +1,6 @@
 package frameworks.gui.view_factory;
 
-import app.Config;
+import app.config.Config;
 import frameworks.gui.view_factory.division.*;
 import use_cases._common.gui_common.view.HomeView;
 import use_cases.add_to_my_recipe.MyRecipeView;

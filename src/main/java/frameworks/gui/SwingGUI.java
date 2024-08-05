@@ -1,6 +1,6 @@
 package frameworks.gui;
 
-import app.Config;
+import app.config.Config;
 
 import frameworks.gui.view_factory.SwingViewFactory;
 import use_cases._common.authentication.AuthenticationViewManager;
