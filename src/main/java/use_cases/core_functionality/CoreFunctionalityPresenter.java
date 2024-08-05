@@ -3,14 +3,14 @@ package use_cases.core_functionality;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
 
 public class CoreFunctionalityPresenter implements CoreFunctionalityOutputBoundary{
-    MyRecipeViewModel viewModel;
+    MyGroceryViewModel viewModel;
 
     /**
      * Constructor for  CoreFunctionalityPresenter.
      *
      * @param viewModel The ViewModel that represents the state of the view.
      */
-    public CoreFunctionalityPresenter(MyRecipeViewModel viewModel) {
+    public CoreFunctionalityPresenter(MyGroceryViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
