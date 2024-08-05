@@ -11,8 +11,6 @@ import use_cases.recipe_to_grocery.use_case.input_data.RecipeToGroceryInputData;
 import use_cases.recipe_to_grocery.interface_adapter.presenter.RecipeToGroceryOutputBoundary;
 import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 
-import use_cases._common.xtra.json_processor.RecipeJSONHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +18,7 @@ import java.util.List;
  * Interactor class that handles the "convert recipes to grocery list" use case.
  * It receives input data, executes the conversion logic, and sends output data to the presenter.
  */
-public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary, RecipeJSONHandler {
+public class RecipeToGroceryInteractor implements RecipeToGroceryInputBoundary {
 
     private RecipeToGroceryOutputBoundary recipeToGroceryPresenter;
 

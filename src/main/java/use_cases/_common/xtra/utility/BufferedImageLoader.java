@@ -1,4 +1,4 @@
-package use_cases._common.gui_common.abstractions;
+package use_cases._common.xtra.utility;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.net.URL;
  * Utility: Provides default methods to load images from a URL,
  * create rounded corner images, and return them as `ImageIcon` objects.
  */
-public interface BufferedImageLoader {
+public class BufferedImageLoader {
 
     /**
      * Loads an image from a URL and returns it as a `BufferedImage`.
@@ -21,7 +21,7 @@ public interface BufferedImageLoader {
      * @param imageUrl the URL of the image to be loaded.
      * @return a `BufferedImage` containing the image data, or `null` if an error occurs.
      */
-    default BufferedImage loadBufferedRoundImage(String imageUrl) {
+    public static BufferedImage loadBufferedRoundImage(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
             BufferedImage bufferedImage = ImageIO.read(url);
@@ -40,7 +40,7 @@ public interface BufferedImageLoader {
      * @return a new `BufferedImage` with rounded corners.
      */
 
-    default BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
+    private static BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

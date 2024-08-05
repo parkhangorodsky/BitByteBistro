@@ -1,20 +1,19 @@
 package use_cases.search_recipe.gui.view_component;
 
 import app.LocalAppSetting;
-import use_cases._common.gui_common.abstractions.StringCaseEditor;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases.search_recipe.gui.view.AdvancedSearchView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.awt.Component.*;
+import static use_cases._common.xtra.utility.StringCaseEditor.capitalizeWords;
 
-public class AdvancedSearchInputSummarizer implements ThemeColoredObject, StringCaseEditor {
+public class AdvancedSearchInputSummarizer implements ThemeColoredObject {
 
     private JPanel displayPanel;
 
