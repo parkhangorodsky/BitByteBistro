@@ -1,18 +1,15 @@
 package use_cases.recipe_to_grocery.gui;
 
-import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view.Sidebar;
 import use_cases.recipe_to_grocery.gui.view_component.ShoppingListContainer;
 import use_cases.recipe_to_grocery.gui.view_component.ShoppingListPanel;
 import use_cases.recipe_to_grocery.interface_adapter.controller.RecipeToGroceryController;
 import use_cases.recipe_to_grocery.interface_adapter.view_model.RecipeToGroceryViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.authentication.AuthenticationService;
-import use_cases.log_in.use_case.interactor.LoginInteractor;
 import use_cases.recipe_to_grocery.use_case.output_data.RecipeToGroceryOutputData;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 

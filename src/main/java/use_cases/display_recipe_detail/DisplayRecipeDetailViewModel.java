@@ -1,6 +1,7 @@
 package use_cases.display_recipe_detail;
 
 import entity.Recipe;
+import entity.ShoppingList;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
@@ -9,6 +10,7 @@ import java.beans.PropertyChangeSupport;
 
 public class DisplayRecipeDetailViewModel extends ViewModel implements PropertyChangeFirer {
     private Recipe recipe;
+    private ShoppingList shoppingList;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public DisplayRecipeDetailViewModel(String viewName) {
@@ -31,4 +33,5 @@ public class DisplayRecipeDetailViewModel extends ViewModel implements PropertyC
         support.addPropertyChangeListener(listener);
     }
 
+    public ShoppingList getShoppingList() {return shoppingList;}
 }
