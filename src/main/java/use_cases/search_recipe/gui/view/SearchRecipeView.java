@@ -59,9 +59,7 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
                             SearchRecipeController searchRecipeController,
                             DisplayRecipeDetailController displayDetailController,
                             AddToMyRecipeController addToMyRecipeController,
-                            CoreFunctionalityController coreFunctionalityController,
                             RecentlyViewedRecipesController recentlyViewedRecipesController,
-                            AddNewGroceryListController addNewGroceryListController,
                             AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel,
                             ViewManagerModel viewManagerModel) {
 

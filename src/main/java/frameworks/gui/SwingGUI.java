@@ -9,8 +9,7 @@ import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.view.AppViewManager;
-
-import use_cases.settting_preference.PreferenceView;
+import use_cases.setting_preference.PreferenceView;
 
 import javax.swing.*;
 import java.awt.*;
