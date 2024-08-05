@@ -71,6 +71,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             addToMyRecipeController.execute(recipe, viewModel);
         });
 
+
         JPopupMenu addToMenu = new JPopupMenu();
         JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
 
@@ -93,7 +94,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
 
         addToGroceryButton.addActionListener(e -> {
-            coreFunctionalityController.execute(viewModel.getShoppingList(), viewModel.getRecipe(), viewModel);
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         });
 
