@@ -1,23 +1,25 @@
 package use_cases.core_functionality;
 
 import app.LocalAppSetting;
-import entity.Ingredient;
-import entity.LoggedUserData;
-import entity.Recipe;
+import entity.*;
+
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
-import use_cases.search_recipe.gui.view_component.SearchButton;
-import use_cases.search_recipe.gui.view_component.SearchTextField;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
@@ -25,14 +27,21 @@ import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
-    private MyGroceryViewModel viewModel;
+    protected MyGroceryViewModel viewModel;
 
     private JPanel myGroceryContainer;
     private JScrollPane myGroceryScrollPane;
+    private JPanel inputPanel;
+    private JTextField newListNameTextField;
+    private JButton confirmButton;
+    private JLabel promptLabel;
+    private AddNewGroceryListController addNewGroceryListController;
 
-    public MyGroceryView(MyGroceryViewModel viewModel) {
+
+    public MyGroceryView(MyGroceryViewModel viewModel, AddNewGroceryListController addNewGroceryListController) {
 
         observeNight();
+        this.addNewGroceryListController = addNewGroceryListController;
         this.setLayout(new BorderLayout());
         this.viewModel = viewModel;
         this.setViewName(viewModel.getViewName());
@@ -48,7 +57,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                updateMyGrocery(); // CHANGED LINE: Reload grocery list when view is shown
+                updateMyGrocery(); // Reload grocery list when view is shown
             }
         });
     }
@@ -76,13 +85,31 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         mainPanel.setOpaque(false);
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        JPanel inputPanel = new JPanel();
+        inputPanel = new JPanel();
         inputPanel.setOpaque(false);
         inputPanel.setPreferredSize(new Dimension(800,100));
 
         inputPanel.setMaximumSize(inputPanel.getPreferredSize());
         inputPanel.setBorder(new EmptyBorder(20,20,20,20));
         inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
+
+        inputPanel = new JPanel();
+        inputPanel.setOpaque(false);
+        inputPanel.setPreferredSize(new Dimension(800,100));
+        inputPanel.setMaximumSize(inputPanel.getPreferredSize());
+        inputPanel.setBorder(new EmptyBorder(20,20,20,20));
+        inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
+
+        // Add "Make new grocery list..." button
+        JButton addNewGroceryListButton = new JButton("Make new grocery list...");
+        addNewGroceryListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showNewGroceryListInput();
+            }
+        });
+        inputPanel.add(addNewGroceryListButton);
+
 
         JPanel outputPanel = new JPanel();
         outputPanel.setOpaque(false);
@@ -105,16 +132,58 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         return mainPanel;
     }
 
+    private void showNewGroceryListInput() {
+        promptLabel = new JLabel("Enter grocery list name...");
+        newListNameTextField = new JTextField(20);
+        newListNameTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    createNewGroceryList();
+                    String newGroceryListName = newListNameTextField.getText();
+                    addNewGroceryListController.execute(newGroceryListName, viewModel);
+                    updateMyGrocery();
+                }
+
+            }
+        });
+
+        confirmButton = new JButton("Confirm");
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createNewGroceryList();
+                String newGroceryListName = newListNameTextField.getText();
+                addNewGroceryListController.execute(newGroceryListName, viewModel);
+                updateMyGrocery();
+            }
+        });
+
+        inputPanel.add(newListNameTextField);
+        inputPanel.add(confirmButton);
+        inputPanel.revalidate();
+        inputPanel.repaint();
+    }
+
+    private void createNewGroceryList() {
+        inputPanel.remove(promptLabel);
+        inputPanel.remove(newListNameTextField);
+        inputPanel.remove(confirmButton);
+        inputPanel.revalidate();
+        inputPanel.repaint();
+    }
+
     private void updateMyGrocery() {
         myGroceryContainer.removeAll();
 
-        if (!viewModel.getUser().getShoppingLists().isEmpty()) { // CHANGED LINE: Check if shopping lists are not empty
-            for (Recipe recipe : viewModel.getUser().getShoppingLists().getFirst().getRecipes()) {
-                JPanel recipeItem = createRecipeItem(recipe);
-                myGroceryContainer.add(recipeItem);
+        User user = viewModel.getUser();
+        if (user != null && !user.getShoppingLists().isEmpty()) {
+            for (ShoppingList shoppingList : user.getShoppingLists()) {
+                JPanel shoppingListItem = createShoppingListItem(shoppingList);
+                myGroceryContainer.add(shoppingListItem);
             }
         } else {
-            JLabel emptyLabel = new JLabel("No recipes in your shopping list.");
+            JLabel emptyLabel = new JLabel("No shopping lists available.");
             emptyLabel.setFont(new Font(defaultFont, Font.PLAIN, 18));
             emptyLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
             myGroceryContainer.add(emptyLabel);
@@ -126,30 +195,26 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         myGroceryContainer.repaint();
     }
 
-    private JPanel createRecipeItem(Recipe recipe) {
-        RoundPanel recipeItem = new RoundPanel();
-        recipeItem.setLayout(new BorderLayout());
-        recipeItem.setBorder(new EmptyBorder(10, 10, 10, 10));
-        recipeItem.setBackground(LocalAppSetting.isNightMode() ? neonPurpleEmph : claudewhiteBright);
-        recipeItem.setBorderColor(LocalAppSetting.isNightMode() ? neonPurple : claudeWhiteEmph);
+    private JPanel createShoppingListItem(ShoppingList shoppingList) {
+        RoundPanel shoppingListItem = new RoundPanel();
+        shoppingListItem.setLayout(new BorderLayout());
+        shoppingListItem.setBorder(new EmptyBorder(10, 10, 10, 10));
+        shoppingListItem.setBackground(LocalAppSetting.isNightMode() ? neonPurpleEmph : claudewhiteBright);
+        shoppingListItem.setBorderColor(LocalAppSetting.isNightMode() ? neonPurple : claudeWhiteEmph);
 
-        JPanel imagePanel = new JPanel();
-        imagePanel.setOpaque(false);
-        BufferedImage image = recipe.getSmallImage();
-        imagePanel.add(new JLabel(new ImageIcon(image)));
-
-        JPanel recipeNamePanel = new JPanel(new BorderLayout());
-        recipeNamePanel.setOpaque(false);
-        JLabel recipeNameLabel = new JLabel(recipe.getName());
-        recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 20));
-        recipeNameLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
-        recipeNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        recipeNameLabel.setVerticalTextPosition(SwingConstants.CENTER);
-        recipeNamePanel.add(recipeNameLabel, BorderLayout.CENTER);
+        // Shopping List Name
+        JPanel shoppingListNamePanel = new JPanel(new BorderLayout());
+        shoppingListNamePanel.setOpaque(false);
+        JLabel shoppingListNameLabel = new JLabel(shoppingList.getShoppingListName());
+        shoppingListNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 20));
+        shoppingListNameLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+        shoppingListNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        shoppingListNameLabel.setVerticalTextPosition(SwingConstants.CENTER);
+        shoppingListNamePanel.add(shoppingListNameLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
-        RoundButton showRecipeButton = new RoundButton("+");
+        RoundButton showRecipeButton = new RoundButton("∨");
         showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
         showRecipeButton.setVerticalAlignment(SwingConstants.CENTER);
         showRecipeButton.setPreferredSize(new Dimension(30, 30));
@@ -163,13 +228,44 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
 
-        recipeItem.add(imagePanel, BorderLayout.WEST);
-        recipeItem.add(recipeNamePanel, BorderLayout.CENTER);
-        recipeItem.add(buttonPanel, BorderLayout.EAST);
+        // Add button action to expand view
+        showRecipeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (showRecipeButton.getText().equals("∨")) {
+                    showRecipeButton.setText("∧"); // Change to collapse symbol
+                    JPanel ingredientsPanel = createIngredientsPanel(shoppingList.getListItems());
+                    shoppingListItem.add(ingredientsPanel, BorderLayout.SOUTH);
+                } else {
+                    showRecipeButton.setText("∨"); // Change back to expand symbol
+                    shoppingListItem.remove(2); // Remove ingredients panel
+                }
+                shoppingListItem.revalidate();
+                shoppingListItem.repaint();
+            }
+        });
 
-        return recipeItem;
+        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
+
+        shoppingListItem.add(buttonPanel, BorderLayout.EAST);
+        shoppingListItem.add(shoppingListNamePanel, BorderLayout.WEST);
 
 
+        return shoppingListItem;
+
+
+    }
+
+    private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
+        JPanel ingredientsPanel = new JPanel(new VerticalFlowLayout(5));
+        ingredientsPanel.setOpaque(false);
+        for (Ingredient ingredient : ingredients) {
+            JLabel ingredientLabel = new JLabel(ingredient.toString());
+            ingredientLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
+            ingredientLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+            ingredientsPanel.add(ingredientLabel);
+        }
+        return ingredientsPanel;
     }
 
     @Override
@@ -191,7 +287,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             updateMyGrocery();
         }
         myGroceryContainer.setBackground(claudeWhite);
-//
     }
 
     public void revalidateEverything(JComponent component) {
