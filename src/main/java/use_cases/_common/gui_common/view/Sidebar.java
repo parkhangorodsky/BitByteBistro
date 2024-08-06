@@ -65,6 +65,7 @@ public class Sidebar extends JPanel implements ThemeColoredObject, NightModeObje
         });
         groceryListButton = createMenu("Grocery List");
         groceryListButton.addActionListener(e -> {
+            viewManagerModel.setActiveView("grocery");
             viewManagerModel.firePropertyChanged("init", "grocery");
         });
         myFridgeButton = createMenu("My Fridge");
