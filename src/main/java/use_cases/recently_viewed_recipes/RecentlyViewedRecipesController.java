@@ -1,9 +1,8 @@
 package use_cases.recently_viewed_recipes;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.Recipe;
 import entity.User;
-import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 
 import java.util.List;
 

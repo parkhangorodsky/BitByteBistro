@@ -1,6 +1,6 @@
 package frameworks.gui.view_factory.division;
 
-import app.Config;
+import app.config.Config;
 import use_cases.add_to_my_recipe.MyRecipeView;
 
 public class MyRecipeViewSwingDivision implements ViewFactoryDivision<MyRecipeView> {

@@ -1,6 +1,7 @@
 package frameworks.data_access;
 
 import entity.Recipe;
+import entity.ShoppingList;
 import entity.User;
 
 import java.io.*;
@@ -111,5 +112,10 @@ public class CSVDataAccessObject implements UserDataAccessInterface {
 
     @Override
     public void updateRecentlyViewedRecipes(User user) {
+    }
+
+    @Override
+    public void addShoppingList(User user, ShoppingList shoppingList) {
+
     }
 }

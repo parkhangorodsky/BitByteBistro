@@ -1,6 +1,6 @@
 package use_cases._common.gui_common.view;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
@@ -12,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeView extends View implements ThemeColoredObject, NightModeObject {

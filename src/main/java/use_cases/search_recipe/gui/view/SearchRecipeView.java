@@ -1,11 +1,13 @@
 package use_cases.search_recipe.gui.view;
 
-import entity.LoggedUserData;
+import app.local.LoggedUserData;
 import entity.Recipe;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.gui.view_component.*;
@@ -20,7 +22,6 @@ import use_cases._common.gui_common.view_components.round_component.RoundTextFie
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
@@ -35,7 +36,9 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
     private DisplayRecipeDetailController displayDetailController;
     private AddToMyRecipeController addToMyRecipeController;
+    private CoreFunctionalityController coreFunctionalityController;
     private RecentlyViewedRecipesController recentlyViewedRecipesController;
+    private AddNewGroceryListController addNewGroceryListController;
 
 
     public final String viewname;
@@ -70,7 +73,9 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         this.searchRecipeController = searchRecipeController;
         this.displayDetailController = displayDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
+        this.coreFunctionalityController = coreFunctionalityController;
         this.recentlyViewedRecipesController = recentlyViewedRecipesController;
+        this.addNewGroceryListController = addNewGroceryListController;
 
         observeNight();
 
@@ -125,22 +130,11 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         // Output Components
         recipeContainer = new RecipeContainer(outputPanel);
 
-        // Navigate to RecipeToGroceryView
-        JButton convertToGroceryButton = new JButton(LoggedUserData.getLoggedInUser().getUserName());
-        convertToGroceryButton.addActionListener(e -> {
-            if (e.getSource().equals(convertToGroceryButton)) {
-                viewManagerModel.setActiveView("recipe to grocery");
-                viewManagerModel.firePropertyChanged();
-            }
-        });
-
-
         // Pack input & output panel
 //        inputPanel.add(title);
         inputPanel.add(advancedSearchButton);
         inputPanel.add(recipeName);
         inputPanel.add(searchButton);
-        inputPanel.add(convertToGroceryButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(recipeContainer, BorderLayout.CENTER);
@@ -190,7 +184,8 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
         outputPanel.removeAll();
         for (Recipe recipe : response) {
-            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController, recentlyViewedRecipesController);
+            JPanel recipePanel = new RecipePanel(recipe, displayDetailController, addToMyRecipeController,
+                    coreFunctionalityController, recentlyViewedRecipesController, addNewGroceryListController);
             outputPanel.add(recipePanel);
         }
         SwingUtilities.invokeLater(() -> recipeContainer.getVerticalScrollBar().setValue(0));

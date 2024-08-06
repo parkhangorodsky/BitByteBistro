@@ -1,5 +1,6 @@
 package app;
 
+import app.config.Config;
 import frameworks.gui.GUI;
 
 public class Main {
@@ -16,5 +17,6 @@ public class Main {
         // Then the SwingGUI is initialized.
         GUI gui = config.getGUI();
         gui.initialize(config);
+        gui.run();
     }
 }

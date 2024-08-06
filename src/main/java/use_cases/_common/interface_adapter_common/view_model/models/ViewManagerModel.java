@@ -37,6 +37,10 @@ public class ViewManagerModel {
         support.addPropertyChangeListener(listener);
     }
 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
+
     /**
      * Fires a property change event to notify listeners that the active view has changed.
      */

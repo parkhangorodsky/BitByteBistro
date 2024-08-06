@@ -45,6 +45,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         this.signUpViewModel = signUpViewModel;
         this.viewManagerModel = viewManagerModel;
         this.signUpViewModel.addPropertyChangeListener(this);
+        this.setViewName(this.signUpViewModel.getViewName());
         setupUI();
     }
 
@@ -150,6 +151,7 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
         signUpButton.addActionListener(this);
         signUpButton.setHoverColor(claudeWhite, claudeWhite, claudeBlack, claudeBlackEmph);
         signUpButton.setBorderColor(claudeWhite);
+        signUpButton.setPressedColor(claudewhiteBright);
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
