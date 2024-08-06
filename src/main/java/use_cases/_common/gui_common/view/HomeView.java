@@ -127,7 +127,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionStatsPanel.repaint();
     }
 
-    private void showGroceryListDropdown(JButton selectGroceryListButton, List<ShoppingList> userGroceryLists) { // UPDATE
+    private void showGroceryListDropdown(JButton selectGroceryListButton, List<ShoppingList> userGroceryLists) {
         JPopupMenu selectGroceryList = new JPopupMenu();
 
         for (ShoppingList list : userGroceryLists) {
@@ -137,17 +137,15 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         }
 
         // Show popup menu below the button
-        selectGroceryList.show(selectGroceryListButton, 0, selectGroceryListButton.getHeight()); // UPDATE
+        selectGroceryList.show(selectGroceryListButton, 0, selectGroceryListButton.getHeight());
     }
 
-    private void selectGroceryList(ShoppingList list) { // Existing line
-        if (list.getListItems().isEmpty()) { // UPDATE
-            // Show a popup dialog if the grocery list is empty
-            JOptionPane.showMessageDialog(this, "This grocery list is empty! Add items to use this feature.", "Empty Grocery List", JOptionPane.INFORMATION_MESSAGE); // UPDATE
+    private void selectGroceryList(ShoppingList list) {
+        if (list.getListItems().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "This grocery list is empty! Add items to use this feature.", "Empty Grocery List", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            // Proceed with the existing action
-            nutritionStatsController.execute(list); // Existing line
-        } // UPDATE
+            nutritionStatsController.execute(list);
+        }
     }
 
     private void loadNutritionStats(NutritionStatsOutputData outputData) {
@@ -157,22 +155,19 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             JPanel nutritionPanel = new JPanel();
             nutritionPanel.setLayout(new BorderLayout());
             nutritionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-            nutritionPanel.setBackground(claudeWhite); // Optional: set the background color
+            nutritionPanel.setBackground(claudeWhite);
 
-            // Create a label for the nutrition name
             JLabel nutritionLabel = new JLabel(nutrition.getLabel() + ": " + nutrition.getQuantity() + " " + nutrition.getUnit());
             nutritionLabel.setFont(new Font(defaultFont, Font.PLAIN, 14));
             nutritionPanel.add(nutritionLabel, BorderLayout.WEST);
 
-            // Create a progress bar for the nutrition value
             JProgressBar nutritionBar = new JProgressBar();
             nutritionBar.setMinimum(0);
-            nutritionBar.setMaximum(Math.round(nutrition.getQuantity() + 10)); // Set the maximum value to a predefined max value for the nutrient
-            nutritionBar.setValue(Math.round(nutrition.getQuantity())); // Set the current value
-            nutritionBar.setStringPainted(true); // Display the percentage as a string on the bar
+            nutritionBar.setMaximum(Math.round(nutrition.getQuantity() + 10));
+            nutritionBar.setValue(Math.round(nutrition.getQuantity()));
+            nutritionBar.setStringPainted(true);
             nutritionPanel.add(nutritionBar, BorderLayout.CENTER);
 
-            // Add the nutrition panel to the main nutrition stats panel
             nutritionStatsPanel.add(nutritionPanel);
         }
     }
