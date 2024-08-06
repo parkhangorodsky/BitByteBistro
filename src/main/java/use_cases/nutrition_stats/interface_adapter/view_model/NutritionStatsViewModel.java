@@ -47,8 +47,8 @@ public class NutritionStatsViewModel extends ViewModel {
      * Fires a property change event with "search recipe" if there are results, otherwise fires "empty result".
      */
     public void firePropertyChanged() {
-        if (!nutritionalStatistics.getNutritionInfoAverage().isEmpty()) {
-            support.firePropertyChange("Home", null, this.nutritionalStatistics);
+        if (!nutritionalStatistics.getNutrition().isEmpty()) {
+            support.firePropertyChange("nutrition info", null, this.nutritionalStatistics);
         } else {
             support.firePropertyChange("empty result", null, null);
         }
