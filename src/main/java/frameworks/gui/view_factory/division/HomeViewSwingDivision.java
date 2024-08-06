@@ -7,6 +7,7 @@ public class HomeViewSwingDivision implements ViewFactoryDivision<HomeView> {
     @Override
     public HomeView generate(Config config) {
         return new HomeView(
-                config.getViewManagerModel());
+                config.getViewManagerModel(),
+                config.getNutritionStatsController());
     }
 }
