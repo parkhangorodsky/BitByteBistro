@@ -111,7 +111,7 @@ public class SwingGUI extends GUI {
         viewManager.addView(viewFactory.generateHomeView());
         viewManager.addView(viewFactory.generateSearchRecipeView());
         viewManager.addView(viewFactory.generateMyRecipeView());
-        viewManager.addView(viewFactory.generateSearchRecipeView());
+        viewManager.addView(viewFactory.generateFridgeInventoryView());
 
         //Create PopUpView
         PreferenceView preferenceView = new PreferenceView(mainFrame, config.getSetPreferenceController());

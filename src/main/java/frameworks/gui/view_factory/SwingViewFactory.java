@@ -7,6 +7,7 @@ import use_cases.add_to_my_recipe.MyRecipeView;
 import use_cases.log_in.gui.view.LoginView;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
 import use_cases.sign_up.gui.view.SignUpView;
+import use_cases.fridge_inventory.gui.view.FridgeInventoryView;
 
 public class SwingViewFactory extends ViewFactory {
 
@@ -17,6 +18,7 @@ public class SwingViewFactory extends ViewFactory {
         this.signUpViewDivision = new SignUpViewSwingDivision();
         this.homeViewDivision = new HomeViewSwingDivision();
         this.myRecipeViewDivision = new MyRecipeViewSwingDivision();
+        this.fridgeInventoryViewDivision = new FridgeInventoryViewSwingDivision();
     }
 
     @Override
@@ -44,5 +46,6 @@ public class SwingViewFactory extends ViewFactory {
         return myRecipeViewDivision.generate(config);
     }
 
-
+    @Override
+    public FridgeInventoryView generateFridgeInventoryView() { return fridgeInventoryViewDivision.generate(config);}
 }
