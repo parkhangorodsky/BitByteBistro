@@ -1,4 +1,4 @@
-package use_cases.nutrition_stats.interface_adapeter.presenter;
+package use_cases.nutrition_stats.interface_adapter.presenter;
 
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_stats.interface_adapeter.view_model.NutritionStatsViewModel;

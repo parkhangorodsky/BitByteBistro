@@ -1,4 +1,4 @@
-package use_cases.nutrition_stats.interface_adapeter.controller;
+package use_cases.nutrition_stats.interface_adapter.controller;
 
 import entity.ShoppingList;
 import use_cases.nutrition_stats.use_case.input_data.NutritionStatsInputData;
