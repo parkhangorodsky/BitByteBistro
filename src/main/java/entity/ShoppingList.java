@@ -1,6 +1,5 @@
 package entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +9,7 @@ public class ShoppingList {
 
     private String listOwner;
     private String shoppingListName; // changed the name of this
-    private List<Ingredient> listItems;
+    private HashMap<String, Ingredient> listItems;
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
 
@@ -23,7 +22,7 @@ public class ShoppingList {
     public ShoppingList(String listOwner, String shoppingListName) {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
-        this.listItems = new ArrayList<>();
+        this.listItems = new HashMap<>();
         this.estimatedTotalCost = 0.00; // TODO: implement method to compute this
         this.recipes = new ArrayList<>();
     }
@@ -49,7 +48,10 @@ public class ShoppingList {
     }
 
     public void setListItems(List<Ingredient> listItems) {
-        this.listItems = listItems;
+        for (Ingredient ingredient : listItems) {
+            String normalizedName = normalizeIngredientName(ingredient.getIngredientName());
+            this.listItems.put(normalizedName, ingredient);
+        }
     }
 
     public Double getEstimatedTotalCost() {
@@ -67,51 +69,24 @@ public class ShoppingList {
     public void addItem(Ingredient item) {this.listItems.add(item);}
 
     public void addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
+        if (!this.recipes.contains(recipe)) {
+            this.recipes.add(recipe);
+        }
         for (Ingredient grocery : recipe.getIngredientList()) {
-            if (this.listItems.contains(grocery)) {
-                int index = this.listItems.indexOf(grocery);
-                Ingredient item = this.listItems.get(index);
+            String normalizedGroceryName = normalizeIngredientName(grocery.getIngredientName());
+
+            if (this.listItems.containsKey(normalizedGroceryName)) {
+                Ingredient item = this.listItems.get(normalizedGroceryName);
                 float more = grocery.getQuantity();
                 item.addIngredientQuantity(more);
             } else {
-                this.listItems.add(grocery);
-            }
-        }
-    }
-
-    public void addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
-
-        // Create a map to store normalized ingredient names and their corresponding list items
-        Map<String, Ingredient> normalizedIngredientMap = new HashMap<>();
-
-        // Populate the map with existing ingredients from the shopping list
-        for (Ingredient item : this.listItems) {
-            String normalizedName = normalizeIngredientName(item.getName());
-            normalizedIngredientMap.put(normalizedName, item);
-        }
-
-        // Process each ingredient in the recipe
-        for (Ingredient grocery : recipe.getIngredientList()) {
-            String normalizedGroceryName = normalizeIngredientName(grocery.getName());
-
-            if (normalizedIngredientMap.containsKey(normalizedGroceryName)) {
-                // Ingredient already in the shopping list, increase its quantity
-                Ingredient item = normalizedIngredientMap.get(normalizedGroceryName);
-                float more = grocery.getQuantity();
-                item.addIngredientQuantity(more);
-            } else {
-                // New ingredient, add it to the shopping list and update the map
-                this.listItems.add(grocery);
-                normalizedIngredientMap.put(normalizedGroceryName, grocery);
+                this.listItems.put(normalizedGroceryName, grocery);
             }
         }
     }
 
     private String normalizeIngredientName(String name) {
-        // Convert to lowercase and replace hyphens with spaces
-        return name.toLowerCase().replace("-", " ");
+        return name.toLowerCase().replace("-", " ").replace(" ", "");
     }
 
 }
