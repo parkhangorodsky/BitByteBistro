@@ -33,12 +33,15 @@ import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.logout.interface_adapter.controller.LogoutController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.setting_preference.SetPreferenceController;
 
 // Fridge Classes
 import entity.Fridge;
 import use_cases.fridge_inventory.FridgeInventoryInteractor;
 import use_cases.fridge_inventory.FridgeInventoryPresenter;
 import use_cases.fridge_inventory.FridgeInventoryInputBoundary;
+import use_cases.setting_preference.SetPreferencePresenter;
+import use_cases.setting_preference.SetPreferenceInteractor;
 
 public class Config {
 
@@ -66,7 +69,6 @@ public class Config {
     public LogoutController getLogoutController() { return LogoutConfig.controller; }
     public AddToMyRecipeController getAddToMyRecipeController() { return AddToMyRecipeConfig.controller; }
     public FilterRecipeController getFilterRecipeController() { return FilterRecipeConfig.controller; }
-    public SetPreferenceController getSetPreferenceController() { return SetPreferenceConfig.controller; }
     public DisplayRecipeDetailController getDisplayRecipeDetailController() { return DisplayRecipeDetailConfig.controller; }
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return RecentlyViewedRecipeConfig.controller; }
     public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
@@ -90,4 +92,9 @@ public class Config {
     public FridgeInventoryInputBoundary getFridgeInventoryInteractor() {
         return fridgeInventoryInteractor;
     }
+
+    public SetPreferenceController getSetPreferenceController() {
+        return new SetPreferenceController(new SetPreferenceInteractor(new SetPreferencePresenter(), getDataAccessInterface()));
+    }
+
 }

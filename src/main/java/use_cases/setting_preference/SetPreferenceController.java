@@ -1,7 +1,5 @@
 package use_cases.setting_preference;
 
-import java.util.List;
-
 public class SetPreferenceController {
     SetPreferenceInputBoundary interactor;
 
@@ -9,9 +7,8 @@ public class SetPreferenceController {
         this.interactor = interactor;
     }
 
-    public void execute(boolean isNightMode) {
-        SetPreferenceInputData inputData = new SetPreferenceInputData(isNightMode);
+    public void execute(boolean isNightMode, boolean subtractFridgeFromGrocery) {
+        SetPreferenceInputData inputData = new SetPreferenceInputData(isNightMode, subtractFridgeFromGrocery);
         interactor.execute(inputData);
     }
-
 }

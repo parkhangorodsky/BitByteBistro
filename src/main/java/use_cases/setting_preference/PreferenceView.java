@@ -17,6 +17,7 @@ public class PreferenceView extends PopUpView implements NightModeObject {
     SetPreferenceController controller;
 
     JCheckBox nightModeCheckBox;
+    JCheckBox subtractFridgeFromGroceryCheckBox;
 
     public PreferenceView(JFrame parent, SetPreferenceController setPreferenceController) {
         super(parent);
@@ -38,12 +39,15 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         settingPanel.setBorder(new EmptyBorder(30, 5, 5, 5));
         nightModeCheckBox = new JCheckBox("Night Mode");
         nightModeCheckBox.setFont(new Font(defaultFont, Font.PLAIN, 12));
+        subtractFridgeFromGroceryCheckBox = new JCheckBox("Subtract Fridge from Grocery");
+        subtractFridgeFromGroceryCheckBox.setFont(new Font(defaultFont, Font.PLAIN, 12));
         settingPanel.add(nightModeCheckBox);
+        settingPanel.add(subtractFridgeFromGroceryCheckBox);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         RoundButton applyButton = new RoundButton("Apply");
         applyButton.addActionListener(e -> {
-            controller.execute(nightModeCheckBox.isSelected());
+            controller.execute(nightModeCheckBox.isSelected(), subtractFridgeFromGroceryCheckBox.isSelected());
             this.hidePopUp();
         });
 
@@ -65,27 +69,31 @@ public class PreferenceView extends PopUpView implements NightModeObject {
     }
 
     private void updateNightModeCheckBox(boolean nightMode) {
-        if (nightMode) {
-            nightModeCheckBox.setSelected(true);
-        } else {
-            nightModeCheckBox.setSelected(false);
-        }
+        nightModeCheckBox.setSelected(nightMode);
     }
 
+    private void updateSubtractFridgeFromGroceryCheckBox(boolean subtractFridgeFromGrocery) {
+        subtractFridgeFromGroceryCheckBox.setSelected(subtractFridgeFromGrocery);
+    }
 
     @Override
     public void setNightMode() {
         updateNightModeCheckBox(LocalAppSetting.isNightMode());
-
+        updateSubtractFridgeFromGroceryCheckBox(LocalAppSetting.isSubtractFridgeFromGrocery());
     }
 
     @Override
     public void setDayMode() {
         updateNightModeCheckBox(LocalAppSetting.isNightMode());
+        updateSubtractFridgeFromGroceryCheckBox(LocalAppSetting.isSubtractFridgeFromGrocery());
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if ("nightMode".equals(evt.getPropertyName())) {
+            updateNightModeCheckBox((Boolean) evt.getNewValue());
+        } else if ("subtractFridgeFromGrocery".equals(evt.getPropertyName())) {
+            updateSubtractFridgeFromGroceryCheckBox((Boolean) evt.getNewValue());
+        }
     }
 }
