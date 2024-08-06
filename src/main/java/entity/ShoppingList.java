@@ -39,6 +39,10 @@ public class ShoppingList {
     }
 
     public List<Ingredient> getListItems() {
+        List<Ingredient> listItems = new ArrayList<>();
+        for (Recipe recipe : this.recipes) {
+            listItems.addAll(recipe.getIngredientList());
+        }
         return listItems;
     }
 
