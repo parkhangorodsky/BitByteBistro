@@ -1,21 +1,33 @@
 package use_cases.fridge_inventory;
 
 import entity.Ingredient;
-import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FridgeInventoryViewModel extends ViewModel {
-    private List<Ingredient> ingredients;
+public class FridgeInventoryViewModel {
     private final PropertyChangeSupport support;
+    private List<Ingredient> ingredients;
+    private String viewName;
 
-    public FridgeInventoryViewModel(String viewName) {
-        super(viewName);
+    public FridgeInventoryViewModel(String viewname) {
+        this.support = new PropertyChangeSupport(this);
         this.ingredients = new ArrayList<>();
-        support = new PropertyChangeSupport(this);
+        this.viewName = viewname;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
+
+    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        support.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     public List<Ingredient> getIngredients() {
@@ -24,29 +36,45 @@ public class FridgeInventoryViewModel extends ViewModel {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-        firePropertyChange("update");
     }
 
-    public void addIngredient(String ingredientName, float quantity, String unit) {
-        Ingredient ingredient = new Ingredient(ingredientName, ingredientName, unit, "Food", quantity);
-        this.ingredients.add(ingredient);
-        firePropertyChange("update");
+    public void addOrUpdateIngredient(String name, float quantity, String unit) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getIngredientName().equals(name) && ingredient.getQuantityUnit().equals(unit)) {
+                ingredient.setQuantity(ingredient.getQuantity() + quantity);
+                support.firePropertyChange("update", null, null);
+                return;
+            }
+        }
+
+        // If not found, add new ingredient
+        Ingredient ingredient = new Ingredient();
+        ingredient.setIngredientName(name);
+        ingredient.setQuantity(quantity);
+        ingredient.setQuantityUnit(unit);
+        ingredients.add(ingredient);
+        support.firePropertyChange("update", null, null);
     }
 
-    public void removeIngredient(String ingredientName) {
-        this.ingredients.removeIf(ingredient -> ingredient.getIngredientName().equals(ingredientName));
-        firePropertyChange("update");
+    public void removeIngredient(String name, float quantityToRemove) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getIngredientName().equals(name)) {
+                if (ingredient.getQuantity() > quantityToRemove) {
+                    ingredient.setQuantity(ingredient.getQuantity() - quantityToRemove);
+                } else {
+                    ingredients.remove(ingredient);
+                }
+                support.firePropertyChange("update", null, null);
+                return;
+            }
+        }
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
+    public String getViewName() {
+        return viewName;
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        support.removePropertyChangeListener(listener);
-    }
-
-    public void firePropertyChange(String propertyName) {
-        support.firePropertyChange(propertyName, null, null);
+    public void setViewName(String viewName) {
+        this.viewName = viewName;
     }
 }

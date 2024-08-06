@@ -43,7 +43,7 @@ public class FridgeInventoryView extends View {
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         // Input panel for adding/removing ingredients
-        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         foodField = new JTextField(10);
         quantityField = new JTextField(5);
         unitField = new JTextField(5);
@@ -67,51 +67,93 @@ public class FridgeInventoryView extends View {
             String foodName = foodField.getText();
             float quantity = Float.parseFloat(quantityField.getText());
             String unit = unitField.getText();
-            viewModel.addIngredient(foodName, quantity, unit);
+            viewModel.addOrUpdateIngredient(foodName, quantity, unit);
             updateFridgeInventory(viewModel.getIngredients());
         });
+
 
         removeButton.addActionListener(e -> {
             String foodName = foodField.getText();
-            viewModel.removeIngredient(foodName);
+            float quantity = Float.parseFloat(quantityField.getText());
+            viewModel.removeIngredient(foodName, quantity);
             updateFridgeInventory(viewModel.getIngredients());
         });
 
-        // Output panel for displaying ingredients
-        fridgeInventoryContainer = new JPanel();
-        fridgeInventoryContainer.setLayout(new BoxLayout(fridgeInventoryContainer, BoxLayout.Y_AXIS));
+        // Main container for the inventory list
+        fridgeInventoryContainer = new JPanel(new GridBagLayout());
+        fridgeInventoryContainer.setBackground(Color.LIGHT_GRAY);
 
-        // Adding headers
-        JPanel headerPanel = new JPanel(new GridLayout(1, 3));
-        headerPanel.add(new JLabel("Food"));
-        headerPanel.add(new JLabel("Quantity"));
-        headerPanel.add(new JLabel("Unit"));
-        fridgeInventoryContainer.add(headerPanel);
-
+        // Scroll pane for the inventory list
         fridgeInventoryScrollPane = new JScrollPane(fridgeInventoryContainer);
+        fridgeInventoryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        fridgeInventoryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(fridgeInventoryScrollPane, BorderLayout.CENTER);
 
+        // Add headers initially
+        updateFridgeInventory(viewModel.getIngredients());
+
         return mainPanel;
+    }
+
+    private void addHeaderRow() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel foodHeader = new JLabel("Food", SwingConstants.CENTER);
+        JLabel quantityHeader = new JLabel("Quantity", SwingConstants.CENTER);
+        JLabel unitHeader = new JLabel("Unit", SwingConstants.CENTER);
+        foodHeader.setFont(new Font("Arial", Font.BOLD, 16));
+        quantityHeader.setFont(new Font("Arial", Font.BOLD, 16));
+        unitHeader.setFont(new Font("Arial", Font.BOLD, 16));
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        fridgeInventoryContainer.add(foodHeader, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.5;
+        fridgeInventoryContainer.add(quantityHeader, gbc);
+
+        gbc.gridx = 2;
+        gbc.weightx = 0.5;
+        fridgeInventoryContainer.add(unitHeader, gbc);
     }
 
     private void updateFridgeInventory(List<Ingredient> ingredients) {
         fridgeInventoryContainer.removeAll();
 
         // Re-add headers
-        JPanel headerPanel = new JPanel(new GridLayout(1, 3));
-        headerPanel.add(new JLabel("Food"));
-        headerPanel.add(new JLabel("Quantity"));
-        headerPanel.add(new JLabel("Unit"));
-        fridgeInventoryContainer.add(headerPanel);
+        addHeaderRow();
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 1;
 
         for (Ingredient ingredient : ingredients) {
-            JPanel ingredientItem = new JPanel(new GridLayout(1, 3));
-            ingredientItem.add(new JLabel(ingredient.getIngredientName()));
-            ingredientItem.add(new JLabel(String.valueOf(ingredient.getQuantity())));
-            ingredientItem.add(new JLabel(ingredient.getQuantityUnit()));
-            fridgeInventoryContainer.add(ingredientItem);
+            gbc.gridx = 0;
+            gbc.weightx = 1;
+            JLabel foodLabel = new JLabel(ingredient.getIngredientName(), SwingConstants.CENTER);
+            foodLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            fridgeInventoryContainer.add(foodLabel, gbc);
+
+            gbc.gridx = 1;
+            gbc.weightx = 0.5;
+            JLabel quantityLabel = new JLabel(String.valueOf(ingredient.getQuantity()), SwingConstants.CENTER);
+            quantityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            fridgeInventoryContainer.add(quantityLabel, gbc);
+
+            gbc.gridx = 2;
+            gbc.weightx = 0.5;
+            JLabel unitLabel = new JLabel(ingredient.getQuantityUnit(), SwingConstants.CENTER);
+            unitLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            fridgeInventoryContainer.add(unitLabel, gbc);
+
+            gbc.gridy++;
         }
 
         SwingUtilities.invokeLater(() -> fridgeInventoryScrollPane.getVerticalScrollBar().setValue(0));
@@ -127,6 +169,8 @@ public class FridgeInventoryView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // Handle property changes
+        if ("update".equals(evt.getPropertyName())) {
+            updateFridgeInventory(viewModel.getIngredients());
+        }
     }
 }
