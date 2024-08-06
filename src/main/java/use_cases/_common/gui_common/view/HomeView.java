@@ -2,8 +2,11 @@ package use_cases._common.gui_common.view;
 
 import app.local.LoggedUserData;
 import entity.Recipe;
+import entity.ShoppingList;
+import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
+import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 //import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
@@ -11,8 +14,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
@@ -26,12 +27,16 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     // Components
     private JPanel mainPanel;
     private JPanel contentPanel;
+    private JPanel nutritionStatsPanel;
     private JPanel recentlyViewedPanel;
+    private List<ShoppingList> userGroceryLists;
+    User user = LoggedUserData.getLoggedInUser();
 
-//    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, String viewname) {
+    //    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, String viewname) {
     public HomeView(ViewManagerModel viewManagerModel) {
 
         this.viewManagerModel = viewManagerModel;
+        this.userGroceryLists = user.getShoppingLists();
         //this.nutritionStatsController = nutritionStatsController;
         this.viewname = "Home";
 
@@ -56,6 +61,13 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         welcomeLabel.setForeground(claudeBlack);
         contentPanel.add(welcomeLabel);
 
+        // Initialize nutrition stats panel
+        nutritionStatsPanel = new JPanel();
+        nutritionStatsPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        nutritionStatsPanel.setLayout(new BoxLayout(nutritionStatsPanel, BoxLayout.Y_AXIS));
+        nutritionStatsPanel.setBackground(claudeWhite);
+        displayNutritionStats();
+
         // Initialize recently viewed panel
         recentlyViewedPanel = new JPanel();
         recentlyViewedPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -64,24 +76,33 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         loadRecentlyViewedRecipes();
 
         // Pack content panel into main panel
-        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        mainPanel.add(contentPanel, BorderLayout.NORTH);
+        mainPanel.add(nutritionStatsPanel);
         mainPanel.add(recentlyViewedPanel, BorderLayout.SOUTH);
 
         toggleNightMode();
 
         this.add(mainPanel, BorderLayout.CENTER);
+    }
 
-        // Add component listener to reload recipes when view is shown
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                loadRecentlyViewedRecipes();
-            }
-        });
+    private void displayNutritionStats() {
+        nutritionStatsPanel.removeAll();
+        JLabel nutritionStatsTitle = new JLabel("Nutrition Stats of Your Grocery Lists...");
+        nutritionStatsTitle.setFont(new Font(defaultFont, Font.BOLD, 18));
+        nutritionStatsTitle.setForeground(claudeBlack);
+        nutritionStatsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nutritionStatsPanel.add(nutritionStatsTitle);
+
+        nutritionStatsPanel.revalidate();
+        nutritionStatsPanel.repaint();
+    }
+
+    private void selectGroceryList(ShoppingList list) {
+        System.out.println(list.getShoppingListName());
     }
 
     private void loadRecentlyViewedRecipes() {
-        List<Recipe> recentlyViewedRecipes = LoggedUserData.getLoggedInUser().getRecentlyViewedRecipes();
+        List<Recipe> recentlyViewedRecipes = user.getRecentlyViewedRecipes();
         recentlyViewedPanel.removeAll();
 
         // Add title to recently viewed panel
