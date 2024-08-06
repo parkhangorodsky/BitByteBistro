@@ -4,6 +4,7 @@ import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.fridge_inventory.FridgeInventoryViewModel;
+import use_cases.core_functionality.MyGroceryViewModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
@@ -19,6 +20,7 @@ class ViewModelConfig {
     static final AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
     static final MyRecipeViewModel myRecipeViewModel = new MyRecipeViewModel("My Recipe");
     static final FridgeInventoryViewModel fridgeInventoryViewModel = new FridgeInventoryViewModel("My Fridge");
+    static final MyGroceryViewModel myGroceryViewModel = new MyGroceryViewModel("My Grocery");
 
 
 }

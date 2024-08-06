@@ -4,6 +4,7 @@ import app.config.Config;
 import frameworks.gui.view_factory.division.ViewFactoryDivision;
 import use_cases._common.gui_common.view.HomeView;
 import use_cases.add_to_my_recipe.MyRecipeView;
+import use_cases.core_functionality.MyGroceryView;
 import use_cases.log_in.gui.view.LoginView;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
 import use_cases.sign_up.gui.view.SignUpView;
@@ -17,6 +18,7 @@ public abstract class ViewFactory {
     protected ViewFactoryDivision<HomeView> homeViewDivision;
     protected ViewFactoryDivision<MyRecipeView> myRecipeViewDivision;
     protected ViewFactoryDivision<FridgeInventoryView> fridgeInventoryViewDivision;
+    protected ViewFactoryDivision<MyGroceryView> myGroceryViewDivision;
 
     public ViewFactory(Config config) {
         this.config = config;
@@ -28,4 +30,6 @@ public abstract class ViewFactory {
     public abstract HomeView generateHomeView();
     public abstract MyRecipeView generateMyRecipeView();
     public abstract FridgeInventoryView generateFridgeInventoryView();
+    public abstract MyGroceryView generateMyGroceryView();
+
 }

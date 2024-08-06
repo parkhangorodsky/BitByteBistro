@@ -7,8 +7,9 @@ public class SignUpViewSwingDivision implements ViewFactoryDivision<SignUpView>{
 
     @Override
     public SignUpView generate(Config config) {
-        return new SignUpView(config.getSignUpController()
-        ,config.getSignUpViewModel()
-        ,config.getViewManagerModel());
+        return new SignUpView(
+                config.getSignUpController(),
+                config.getSignUpViewModel(),
+                config.getViewManagerModel());
     }
 }
