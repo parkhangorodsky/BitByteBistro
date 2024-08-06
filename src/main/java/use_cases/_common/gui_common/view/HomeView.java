@@ -7,7 +7,7 @@ import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
-//import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
+import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,7 +21,7 @@ import java.util.List;
 public class HomeView extends View implements ThemeColoredObject, NightModeObject {
 
     private ViewManagerModel viewManagerModel;
-    //private NutritionStatsController nutritionStatsController;
+    private NutritionStatsController nutritionStatsController;
 
     public final String viewname;
 
@@ -33,9 +33,10 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private List<ShoppingList> userGroceryLists;
     private User user = LoggedUserData.getLoggedInUser();
 
-    public HomeView(ViewManagerModel viewManagerModel) {
+    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController) {
         this.viewManagerModel = viewManagerModel;
         this.viewname = "Home";
+        this.nutritionStatsController = nutritionStatsController;
 
         observeNight();
 
@@ -136,7 +137,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
     // Method to handle grocery list selection
     private void selectGroceryList(ShoppingList list) {
-        System.out.println(list.getShoppingListName());
+        nutritionStatsController.execute(list);
     }
 
     private void loadRecentlyViewedRecipes() {
