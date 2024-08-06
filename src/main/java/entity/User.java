@@ -14,7 +14,7 @@ public class User {
     private String userPassword;
     private LocalDateTime createdAt;
     private List<Recipe> recipes;
-    private HashMap<String, ShoppingList> shoppingLists;
+    private Map<String, ShoppingList> shoppingLists;
     private Map<String, Object> preference;
     private List<Recipe> recentlyViewedRecipes;
 

@@ -78,7 +78,6 @@ public class MongoUserDAO implements UserDataAccessInterface{
         RecipeSerializer recipeSerializer = new RecipeSerializer();
         Bson update = Updates.set("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         userCollection.updateOne(filter, update);
-
     }
 
     public void updateUserPreference(User user, String fieldName, Object value) {
