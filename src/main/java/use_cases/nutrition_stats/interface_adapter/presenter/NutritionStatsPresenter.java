@@ -1,7 +1,7 @@
 package use_cases.nutrition_stats.interface_adapter.presenter;
 
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
-import use_cases.nutrition_stats.interface_adapeter.view_model.NutritionStatsViewModel;
+import use_cases.nutrition_stats.interface_adapter.view_model.NutritionStatsViewModel;
 import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 
