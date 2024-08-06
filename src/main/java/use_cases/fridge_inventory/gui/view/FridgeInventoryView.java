@@ -1,96 +1,97 @@
 package use_cases.fridge_inventory.gui.view;
 
-import app.local.LocalAppSetting;
 import entity.Ingredient;
-import use_cases._common.gui_common.abstractions.NightModeObject;
-import use_cases._common.gui_common.abstractions.ThemeColoredObject;
-import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
-import use_cases._common.gui_common.view_components.round_component.RoundButton;
-import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.fridge_inventory.FridgeInventoryViewModel;
+import use_cases._common.gui_common.abstractions.View;
+import use_cases.fridge_inventory.FridgeInventoryInputBoundary;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-public class FridgeInventoryView extends View implements ThemeColoredObject, NightModeObject {
+public class FridgeInventoryView extends View {
 
     private FridgeInventoryViewModel viewModel;
     private JPanel fridgeInventoryContainer;
     private JScrollPane fridgeInventoryScrollPane;
+    private FridgeInventoryInputBoundary inputBoundary;
 
-    JTextField textField;
-    JButton searchButton;
+    JTextField foodField;
+    JTextField quantityField;
+    JTextField unitField;
+    JButton addButton;
+    JButton removeButton;
 
-    public FridgeInventoryView(FridgeInventoryViewModel viewModel) {
-
-        observeNight();
+    public FridgeInventoryView(FridgeInventoryViewModel viewModel, FridgeInventoryInputBoundary inputBoundary) {
         this.viewModel = viewModel;
-        this.viewModel.addPropertyChangeListener(this);
+        this.inputBoundary = inputBoundary;
         this.setViewName(viewModel.getViewName());
 
         this.setLayout(new BorderLayout());
 
         JPanel viewPanel = setUpContentView();
 
-        toggleNightMode();
-
         this.add(viewPanel, BorderLayout.CENTER);
         this.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Handle button clicks or other actions here
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("update")) {
-            updateFridgeInventory(viewModel.getIngredients());
-        } else if (evt.getPropertyName().equals("nightMode")) {
-            toggleNightMode();
-            this.revalidate();
-            this.repaint();
-        }
-    }
-
     private JPanel setUpContentView() {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setOpaque(false);
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        JPanel inputPanel = new JPanel();
-        inputPanel.setOpaque(false);
-        inputPanel.setPreferredSize(new Dimension(800, 100));
+        // Input panel for adding/removing ingredients
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        foodField = new JTextField(10);
+        quantityField = new JTextField(5);
+        unitField = new JTextField(5);
+        addButton = new JButton("+");
+        removeButton = new JButton("-");
 
-        inputPanel.setMaximumSize(inputPanel.getPreferredSize());
-        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
+        inputPanel.add(new JLabel("Food"));
+        inputPanel.add(foodField);
+        inputPanel.add(new JLabel("Quantity"));
+        inputPanel.add(quantityField);
+        inputPanel.add(new JLabel("Unit"));
+        inputPanel.add(unitField);
+        inputPanel.add(addButton);
+        inputPanel.add(removeButton);
 
-        JPanel outputPanel = new JPanel();
-        outputPanel.setOpaque(false);
-        outputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        outputPanel.setLayout(new BorderLayout());
+        addButton.setEnabled(true);
+        removeButton.setEnabled(true);
 
-        fridgeInventoryContainer = new JPanel(new VerticalFlowLayout(10));
+        // Action listeners for buttons
+        addButton.addActionListener(e -> {
+            String foodName = foodField.getText();
+            float quantity = Float.parseFloat(quantityField.getText());
+            String unit = unitField.getText();
+            viewModel.addIngredient(foodName, quantity, unit);
+            updateFridgeInventory(viewModel.getIngredients());
+        });
+
+        removeButton.addActionListener(e -> {
+            String foodName = foodField.getText();
+            viewModel.removeIngredient(foodName);
+            updateFridgeInventory(viewModel.getIngredients());
+        });
+
+        // Output panel for displaying ingredients
+        fridgeInventoryContainer = new JPanel();
+        fridgeInventoryContainer.setLayout(new BoxLayout(fridgeInventoryContainer, BoxLayout.Y_AXIS));
+
+        // Adding headers
+        JPanel headerPanel = new JPanel(new GridLayout(1, 3));
+        headerPanel.add(new JLabel("Food"));
+        headerPanel.add(new JLabel("Quantity"));
+        headerPanel.add(new JLabel("Unit"));
+        fridgeInventoryContainer.add(headerPanel);
+
         fridgeInventoryScrollPane = new JScrollPane(fridgeInventoryContainer);
-        fridgeInventoryScrollPane.setOpaque(false);
-        fridgeInventoryScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        fridgeInventoryScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        fridgeInventoryScrollPane.setBorder(new LineBorder(Color.LIGHT_GRAY, 0));
-
-        outputPanel.add(fridgeInventoryScrollPane);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
-        mainPanel.add(outputPanel, BorderLayout.CENTER);
+        mainPanel.add(fridgeInventoryScrollPane, BorderLayout.CENTER);
 
         return mainPanel;
     }
@@ -98,48 +99,34 @@ public class FridgeInventoryView extends View implements ThemeColoredObject, Nig
     private void updateFridgeInventory(List<Ingredient> ingredients) {
         fridgeInventoryContainer.removeAll();
 
+        // Re-add headers
+        JPanel headerPanel = new JPanel(new GridLayout(1, 3));
+        headerPanel.add(new JLabel("Food"));
+        headerPanel.add(new JLabel("Quantity"));
+        headerPanel.add(new JLabel("Unit"));
+        fridgeInventoryContainer.add(headerPanel);
+
         for (Ingredient ingredient : ingredients) {
-            JPanel ingredientItem = createIngredientItem(ingredient);
+            JPanel ingredientItem = new JPanel(new GridLayout(1, 3));
+            ingredientItem.add(new JLabel(ingredient.getIngredientName()));
+            ingredientItem.add(new JLabel(String.valueOf(ingredient.getQuantity())));
+            ingredientItem.add(new JLabel(ingredient.getQuantityUnit()));
             fridgeInventoryContainer.add(ingredientItem);
         }
+
         SwingUtilities.invokeLater(() -> fridgeInventoryScrollPane.getVerticalScrollBar().setValue(0));
 
         fridgeInventoryContainer.revalidate();
         fridgeInventoryContainer.repaint();
     }
 
-    private JPanel createIngredientItem(Ingredient ingredient) {
-        RoundPanel ingredientItem = new RoundPanel();
-        ingredientItem.setLayout(new BorderLayout());
-        ingredientItem.setBorder(new EmptyBorder(10, 10, 10, 10));
-        ingredientItem.setBackground(LocalAppSetting.isNightMode() ? Color.DARK_GRAY : Color.LIGHT_GRAY);
-
-        JPanel ingredientNamePanel = new JPanel(new BorderLayout());
-        ingredientNamePanel.setOpaque(false);
-        JLabel ingredientNameLabel = new JLabel(ingredient.getIngredientName());
-        ingredientNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        ingredientNameLabel.setForeground(LocalAppSetting.isNightMode() ? Color.WHITE : Color.BLACK);
-        ingredientNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        ingredientNameLabel.setVerticalTextPosition(SwingConstants.CENTER);
-        ingredientNamePanel.add(ingredientNameLabel, BorderLayout.CENTER);
-
-        ingredientItem.add(ingredientNamePanel, BorderLayout.CENTER);
-
-        return ingredientItem;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Handle actions (e.g., button clicks)
     }
 
     @Override
-    public void setNightMode() {
-        this.setBackground(Color.BLACK);
-        updateFridgeInventory(viewModel.getIngredients());
-        fridgeInventoryContainer.setBackground(Color.BLACK);
-    }
-
-    @Override
-    public void setDayMode() {
-        this.setBackground(Color.WHITE);
-        updateFridgeInventory(viewModel.getIngredients());
-        fridgeInventoryContainer.setBackground(Color.WHITE);
+    public void propertyChange(PropertyChangeEvent evt) {
+        // Handle property changes
     }
 }
-

@@ -34,6 +34,12 @@ import use_cases.logout.interface_adapter.controller.LogoutController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.core_functionality.CoreFunctionalityController;
 
+// Fridge Classes
+import entity.Fridge;
+import use_cases.fridge_inventory.FridgeInventoryInteractor;
+import use_cases.fridge_inventory.FridgeInventoryPresenter;
+import use_cases.fridge_inventory.FridgeInventoryInputBoundary;
+
 public class Config {
 
     // ViewModel Getters
@@ -66,4 +72,22 @@ public class Config {
     public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
     public CoreFunctionalityController getCoreFunctionalityController() { return CoreFunctionalityConfig.controller; }
 
+    // For Fridge components
+    private FridgeInventoryPresenter fridgeInventoryPresenter;
+    private FridgeInventoryInteractor fridgeInventoryInteractor;
+
+    public Config() {
+        setupFridgeInventoryComponents();
+    }
+
+    private void setupFridgeInventoryComponents() {
+        FridgeInventoryViewModel fridgeInventoryViewModel = ViewModelConfig.fridgeInventoryViewModel;
+        Fridge fridge = new Fridge("userID"); // replace with the actual user ID
+        fridgeInventoryPresenter = new FridgeInventoryPresenter(fridgeInventoryViewModel);
+        fridgeInventoryInteractor = new FridgeInventoryInteractor(fridgeInventoryPresenter, fridge);
+    }
+
+    public FridgeInventoryInputBoundary getFridgeInventoryInteractor() {
+        return fridgeInventoryInteractor;
+    }
 }
