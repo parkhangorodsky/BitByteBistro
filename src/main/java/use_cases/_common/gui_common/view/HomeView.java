@@ -128,6 +128,8 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
                 JLabel recipeNameLabel = new JLabel(recipe.getName());
                 recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
+                recipePanel.add(recipeNameLabel, BorderLayout.CENTER);
+                recentlyViewedPanel.add(recipePanel);
 
                 recipeNameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
@@ -152,9 +154,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                     }
                 });
 
-                recipePanel.add(recipeNameLabel, BorderLayout.CENTER);
-
-                recentlyViewedPanel.add(recipePanel);
             }
         }
         recentlyViewedPanel.revalidate();
