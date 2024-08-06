@@ -37,34 +37,18 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
 
         ShoppingList shoppingList = inputData.getShoppingList();
         String shoppingListName = shoppingList.getShoppingListName();
-
-        Recipe recipe = inputData.getRecipe();
-        ShoppingList updatedShoppingList = getGroceryList(recipe, shoppingList);
-        user.getShoppingLists().put(shoppingListName, updatedShoppingList);
-
-        // UPDATE USER (LOCALLY AND IN DATABASE)
-
-        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(updatedShoppingList, inputData.getParentModel());
-        presenter.prepareSuccessView(outputData);
-    }
-
-
-    //working code
-    public void execute(CoreFunctionalityInputData inputData) {
-        User user = LoggedUserData.getLoggedInUser();
-        ShoppingList shoppingList = inputData.getShoppingList();
         Recipe recipe = inputData.getRecipe();
 
-        ShoppingList updatedShoppingList = getGroceryList(recipe, shoppingList);
-        user.addRecipe(recipe);
-        //userDAO.addRecipe(user, recipe);
+        shoppingList.addRecipe(recipe);
+
+        if (userShoppingLists.get(shoppingListName) == null) {
+            user.addShoppingList(shoppingList);
+        }
 
         // UPDATE USER (LOCALLY AND IN DATABASE)
-        //some way to update an existing shopping list instead of adding the updated one on top
-        user.addShoppingList(updatedShoppingList);
         //userDAO.addShoppingList(user, updatedShoppingList);
 
-        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(updatedShoppingList, inputData.getParentModel());
+        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(shoppingList, inputData.getParentModel());
         presenter.prepareSuccessView(outputData);
     }
 
