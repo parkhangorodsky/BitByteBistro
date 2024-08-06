@@ -25,6 +25,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
@@ -37,6 +38,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
     private JButton confirmButton;
     private JLabel promptLabel;
     private AddNewGroceryListController addNewGroceryListController;
+    private boolean isTextBarOpen = false; // Add flag to check if text bar is open
 
 
     public MyGroceryView(MyGroceryViewModel viewModel, AddNewGroceryListController addNewGroceryListController) {
@@ -134,6 +136,9 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
     }
 
     private void showNewGroceryListInput() {
+        if (isTextBarOpen) return; // Prevent opening multiple text bars
+        isTextBarOpen = true; // Set flag when text bar is opened
+
         promptLabel = new JLabel("Enter grocery list name...");
         newListNameTextField = new JTextField(20);
         newListNameTextField.addKeyListener(new KeyAdapter() {
@@ -172,6 +177,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         inputPanel.remove(confirmButton);
         inputPanel.revalidate();
         inputPanel.repaint();
+        isTextBarOpen = false; // Reset flag when text bar is removed
     }
 
     private void updateMyGrocery() {
@@ -179,8 +185,10 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         User user = viewModel.getUser();
         if (user != null && !user.getShoppingLists().isEmpty()) {
-            for (ShoppingList shoppingList : user.getShoppingLists()) {
-                JPanel shoppingListItem = createShoppingListItem(shoppingList);
+            for (HashMap.Entry<String, ShoppingList> shoppingList : user.getShoppingLists().entrySet()) {
+                String owner = shoppingList.getKey();
+                ShoppingList items = shoppingList.getValue();
+                JPanel shoppingListItem = createShoppingListItem(items);
                 myGroceryContainer.add(shoppingListItem);
             }
         } else {

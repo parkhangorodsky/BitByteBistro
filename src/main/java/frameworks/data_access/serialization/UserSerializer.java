@@ -28,12 +28,11 @@ public class UserSerializer implements Serializer<Document, User> {
                 .append("userEmail", user.getUserEmail())
                 .append("userPassword", user.getUserPassword())
                 .append("createdAt", user.getCreatedAt())
-                .append("shoppingList", user.getShoppingLists())
                 .append("preference", user.getPreference());
 
         document.append("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         document.append("recipes", recipeSerializer.serializeRecipeList(user.getRecipes()));
-        document.append("shoppingLists", shoppingListSerializer.serializeShoppingListMap(user.getShoppingListsMap()));
+        document.append("shoppingLists", shoppingListSerializer.serializeShoppingListMap(user.getShoppingLists()));
 
         return document;
     }
@@ -45,7 +44,7 @@ public class UserSerializer implements Serializer<Document, User> {
         String userPassword = bson.getString("userPassword");
         Date createdDate = bson.getDate("createdAt");
         LocalDateTime createdAt = LocalDateTime.ofInstant((createdDate.toInstant()), ZoneId.systemDefault());
-        List<ShoppingList> shoppingList = new ArrayList<>();
+        Map<String, ShoppingList> shoppingList = shoppingListSerializer.deserializeShoppingListMap(bson.get("shoppingLists", Document.class));
         List<Recipe> recipes = recipeSerializer.deserializeRecipeList(bson.getList("recipes", Document.class));
         List<Recipe> recentlyViewedRecipes = recipeSerializer.deserializeRecipeList(bson.getList("recentlyViewedRecipes", Document.class));
         Map<String, Object> preference = bson.get("preference", Map.class);

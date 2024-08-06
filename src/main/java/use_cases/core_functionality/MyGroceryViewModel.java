@@ -24,7 +24,7 @@ public class MyGroceryViewModel extends ViewModel implements PropertyChangeFirer
     public void firePropertyChange(String propertyName) {
         if (propertyName.equals("grocery")) {
             this.user = LoggedUserData.getLoggedInUser();
-            support.firePropertyChange(propertyName, null, user.getShoppingLists().getFirst());
+            support.firePropertyChange(propertyName, null, user.getShoppingLists().values());
         }
     }
 

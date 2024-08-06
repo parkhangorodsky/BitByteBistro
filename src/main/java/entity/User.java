@@ -52,8 +52,7 @@ public class User {
     public String getUserPassword() {return userPassword;}
     public LocalDateTime getCreatedAt() {return createdAt;}
     public List<Recipe> getRecipes() {return recipes;}
-    public List<ShoppingList> getShoppingLists() {return shoppingLists.values().stream().toList();}
-    public Map<String, ShoppingList> getShoppingListsMap() {return shoppingLists;}
+    public Map<String, ShoppingList> getShoppingLists() {return shoppingLists;}
     public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
     public Map<String, Object> getPreference() {return preference;}
     public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
@@ -63,20 +62,26 @@ public class User {
     public void setUserPassword(String userPassword) {this.userPassword = userPassword;}
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
-    public void setShoppingLists(List<ShoppingList> shoppingLists) {
-        HashMap<String, ShoppingList> shoppingListHashMap = new HashMap<>();
-        for (ShoppingList shoppingList : shoppingLists) {
-            shoppingListHashMap.put(shoppingList.getShoppingListName(), shoppingList);
-            this.shoppingLists = shoppingListHashMap;
-        }
-    }
+    public void setShoppingLists(Map<String, ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
     public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
-        if (this.recentlyViewedRecipes.size() >= 5) {
-            this.recentlyViewedRecipes.remove(0);
+        boolean seenBefore = false;
+        Recipe seenRecipe = null;
+        for (Recipe r : this.recentlyViewedRecipes) {
+            if (recipe.getName().equals(r.getName()) &&
+                    recipe.getInstructions().equals(r.getInstructions())) {
+                seenBefore = true;
+                seenRecipe = r;
+                break;
+            }
         }
-        this.recentlyViewedRecipes.add(recipe);
+        if (seenBefore) {
+            this.recentlyViewedRecipes.remove(seenRecipe);
+        } else if (this.recentlyViewedRecipes.size() == 5) {
+            this.recentlyViewedRecipes.removeLast();
+        }
+        this.recentlyViewedRecipes.addFirst(recipe);
     }
 
     /**

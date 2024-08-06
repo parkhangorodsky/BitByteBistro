@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
@@ -68,6 +70,14 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         toggleNightMode();
 
         this.add(mainPanel, BorderLayout.CENTER);
+
+        // Add component listener to reload recipes when view is shown
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                loadRecentlyViewedRecipes();
+            }
+        });
     }
 
     private void loadRecentlyViewedRecipes() {

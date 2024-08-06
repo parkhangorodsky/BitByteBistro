@@ -14,13 +14,15 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
     private AddNewGroceryListController addNewGroceryListController;
-    private List<ShoppingList> userGroceryLists;
+    private Map<String, ShoppingList> userGroceryLists;
     User user = LoggedUserData.getLoggedInUser();
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
@@ -75,14 +77,17 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         JPopupMenu addToMenu = new JPopupMenu();
         JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
 
+
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
-            for (ShoppingList list : userGroceryLists) {
-                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
+            for (HashMap.Entry<String, ShoppingList> list : userGroceryLists.entrySet()) {
+                String owner = list.getKey();
+                ShoppingList items = list.getValue();
+                JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
-                    addToGroceryList(recipe, list);
+                    addToGroceryList(recipe, items);
                 });
                 addToMenu.add(groceryListItem);
-            }
+                }
         }
 
         // Option to create a new grocery list
