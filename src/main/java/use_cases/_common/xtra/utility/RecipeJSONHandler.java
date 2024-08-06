@@ -1,4 +1,4 @@
-package use_cases._common.xtra.json_processor;
+package use_cases._common.xtra.utility;
 
 import entity.Ingredient;
 import entity.Nutrition;
@@ -7,16 +7,20 @@ import entity.builder.DefaultRecipeBuilder;
 import entity.builder.RecipeBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import use_cases._common.gui_common.abstractions.BufferedImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
+
+import static use_cases._common.xtra.utility.JSONArrayHandler.JSONStringArrayToList;
+import static use_cases._common.xtra.utility.BufferedImageLoader.loadBufferedRoundImage;
+import static use_cases._common.xtra.utility.JSONNullHandler.*;
+
 
 /**
  * Overview: The utility interface that provides the default method for
  * converting recipe from JSONObject to the instance of Recipe class.
  */
-public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler, BufferedImageLoader {
+public class RecipeJSONHandler {
 
     /**
      * Converts a JSONObject representation of a recipe into a Recipe object.
@@ -24,7 +28,7 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler, Bu
      * @param recipeJSON the JSONObject containing the recipe data
      * @return a Recipe object containing the parsed data
      */
-    default Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
+    public static Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
 
         // Extract necessary information from the JSON object using appropriate methods that matches the data structure.
         String uri = recipeJSON.getString("uri");
@@ -73,7 +77,7 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler, Bu
      *            It is either "totalNutrients" or totalDaily
      * @return a Map containing the nutritional information
      */
-    private Map<String, Nutrition> extractNutritionalInfoFromJSONObject(JSONObject recipeJSON, String quantityKey, String percentKey) {
+    private static Map<String, Nutrition> extractNutritionalInfoFromJSONObject(JSONObject recipeJSON, String quantityKey, String percentKey) {
         // Get the nutrition JSON object associated with the key.
         JSONObject quantityObject = recipeJSON.getJSONObject(quantityKey);
         JSONObject percentObject = recipeJSON.getJSONObject(percentKey);
@@ -106,7 +110,7 @@ public interface RecipeJSONHandler extends JSONNullHandler, JSONArrayHandler, Bu
      * @param key the key for the JSONArray containing ingredient information
      * @return a list of Grocery objects
      */
-    private List<Ingredient> createIngredientListFromJSONArray(JSONObject recipeJSON, String key) {
+    private static List<Ingredient> createIngredientListFromJSONArray(JSONObject recipeJSON, String key) {
             // Get the ingredient list JSON object associated with the key.
         JSONArray ingredients = recipeJSON.getJSONArray(key);
         // Initialize the new List for ingredient.

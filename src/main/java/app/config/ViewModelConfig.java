@@ -12,7 +12,7 @@ import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
 class ViewModelConfig {
 
     static final ViewManagerModel viewManagerModel = new ViewManagerModel();
-    static final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView", GUIConfig.gui );
+    static final AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel("AuthView");
     static final LoginViewModel loginViewModel = new LoginViewModel("LoginView");
     static final SignUpViewModel signUpViewModel = new SignUpViewModel("SignUpView");
     static final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel("Search Recipe");

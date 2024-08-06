@@ -3,11 +3,9 @@ package frameworks.api;
 import entity.Ingredient;
 import entity.Nutrition;
 import okhttp3.*;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import use_cases._common.xtra.exceptions.HttpResponseException;
-import use_cases._common.xtra.json_processor.NutritionJSONHandler;
 import use_cases.nutrition_stats.use_case.input_data.NutritionStatsInputData;
 
 import java.io.IOException;
@@ -16,8 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static use_cases._common.xtra.utility.NutritionJSONHandler.convertJSONtoNutritionList;
 
-public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
+
+public class NutritionDisplayApi implements NutritionAPI {
 
     private static final String base_url = "https://api.edamam.com/api/nutrition-details";
 
@@ -31,7 +31,7 @@ public class NutritionDisplayApi implements NutritionAPI, NutritionJSONHandler {
         try {
             String endpoint = createURL();
             JSONObject responseJSON =  getResponse(endpoint, inputData);
-            return this.convertJSONtoNutritionList(responseJSON);
+            return convertJSONtoNutritionList(responseJSON);
         } catch (IOException e) {
             System.out.println("IOException\n " + e.getMessage());
         } catch (JSONException e) {

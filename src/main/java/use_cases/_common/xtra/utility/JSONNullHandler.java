@@ -1,4 +1,4 @@
-package use_cases._common.xtra.json_processor;
+package use_cases._common.xtra.utility;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,7 +9,7 @@ import org.json.JSONObject;
  * Utility: It includes default methods to handle null values
  * for Strings, floats, and JSONArrays.
  */
-public interface JSONNullHandler {
+public class JSONNullHandler {
 
     /**
      * Returns the value of the specified key as a String from the given JSONObject.
@@ -19,7 +19,7 @@ public interface JSONNullHandler {
      * @param key  the key whose associated value is to be returned
      * @return the value as a String, or an empty string if the key is null
      */
-    default String handleNullString(JSONObject json, String key) {
+    static String handleNullString(JSONObject json, String key) {
         return json.isNull(key) ? "" : json.getString(key);
     }
 
@@ -31,7 +31,7 @@ public interface JSONNullHandler {
      * @param key  the key whose associated value is to be returned
      * @return the value as a float, or 0.0f if the key is null
      */
-    default float handleNullFloat(JSONObject json, String key) {
+    static float handleNullFloat(JSONObject json, String key) {
         return json.isNull(key) ? 0.0f : json.getFloat(key);
     }
 
@@ -43,7 +43,7 @@ public interface JSONNullHandler {
      * @param key  the key whose associated value is to be returned
      * @return the value as a JSONArray, or an empty JSONArray if the key is null
      */
-    default JSONArray handleNullJSONArray(JSONObject json, String key) {
+    static JSONArray handleNullJSONArray(JSONObject json, String key) {
         return json.isNull(key) ? new JSONArray() : json.getJSONArray(key);
     }
 }

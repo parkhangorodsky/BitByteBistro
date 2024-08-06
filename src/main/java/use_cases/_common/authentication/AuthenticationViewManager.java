@@ -25,9 +25,5 @@ public class AuthenticationViewManager extends ViewManager implements PropertyCh
         this.views = views;
     }
 
-    public void addView(View view) {
-        this.views.add((JPanel) view, view.getViewName());
-    }
-
 }
 

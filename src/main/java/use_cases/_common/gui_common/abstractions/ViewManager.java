@@ -31,6 +31,10 @@ public abstract class ViewManager implements PropertyChangeListener {
         this.views.add((JPanel) view, view.getViewName());
     }
 
+    public void resetViews() {
+        views.removeAll();
+    }
+
     /**
      * Switches to the specified view.
      *

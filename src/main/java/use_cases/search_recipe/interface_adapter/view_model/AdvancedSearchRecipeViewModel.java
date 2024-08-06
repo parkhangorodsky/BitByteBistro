@@ -1,15 +1,14 @@
 package use_cases.search_recipe.interface_adapter.view_model;
 
-import use_cases._common.gui_common.abstractions.StringCaseEditor;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static use_cases._common.xtra.utility.StringCaseEditor.capitalizeWords;
 
 /**
  * Overview: View model for the advanced search recipe use case.
@@ -18,7 +17,7 @@ import java.util.Map;
  * Encapsulation: This class encapsulates the logic for loading and formatting
  * the data for types of labels that can be used to search for recipe.
  */
-public class AdvancedSearchRecipeViewModel extends ViewModel implements StringCaseEditor {
+public class AdvancedSearchRecipeViewModel extends ViewModel {
 
     public Map<String, String> dietData;
     public Map<String, String> healthData;
