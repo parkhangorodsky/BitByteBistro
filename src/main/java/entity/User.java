@@ -72,10 +72,22 @@ public class User {
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
     public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
-        if (this.recentlyViewedRecipes.size() >= 5) {
-            this.recentlyViewedRecipes.remove(0);
+        boolean seenBefore = false;
+        Recipe seenRecipe = null;
+        for (Recipe r : this.recentlyViewedRecipes) {
+            if (recipe.getName().equals(r.getName()) &&
+                    recipe.getInstructions().equals(r.getInstructions())) {
+                seenBefore = true;
+                seenRecipe = r;
+                break;
+            }
         }
-        this.recentlyViewedRecipes.add(recipe);
+        if (seenBefore) {
+            this.recentlyViewedRecipes.remove(seenRecipe);
+        } else if (this.recentlyViewedRecipes.size() == 5) {
+            this.recentlyViewedRecipes.removeLast();
+        }
+        this.recentlyViewedRecipes.addFirst(recipe);
     }
 
     /**
