@@ -216,11 +216,15 @@ public class SignUpView extends View implements ActionListener, PropertyChangeLi
     public void displayErrorMessage(String message) {
         errorMessageLabel.setText(message);
         errorMessageLabel.setForeground(errorRed);
+        errorMessageLabel.revalidate();
+        errorMessageLabel.repaint();
     }
 
     public void displaySuccessMessage(String message) {
         errorMessageLabel.setText(message);
         errorMessageLabel.setForeground(successGreen);
+        errorMessageLabel.revalidate();
+        errorMessageLabel.repaint();
     }
 
     @Override

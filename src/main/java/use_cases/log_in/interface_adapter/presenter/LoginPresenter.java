@@ -55,5 +55,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareFailView(String errorMessage) {
         // Update the view model with the error message
         loginViewModel.setErrorMessage(errorMessage);
+        loginViewModel.firePropertyChange("errorMessage", null, errorMessage);
+        System.out.println("asdad");
     }
 }
