@@ -66,7 +66,7 @@ public class ShoppingList {
 
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
 
-    public void addItem(Ingredient item) {this.listItems.add(item);}
+    public void addItem(Ingredient item) {this.listItems.put(normalizeIngredientName(item.getIngredientName()), item);}
 
     public void addRecipe(Recipe recipe) {
         if (!this.recipes.contains(recipe)) {
