@@ -30,6 +30,9 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     private JFrame parent;
 
     JPanel mainPanel;
+    JPanel controlPanel;
+    JPanel buttonPanel;
+    RoundButton closeButton;
 
     JPanel contentPanel;
     JScrollPane contentScrollPane;
@@ -305,8 +308,22 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     }
 
-     abstract JPanel createControlPanel();
+    protected JPanel createControlPanel() {
+        controlPanel = new JPanel(new BorderLayout());
+        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
 
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        closeButton = new RoundButton("Close");
+        buttonPanel.add(closeButton);
+        controlPanel.add(buttonPanel, BorderLayout.EAST);
+
+        closeButton.addActionListener(e -> {
+            this.dispose();
+        });
+
+        toggleNightMode();
+        return controlPanel;
+    }
     public void setNightMode() {
         mainPanel.setBackground(black);
         contentPanel.setBackground(black);
