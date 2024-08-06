@@ -8,4 +8,5 @@ import java.beans.PropertyChangeListener;
 public abstract class GUI implements PropertyChangeListener {
     ViewFactory viewFactory;
     public abstract void initialize(Config config);
+    public abstract void run();
 }

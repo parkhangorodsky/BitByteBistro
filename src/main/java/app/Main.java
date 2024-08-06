@@ -17,5 +17,6 @@ public class Main {
         // Then the SwingGUI is initialized.
         GUI gui = config.getGUI();
         gui.initialize(config);
+        gui.run();
     }
 }
