@@ -18,20 +18,12 @@ import java.util.List;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private AddToMyRecipeController addToMyRecipeController;
-    private CoreFunctionalityController coreFunctionalityController;
-    private AddNewGroceryListController addNewGroceryListController;
-    private List<ShoppingList> userGroceryLists;
-    User user = LoggedUserData.getLoggedInUser();
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
-                                               AddToMyRecipeController addToMyRecipeController,
                                                CoreFunctionalityController coreFunctionalityController,
-                                               AddNewGroceryListController addNewGroceryListController) {
-        super(parent, viewModel);
+                                               AddNewGroceryListController addNewGroceryListController,  AddToMyRecipeController addToMyRecipeController) {
+        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController );
         this.addToMyRecipeController = addToMyRecipeController;
-        this.coreFunctionalityController = coreFunctionalityController;
-        this.addNewGroceryListController = addNewGroceryListController;
-        this.userGroceryLists = user.getShoppingLists(); // Initialize the grocery lists
     }
 
 
@@ -51,19 +43,9 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     @Override
     public JPanel createControlPanel() {
-
-        controlPanel = new JPanel(new BorderLayout());
-        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
-
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        closeButton = new RoundButton("Close");
+        JPanel controlPanel = super.createControlPanel();
+        // Add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
-        addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
-
-
-        closeButton.addActionListener(e -> {
-            this.dispose();
-        });
 
         Recipe recipe = viewModel.getRecipe();
 
@@ -71,57 +53,11 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             addToMyRecipeController.execute(recipe, viewModel);
         });
 
-
-        JPopupMenu addToMenu = new JPopupMenu();
-        JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
-
-        if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
-            for (ShoppingList list : userGroceryLists) {
-                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
-                groceryListItem.addActionListener(e -> {
-                    addToGroceryList(recipe, list);
-                });
-                addToMenu.add(groceryListItem);
-            }
-        }
-
-        // Option to create a new grocery list
-        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
-        createNewGroceryListItem.addActionListener(e -> {
-            createNewGroceryListAndAdd(recipe);
-        });
-        addToMenu.add(createNewGroceryListItem);
-
-
-        addToGroceryButton.addActionListener(e -> {
-            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
-        });
-
-
+        // Add the new buttons to the button panel
         buttonPanel.add(addToRecipesButton);
-        buttonPanel.add(addToGroceryButton);
-        buttonPanel.add(closeButton);
-
-        controlPanel.add(buttonPanel, BorderLayout.EAST);
-
-        toggleNightMode();
 
         return controlPanel;
     };
-
-    private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
-        coreFunctionalityController.execute(shoppingList, recipe, viewModel);
-    }
-
-
-    private void createNewGroceryListAndAdd(Recipe recipe) {
-        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
-        if (newListName != null && !newListName.trim().isEmpty()) {
-            addNewGroceryListController.execute(newListName, viewModel);
-        }
-        ShoppingList newShoppingList = user.getShoppingList(newListName);
-        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
-    }
 
 
     @Override
