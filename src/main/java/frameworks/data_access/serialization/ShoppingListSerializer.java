@@ -21,7 +21,7 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
     public Document serialize(ShoppingList shoppingList){
 
         Document document = new Document()
-                .append("listOwner", userSerializer.serialize(shoppingList.getListOwner()))
+                .append("listOwner", shoppingList.getListOwner())
                 .append("name", shoppingList.getShoppingListName())
                 .append("groceries", ingredientSerializer.serializeList(shoppingList.getListItems()))
                 .append("cost", shoppingList.getEstimatedTotalCost())

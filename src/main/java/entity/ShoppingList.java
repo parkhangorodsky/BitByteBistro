@@ -12,7 +12,6 @@ public class ShoppingList {
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
 
-
     /**
      * Requires:
      * @param listOwner owner of the grocery list
@@ -26,8 +25,8 @@ public class ShoppingList {
         this.recipes = new ArrayList<>();
     }
 
-    public User getListOwner() {
-        return listOwner;
+    public String getListOwner() {
+        return listOwner.getUserEmail();
     }
 
     public String getShoppingListName() {

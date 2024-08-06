@@ -33,7 +33,7 @@ public class UserSerializer implements Serializer<Document, User> {
 
         document.append("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         document.append("recipes", recipeSerializer.serializeRecipeList(user.getRecipes()));
-        document.append("shoppingLists", shoppingListSerializer.serializeShoppingListMap(user.getShoppingLists()));
+        document.append("shoppingLists", shoppingListSerializer.serializeShoppingListMap(user.getShoppingListsMap()));
 
         return document;
     }

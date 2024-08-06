@@ -27,7 +27,7 @@ public class AddNewGroceryListInteractor implements AddNewGroceryListInputBounda
         }
 
         user.addShoppingList(shoppingList);
-        // userDAO.addRecipe(user, newRecipe); - for seonghyun to do.
+        userDAO.addShoppingList(user, shoppingList);
 
         presenter.prepareSuccessView(inputData.getParentModel());
     }

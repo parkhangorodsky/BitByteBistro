@@ -42,7 +42,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         // UPDATE USER (LOCALLY AND IN DATABASE)
         //some way to update an existing shopping list instead of adding the updated one on top
         user.addShoppingList(updatedShoppingList);
-        //userDAO.addShoppingList(user, updatedShoppingList);
+        userDAO.addRecipeToShoppingList(user, shoppingList, recipe);
 
         CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(updatedShoppingList, inputData.getParentModel());
         presenter.prepareSuccessView(outputData);

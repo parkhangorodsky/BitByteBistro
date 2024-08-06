@@ -52,7 +52,8 @@ public class User {
     public String getUserPassword() {return userPassword;}
     public LocalDateTime getCreatedAt() {return createdAt;}
     public List<Recipe> getRecipes() {return recipes;}
-    public Map<String, ShoppingList> getShoppingLists() {return shoppingLists;}
+    public List<ShoppingList> getShoppingLists() {return shoppingLists.values().stream().toList();}
+    public Map<String, ShoppingList> getShoppingListsMap() {return shoppingLists;}
     public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
     public Map<String, Object> getPreference() {return preference;}
     public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
