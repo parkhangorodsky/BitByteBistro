@@ -11,10 +11,7 @@ import org.bson.types.Binary;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShoppingListSerializer implements Serializer<Document, ShoppingList> {
     private final RecipeSerializer recipeSerializer = new RecipeSerializer();
@@ -36,7 +33,7 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
     @Override
     public ShoppingList deserialize(Document bson){
 
-        User listOwner = userSerializer.deserialize(bson);
+        User listOwner = userSerializer.deserialize(bson.get("listOwner", Document.class));
         String name = bson.getString("name");
         List<Ingredient> groceries = ingredientSerializer.deserializeList(bson.getList("groceries", Document.class));
         Double cost = bson.getDouble("cost");
@@ -47,6 +44,25 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
         shoppingList.setEstimatedTotalCost(cost);
         shoppingList.setRecipes(recipes);
         return shoppingList;
+    }
+
+
+    public Document serializeShoppingListMap(Map<String, ShoppingList> shoppingListMap){
+        Document document = new Document();
+
+        for (Map.Entry<String, ShoppingList> entry : shoppingListMap.entrySet()) {
+            document.append(entry.getKey(), serialize(entry.getValue()));
+        }
+
+        return document;
+    }
+
+    public Map<String, ShoppingList> deserializeShoppingListMap(Document bson){
+        Map<String, ShoppingList> shoppingListMap = new TreeMap<>();
+        for (String key : bson.keySet()) {
+            shoppingListMap.put(key, deserialize(bson.get(key, Document.class)));
+        }
+        return shoppingListMap;
     }
 
 }

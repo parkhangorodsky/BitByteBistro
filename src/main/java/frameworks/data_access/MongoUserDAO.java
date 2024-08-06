@@ -55,6 +55,7 @@ public class MongoUserDAO implements UserDataAccessInterface{
         return getUserByEmail(email) != null;
     }
 
+    @Override
     public void addRecipe(User user, Recipe recipe) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
@@ -63,12 +64,22 @@ public class MongoUserDAO implements UserDataAccessInterface{
         userCollection.updateOne(filter, update);
     }
 
+    @Override
     public void addShoppingList(User user, ShoppingList shoppingList) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
         ShoppingListSerializer shoppingListSerializer = new ShoppingListSerializer();
         Bson update = Updates.addToSet("shoppingLists", shoppingListSerializer.serialize(shoppingList));
         userCollection.updateOne(filter, update);
+    }
+
+    @Override
+    public void addRecipeToShoppingList(User user, ShoppingList shoppingList, Recipe recipe) {
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+        String shoppingListName = shoppingList.getShoppingListName();
+
+        RecipeSerializer recipeSerializer = new RecipeSerializer();
+        Bson update = Updates.addToSet("shoppingList." + shoppingListName + ".recipes", recipeSerializer.serialize(recipe));
     }
 
     @Override
@@ -80,6 +91,7 @@ public class MongoUserDAO implements UserDataAccessInterface{
         userCollection.updateOne(filter, update);
     }
 
+    @Override
     public void updateUserPreference(User user, String fieldName, Object value) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
         Bson update = Updates.set( "preference." + fieldName, value);

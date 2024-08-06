@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class UserSerializer implements Serializer<Document, User> {
     private final RecipeSerializer recipeSerializer = new RecipeSerializer();
+    private final ShoppingListSerializer shoppingListSerializer = new ShoppingListSerializer();
 
     @Override
     public Document serialize(User user){
@@ -32,6 +33,7 @@ public class UserSerializer implements Serializer<Document, User> {
 
         document.append("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         document.append("recipes", recipeSerializer.serializeRecipeList(user.getRecipes()));
+        document.append("shoppingLists", shoppingListSerializer.serializeShoppingListMap(user.getShoppingLists()));
 
         return document;
     }

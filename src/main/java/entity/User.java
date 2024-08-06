@@ -52,7 +52,7 @@ public class User {
     public String getUserPassword() {return userPassword;}
     public LocalDateTime getCreatedAt() {return createdAt;}
     public List<Recipe> getRecipes() {return recipes;}
-    public List<ShoppingList> getShoppingLists() {return new ArrayList<>(shoppingLists.values());}
+    public Map<String, ShoppingList> getShoppingLists() {return shoppingLists;}
     public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
     public Map<String, Object> getPreference() {return preference;}
     public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
