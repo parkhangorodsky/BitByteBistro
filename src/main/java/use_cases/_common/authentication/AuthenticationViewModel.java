@@ -14,7 +14,6 @@ import java.beans.PropertyChangeSupport;
  */
 public class AuthenticationViewModel extends ViewModel {
     private final PropertyChangeSupport support;
-    private final GUI gui;
 
     /**
      * Constructs a new AuthenticationViewModel with the specified view name and SwingGUI instance.
@@ -22,11 +21,9 @@ public class AuthenticationViewModel extends ViewModel {
      * @param viewName The name of the view.
      * @param gui The instance of SwingGUI to handle property changes.
      */
-    public AuthenticationViewModel(String viewName, GUI gui) {
+    public AuthenticationViewModel(String viewName) {
         super(viewName);  // Call to the parameterized constructor of the superclass
         this.support = new PropertyChangeSupport(this);
-        this.gui = gui;
-        this.addPropertyChangeListener(gui);
     }
 
     /**
@@ -38,14 +35,10 @@ public class AuthenticationViewModel extends ViewModel {
         support.addPropertyChangeListener(pcl);
     }
 
-    /**
-     * Removes a property change listener from the view model.
-     *
-     * @param pcl The property change listener to remove.
-     */
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
         support.removePropertyChangeListener(pcl);
     }
+
 
     /**
      * Fires a property change event.

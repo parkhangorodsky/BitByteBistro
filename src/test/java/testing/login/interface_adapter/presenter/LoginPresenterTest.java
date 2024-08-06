@@ -7,7 +7,6 @@ import use_cases._common.interface_adapter_common.view_model.models.ViewManagerM
 import use_cases.log_in.interface_adapter.presenter.LoginPresenter;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
-import use_cases._common.authentication.AuthenticationService;
 
 import static org.mockito.Mockito.*;
 
@@ -18,7 +17,6 @@ public class LoginPresenterTest {
 
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
-    private AuthenticationService authenticationService;
     private LoginPresenter loginPresenter;
 
     /**
@@ -28,7 +26,6 @@ public class LoginPresenterTest {
     void setUp() {
         loginViewModel = mock(LoginViewModel.class);
         viewManagerModel = mock(ViewManagerModel.class);
-        authenticationService = mock(AuthenticationService.class);
         loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authenticationService);
     }
 
@@ -44,7 +41,6 @@ public class LoginPresenterTest {
         loginPresenter.prepareSuccessView(outputData);
 
         verify(loginViewModel).setErrorMessage("");
-        verify(authenticationService).setLoggedInUser(user);
         verify(viewManagerModel).setActiveView("search recipe");
         verify(viewManagerModel).firePropertyChanged();
     }

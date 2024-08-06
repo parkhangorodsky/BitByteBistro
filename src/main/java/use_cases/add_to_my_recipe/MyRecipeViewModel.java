@@ -1,8 +1,6 @@
 package use_cases.add_to_my_recipe;
 
-import entity.LoggedUserData;
 import entity.Recipe;
-import entity.User;
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 
 import java.beans.PropertyChangeListener;

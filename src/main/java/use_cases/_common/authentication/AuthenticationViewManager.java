@@ -21,11 +21,8 @@ public class AuthenticationViewManager extends ViewManager implements PropertyCh
 
     public AuthenticationViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
         super(cardLayout, viewManagerModel);
+        this.getViewManagerModel().addPropertyChangeListener(this);
         this.views = views;
-    }
-
-    public void addView(View view) {
-        this.views.add((JPanel) view, view.getViewName());
     }
 
 }

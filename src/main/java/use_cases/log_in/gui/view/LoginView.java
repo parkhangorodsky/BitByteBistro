@@ -133,6 +133,8 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         loginButton.addActionListener(this);
         loginButton.setHoverColor(claudeWhite, claudeWhite, claudeBlack, claudeBlackEmph);
         loginButton.setBorderColor(claudeWhite);
+        loginButton.setPressedColor(claudewhiteBright);
+
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;

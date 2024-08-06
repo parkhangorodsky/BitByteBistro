@@ -8,7 +8,6 @@ import use_cases.log_in.use_case.input_data.LoginInputData;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
 import use_cases.log_in.use_case.interactor.LoginInteractor;
-import use_cases._common.authentication.AuthenticationService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,7 +19,6 @@ public class LoginInteractorTest {
     private LoginInteractor interactor;
     private LoginOutputBoundary presenter;
     private UserDataAccessInterface dao;
-    private AuthenticationService authService;
 
     /**
      * Sets up the test environment before each test.
@@ -30,8 +28,6 @@ public class LoginInteractorTest {
     void setUp() {
         presenter = mock(LoginOutputBoundary.class);
         dao = mock(UserDataAccessInterface.class);
-        authService = mock(AuthenticationService.class);
-        interactor = new LoginInteractor(presenter, dao, authService);
     }
 
     /**
@@ -42,8 +38,6 @@ public class LoginInteractorTest {
     void testSuccessfulLogin() {
         User user = new User("userId", "test@example.com", "password", null);
         when(dao.getUserByEmail("test@example.com")).thenReturn(user);
-        when(authService.authenticate("test@example.com", "password")).thenReturn(true);
-        when(authService.getLoggedInUser()).thenReturn(user);
 
         interactor.execute(new LoginInputData("test@example.com", "password"));
 
@@ -57,7 +51,6 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginWithIncorrectEmail() {
         when(dao.getUserByEmail("test@example.com")).thenReturn(null);
-        when(authService.authenticate("test@example.com", "password")).thenReturn(false);
 
         interactor.execute(new LoginInputData("test@example.com", "password"));
 
@@ -72,7 +65,6 @@ public class LoginInteractorTest {
     void testFailedLoginWithIncorrectPassword() {
         User user = new User("userId", "test@example.com", "correctPassword", null);
         when(dao.getUserByEmail("test@example.com")).thenReturn(user);
-        when(authService.authenticate("test@example.com", "wrongPassword")).thenReturn(false);
 
         interactor.execute(new LoginInputData("test@example.com", "wrongPassword"));
 

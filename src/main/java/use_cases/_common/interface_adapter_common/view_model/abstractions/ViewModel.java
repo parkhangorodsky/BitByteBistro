@@ -15,4 +15,5 @@ public abstract class ViewModel {
     public String getViewName() {
         return this.viewName;
     }
+
 }
