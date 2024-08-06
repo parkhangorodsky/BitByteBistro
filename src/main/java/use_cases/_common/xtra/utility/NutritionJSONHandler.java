@@ -1,7 +1,6 @@
-package use_cases._common.xtra.json_processor;
+package use_cases._common.xtra.utility;
 
 import entity.Nutrition;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -10,7 +9,7 @@ import java.util.*;
  * The utility interface that provides the default method for converting nutritional information
  * from JSONObject to a List<Nutrition>, where each Nutrition is a nutrition fact for a specific recipe.
  */
-public interface NutritionJSONHandler extends JSONNullHandler {
+public class NutritionJSONHandler {
 
 
     /**
@@ -21,7 +20,7 @@ public interface NutritionJSONHandler extends JSONNullHandler {
      * @return a List<Nutrition> which contains the Nutrition objects with the label, unit, and quantity of each: calories,
      * carbs, sodium, and fats.
      */
-     default List<Nutrition> convertJSONtoNutritionList(JSONObject nutritionJSONObject) {
+     public static List<Nutrition> convertJSONtoNutritionList(JSONObject nutritionJSONObject) {
          List<Nutrition> nutritions = new ArrayList<>();
 
          if (nutritionJSONObject.has("error")) {

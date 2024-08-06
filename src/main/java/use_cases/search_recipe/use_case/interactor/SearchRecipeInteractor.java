@@ -2,14 +2,10 @@ package use_cases.search_recipe.use_case.interactor;
 
 import frameworks.api.RecipeAPI;
 import entity.Recipe;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 import use_cases.search_recipe.interface_adapter.presenter.SearchRecipeOutputBoundary;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
-import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +14,7 @@ import java.util.List;
  * processes the results by calling API,
  * and communicates the results to the presenter.
  */
-public class SearchRecipeInteractor implements SearchRecipeInputBoundary, RecipeJSONHandler {
+public class SearchRecipeInteractor implements SearchRecipeInputBoundary{
     private RecipeAPI recipeAPI;
     private SearchRecipeOutputBoundary searchRecipePresenter;
 

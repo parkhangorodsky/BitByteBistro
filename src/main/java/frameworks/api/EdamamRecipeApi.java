@@ -5,16 +5,17 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import use_cases._common.xtra.json_processor.RecipeJSONHandler;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 import use_cases._common.xtra.exceptions.HttpResponseException;
+
+import static use_cases._common.xtra.utility.RecipeJSONHandler.convertJSONtoRecipe;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EdamamRecipeApi implements RecipeAPI, RecipeJSONHandler {
+public class EdamamRecipeApi implements RecipeAPI {
 
     private static final String base_url = "https://api.edamam.com/api/recipes/v2?type=any&beta=true";
 
@@ -32,7 +33,7 @@ public class EdamamRecipeApi implements RecipeAPI, RecipeJSONHandler {
             List<Recipe> recipeList = new ArrayList<>();
             for (int i = 0; i < responseRecipe.length(); i++) {
                 JSONObject recipeJSON = responseRecipe.getJSONObject(i).getJSONObject("recipe");
-                Recipe recipe =  this.convertJSONtoRecipe(recipeJSON);
+                Recipe recipe =  convertJSONtoRecipe(recipeJSON);
                 recipeList.add(recipe);
             }
 

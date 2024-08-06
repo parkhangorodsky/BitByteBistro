@@ -8,7 +8,6 @@ import use_cases.search_recipe.gui.view_component.AdvancedSearchTypeOptionButton
 import use_cases.search_recipe.gui.view_component.AdvancedSearchTypeOptionConfigPopUp;
 import use_cases.search_recipe.interface_adapter.controller.SearchRecipeController;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
-import use_cases._common.gui_common.abstractions.StringCaseEditor;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
@@ -23,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.*;
 import java.util.List;
 
-public class AdvancedSearchView extends PopUpView implements StringCaseEditor, NightModeObject {
+public class AdvancedSearchView extends PopUpView implements NightModeObject {
 
     private AdvancedSearchRecipeViewModel advancedSearchRecipeViewModel;
     private SearchRecipeController searchRecipeController;

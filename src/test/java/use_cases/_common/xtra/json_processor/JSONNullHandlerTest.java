@@ -2,9 +2,8 @@ package use_cases._common.xtra.json_processor;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import use_cases._common.xtra.utility.JSONNullHandler;
 
 import static org.junit.jupiter.api.Assertions.*;
 

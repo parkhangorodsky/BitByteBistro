@@ -1,12 +1,8 @@
 package use_cases._common.xtra.json_processor;
 
-import entity.Nutrition;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
+import use_cases._common.xtra.utility.NutritionJSONHandler;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package use_cases._common.gui_common.abstractions;
+package use_cases._common.xtra.utility;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
  * Overview: Utility interface for performing operations on strings related to case formatting.
  * Utility: Provides default methods for transforming the case of strings.
  */
-public interface StringCaseEditor {
+public class StringCaseEditor {
 
     /**
      * Capitalizes the first letter of each word in the provided string.
@@ -18,7 +18,7 @@ public interface StringCaseEditor {
      *         If the input is null or empty, it returns the input unchanged.
      * @throws NullPointerException if the input is null.
      */
-    default String capitalizeWords(String input) {
+    public static String capitalizeWords(String input) {
          // If the input is null, throw NullPointerException
         if (input == null) {
             throw new NullPointerException("Input string cannot be null.");

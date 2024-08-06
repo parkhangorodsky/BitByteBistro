@@ -1,11 +1,12 @@
-package use_cases._common.xtra.hashing;
+package use_cases._common.xtra.utility;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
-public interface MD5HashGenerator {
-    default String generateMD5(String input) {
+public class MD5HashGenerator {
+
+    public static String generateMD5(String input) {
         try {MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(input.getBytes());
             byte[] digest = md.digest();
