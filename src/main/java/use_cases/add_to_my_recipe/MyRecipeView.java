@@ -196,13 +196,27 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
             @Override
             public void mouseEntered(MouseEvent e) {
                 // Optionally, handle the mouse entering the panel (e.g., change cursor or highlight)
-                recipeItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
+                if (LocalAppSetting.isNightMode()) {
+                    recipeItem.setBackground(neonPurple);
+                    recipeItem.setBorderColor(neonPinkEmph);
+                } else {
+                    recipeItem.setBackground(claudeWhiteEmph);
+                    recipeItem.setBorderColor(claudewhiteBright);
+
+                }            }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // Optionally, handle the mouse exiting the panel
-                recipeItem.setCursor(Cursor.getDefaultCursor());
+                if (LocalAppSetting.isNightMode()) {
+                    recipeItem.setBackground(neonPurpleEmph);
+                    recipeItem.setBorderColor(neonPurple);
+                } else {
+                    recipeItem.setBackground(claudewhiteBright);
+                    recipeItem.setBorderColor(claudeWhiteEmph);
+
+                }
+
             }
         };
 
