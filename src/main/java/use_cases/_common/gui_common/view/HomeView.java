@@ -106,6 +106,28 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
                 JLabel recipeNameLabel = new JLabel(recipe.getName());
                 recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
+
+                recipeNameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        // Code to handle the click event on the recipe name
+                        // For example, you can open the recipe detail view
+                        System.out.println("Recipe clicked: " + recipe.getName());
+                        // You can replace the print statement with the code to navigate to the recipe detail view
+                    }
+
+                    @Override
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                        recipeNameLabel.setForeground(claudeBlackEmph); // Change color on hover
+                    }
+
+                    @Override
+                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                        recipeNameLabel.setCursor(Cursor.getDefaultCursor());
+                        recipeNameLabel.setForeground(claudeBlack); // Change back to original color
+                    }
+                });
+
                 recipePanel.add(recipeNameLabel, BorderLayout.CENTER);
 
                 recentlyViewedPanel.add(recipePanel);
