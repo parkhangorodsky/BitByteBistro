@@ -6,7 +6,6 @@ import entity.ShoppingList;
 import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
-import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 //import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
@@ -14,6 +13,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
@@ -30,73 +31,110 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel nutritionStatsPanel;
     private JPanel recentlyViewedPanel;
     private List<ShoppingList> userGroceryLists;
-    User user = LoggedUserData.getLoggedInUser();
+    private User user = LoggedUserData.getLoggedInUser();
 
-    //    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, String viewname) {
     public HomeView(ViewManagerModel viewManagerModel) {
-
         this.viewManagerModel = viewManagerModel;
-        this.userGroceryLists = user.getShoppingLists();
-        //this.nutritionStatsController = nutritionStatsController;
         this.viewname = "Home";
 
         observeNight();
 
-        // Set Layout
-        this.setLayout(new BorderLayout());
+        initializeComponents();
+        configureMainPanel();
+        toggleNightMode();
+    }
 
-        // MainPanel
+    private void initializeComponents() {
+        setLayout(new BorderLayout());
+
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        // Initialize content panel
+        initializeContentPanel();
+        initializeNutritionStatsPanel();
+        initializeRecentlyViewedPanel();
+    }
+
+    private void configureMainPanel() {
+        mainPanel.add(contentPanel, BorderLayout.NORTH);
+        mainPanel.add(nutritionStatsPanel);
+        mainPanel.add(recentlyViewedPanel, BorderLayout.SOUTH);
+        add(mainPanel, BorderLayout.CENTER);
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                displayNutritionStats();
+                loadRecentlyViewedRecipes();
+            }
+        });
+    }
+
+    private void initializeContentPanel() {
         contentPanel = new JPanel();
         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        // Add any additional components here
-        // For example, a welcome label
         JLabel welcomeLabel = new JLabel("Welcome to your BitByteBistro Home Page!");
         welcomeLabel.setFont(new Font(defaultFont, Font.BOLD, 24));
         welcomeLabel.setForeground(claudeBlack);
         contentPanel.add(welcomeLabel);
+    }
 
-        // Initialize nutrition stats panel
+    private void initializeNutritionStatsPanel() {
         nutritionStatsPanel = new JPanel();
         nutritionStatsPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         nutritionStatsPanel.setLayout(new BoxLayout(nutritionStatsPanel, BoxLayout.Y_AXIS));
         nutritionStatsPanel.setBackground(claudeWhite);
         displayNutritionStats();
+    }
 
-        // Initialize recently viewed panel
+    private void initializeRecentlyViewedPanel() {
         recentlyViewedPanel = new JPanel();
         recentlyViewedPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         recentlyViewedPanel.setLayout(new BoxLayout(recentlyViewedPanel, BoxLayout.Y_AXIS));
         recentlyViewedPanel.setBackground(claudeWhite);
         loadRecentlyViewedRecipes();
-
-        // Pack content panel into main panel
-        mainPanel.add(contentPanel, BorderLayout.NORTH);
-        mainPanel.add(nutritionStatsPanel);
-        mainPanel.add(recentlyViewedPanel, BorderLayout.SOUTH);
-
-        toggleNightMode();
-
-        this.add(mainPanel, BorderLayout.CENTER);
     }
 
     private void displayNutritionStats() {
+        List<ShoppingList> userGroceryLists = user.getShoppingLists();
+
         nutritionStatsPanel.removeAll();
+
         JLabel nutritionStatsTitle = new JLabel("Nutrition Stats of Your Grocery Lists...");
         nutritionStatsTitle.setFont(new Font(defaultFont, Font.BOLD, 18));
         nutritionStatsTitle.setForeground(claudeBlack);
         nutritionStatsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         nutritionStatsPanel.add(nutritionStatsTitle);
 
+        JButton selectGroceryListButton = new JButton("Select Grocery List...");
+        selectGroceryListButton.addActionListener(e -> {
+            if (userGroceryLists.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "You don't have any grocery lists", "No Grocery Lists", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showGroceryListDropdown(selectGroceryListButton, userGroceryLists); // UPDATE
+            }
+        });
+        nutritionStatsPanel.add(selectGroceryListButton);
         nutritionStatsPanel.revalidate();
         nutritionStatsPanel.repaint();
     }
 
+    private void showGroceryListDropdown(JButton selectGroceryListButton, List<ShoppingList> userGroceryLists) { // UPDATE
+        JPopupMenu selectGroceryList = new JPopupMenu();
+
+        for (ShoppingList list : userGroceryLists) {
+                JMenuItem groceryListItem = new JMenuItem(list.getShoppingListName());
+                groceryListItem.addActionListener(e -> selectGroceryList(list));
+                selectGroceryList.add(groceryListItem);
+        }
+
+        // Show popup menu below the button
+        selectGroceryList.show(selectGroceryListButton, 0, selectGroceryListButton.getHeight()); // UPDATE
+    }
+
+    // Method to handle grocery list selection
     private void selectGroceryList(ShoppingList list) {
         System.out.println(list.getShoppingListName());
     }
@@ -105,7 +143,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         List<Recipe> recentlyViewedRecipes = user.getRecentlyViewedRecipes();
         recentlyViewedPanel.removeAll();
 
-        // Add title to recently viewed panel
         JLabel recentlyViewedTitle = new JLabel("Recently Viewed Recipes...");
         recentlyViewedTitle.setFont(new Font(defaultFont, Font.BOLD, 18));
         recentlyViewedTitle.setForeground(claudeBlack);
@@ -118,8 +155,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             noRecipesLabel.setForeground(claudeBlack);
             noRecipesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             recentlyViewedPanel.add(noRecipesLabel);
-        }
-        else {
+        } else {
             for (Recipe recipe : recentlyViewedRecipes) {
                 JPanel recipePanel = new JPanel();
                 recipePanel.setLayout(new BorderLayout());
