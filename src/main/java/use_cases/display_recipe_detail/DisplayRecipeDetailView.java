@@ -1,14 +1,20 @@
 package use_cases.display_recipe_detail;
 
 import app.local.LocalAppSetting;
+import app.local.LoggedUserData;
 import entity.Nutrition;
 import entity.Recipe;
+import entity.ShoppingList;
+import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +39,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     JPanel controlPanel;
     JPanel buttonPanel;
     RoundButton closeButton;
+    RoundButton addToGroceryButton;
 
     JPanel contentPanel;
     JScrollPane contentScrollPane;
@@ -40,8 +47,18 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     JLabel titleLabel;
     RoundButton goToWebsiteButton;
 
-    public DisplayRecipeDetailView(JFrame parent, DisplayRecipeDetailViewModel viewModel) {
+    private CoreFunctionalityController coreFunctionalityController;
+    private AddNewGroceryListController addNewGroceryListController;
+    private List<ShoppingList> userGroceryLists;
+    User user = LoggedUserData.getLoggedInUser();
+
+
+
+    public DisplayRecipeDetailView(JFrame parent, DisplayRecipeDetailViewModel viewModel, CoreFunctionalityController coreFunctionalityController, AddNewGroceryListController addNewGroceryListController) {
         super(parent);
+        this.coreFunctionalityController = coreFunctionalityController;
+        this.addNewGroceryListController = addNewGroceryListController;
+        this.userGroceryLists = user.getShoppingLists();
         this.parent = parent;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
@@ -314,16 +331,65 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
-        buttonPanel.add(closeButton);
-        controlPanel.add(buttonPanel, BorderLayout.EAST);
+        addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
+
 
         closeButton.addActionListener(e -> {
             this.dispose();
         });
 
+        Recipe recipe = viewModel.getRecipe();
+
+        JPopupMenu addToMenu = new JPopupMenu();
+        JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
+
+        if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
+            for (ShoppingList list : userGroceryLists) {
+                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
+                groceryListItem.addActionListener(e -> {
+                    addToGroceryList(recipe, list);
+                });
+                addToMenu.add(groceryListItem);
+            }
+        }
+
+        // Option to create a new grocery list
+        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
+        createNewGroceryListItem.addActionListener(e -> {
+            createNewGroceryListAndAdd(recipe);
+        });
+        addToMenu.add(createNewGroceryListItem);
+
+
+        addToGroceryButton.addActionListener(e -> {
+            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
+        });
+
+
+        buttonPanel.add(addToGroceryButton);
+        buttonPanel.add(closeButton);
+
+        controlPanel.add(buttonPanel, BorderLayout.EAST);
+
         toggleNightMode();
+
         return controlPanel;
     }
+
+    private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
+        coreFunctionalityController.execute(shoppingList, recipe, viewModel);
+    }
+
+    private void createNewGroceryListAndAdd(Recipe recipe) {
+        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
+        if (newListName != null && !newListName.trim().isEmpty()) {
+            addNewGroceryListController.execute(newListName, viewModel);
+        }
+        ShoppingList newShoppingList = user.getShoppingList(newListName);
+        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+    }
+
+
     public void setNightMode() {
         mainPanel.setBackground(black);
         contentPanel.setBackground(black);
