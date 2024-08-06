@@ -211,6 +211,8 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
      */
     public void displayErrorMessage(String message) {
         errorMessageLabel.setText(message);
+        errorMessageLabel.revalidate();
+        errorMessageLabel.repaint();
     }
 
     /**

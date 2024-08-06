@@ -52,7 +52,6 @@ public class LoginViewModel extends ViewModel {
     public void setErrorMessage(String errorMessage) {
         String oldErrorMessage = this.errorMessage;
         this.errorMessage = errorMessage;
-        support.firePropertyChange("errorMessage", oldErrorMessage, errorMessage);
     }
 
     /**
