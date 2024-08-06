@@ -7,7 +7,6 @@ import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
-import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.core_functionality.CoreFunctionalityController;
@@ -135,9 +134,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         });
 
         searchButton = new SearchButton();
-        searchButton.addActionListener(e -> {
-            filterController.execute(textField.getText());
-        });
+        searchButton.addActionListener(_ -> filterController.execute(textField.getText()));
 
         inputPanel.add(textField);
         inputPanel.add(searchButton);
@@ -239,19 +236,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
-        RoundButton showRecipeButton = new RoundButton("+");
-        showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
-        showRecipeButton.setVerticalAlignment(SwingConstants.CENTER);
-        showRecipeButton.setPreferredSize(new Dimension(30, 30));
-        showRecipeButton.setBorderColor(LocalAppSetting.isNightMode() ? neonPinkEmph : claudeBlack);
 
-        if (LocalAppSetting.isNightMode()) {
-            showRecipeButton.setHoverColor(darkPurple, neonPinkEmph, white, white);
-        } else {
-            showRecipeButton.setHoverColor(claudeBlack, sunflower, claudeWhite, claudewhiteBright);
-        }
-
-        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
 
         recipeItem.add(imagePanel, BorderLayout.WEST);
         recipeItem.add(recipeNamePanel, BorderLayout.CENTER);
