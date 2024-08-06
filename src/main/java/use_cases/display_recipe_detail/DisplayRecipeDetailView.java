@@ -35,11 +35,11 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     protected DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
 
-    JPanel mainPanel;
-    JPanel controlPanel;
-    JPanel buttonPanel;
-    RoundButton closeButton;
-    RoundButton addToGroceryButton;
+    protected JPanel mainPanel;
+    protected JPanel controlPanel;
+    protected JPanel buttonPanel;
+    protected RoundButton closeButton;
+    protected RoundButton addToGroceryButton;
 
     JPanel contentPanel;
     JScrollPane contentScrollPane;
@@ -63,6 +63,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
         observeNight();
+
     }
 
     @Override
@@ -325,14 +326,10 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     }
 
-    protected JPanel createControlPanel() {
-        controlPanel = new JPanel(new BorderLayout());
-        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
-
+    protected JPanel createButtonPanel() {
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
-
 
         closeButton.addActionListener(e -> {
             this.dispose();
@@ -360,21 +357,26 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         });
         addToMenu.add(createNewGroceryListItem);
 
-
         addToGroceryButton.addActionListener(e -> {
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         });
 
-
         buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
 
-        controlPanel.add(buttonPanel, BorderLayout.EAST);
+        return buttonPanel;
+    }
 
-        toggleNightMode();
+    protected JPanel createControlPanel() {
+        controlPanel = new JPanel(new BorderLayout());
+        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
+
+        // Add button panel to control panel
+        controlPanel.add(createButtonPanel(), BorderLayout.EAST);
 
         return controlPanel;
     }
+
 
     private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
         coreFunctionalityController.execute(shoppingList, recipe, viewModel);
@@ -400,6 +402,12 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         goToWebsiteButton.setHoverColor(darkPurple, neonPink, white, darkPurple);
         goToWebsiteButton.setBorderColor(neonPinkEmph);
 
+        controlPanel.setBackground(black);
+        buttonPanel.setBackground(black);
+
+        closeButton.setHoverColor(neonPink, darkPurple, white, white);
+        closeButton.setBorderColor(neonPurple);
+
     }
 
     public void setDayMode() {
@@ -411,6 +419,12 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         goToWebsiteButton.setHoverColor(claudeWhite, claudeBlackEmph, claudeBlackEmph, claudeWhite);
         goToWebsiteButton.setBorderColor(claudeWhiteEmph);
+
+        controlPanel.setBackground(claudeWhite);
+        buttonPanel.setBackground(claudeWhite);
+
+        closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        closeButton.setBorderColor(claudeWhite);
     }
 
 }

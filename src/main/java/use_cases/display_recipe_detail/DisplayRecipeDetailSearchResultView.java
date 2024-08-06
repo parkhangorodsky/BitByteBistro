@@ -18,6 +18,8 @@ import java.util.List;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private AddToMyRecipeController addToMyRecipeController;
+    RoundButton addToRecipesButton;
+
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
                                                CoreFunctionalityController coreFunctionalityController,
@@ -27,14 +29,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     }
 
 
-    JPanel controlPanel;
-
-    JPanel buttonPanel;
-    RoundButton closeButton;
-    RoundButton addToRecipesButton;
-    RoundButton addToGroceryButton;
-
-
     protected void initialize() {
         super.initialize();
         observeNight();
@@ -42,22 +36,27 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
 
     @Override
-    public JPanel createControlPanel() {
-        JPanel controlPanel = super.createControlPanel();
-        // Add the additional buttons
-        addToRecipesButton = new RoundButton("Add To My Recipes");
+    public JPanel createButtonPanel() {
+        // Call the parent method to get the initialized controlPanel
+        JPanel buttonPanel = super.createButtonPanel();
 
+        // Initialize and add the additional button
+        addToRecipesButton = new RoundButton("Add To My Recipes");
         Recipe recipe = viewModel.getRecipe();
 
         addToRecipesButton.addActionListener(e -> {
             addToMyRecipeController.execute(recipe, viewModel);
         });
 
-        // Add the new buttons to the button panel
-        buttonPanel.add(addToRecipesButton);
+       buttonPanel.remove(closeButton);
+       buttonPanel.revalidate();
+       buttonPanel.repaint();
+       buttonPanel.add(addToRecipesButton);
+       buttonPanel.add(closeButton);
 
-        return controlPanel;
-    };
+        return buttonPanel;
+
+    }
 
 
     @Override
@@ -82,11 +81,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     @Override
     public void setNightMode() {
-        controlPanel.setBackground(black);
-        buttonPanel.setBackground(black);
-
-        closeButton.setHoverColor(neonPink, darkPurple, white, white);
-        closeButton.setBorderColor(neonPurple);
         addToRecipesButton.setHoverColor(neonPink, darkPurple, white, white);
         addToRecipesButton.setBorderColor(neonPurple);
 
@@ -95,11 +89,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     @Override
     public void setDayMode() {
-        controlPanel.setBackground(claudeWhite);
-        buttonPanel.setBackground(claudeWhite);
 
-        closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
-        closeButton.setBorderColor(claudeWhite);
         addToRecipesButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
         addToRecipesButton.setBorderColor(claudeWhite);
 
