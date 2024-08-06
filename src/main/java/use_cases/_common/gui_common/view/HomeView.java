@@ -1,6 +1,7 @@
 package use_cases._common.gui_common.view;
 
 import app.local.LoggedUserData;
+import entity.Nutrition;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
@@ -9,6 +10,8 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -31,6 +34,8 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel nutritionStatsPanel;
     private JPanel recentlyViewedPanel;
     private List<ShoppingList> userGroceryLists;
+
+    // user variable
     private User user = LoggedUserData.getLoggedInUser();
 
     public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController) {
@@ -114,7 +119,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             if (userGroceryLists.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "You don't have any grocery lists", "No Grocery Lists", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                showGroceryListDropdown(selectGroceryListButton, userGroceryLists); // UPDATE
+                showGroceryListDropdown(selectGroceryListButton, userGroceryLists);
             }
         });
         nutritionStatsPanel.add(selectGroceryListButton);
@@ -135,9 +140,41 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         selectGroceryList.show(selectGroceryListButton, 0, selectGroceryListButton.getHeight()); // UPDATE
     }
 
-    // Method to handle grocery list selection
-    private void selectGroceryList(ShoppingList list) {
-        nutritionStatsController.execute(list);
+    private void selectGroceryList(ShoppingList list) { // Existing line
+        if (list.getListItems().isEmpty()) { // UPDATE
+            // Show a popup dialog if the grocery list is empty
+            JOptionPane.showMessageDialog(this, "This grocery list is empty! Add items to use this feature.", "Empty Grocery List", JOptionPane.INFORMATION_MESSAGE); // UPDATE
+        } else {
+            // Proceed with the existing action
+            nutritionStatsController.execute(list); // Existing line
+        } // UPDATE
+    }
+
+    private void loadNutritionStats(NutritionStatsOutputData outputData) {
+        System.out.println("Loading Nutrition Stats");
+        for (Nutrition nutrition : outputData.getNutrition()) {
+            // Create a panel to hold the label and progress bar
+            JPanel nutritionPanel = new JPanel();
+            nutritionPanel.setLayout(new BorderLayout());
+            nutritionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+            nutritionPanel.setBackground(claudeWhite); // Optional: set the background color
+
+            // Create a label for the nutrition name
+            JLabel nutritionLabel = new JLabel(nutrition.getLabel() + ": " + nutrition.getQuantity() + " " + nutrition.getUnit());
+            nutritionLabel.setFont(new Font(defaultFont, Font.PLAIN, 14));
+            nutritionPanel.add(nutritionLabel, BorderLayout.WEST);
+
+            // Create a progress bar for the nutrition value
+            JProgressBar nutritionBar = new JProgressBar();
+            nutritionBar.setMinimum(0);
+            nutritionBar.setMaximum(Math.round(nutrition.getQuantity() + 10)); // Set the maximum value to a predefined max value for the nutrient
+            nutritionBar.setValue(Math.round(nutrition.getQuantity())); // Set the current value
+            nutritionBar.setStringPainted(true); // Display the percentage as a string on the bar
+            nutritionPanel.add(nutritionBar, BorderLayout.CENTER);
+
+            // Add the nutrition panel to the main nutrition stats panel
+            nutritionStatsPanel.add(nutritionPanel);
+        }
     }
 
     private void loadRecentlyViewedRecipes() {
@@ -179,7 +216,11 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("nightMode")) {
+        if (evt.getPropertyName().equals("nutrition info")) {
+            System.out.println("Property Name " + evt.getPropertyName());
+            NutritionStatsOutputData nutritionStats = (NutritionStatsOutputData) evt.getNewValue();
+            loadNutritionStats(nutritionStats);
+        } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
             this.revalidate();
             this.repaint();
