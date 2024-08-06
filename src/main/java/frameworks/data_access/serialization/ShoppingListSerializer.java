@@ -24,7 +24,7 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
     public Document serialize(ShoppingList shoppingList){
 
         Document document = new Document()
-                .append("listOwner", userSerializer.serialize(shoppingList.getListOwner()))
+                .append("listOwner", shoppingList.getListOwner())
                 .append("name", shoppingList.getShoppingListName())
                 .append("groceries", ingredientSerializer.serializeList(shoppingList.getListItems()))
                 .append("cost", shoppingList.getEstimatedTotalCost())
@@ -36,7 +36,7 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
     @Override
     public ShoppingList deserialize(Document bson){
 
-        User listOwner = userSerializer.deserialize(bson);
+        String listOwner = bson.getString("listOwner");
         String name = bson.getString("name");
         List<Ingredient> groceries = ingredientSerializer.deserializeList(bson.getList("groceries", Document.class));
         Double cost = bson.getDouble("cost");
