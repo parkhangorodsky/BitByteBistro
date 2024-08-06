@@ -7,6 +7,14 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 //import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -27,12 +35,26 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel mainPanel;
     private JPanel contentPanel;
     private JPanel recentlyViewedPanel;
+    private DisplayRecipeDetailController displayRecipeDetailController;
+    private AddToMyRecipeController addToMyRecipeController;
+    private CoreFunctionalityController coreFunctionalityController;
+    private RecentlyViewedRecipesController recentlyViewedRecipesController;
+    private AddNewGroceryListController addNewGroceryListController;
 
-//    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, String viewname) {
-    public HomeView(ViewManagerModel viewManagerModel) {
+    //    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, String viewname) {
+    public HomeView(ViewManagerModel viewManagerModel, DisplayRecipeDetailController displayRecipeDetailController,
+                    AddToMyRecipeController addToMyRecipeController,
+                    CoreFunctionalityController coreFunctionalityController,
+                    RecentlyViewedRecipesController recentlyViewedRecipesController,
+                    AddNewGroceryListController addNewGroceryListController ) {
 
         this.viewManagerModel = viewManagerModel;
-        //this.nutritionStatsController = nutritionStatsController;
+        this.displayRecipeDetailController = displayRecipeDetailController;
+        this.addNewGroceryListController = addNewGroceryListController;
+        this.coreFunctionalityController = coreFunctionalityController;
+        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
+        this.addToMyRecipeController = addToMyRecipeController;
+
         this.viewname = "Home";
 
         observeNight();
@@ -110,10 +132,13 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                 recipeNameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        // Code to handle the click event on the recipe name
-                        // For example, you can open the recipe detail view
-                        System.out.println("Recipe clicked: " + recipe.getName());
-                        // You can replace the print statement with the code to navigate to the recipe detail view
+                        recentlyViewedRecipesController.execute(recipe);
+                        DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
+                        DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(recipeNameLabel),
+                                viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
+                        displayRecipeDetailController.execute(recipe, viewModel);
+                        display.setVisible(true);
+                        display.enableParent();
                     }
 
                     @Override
@@ -123,7 +148,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
                     @Override
                     public void mouseExited(java.awt.event.MouseEvent evt) {
-                        recipeNameLabel.setCursor(Cursor.getDefaultCursor());
                         recipeNameLabel.setForeground(claudeBlack); // Change back to original color
                     }
                 });
