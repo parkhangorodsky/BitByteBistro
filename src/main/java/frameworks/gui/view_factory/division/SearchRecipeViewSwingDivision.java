@@ -13,6 +13,8 @@ public class SearchRecipeViewSwingDivision implements ViewFactoryDivision<Search
                 config.getDisplayRecipeDetailController(),
                 config.getAddToMyRecipeController(),
                 config.getRecentlyViewedRecipesController(),
+                config.getAddNewGroceryListController(),
+                config.getCoreFunctionalityController(),
                 config.getAdvancedSearchRecipeViewModel(),
                 config.getViewManagerModel());
 
