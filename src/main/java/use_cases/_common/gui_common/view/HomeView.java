@@ -10,6 +10,7 @@ import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases.nutrition_stats.interface_adapter.view_model.NutritionStatsViewModel;
 import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
 
 import javax.swing.*;
@@ -32,16 +33,22 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel mainPanel;
     private JPanel contentPanel;
     private JPanel nutritionStatsPanel;
+    private JPanel nutritionPanel;
     private JPanel recentlyViewedPanel;
     private List<ShoppingList> userGroceryLists;
+    NutritionStatsViewModel nutritionStatsViewModel;
 
     // user variable
     private User user = LoggedUserData.getLoggedInUser();
 
-    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController) {
+    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, NutritionStatsViewModel nutritionStatsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.viewname = "Home";
         this.nutritionStatsController = nutritionStatsController;
+        this.nutritionStatsViewModel = nutritionStatsViewModel;
+
+        // Register HomeView as a PropertyChangeListener
+        nutritionStatsViewModel.addPropertyChangeListener(this);
 
         observeNight();
 
@@ -152,7 +159,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         System.out.println("Loading Nutrition Stats");
         for (Nutrition nutrition : outputData.getNutrition()) {
             // Create a panel to hold the label and progress bar
-            JPanel nutritionPanel = new JPanel();
+            nutritionPanel = new JPanel();
             nutritionPanel.setLayout(new BorderLayout());
             nutritionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
             nutritionPanel.setBackground(claudeWhite);
@@ -170,6 +177,8 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
             nutritionStatsPanel.add(nutritionPanel);
         }
+        nutritionStatsPanel.revalidate();
+        nutritionStatsPanel.repaint();
     }
 
     private void loadRecentlyViewedRecipes() {
