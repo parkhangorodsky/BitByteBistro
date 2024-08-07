@@ -86,7 +86,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
             recentlyViewedRecipesController.execute(recipe);
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
             DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this),
-                    viewModel, addToMyRecipeController, coreFunctionalityController, addNewGroceryListController);
+                    viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
             displayRecipeDetailController.execute(recipe, viewModel);
             display.setVisible(true);
             display.enableParent();

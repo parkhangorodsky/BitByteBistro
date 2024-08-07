@@ -7,9 +7,14 @@ import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
 import use_cases._common.gui_common.abstractions.View;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
-import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailMyRecipeView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
 import use_cases.filter_recipe.FilterRecipeController;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
 import use_cases.search_recipe.gui.view_component.SearchButton;
 import use_cases.search_recipe.gui.view_component.SearchTextField;
 
@@ -20,13 +25,15 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 public class MyRecipeView extends View implements ThemeColoredObject, NightModeObject {
 
-    private MyRecipeViewModel viewModel;
+    private final MyRecipeViewModel viewModel;
     private JPanel myRecipeContainer;
     private JScrollPane myRecipeScrollPane;
 
@@ -34,15 +41,26 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
     JButton searchButton;
 
 
-    private FilterRecipeController filterController;
+    private final FilterRecipeController filterController;
+    private final RecentlyViewedRecipesController recentlyViewedRecipesController;
+    private final DisplayRecipeDetailController displayRecipeDetailController;
+    private final CoreFunctionalityController coreFunctionalityController;
+    private final AddNewGroceryListController addNewGroceryListController;
 
-    public MyRecipeView(MyRecipeViewModel viewModel, FilterRecipeController filterController) {
+
+
+    public MyRecipeView(MyRecipeViewModel viewModel, FilterRecipeController filterController, RecentlyViewedRecipesController recentlyViewedRecipesController, DisplayRecipeDetailController displayRecipeDetailController,  CoreFunctionalityController coreFunctionalityController,
+                        AddNewGroceryListController addNewGroceryListController) {
 
         observeNight();
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
         this.setViewName(viewModel.getViewName());
         this.filterController = filterController;
+        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
+        this.displayRecipeDetailController = displayRecipeDetailController;
+        this.coreFunctionalityController = coreFunctionalityController;
+        this.addNewGroceryListController = addNewGroceryListController;
 
         this.setLayout(new BorderLayout());
 
@@ -116,9 +134,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         });
 
         searchButton = new SearchButton();
-        searchButton.addActionListener(e -> {
-            filterController.execute(textField.getText());
-        });
+        searchButton.addActionListener(_ -> filterController.execute(textField.getText()));
 
         inputPanel.add(textField);
         inputPanel.add(searchButton);
@@ -160,6 +176,50 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         recipeItem.setBackground(LocalAppSetting.isNightMode() ? neonPurpleEmph : claudewhiteBright);
         recipeItem.setBorderColor(LocalAppSetting.isNightMode() ? neonPurple : claudeWhiteEmph);
 
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Handle the click event
+                recentlyViewedRecipesController.execute(recipe);
+                DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
+                // Ensure the recipeItem is part of a visible container
+                SwingUtilities.invokeLater(() -> {
+                    DisplayRecipeDetailMyRecipeView display = new DisplayRecipeDetailMyRecipeView((JFrame) SwingUtilities.getWindowAncestor(recipeItem), viewModel, coreFunctionalityController, addNewGroceryListController);
+                    displayRecipeDetailController.execute(recipe, viewModel);
+                    display.setVisible(true);
+                    display.enableParent();
+                });
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Optionally, handle the mouse entering the panel (e.g., change cursor or highlight)
+                if (LocalAppSetting.isNightMode()) {
+                    recipeItem.setBackground(neonPurple);
+                    recipeItem.setBorderColor(neonPinkEmph);
+                } else {
+                    recipeItem.setBackground(claudeWhiteEmph);
+                    recipeItem.setBorderColor(claudewhiteBright);
+
+                }            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Optionally, handle the mouse exiting the panel
+                if (LocalAppSetting.isNightMode()) {
+                    recipeItem.setBackground(neonPurpleEmph);
+                    recipeItem.setBorderColor(neonPurple);
+                } else {
+                    recipeItem.setBackground(claudewhiteBright);
+                    recipeItem.setBorderColor(claudeWhiteEmph);
+
+                }
+
+            }
+        };
+
+        // Attach the MouseAdapter to the recipeItem
+        recipeItem.addMouseListener(mouseAdapter);
+
         JPanel imagePanel = new JPanel();
         imagePanel.setOpaque(false);
         BufferedImage image = recipe.getSmallImage();
@@ -176,19 +236,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
-        RoundButton showRecipeButton = new RoundButton("+");
-        showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
-        showRecipeButton.setVerticalAlignment(SwingConstants.CENTER);
-        showRecipeButton.setPreferredSize(new Dimension(30, 30));
-        showRecipeButton.setBorderColor(LocalAppSetting.isNightMode() ? neonPinkEmph : claudeBlack);
 
-        if (LocalAppSetting.isNightMode()) {
-            showRecipeButton.setHoverColor(darkPurple, neonPinkEmph, white, white);
-        } else {
-            showRecipeButton.setHoverColor(claudeBlack, sunflower, claudeWhite, claudewhiteBright);
-        }
-
-        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
 
         recipeItem.add(imagePanel, BorderLayout.WEST);
         recipeItem.add(recipeNamePanel, BorderLayout.CENTER);
