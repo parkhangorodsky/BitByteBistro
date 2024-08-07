@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ShoppingList {
 
-    private User listOwner;
+    private String listOwner;
     private String shoppingListName; // changed the name of this
     private List<Ingredient> listItems;
     private Double estimatedTotalCost;
@@ -18,7 +18,7 @@ public class ShoppingList {
      * @param listOwner owner of the grocery list
      * @param shoppingListName name of shopping list - possibly the date but not necessarily
      */
-    public ShoppingList(User listOwner, String shoppingListName) {
+    public ShoppingList(String listOwner, String shoppingListName) {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
         this.listItems = new ArrayList<>();
@@ -26,7 +26,7 @@ public class ShoppingList {
         this.recipes = new ArrayList<>();
     }
 
-    public User getListOwner() {
+    public String getListOwner() {
         return listOwner;
     }
 

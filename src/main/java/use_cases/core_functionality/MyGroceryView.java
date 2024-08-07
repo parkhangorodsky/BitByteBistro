@@ -25,6 +25,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
@@ -184,8 +185,10 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         User user = viewModel.getUser();
         if (user != null && !user.getShoppingLists().isEmpty()) {
-            for (ShoppingList shoppingList : user.getShoppingLists()) {
-                JPanel shoppingListItem = createShoppingListItem(shoppingList);
+            for (HashMap.Entry<String, ShoppingList> shoppingList : user.getShoppingLists().entrySet()) {
+                String owner = shoppingList.getKey();
+                ShoppingList items = shoppingList.getValue();
+                JPanel shoppingListItem = createShoppingListItem(items);
                 myGroceryContainer.add(shoppingListItem);
             }
         } else {
