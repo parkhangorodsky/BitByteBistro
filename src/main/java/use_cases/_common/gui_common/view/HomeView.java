@@ -134,11 +134,12 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                 recipeNameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        recentlyViewedRecipesController.execute(recipe);
                         DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
                         DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(recipeNameLabel),
                                 viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
                         displayRecipeDetailController.execute(recipe, viewModel);
+                        recentlyViewedRecipesController.execute(recipe);
+                        loadRecentlyViewedRecipes();
                         display.setVisible(true);
                         display.enableParent();
                     }
