@@ -99,7 +99,10 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionStatsPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         nutritionStatsPanel.setLayout(new BoxLayout(nutritionStatsPanel, BoxLayout.Y_AXIS));
         nutritionStatsPanel.setBackground(claudeWhite);
+        nutritionPanel = new JPanel();
+
         displayNutritionStats();
+        System.out.println(nutritionStatsPanel.getComponentCount());
     }
 
     private void initializeRecentlyViewedPanel() {
@@ -157,26 +160,35 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
     private void loadNutritionStats(NutritionStatsOutputData outputData) {
         System.out.println("Loading Nutrition Stats");
+        nutritionStatsPanel.remove(nutritionPanel);
+
+        nutritionPanel = new JPanel();
+        nutritionPanel.setLayout(new BoxLayout(nutritionPanel, BoxLayout.Y_AXIS)); // Set layout to vertical BoxLayout
+
         for (Nutrition nutrition : outputData.getNutrition()) {
             // Create a panel to hold the label and progress bar
-            nutritionPanel = new JPanel();
-            nutritionPanel.setLayout(new BorderLayout());
-            nutritionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-            nutritionPanel.setBackground(claudeWhite);
+            System.out.println(nutrition);
+            JPanel nutritionBarPanel = new JPanel();
+            nutritionBarPanel.setLayout(new BorderLayout());
+            nutritionBarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+            nutritionBarPanel.setBackground(claudeWhite);
 
             JLabel nutritionLabel = new JLabel(nutrition.getLabel() + ": " + nutrition.getQuantity() + " " + nutrition.getUnit());
             nutritionLabel.setFont(new Font(defaultFont, Font.PLAIN, 14));
-            nutritionPanel.add(nutritionLabel, BorderLayout.WEST);
+            nutritionBarPanel.add(nutritionLabel, BorderLayout.WEST);
 
             JProgressBar nutritionBar = new JProgressBar();
             nutritionBar.setMinimum(0);
             nutritionBar.setMaximum(Math.round(nutrition.getQuantity() + 10));
             nutritionBar.setValue(Math.round(nutrition.getQuantity()));
             nutritionBar.setStringPainted(true);
-            nutritionPanel.add(nutritionBar, BorderLayout.CENTER);
+            nutritionBarPanel.add(nutritionBar, BorderLayout.CENTER);
 
-            nutritionStatsPanel.add(nutritionPanel);
+            nutritionPanel.add(nutritionBar);
+            System.out.println(nutritionStatsPanel.getComponentCount());
         }
+        nutritionStatsPanel.add(nutritionPanel);
+
         nutritionStatsPanel.revalidate();
         nutritionStatsPanel.repaint();
     }
