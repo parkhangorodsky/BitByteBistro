@@ -26,6 +26,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     private CoreFunctionalityController coreFunctionalityController;
     private AddNewGroceryListController addNewGroceryListController;
-    private List<ShoppingList> userGroceryLists;
+    private HashMap<String, ShoppingList> userGroceryLists;
     User user = LoggedUserData.getLoggedInUser();
 
 
@@ -341,7 +342,8 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
 
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
-            for (ShoppingList list : userGroceryLists) {
+            for (Map.Entry<String, ShoppingList> entry : userGroceryLists.entrySet()) {
+                ShoppingList list = entry.getValue();
                 JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
                     addToGroceryList(recipe, list);
@@ -349,6 +351,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
                 addToMenu.add(groceryListItem);
             }
         }
+
 
         // Option to create a new grocery list
         JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
