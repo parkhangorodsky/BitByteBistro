@@ -221,7 +221,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("nutrition info")) {
-            System.out.println("Property Name " + evt.getPropertyName());
             NutritionStatsOutputData nutritionStats = (NutritionStatsOutputData) evt.getNewValue();
             loadNutritionStats(nutritionStats);
         } else if (evt.getPropertyName().equals("nightMode")) {
