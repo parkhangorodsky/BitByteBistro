@@ -13,6 +13,14 @@ import use_cases._common.gui_common.abstractions.View;
 import use_cases.nutrition_stats.interface_adapter.view_model.NutritionStatsViewModel;
 import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
 
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
+import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -20,6 +28,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeView extends View implements ThemeColoredObject, NightModeObject {
@@ -35,14 +46,32 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel nutritionStatsPanel;
     private JPanel nutritionPanel;
     private JPanel recentlyViewedPanel;
+    private DisplayRecipeDetailController displayRecipeDetailController;
+    private AddToMyRecipeController addToMyRecipeController;
+    private CoreFunctionalityController coreFunctionalityController;
+    private RecentlyViewedRecipesController recentlyViewedRecipesController;
+    private AddNewGroceryListController addNewGroceryListController;
     private List<ShoppingList> userGroceryLists;
     NutritionStatsViewModel nutritionStatsViewModel;
 
     // user variable
     private User user = LoggedUserData.getLoggedInUser();
 
-    public HomeView(ViewManagerModel viewManagerModel, NutritionStatsController nutritionStatsController, NutritionStatsViewModel nutritionStatsViewModel) {
+    public HomeView(ViewManagerModel viewManagerModel,
+                    NutritionStatsController nutritionStatsController,
+                    NutritionStatsViewModel nutritionStatsViewModel,
+                    AddToMyRecipeController addToMyRecipeController,
+                    CoreFunctionalityController coreFunctionalityController,
+                    RecentlyViewedRecipesController recentlyViewedRecipesController,
+                    AddNewGroceryListController addNewGroceryListController,
+                    DisplayRecipeDetailController displayRecipeDetailController) {
         this.viewManagerModel = viewManagerModel;
+        this.displayRecipeDetailController = displayRecipeDetailController;
+        this.addNewGroceryListController = addNewGroceryListController;
+        this.coreFunctionalityController = coreFunctionalityController;
+        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
+        this.addToMyRecipeController = addToMyRecipeController;
+
         this.viewname = "Home";
         this.nutritionStatsController = nutritionStatsController;
         this.nutritionStatsViewModel = nutritionStatsViewModel;
@@ -114,7 +143,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     }
 
     private void displayNutritionStats() {
-        List<ShoppingList> userGroceryLists = user.getShoppingLists();
+        HashMap<String, ShoppingList> userGroceryLists = user.getShoppingLists();
 
         nutritionStatsPanel.removeAll();
 
@@ -129,21 +158,24 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             if (userGroceryLists.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "You don't have any grocery lists", "No Grocery Lists", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                showGroceryListDropdown(selectGroceryListButton, userGroceryLists);
+                // Convert values to a list
+                List<ShoppingList> groceryLists = new ArrayList<>(userGroceryLists.values());
+                showGroceryListDropdown(selectGroceryListButton, groceryLists);
             }
         });
+
         nutritionStatsPanel.add(selectGroceryListButton);
         nutritionStatsPanel.revalidate();
         nutritionStatsPanel.repaint();
     }
 
-    private void showGroceryListDropdown(JButton selectGroceryListButton, List<ShoppingList> userGroceryLists) {
+    private void showGroceryListDropdown(JButton selectGroceryListButton, Collection<ShoppingList> userGroceryLists) {
         JPopupMenu selectGroceryList = new JPopupMenu();
 
         for (ShoppingList list : userGroceryLists) {
-                JMenuItem groceryListItem = new JMenuItem(list.getShoppingListName());
-                groceryListItem.addActionListener(e -> selectGroceryList(list));
-                selectGroceryList.add(groceryListItem);
+            JMenuItem groceryListItem = new JMenuItem(list.getShoppingListName());
+            groceryListItem.addActionListener(e -> selectGroceryList(list));
+            selectGroceryList.add(groceryListItem);
         }
 
         // Show popup menu below the button
@@ -218,8 +250,32 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                 JLabel recipeNameLabel = new JLabel(recipe.getName());
                 recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
                 recipePanel.add(recipeNameLabel, BorderLayout.CENTER);
-
                 recentlyViewedPanel.add(recipePanel);
+
+                recipeNameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
+                        DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(recipeNameLabel),
+                                viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
+                        displayRecipeDetailController.execute(recipe, viewModel);
+                        recentlyViewedRecipesController.execute(recipe);
+                        loadRecentlyViewedRecipes();
+                        display.setVisible(true);
+                        display.enableParent();
+                    }
+
+                    @Override
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                        recipeNameLabel.setForeground(claudeBlackEmph); // Change color on hover
+                    }
+
+                    @Override
+                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                        recipeNameLabel.setForeground(claudeBlack); // Change back to original color
+                    }
+                });
+
             }
         }
         recentlyViewedPanel.revalidate();
