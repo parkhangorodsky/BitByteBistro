@@ -11,8 +11,6 @@ import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -22,26 +20,20 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private CoreFunctionalityController coreFunctionalityController;
     private AddNewGroceryListController addNewGroceryListController;
     private HashMap<String, ShoppingList> userGroceryLists;
+    RoundButton addToRecipesButton;
+    RoundButton addToGroceryButton;
     User user = LoggedUserData.getLoggedInUser();
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
                                                AddToMyRecipeController addToMyRecipeController,
                                                CoreFunctionalityController coreFunctionalityController,
                                                AddNewGroceryListController addNewGroceryListController) {
-        super(parent, viewModel);
+        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController);
         this.addToMyRecipeController = addToMyRecipeController;
         this.coreFunctionalityController = coreFunctionalityController;
         this.addNewGroceryListController = addNewGroceryListController;
         this.userGroceryLists = user.getShoppingLists(); // Initialize the grocery lists
     }
-
-
-    JPanel controlPanel;
-
-    JPanel buttonPanel;
-    RoundButton closeButton;
-    RoundButton addToRecipesButton;
-    RoundButton addToGroceryButton;
 
     private JPopupMenu addToMenu;
 
@@ -53,20 +45,13 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
 
     @Override
-    public JPanel createControlPanel() {
+    public JPanel createButtonPanel() {
+        // Call the parent method to get the initialized controlPanel
+        JPanel buttonPanel = super.createButtonPanel();
 
-        controlPanel = new JPanel(new BorderLayout());
-        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
-
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        closeButton = new RoundButton("Close");
+        // Initialize and add the additional button
         addToRecipesButton = new RoundButton("Add To My Recipes");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
-
-
-        closeButton.addActionListener(e -> {
-            this.dispose();
-        });
 
         Recipe recipe = viewModel.getRecipe();
 
@@ -80,16 +65,15 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         });
 
-
+        buttonPanel.remove(closeButton);
+        buttonPanel.revalidate();
+        buttonPanel.repaint();
         buttonPanel.add(addToRecipesButton);
         buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
 
-        controlPanel.add(buttonPanel, BorderLayout.EAST);
+        return buttonPanel;
 
-        toggleNightMode();
-
-        return controlPanel;
     };
 
     public JPopupMenu showAddToMenu(Recipe recipe) {
@@ -130,16 +114,17 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     }
 
 
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("recipe already exists")) {
-            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "Recipe already exists.",
                     "",
                     JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("added recipe")) {
-            JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(this),
-                    "Succesfully added.", "",
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Successfully added.", "",
                     JOptionPane.INFORMATION_MESSAGE);
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
@@ -152,11 +137,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     @Override
     public void setNightMode() {
-        controlPanel.setBackground(black);
-        buttonPanel.setBackground(black);
-
-        closeButton.setHoverColor(neonPink, darkPurple, white, white);
-        closeButton.setBorderColor(neonPurple);
         addToRecipesButton.setHoverColor(neonPink, darkPurple, white, white);
         addToRecipesButton.setBorderColor(neonPurple);
 
@@ -165,11 +145,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
     @Override
     public void setDayMode() {
-        controlPanel.setBackground(claudeWhite);
-        buttonPanel.setBackground(claudeWhite);
 
-        closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
-        closeButton.setBorderColor(claudeWhite);
         addToRecipesButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
         addToRecipesButton.setBorderColor(claudeWhite);
 

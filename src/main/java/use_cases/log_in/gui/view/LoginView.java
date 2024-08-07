@@ -195,13 +195,6 @@ public class LoginView extends View implements ActionListener, PropertyChangeLis
         if ("errorMessage".equals(evt.getPropertyName())) {
             displayErrorMessage((String) evt.getNewValue());
         }
-//        else if ("loggedInUser".equals(evt.getPropertyName())) {
-//            // Initialize other views when the user logs in
-//     //       swingGUI.initializeOtherViews();
-//            // Navigate to search recipe view on successful login
-////            viewManagerModel.setActiveView("search recipe");
-////            viewManagerModel.firePropertyChanged();
-//        }
     }
 
     /**
