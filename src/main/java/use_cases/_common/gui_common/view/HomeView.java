@@ -184,7 +184,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             nutritionBar.setStringPainted(true);
             nutritionBarPanel.add(nutritionBar, BorderLayout.CENTER);
 
-            nutritionPanel.add(nutritionBar);
+            nutritionPanel.add(nutritionBarPanel);
             System.out.println(nutritionStatsPanel.getComponentCount());
         }
         nutritionStatsPanel.add(nutritionPanel);
