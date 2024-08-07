@@ -8,17 +8,16 @@ import org.json.JSONObject;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 import use_cases._common.xtra.exceptions.HttpResponseException;
 
-import static use_cases._common.xtra.utility.RecipeJSONHandler.convertJSONtoRecipe;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static use_cases._common.xtra.utility.RecipeJSONHandler.convertJSONResponseToRecipe;
+import static use_cases._common.xtra.utility.StringEditor.optionStringBuilder;
 
 public class EdamamRecipeApi implements RecipeAPI {
 
     private static final String base_url = "https://api.edamam.com/api/recipes/v2?type=any&beta=true";
-
     // Load API key and id from env variable.
     private static final String API_KEY = System.getenv("EDAMAM_API_KEY");
     private static final String API_ID = System.getenv("EDAMAM_API_ID");
@@ -29,15 +28,7 @@ public class EdamamRecipeApi implements RecipeAPI {
         try {
             String endpoint = createURL(inputData);
             JSONArray responseRecipe = getResponse(endpoint);
-
-            List<Recipe> recipeList = new ArrayList<>();
-            for (int i = 0; i < responseRecipe.length(); i++) {
-                JSONObject recipeJSON = responseRecipe.getJSONObject(i).getJSONObject("recipe");
-                Recipe recipe =  convertJSONtoRecipe(recipeJSON);
-                recipeList.add(recipe);
-            }
-
-            return recipeList;
+            return convertJSONResponseToRecipe(responseRecipe);
 
         } catch (IOException e) {
             System.out.println("IOException\n " + e.getMessage());
@@ -77,10 +68,6 @@ public class EdamamRecipeApi implements RecipeAPI {
         return base_url + "&q=" + inputData.getRecipeName() + "&app_id=" + API_ID + "&app_key=" + API_KEY;
     }
 
-    private String optionStringBuilder(List<String> options, String type) {
-        return options.stream().map(choice -> "&" + type + "=" + choice)
-                .collect(Collectors.joining());
-    }
     private JSONArray getResponse(String endpoint) throws JSONException, IOException, HttpResponseException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -99,4 +86,5 @@ public class EdamamRecipeApi implements RecipeAPI {
             throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + "with URL: " + endpoint);
         }
     }
+
 }

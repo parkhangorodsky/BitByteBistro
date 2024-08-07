@@ -6,6 +6,7 @@ import entity.Recipe;
 import entity.builder.DefaultRecipeBuilder;
 import entity.builder.RecipeBuilder;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.image.BufferedImage;
@@ -22,13 +23,24 @@ import static use_cases._common.xtra.utility.JSONNullHandler.*;
  */
 public class RecipeJSONHandler {
 
+
+    public static List<Recipe> convertJSONResponseToRecipe(JSONArray responseRecipe) throws JSONException {
+        List<Recipe> recipeList = new ArrayList<>();
+        for (int i = 0; i < responseRecipe.length(); i++) {
+            JSONObject recipeJSON = responseRecipe.getJSONObject(i).getJSONObject("recipe");
+            Recipe recipe =  convertJSONtoRecipe(recipeJSON);
+            recipeList.add(recipe);
+        }
+
+        return recipeList;
+    }
     /**
      * Converts a JSONObject representation of a recipe into a Recipe object.
      *
      * @param recipeJSON the JSONObject containing the recipe data
      * @return a Recipe object containing the parsed data
      */
-    public static Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
+    private static Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
 
         // Extract necessary information from the JSON object using appropriate methods that matches the data structure.
         String uri = recipeJSON.getString("uri");

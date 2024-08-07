@@ -1,13 +1,26 @@
 package use_cases._common.xtra.utility;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Overview: Utility interface for performing operations on strings related to case formatting.
  * Utility: Provides default methods for transforming the case of strings.
  */
-public class StringCaseEditor {
+public class StringEditor {
+
+    /**
+     * Builds a concatenated string of options with the given type as a prefix for each option.
+     *
+     * @param options the list of options to be included in the string
+     * @param type the prefix to be added before each option
+     * @return a concatenated string of options with the type as a prefix for each option
+     */
+    public static String optionStringBuilder(List<String> options, String type) {
+        return options.stream().map(choice -> "&" + type + "=" + choice)
+                .collect(Collectors.joining());
+    }
 
     /**
      * Capitalizes the first letter of each word in the provided string.
@@ -29,4 +42,6 @@ public class StringCaseEditor {
                     .collect(Collectors.joining(" ")); // Join capitalized words together.
         }
     }
+
+
 }
