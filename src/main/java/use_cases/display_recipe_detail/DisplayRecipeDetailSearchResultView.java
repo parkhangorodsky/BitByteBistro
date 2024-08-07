@@ -49,7 +49,10 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         // Call the parent method to get the initialized controlPanel
         JPanel buttonPanel = super.createButtonPanel();
 
-        // Initialize and add the additional button
+        // Remove any pre-existing components if necessary
+        buttonPanel.removeAll();
+
+        // Initialize and add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
 
@@ -65,16 +68,13 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         });
 
-        buttonPanel.remove(closeButton);
-        buttonPanel.revalidate();
-        buttonPanel.repaint();
         buttonPanel.add(addToRecipesButton);
         buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
 
         return buttonPanel;
+    }
 
-    };
 
     public JPopupMenu showAddToMenu(Recipe recipe) {
         JPopupMenu addToMenu = new JPopupMenu();
@@ -91,7 +91,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             }
         }
 
-        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
+        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List And Add");
         createNewGroceryListItem.addActionListener(e -> {
             createNewGroceryListAndAdd(recipe);
         });
