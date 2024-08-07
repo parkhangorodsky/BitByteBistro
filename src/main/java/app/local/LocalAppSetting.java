@@ -23,10 +23,8 @@ public class LocalAppSetting {
         return subtractFridgeFromGrocery;
     }
 
-    public static void setSubtractFridgeFromGrocery(boolean subtractFridgeFromGrocery) {
-        boolean oldSubtractFridgeFromGrocery = LocalAppSetting.subtractFridgeFromGrocery;
-        LocalAppSetting.subtractFridgeFromGrocery = subtractFridgeFromGrocery;
-        support.firePropertyChange("subtractFridgeFromGrocery", oldSubtractFridgeFromGrocery, subtractFridgeFromGrocery);
+    public static void setSubtractFridgeFromGrocery(boolean enabled) {
+        subtractFridgeFromGrocery = enabled;
     }
 
     public static void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -40,4 +38,6 @@ public class LocalAppSetting {
     public static void firePropertyChange(String propertyName) {
         support.firePropertyChange(propertyName, false, true);
     }
+
+
 }

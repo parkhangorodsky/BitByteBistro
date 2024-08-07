@@ -47,7 +47,11 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         RoundButton applyButton = new RoundButton("Apply");
         applyButton.addActionListener(e -> {
-            controller.execute(nightModeCheckBox.isSelected(), subtractFridgeFromGroceryCheckBox.isSelected());
+            boolean nightModeSelected = nightModeCheckBox.isSelected();
+            boolean subtractFridgeSelected = subtractFridgeFromGroceryCheckBox.isSelected();
+            System.out.println("Night Mode Selected: " + nightModeSelected);
+            System.out.println("Subtract Fridge Selected: " + subtractFridgeSelected);
+            controller.execute(nightModeSelected, subtractFridgeSelected);
             this.hidePopUp();
         });
 

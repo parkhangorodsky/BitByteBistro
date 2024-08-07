@@ -15,25 +15,26 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     @Override
     public void addIngredient(FridgeInventoryInputData inputData) {
         Ingredient ingredient = new Ingredient(
-                java.util.UUID.randomUUID().toString(), // Generate a unique ID for the ingredient
+                java.util.UUID.randomUUID().toString(),
                 inputData.getIngredientName(),
                 inputData.getUnit(),
                 inputData.getCategory(),
                 inputData.getQuantity()
         );
         fridge.addIngredient(ingredient);
-        presenter.updateView(fridge.getIngredients());
+        presenter.updateView(fridge.getAggregatedFridgeContents()); // Ensure the view is updated
     }
 
     @Override
     public void removeIngredient(String ingredientID) {
         fridge.removeIngredient(ingredientID);
-        presenter.updateView(fridge.getIngredients());
+        presenter.updateView(fridge.getAggregatedFridgeContents()); // Ensure the view is updated
     }
 
     @Override
     public void updateIngredientQuantity(String ingredientID, float newQuantity) {
         fridge.updateIngredientQuantity(ingredientID, newQuantity);
-        presenter.updateView(fridge.getIngredients());
+        presenter.updateView(fridge.getAggregatedFridgeContents()); // Ensure the view is updated
     }
+
 }

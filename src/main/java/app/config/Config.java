@@ -14,7 +14,7 @@ import frameworks.data_access.UserDataAccessInterface;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
-import use_cases.fridge_inventory.FridgeInventoryViewModel;
+import use_cases.fridge_inventory.*;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
@@ -37,11 +37,9 @@ import use_cases.setting_preference.SetPreferenceController;
 
 // Fridge Classes
 import entity.Fridge;
-import use_cases.fridge_inventory.FridgeInventoryInteractor;
-import use_cases.fridge_inventory.FridgeInventoryPresenter;
-import use_cases.fridge_inventory.FridgeInventoryInputBoundary;
 import use_cases.setting_preference.SetPreferencePresenter;
 import use_cases.setting_preference.SetPreferenceInteractor;
+import app.local.LoggedUserData;
 
 public class Config {
 
@@ -74,27 +72,23 @@ public class Config {
     public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
     public CoreFunctionalityController getCoreFunctionalityController() { return CoreFunctionalityConfig.controller; }
 
-    // For Fridge components
-    private FridgeInventoryPresenter fridgeInventoryPresenter;
-    private FridgeInventoryInteractor fridgeInventoryInteractor;
-
-    public Config() {
-        setupFridgeInventoryComponents();
-    }
-
-    private void setupFridgeInventoryComponents() {
-        FridgeInventoryViewModel fridgeInventoryViewModel = ViewModelConfig.fridgeInventoryViewModel;
-        Fridge fridge = new Fridge("userID"); // replace with the actual user ID
-        fridgeInventoryPresenter = new FridgeInventoryPresenter(fridgeInventoryViewModel);
-        fridgeInventoryInteractor = new FridgeInventoryInteractor(fridgeInventoryPresenter, fridge);
+    // Fridge components
+    public FridgeInventoryController getFridgeInventoryController() {
+        return FridgeInventoryConfig.controller;
     }
 
     public FridgeInventoryInputBoundary getFridgeInventoryInteractor() {
-        return fridgeInventoryInteractor;
+        return FridgeInventoryConfig.interactor;
     }
 
+    // Other UseCase Getters
     public SetPreferenceController getSetPreferenceController() {
-        return new SetPreferenceController(new SetPreferenceInteractor(new SetPreferencePresenter(), getDataAccessInterface()));
+        return new SetPreferenceController(
+                new SetPreferenceInteractor(
+                        new SetPreferencePresenter(),
+                        getDataAccessInterface()
+                )
+        );
     }
 
 }

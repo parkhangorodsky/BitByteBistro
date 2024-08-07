@@ -2,6 +2,8 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Represents a Fridge entity that contains a collection of ingredients.
@@ -73,6 +75,31 @@ public class Fridge {
         }
         return false;
     }
+
+    public List<Ingredient> getAggregatedFridgeContents() {
+        Map<String, Ingredient> aggregatedFridge = new LinkedHashMap<>();
+        System.out.println("Aggregating fridge contents.");
+        for (Ingredient item : this.ingredients) {
+            String key = item.getIngredientName().toLowerCase() + "_" + item.getQuantityUnit().toLowerCase().trim();
+            if (aggregatedFridge.containsKey(key)) {
+                Ingredient aggregatedItem = aggregatedFridge.get(key);
+                aggregatedItem.setQuantity(aggregatedItem.getQuantity() + item.getQuantity());
+            } else {
+                aggregatedFridge.put(key, new Ingredient(
+                        item.getIngredientID(),
+                        item.getIngredientName(),
+                        item.getQuantityUnit(),
+                        item.getCategory(),
+                        item.getQuantity()
+                ));
+            }
+        }
+        List<Ingredient> aggregatedContents = new ArrayList<>(aggregatedFridge.values());
+        System.out.println("Finished aggregating fridge contents.");
+        System.out.println("Aggregated fridge contents: " + aggregatedContents);
+        return aggregatedContents;
+    }
+
 
     @Override
     public String toString() {

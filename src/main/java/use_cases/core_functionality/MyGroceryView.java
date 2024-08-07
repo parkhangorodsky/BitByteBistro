@@ -26,6 +26,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
     protected MyGroceryViewModel viewModel;
@@ -72,7 +76,8 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         if (evt.getPropertyName().equals("init")) {
             viewModel.setUser(LoggedUserData.getLoggedInUser());
             updateMyGrocery();
-        } else if (evt.getPropertyName().equals("grocery")) {
+        } else if (evt.getPropertyName().equals("grocery") || evt.getPropertyName().equals("subtractFridgeFromGrocery")) {
+            System.out.println("Property change detected: " + evt.getPropertyName()); // Debugging output
             updateMyGrocery();
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
@@ -80,6 +85,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             this.repaint();
         }
     }
+
 
     private JPanel setUpContentView() {
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -178,9 +184,20 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         myGroceryContainer.removeAll();
 
         User user = viewModel.getUser();
+        boolean subtractFridgeFromGrocery = LocalAppSetting.isSubtractFridgeFromGrocery();
+        System.out.println("Subtract Fridge from Grocery Setting: " + subtractFridgeFromGrocery);
+
         if (user != null && !user.getShoppingLists().isEmpty()) {
             for (ShoppingList shoppingList : user.getShoppingLists()) {
-                JPanel shoppingListItem = createShoppingListItem(shoppingList);
+                ShoppingList listToDisplay = getAggregatedGroceryListForDisplay(shoppingList);
+                System.out.println("Initial Aggregated List: " + listToDisplay.getListItems());
+
+                if (subtractFridgeFromGrocery) {
+                    listToDisplay = createAdjustedGroceryList(listToDisplay);
+                    System.out.println("Adjusted Grocery List after Fridge Subtraction: " + listToDisplay.getListItems());
+                }
+
+                JPanel shoppingListItem = createShoppingListItem(listToDisplay);
                 myGroceryContainer.add(shoppingListItem);
             }
         } else {
@@ -194,6 +211,96 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         myGroceryContainer.revalidate();
         myGroceryContainer.repaint();
+    }
+
+
+    private ShoppingList getAdjustedGroceryListForDisplay(ShoppingList originalList) {
+        List<Ingredient> adjustedIngredients = new ArrayList<>();
+        List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getIngredients();
+
+        for (Ingredient grocery : originalList.getListItems()) {
+            float adjustedQuantity = grocery.getQuantity();
+            for (Ingredient fridgeItem : fridgeItems) {
+                if (grocery.getIngredientName().equals(fridgeItem.getIngredientName()) && grocery.getQuantityUnit().equals(fridgeItem.getQuantityUnit())) {
+                    adjustedQuantity -= fridgeItem.getQuantity();
+                }
+            }
+            if (adjustedQuantity > 0) {
+                Ingredient adjustedIngredient = new Ingredient(grocery.getIngredientID(), grocery.getIngredientName(), grocery.getQuantityUnit(), grocery.getCategory(), adjustedQuantity);
+                adjustedIngredients.add(adjustedIngredient);
+            }
+        }
+
+        // Consolidate like ingredients
+        Map<String, Ingredient> consolidatedIngredients = new LinkedHashMap<>();
+        for (Ingredient ingredient : adjustedIngredients) {
+            String key = ingredient.getIngredientName() + ingredient.getQuantityUnit();
+            if (consolidatedIngredients.containsKey(key)) {
+                consolidatedIngredients.get(key).addIngredientQuantity(ingredient.getQuantity());
+            } else {
+                consolidatedIngredients.put(key, ingredient);
+            }
+        }
+
+        ShoppingList adjustedShoppingList = new ShoppingList(originalList.getListOwner(), originalList.getShoppingListName());
+        adjustedShoppingList.setListItems(new ArrayList<>(consolidatedIngredients.values()));
+        adjustedShoppingList.setEstimatedTotalCost(originalList.getEstimatedTotalCost());
+        adjustedShoppingList.setRecipes(originalList.getRecipes());
+        return adjustedShoppingList;
+    }
+
+    private ShoppingList getAggregatedGroceryListForDisplay(ShoppingList originalList) {
+        Map<String, Ingredient> aggregatedIngredients = new LinkedHashMap<>();
+
+        for (Ingredient ingredient : originalList.getListItems()) {
+            String key = ingredient.getIngredientName() + ingredient.getQuantityUnit();
+            if (aggregatedIngredients.containsKey(key)) {
+                Ingredient existing = aggregatedIngredients.get(key);
+                existing.addIngredientQuantity(ingredient.getQuantity());
+            } else {
+                // Create a new Ingredient object to avoid mutating the original
+                Ingredient newIngredient = new Ingredient(ingredient.getIngredientID(), ingredient.getIngredientName(),
+                        ingredient.getQuantityUnit(), ingredient.getCategory(),
+                        ingredient.getQuantity());
+                aggregatedIngredients.put(key, newIngredient);
+            }
+        }
+
+        ShoppingList aggregatedShoppingList = new ShoppingList(originalList.getListOwner(), originalList.getShoppingListName());
+        aggregatedShoppingList.setListItems(new ArrayList<>(aggregatedIngredients.values()));
+        aggregatedShoppingList.setEstimatedTotalCost(originalList.getEstimatedTotalCost());
+        aggregatedShoppingList.setRecipes(originalList.getRecipes());
+
+        return aggregatedShoppingList;
+    }
+
+    private ShoppingList createAdjustedGroceryList(ShoppingList aggregatedShoppingList) {
+        List<Ingredient> adjustedIngredients = new ArrayList<>(aggregatedShoppingList.getListItems());
+        List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getIngredients();
+
+        for (Ingredient fridgeItem : fridgeItems) {
+            for (Ingredient ingredient : adjustedIngredients) {
+                if (ingredient.getIngredientName().equalsIgnoreCase(fridgeItem.getIngredientName()) &&
+                        ingredient.getQuantityUnit().equalsIgnoreCase(fridgeItem.getQuantityUnit())) {
+                    if (fridgeItem.getQuantity() >= ingredient.getQuantity()) {
+                        fridgeItem.setQuantity(fridgeItem.getQuantity() - ingredient.getQuantity());
+                        ingredient.setQuantity(0);
+                    } else {
+                        ingredient.setQuantity(ingredient.getQuantity() - fridgeItem.getQuantity());
+                        fridgeItem.setQuantity(0);
+                    }
+                }
+            }
+        }
+
+        adjustedIngredients.removeIf(ingredient -> ingredient.getQuantity() <= 0);
+
+        ShoppingList adjustedShoppingList = new ShoppingList(aggregatedShoppingList.getListOwner(), aggregatedShoppingList.getShoppingListName());
+        adjustedShoppingList.setListItems(adjustedIngredients);
+        adjustedShoppingList.setEstimatedTotalCost(aggregatedShoppingList.getEstimatedTotalCost());
+        adjustedShoppingList.setRecipes(aggregatedShoppingList.getRecipes());
+
+        return adjustedShoppingList;
     }
 
     private JPanel createShoppingListItem(ShoppingList shoppingList) {

@@ -17,6 +17,7 @@ public class User {
     private HashMap<String, ShoppingList> shoppingLists;
     private Map<String, Object> preference;
     private List<Recipe> recentlyViewedRecipes;
+    private Fridge fridge;  // Add fridge attribute
 
     /**
      * Constructs a new User with the specified details.
@@ -36,41 +37,44 @@ public class User {
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
+        this.fridge = new Fridge();  // Initialize fridge
         preference.put("nightMode", false);
     }
 
     // Constructor with empty argument for MongoDB
-    public User() {}
+    public User() {
+        this.fridge = new Fridge();  // Initialize fridge
+    }
 
-    /**
-     * Returns the username of the user.
-     *
-     * @return The username of the user.
-     */
-    public String getUserName() {return userName;}
-    public String getUserEmail() {return userEmail;}
-    public String getUserPassword() {return userPassword;}
-    public LocalDateTime getCreatedAt() {return createdAt;}
-    public List<Recipe> getRecipes() {return recipes;}
-    public List<ShoppingList> getShoppingLists() {return new ArrayList<>(shoppingLists.values());}
-    public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
-    public Map<String, Object> getPreference() {return preference;}
-    public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
+    // Getters
+    public String getUserName() { return userName; }
+    public String getUserEmail() { return userEmail; }
+    public String getUserPassword() { return userPassword; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public List<Recipe> getRecipes() { return recipes; }
+    public List<ShoppingList> getShoppingLists() { return new ArrayList<>(shoppingLists.values()); }
+    public ShoppingList getShoppingList(String name) { return shoppingLists.get(name); }
+    public Map<String, Object> getPreference() { return preference; }
+    public List<Recipe> getRecentlyViewedRecipes() { return recentlyViewedRecipes; }
+    public Fridge getFridge() { return fridge; }  // Add getter for fridge
 
-    public void setUserName(String userName) {this.userName = userName;}
-    public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
-    public void setUserPassword(String userPassword) {this.userPassword = userPassword;}
-    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
-    public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
+    // Setters
+    public void setUserName(String userName) { this.userName = userName; }
+    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+    public void setUserPassword(String userPassword) { this.userPassword = userPassword; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setRecipes(List<Recipe> recipes) { this.recipes = recipes; }
     public void setShoppingLists(List<ShoppingList> shoppingLists) {
         HashMap<String, ShoppingList> shoppingListHashMap = new HashMap<>();
         for (ShoppingList shoppingList : shoppingLists) {
             shoppingListHashMap.put(shoppingList.getShoppingListName(), shoppingList);
-            this.shoppingLists = shoppingListHashMap;
         }
+        this.shoppingLists = shoppingListHashMap;
     }
-    public void setPreference(Map<String, Object> preference) {this.preference = preference;}
-    public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
+    public void setPreference(Map<String, Object> preference) { this.preference = preference; }
+    public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) { this.recentlyViewedRecipes = recentlyViewedRecipes; }
+    public void setFridge(Fridge fridge) { this.fridge = fridge; }
+
     public void addRecentlyViewedRecipe(Recipe recipe) {
         if (this.recentlyViewedRecipes.size() >= 5) {
             this.recentlyViewedRecipes.remove(0);
@@ -83,14 +87,16 @@ public class User {
      *
      * @param shoppingList The shopping list to add.
      */
-    public void addShoppingList(ShoppingList shoppingList) {this.shoppingLists.put(shoppingList.getShoppingListName(), shoppingList);}
+    public void addShoppingList(ShoppingList shoppingList) {
+        this.shoppingLists.put(shoppingList.getShoppingListName(), shoppingList);
+    }
 
     /**
      * Adds a recipe to the user's list of recipes.
      *
      * @param recipe The recipe to add.
      */
-    public void addRecipe(Recipe recipe) {this.recipes.add(recipe);}
+    public void addRecipe(Recipe recipe) { this.recipes.add(recipe); }
 
     public void updatePreference(String key, Object value) {
         this.preference.put(key, value);
@@ -108,5 +114,4 @@ public class User {
                 ", userEmail='" + userEmail + '\'' +
                 '}';
     }
-
 }

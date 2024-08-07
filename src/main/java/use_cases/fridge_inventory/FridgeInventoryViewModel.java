@@ -38,37 +38,6 @@ public class FridgeInventoryViewModel {
         this.ingredients = ingredients;
     }
 
-    public void addOrUpdateIngredient(String name, float quantity, String unit) {
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getIngredientName().equals(name) && ingredient.getQuantityUnit().equals(unit)) {
-                ingredient.setQuantity(ingredient.getQuantity() + quantity);
-                support.firePropertyChange("update", null, null);
-                return;
-            }
-        }
-
-        // If not found, add new ingredient
-        Ingredient ingredient = new Ingredient();
-        ingredient.setIngredientName(name);
-        ingredient.setQuantity(quantity);
-        ingredient.setQuantityUnit(unit);
-        ingredients.add(ingredient);
-        support.firePropertyChange("update", null, null);
-    }
-
-    public void removeIngredient(String name, float quantityToRemove) {
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getIngredientName().equals(name)) {
-                if (ingredient.getQuantity() > quantityToRemove) {
-                    ingredient.setQuantity(ingredient.getQuantity() - quantityToRemove);
-                } else {
-                    ingredients.remove(ingredient);
-                }
-                support.firePropertyChange("update", null, null);
-                return;
-            }
-        }
-    }
 
     public String getViewName() {
         return viewName;

@@ -3,7 +3,7 @@ package use_cases.fridge_inventory.gui.view;
 import entity.Ingredient;
 import use_cases.fridge_inventory.FridgeInventoryViewModel;
 import use_cases._common.gui_common.abstractions.View;
-import use_cases.fridge_inventory.FridgeInventoryInputBoundary;
+import app.local.LoggedUserData;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,13 +11,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
+import use_cases.fridge_inventory.FridgeInventoryController;
+
 
 public class FridgeInventoryView extends View {
 
     private FridgeInventoryViewModel viewModel;
     private JPanel fridgeInventoryContainer;
     private JScrollPane fridgeInventoryScrollPane;
-    private FridgeInventoryInputBoundary inputBoundary;
+    private FridgeInventoryController controller;
 
     JTextField foodField;
     JTextField quantityField;
@@ -25,9 +27,9 @@ public class FridgeInventoryView extends View {
     JButton addButton;
     JButton removeButton;
 
-    public FridgeInventoryView(FridgeInventoryViewModel viewModel, FridgeInventoryInputBoundary inputBoundary) {
+    public FridgeInventoryView(FridgeInventoryViewModel viewModel, FridgeInventoryController controller) {
         this.viewModel = viewModel;
-        this.inputBoundary = inputBoundary;
+        this.controller = controller;
         this.setViewName(viewModel.getViewName());
 
         this.setLayout(new BorderLayout());
@@ -67,16 +69,14 @@ public class FridgeInventoryView extends View {
             String foodName = foodField.getText();
             float quantity = Float.parseFloat(quantityField.getText());
             String unit = unitField.getText();
-            viewModel.addOrUpdateIngredient(foodName, quantity, unit);
-            updateFridgeInventory(viewModel.getIngredients());
+            controller.addIngredient(foodName, quantity, unit, ""); // Use the controller to add ingredient
         });
-
 
         removeButton.addActionListener(e -> {
             String foodName = foodField.getText();
             float quantity = Float.parseFloat(quantityField.getText());
-            viewModel.removeIngredient(foodName, quantity);
-            updateFridgeInventory(viewModel.getIngredients());
+            // Use controller method if available
+            controller.removeIngredient(foodName); // Use the controller to remove ingredient
         });
 
         // Main container for the inventory list
@@ -124,9 +124,11 @@ public class FridgeInventoryView extends View {
     }
 
     private void updateFridgeInventory(List<Ingredient> ingredients) {
-        fridgeInventoryContainer.removeAll();
+        System.out.println("Updating fridge inventory...");
+        List<Ingredient> aggregatedContents = LoggedUserData.getLoggedInUser().getFridge().getAggregatedFridgeContents();
+        System.out.println("Aggregated fridge contents: " + aggregatedContents);
 
-        // Re-add headers
+        fridgeInventoryContainer.removeAll();
         addHeaderRow();
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -134,7 +136,7 @@ public class FridgeInventoryView extends View {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = 1;
 
-        for (Ingredient ingredient : ingredients) {
+        for (Ingredient ingredient : aggregatedContents) {
             gbc.gridx = 0;
             gbc.weightx = 1;
             JLabel foodLabel = new JLabel(ingredient.getIngredientName(), SwingConstants.CENTER);
@@ -161,6 +163,8 @@ public class FridgeInventoryView extends View {
         fridgeInventoryContainer.revalidate();
         fridgeInventoryContainer.repaint();
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

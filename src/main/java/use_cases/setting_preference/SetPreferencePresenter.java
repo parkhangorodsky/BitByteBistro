@@ -15,4 +15,5 @@ public class SetPreferencePresenter implements SetPreferenceOutputBoundary {
         LocalAppSetting.firePropertyChange("nightMode");
         LocalAppSetting.firePropertyChange("subtractFridgeFromGrocery");
     }
+
 }

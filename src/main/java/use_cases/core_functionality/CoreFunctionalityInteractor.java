@@ -6,8 +6,11 @@ import frameworks.data_access.UserDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
-public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary{
+
+public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary {
     CoreFunctionalityPresenter presenter;
     UserDataAccessInterface userDAO;
 
@@ -35,7 +38,8 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         ShoppingList shoppingList = inputData.getShoppingList();
         Recipe recipe = inputData.getRecipe();
 
-        ShoppingList updatedShoppingList = getGroceryList(recipe, shoppingList);
+        // Use getAdjustedGroceryList instead of getGroceryList
+        ShoppingList updatedShoppingList = getAdjustedGroceryList(recipe, shoppingList);
         user.addRecipe(recipe);
         //userDAO.addRecipe(user, recipe);
 
@@ -48,18 +52,56 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         presenter.prepareSuccessView(outputData);
     }
 
-    public ShoppingList getGroceryList(Recipe recipe, ShoppingList shoppingList) {
-        List<Ingredient> groceries = shoppingList.getListItems();
+    public ShoppingList getAdjustedGroceryList(Recipe recipe, ShoppingList shoppingList) {
+        List<Ingredient> groceries = new ArrayList<>(shoppingList.getListItems()); // Copy the original list
+        List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getIngredients(); // Get fridge items
+
         for (Ingredient grocery : recipe.getIngredientList()) {
-            if (groceries.contains(grocery)) {
-                Ingredient item = groceries.get(groceries.indexOf(grocery));
-                float more = grocery.getQuantity();
-                item.addIngredientQuantity(more);
-            } else {
+            for (Ingredient fridgeItem : fridgeItems) {
+                if (grocery.getIngredientName().equals(fridgeItem.getIngredientName()) && grocery.getQuantityUnit().equals(fridgeItem.getQuantityUnit())) {
+                    float adjustedQuantity = grocery.getQuantity() - fridgeItem.getQuantity();
+                    if (adjustedQuantity > 0) {
+                        grocery.setQuantity(adjustedQuantity);
+                    } else {
+                        grocery.setQuantity(0);
+                    }
+                }
+            }
+
+            if (grocery.getQuantity() > 0) {
                 groceries.add(grocery);
             }
         }
-        shoppingList.setListItems(groceries);
+
+        // Remove items with zero quantity
+        groceries.removeIf(ingredient -> ingredient.getQuantity() <= 0);
+
+        ShoppingList adjustedShoppingList = new ShoppingList(shoppingList.getListOwner(), shoppingList.getShoppingListName());
+        adjustedShoppingList.setListItems(groceries);
+        adjustedShoppingList.setEstimatedTotalCost(shoppingList.getEstimatedTotalCost());
+        adjustedShoppingList.setRecipes(shoppingList.getRecipes());
+        return adjustedShoppingList;
+    }
+
+    public ShoppingList getAggregatedGroceryList(Recipe recipe, ShoppingList shoppingList) {
+        Map<String, Ingredient> aggregatedIngredients = new LinkedHashMap<>();
+
+        // Aggregate the recipe ingredients
+        for (Ingredient ingredient : recipe.getIngredientList()) {
+            String key = ingredient.getIngredientName() + ingredient.getQuantityUnit();
+            if (aggregatedIngredients.containsKey(key)) {
+                Ingredient existing = aggregatedIngredients.get(key);
+                existing.addIngredientQuantity(ingredient.getQuantity());
+            } else {
+                aggregatedIngredients.put(key, ingredient);
+            }
+        }
+
+        // Add these aggregated ingredients to the shopping list
+        List<Ingredient> aggregatedList = new ArrayList<>(aggregatedIngredients.values());
+        shoppingList.setListItems(aggregatedList);
+
         return shoppingList;
     }
+
 }
