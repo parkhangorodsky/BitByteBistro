@@ -1,14 +1,20 @@
 package use_cases.display_recipe_detail;
 
 import app.local.LocalAppSetting;
+import app.local.LoggedUserData;
 import entity.Nutrition;
 import entity.Recipe;
+import entity.ShoppingList;
+import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.PopUpView;
 import use_cases._common.gui_common.view_components.IngredientPanel;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +26,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -29,7 +36,11 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     protected DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
 
-    JPanel mainPanel;
+    protected JPanel mainPanel;
+    protected JPanel controlPanel;
+    protected JPanel buttonPanel;
+    protected RoundButton closeButton;
+    protected RoundButton addToGroceryButton;
 
     JPanel contentPanel;
     JScrollPane contentScrollPane;
@@ -37,12 +48,23 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     JLabel titleLabel;
     RoundButton goToWebsiteButton;
 
-    public DisplayRecipeDetailView(JFrame parent, DisplayRecipeDetailViewModel viewModel) {
+    private CoreFunctionalityController coreFunctionalityController;
+    private AddNewGroceryListController addNewGroceryListController;
+    private HashMap<String, ShoppingList> userGroceryLists;
+    User user = LoggedUserData.getLoggedInUser();
+
+
+
+    public DisplayRecipeDetailView(JFrame parent, DisplayRecipeDetailViewModel viewModel, CoreFunctionalityController coreFunctionalityController, AddNewGroceryListController addNewGroceryListController) {
         super(parent);
+        this.coreFunctionalityController = coreFunctionalityController;
+        this.addNewGroceryListController = addNewGroceryListController;
+        this.userGroceryLists = user.getShoppingLists();
         this.parent = parent;
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
         observeNight();
+
     }
 
     @Override
@@ -305,7 +327,73 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     }
 
-     abstract JPanel createControlPanel();
+    protected JPanel createButtonPanel() {
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        closeButton = new RoundButton("Close");
+        addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
+
+        closeButton.addActionListener(e -> {
+            this.dispose();
+        });
+
+        Recipe recipe = viewModel.getRecipe();
+
+        JPopupMenu addToMenu = new JPopupMenu();
+        JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
+
+        if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
+            for (Map.Entry<String, ShoppingList> entry : userGroceryLists.entrySet()) {
+                ShoppingList list = entry.getValue();
+                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
+                groceryListItem.addActionListener(e -> {
+                    addToGroceryList(recipe, list);
+                });
+                addToMenu.add(groceryListItem);
+            }
+        }
+
+
+        // Option to create a new grocery list
+        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
+        createNewGroceryListItem.addActionListener(e -> {
+            createNewGroceryListAndAdd(recipe);
+        });
+        addToMenu.add(createNewGroceryListItem);
+
+        addToGroceryButton.addActionListener(e -> {
+            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
+        });
+
+        buttonPanel.add(addToGroceryButton);
+        buttonPanel.add(closeButton);
+
+        return buttonPanel;
+    }
+
+    protected JPanel createControlPanel() {
+        controlPanel = new JPanel(new BorderLayout());
+        controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
+
+        // Add button panel to control panel
+        controlPanel.add(createButtonPanel(), BorderLayout.EAST);
+
+        return controlPanel;
+    }
+
+
+    private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
+        coreFunctionalityController.execute(shoppingList, recipe, viewModel);
+    }
+
+    private void createNewGroceryListAndAdd(Recipe recipe) {
+        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
+        if (newListName != null && !newListName.trim().isEmpty()) {
+            addNewGroceryListController.execute(newListName, viewModel);
+        }
+        ShoppingList newShoppingList = user.getShoppingList(newListName);
+        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+    }
+
 
     public void setNightMode() {
         mainPanel.setBackground(black);
@@ -316,6 +404,12 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         goToWebsiteButton.setHoverColor(darkPurple, neonPink, white, darkPurple);
         goToWebsiteButton.setBorderColor(neonPinkEmph);
+
+        controlPanel.setBackground(black);
+        buttonPanel.setBackground(black);
+
+        closeButton.setHoverColor(neonPink, darkPurple, white, white);
+        closeButton.setBorderColor(neonPurple);
 
     }
 
@@ -328,6 +422,12 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         goToWebsiteButton.setHoverColor(claudeWhite, claudeBlackEmph, claudeBlackEmph, claudeWhite);
         goToWebsiteButton.setBorderColor(claudeWhiteEmph);
+
+        controlPanel.setBackground(claudeWhite);
+        buttonPanel.setBackground(claudeWhite);
+
+        closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        closeButton.setBorderColor(claudeWhite);
     }
 
 }
