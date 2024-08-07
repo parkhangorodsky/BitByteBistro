@@ -41,8 +41,8 @@ public class ShoppingList {
 
     public List<Ingredient> getListItems() {
         List<Ingredient> listItems = new ArrayList<>();
-        for (Recipe recipe : this.recipes) {
-            listItems.addAll(recipe.getIngredientList());
+        for (HashMap.Entry<String, Ingredient> item : this.listItems.entrySet()) {
+            listItems.add(item.getValue());
         }
         return listItems;
     }
@@ -66,23 +66,25 @@ public class ShoppingList {
 
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
 
-    public void addItem(Ingredient item) {this.listItems.put(normalizeIngredientName(item.getIngredientName()), item);}
-    // still need changes incase already in
+    public void addItem(Ingredient grocery) {
+        String normalizedGroceryName = normalizeIngredientName(grocery.getIngredientName());
+
+        if (this.listItems.containsKey(normalizedGroceryName)) {
+            Ingredient item = this.listItems.get(normalizedGroceryName);
+            float more = grocery.getQuantity();
+            item.addIngredientQuantity(more);
+        } else {
+            this.listItems.put(normalizedGroceryName, grocery);
+        }
+    }
+    // still need changes in case already in
 
     public void addRecipe(Recipe recipe) {
         if (!this.recipes.contains(recipe)) {
             this.recipes.add(recipe);
         }
         for (Ingredient grocery : recipe.getIngredientList()) {
-            String normalizedGroceryName = normalizeIngredientName(grocery.getIngredientName());
-
-            if (this.listItems.containsKey(normalizedGroceryName)) {
-                Ingredient item = this.listItems.get(normalizedGroceryName);
-                float more = grocery.getQuantity();
-                item.addIngredientQuantity(more);
-            } else {
-                this.listItems.put(normalizedGroceryName, grocery);
-            }
+            this.addItem(grocery);
         }
     }
 
