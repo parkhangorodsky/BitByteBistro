@@ -37,9 +37,4 @@ public class FridgeInventoryController {
         }
         System.out.println("Current fridge contents: " + userFridge.getIngredients());
     }
-
-
-
-
-
 }

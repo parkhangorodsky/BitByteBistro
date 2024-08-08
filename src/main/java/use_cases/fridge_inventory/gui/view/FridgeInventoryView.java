@@ -217,8 +217,11 @@ public class FridgeInventoryView extends View {
 
             updateFridgeInventory(ingredients);
             System.out.println("UI update triggered after property change."); // Debugging line to confirm the update method is called
+
+            // Force the entire component to revalidate and repaint
+            this.revalidate();
+            this.repaint();
         }
     }
-
 
 }

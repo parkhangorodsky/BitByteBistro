@@ -3,6 +3,7 @@ package use_cases.fridge_inventory;
 import entity.Fridge;
 import entity.Ingredient;
 import app.local.LoggedUserData;
+import java.util.List;
 
 public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     private final FridgeInventoryOutputBoundary presenter;
@@ -45,9 +46,9 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     public void updateIngredientQuantity(String ingredientName, String unit, float delta) {
         boolean updated = fridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, delta);
         if (updated) {
+            // Update with current fridge contents, which could be empty
             presenter.updateView(fridge.getAggregatedFridgeContents());
         }
     }
-
 
 }
