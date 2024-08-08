@@ -12,15 +12,16 @@ public class SetPreferenceInteractor implements SetPreferenceInputBoundary {
     public SetPreferenceInteractor(SetPreferenceOutputBoundary presenter, UserDataAccessInterface userDAO) {
         this.presenter = presenter;
         this.userDAO = userDAO;
-
     }
 
     public void execute(SetPreferenceInputData inputData) {
 
         User user = LoggedUserData.getLoggedInUser();
         user.updatePreference("nightMode", inputData.getNightMode());
+        user.updatePreference("subtractFridgeFromGrocery", inputData.getSubtractFridgeFromGrocery());
         userDAO.updateUserPreference(user, "nightMode", inputData.getNightMode());
+        userDAO.updateUserPreference(user, "subtractFridgeFromGrocery", inputData.getSubtractFridgeFromGrocery());
 
-        presenter.updateLocalAppSetting(inputData.getNightMode());
+        presenter.updateLocalAppSetting(inputData.getNightMode(), inputData.getSubtractFridgeFromGrocery());
     }
 }

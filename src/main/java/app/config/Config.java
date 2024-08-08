@@ -14,6 +14,7 @@ import frameworks.data_access.UserDataAccessInterface;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
+import use_cases.fridge_inventory.*;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
 import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases.nutrition_stats.interface_adapter.view_model.NutritionStatsViewModel;
@@ -34,6 +35,13 @@ import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.logout.interface_adapter.controller.LogoutController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.setting_preference.SetPreferenceController;
+
+// Fridge Classes
+import entity.Fridge;
+import use_cases.setting_preference.SetPreferencePresenter;
+import use_cases.setting_preference.SetPreferenceInteractor;
+import app.local.LoggedUserData;
 
 public class Config {
 
@@ -45,6 +53,7 @@ public class Config {
     public SearchRecipeViewModel getSearchRecipeViewModel() { return ViewModelConfig.searchRecipeViewModel; }
     public AdvancedSearchRecipeViewModel getAdvancedSearchRecipeViewModel() { return ViewModelConfig.advancedSearchRecipeViewModel; }
     public MyRecipeViewModel getMyRecipeViewModel() { return ViewModelConfig.myRecipeViewModel; }
+    public FridgeInventoryViewModel getFridgeInventoryViewModel() { return ViewModelConfig.fridgeInventoryViewModel; }
     public MyGroceryViewModel MyGroceryViewModel() { return ViewModelConfig.myGroceryViewModel; }
     public NutritionStatsViewModel getNutritionStatsViewModel() { return ViewModelConfig.nutritionStatsViewModel; }
 
@@ -67,4 +76,14 @@ public class Config {
     public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
     public CoreFunctionalityController getCoreFunctionalityController() { return CoreFunctionalityConfig.controller; }
     public NutritionStatsController getNutritionStatsController() { return NutritionStatsConfig.controller; }
+
+    // Fridge components
+    public FridgeInventoryController getFridgeInventoryController() {
+        return FridgeInventoryConfig.controller;
+    }
+
+    public FridgeInventoryInputBoundary getFridgeInventoryInteractor() {
+        return FridgeInventoryConfig.interactor;
+    }
+
 }

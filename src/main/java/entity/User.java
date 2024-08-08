@@ -17,6 +17,7 @@ public class User {
     private Map<String, ShoppingList> shoppingLists;
     private Map<String, Object> preference;
     private List<Recipe> recentlyViewedRecipes;
+    private Fridge fridge;  // Add fridge attribute
 
     /**
      * Constructs a new User with the specified details.
@@ -36,11 +37,14 @@ public class User {
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
+        this.fridge = new Fridge();  // Initialize fridge
         preference.put("nightMode", false);
     }
 
     // Constructor with empty argument for MongoDB
-    public User() {}
+    public User() {
+        this.fridge = new Fridge();  // Initialize fridge
+    }
 
     /**
      * Returns the username of the user.
@@ -56,6 +60,7 @@ public class User {
     public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
     public Map<String, Object> getPreference() {return preference;}
     public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
+    public Fridge getFridge() { return fridge; }
 
     public void setUserName(String userName) {this.userName = userName;}
     public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
@@ -83,6 +88,7 @@ public class User {
         }
         this.recentlyViewedRecipes.addFirst(recipe);
     }
+    public void setFridge(Fridge fridge) { this.fridge = fridge; }
 
     /**
      * Adds a shopping list to the user's list of shopping lists.
