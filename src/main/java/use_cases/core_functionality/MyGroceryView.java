@@ -29,16 +29,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
-    protected MyGroceryViewModel viewModel;
+    public MyGroceryViewModel viewModel;
 
-    private JPanel myGroceryContainer;
+    public JPanel myGroceryContainer;
     private JScrollPane myGroceryScrollPane;
     private JPanel inputPanel;
-    private JTextField newListNameTextField;
+    public JTextField newListNameTextField;
     private JButton confirmButton;
     private JLabel promptLabel;
-    private AddNewGroceryListController addNewGroceryListController;
-    private boolean isTextBarOpen = false; // Add flag to check if text bar is open
+    public AddNewGroceryListController addNewGroceryListController;
+    public boolean isTextBarOpen = false; // Add flag to check if text bar is open
 
 
     public MyGroceryView(MyGroceryViewModel viewModel, AddNewGroceryListController addNewGroceryListController) {
@@ -135,7 +135,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         return mainPanel;
     }
 
-    private void showNewGroceryListInput() {
+    public void showNewGroceryListInput() {
         if (isTextBarOpen) return; // Prevent opening multiple text bars
         isTextBarOpen = true; // Set flag when text bar is opened
 
@@ -171,7 +171,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         inputPanel.repaint();
     }
 
-    private void createNewGroceryList() {
+    public void createNewGroceryList() {
         inputPanel.remove(promptLabel);
         inputPanel.remove(newListNameTextField);
         inputPanel.remove(confirmButton);
@@ -180,7 +180,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         isTextBarOpen = false; // Reset flag when text bar is removed
     }
 
-    private void updateMyGrocery() {
+    public void updateMyGrocery() {
         myGroceryContainer.removeAll();
 
         User user = viewModel.getUser();
@@ -204,7 +204,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         myGroceryContainer.repaint();
     }
 
-    private JPanel createShoppingListItem(ShoppingList shoppingList) {
+    public JPanel createShoppingListItem(ShoppingList shoppingList) {
         RoundPanel shoppingListItem = new RoundPanel();
         shoppingListItem.setLayout(new BorderLayout());
         shoppingListItem.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -265,7 +265,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     }
 
-    private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
+    public JPanel createIngredientsPanel(List<Ingredient> ingredients) {
         JPanel ingredientsPanel = new JPanel(new VerticalFlowLayout(5));
         ingredientsPanel.setOpaque(false);
         for (Ingredient ingredient : ingredients) {
