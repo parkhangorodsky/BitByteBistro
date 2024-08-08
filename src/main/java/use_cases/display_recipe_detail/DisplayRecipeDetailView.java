@@ -40,7 +40,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     protected JPanel controlPanel;
     protected JPanel buttonPanel;
     protected RoundButton closeButton;
-    protected RoundButton addToGroceryButton;
+    public RoundButton addToGroceryButton;
 
     JPanel contentPanel;
     JScrollPane contentScrollPane;

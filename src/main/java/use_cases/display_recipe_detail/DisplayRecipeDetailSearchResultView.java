@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private final AddToMyRecipeController addToMyRecipeController;
-    RoundButton addToRecipesButton;
+    public RoundButton addToRecipesButton;
 
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
