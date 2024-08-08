@@ -29,7 +29,7 @@ public class NutritionDisplayApi implements NutritionAPI {
     @Override
     public List<Nutrition> getNutrition(NutritionStatsInputData inputData) {
         try {
-            String endpoint = createURL();
+            String endpoint = getEndPoint();
             JSONObject responseJSON =  getResponse(endpoint, inputData);
             return convertJSONtoNutritionList(responseJSON);
         } catch (IOException e) {
@@ -43,7 +43,7 @@ public class NutritionDisplayApi implements NutritionAPI {
         return null;
     }
 
-    private String createURL() {
+    private String getEndPoint() {
         return base_url + "?app_id=" + API_ID + "&app_key=" + API_KEY;
     }
 

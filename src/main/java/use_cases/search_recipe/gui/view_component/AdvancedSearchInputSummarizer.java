@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.awt.Component.*;
-import static use_cases._common.xtra.utility.StringCaseEditor.capitalizeWords;
+import static use_cases._common.xtra.utility.StringEditor.capitalizeWords;
 
 public class AdvancedSearchInputSummarizer implements ThemeColoredObject {
 

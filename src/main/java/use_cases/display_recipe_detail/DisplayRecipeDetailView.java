@@ -328,6 +328,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     }
 
     protected JPanel createButtonPanel() {
+
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
@@ -352,12 +353,12 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
             }
         }
 
-
         // Option to create a new grocery list
         JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
         createNewGroceryListItem.addActionListener(e -> {
             createNewGroceryListAndAdd(recipe);
         });
+
         addToMenu.add(createNewGroceryListItem);
 
         addToGroceryButton.addActionListener(e -> {
@@ -366,7 +367,6 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
-
         return buttonPanel;
     }
 

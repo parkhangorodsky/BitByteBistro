@@ -1,13 +1,14 @@
 package frameworks.gui.view_factory.division;
 
 import app.config.Config;
+import use_cases._common.gui_common.abstractions.View;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
 
-public class SearchRecipeViewSwingDivision implements ViewFactoryDivision<SearchRecipeView> {
+public class SearchRecipeViewSwingDivision implements ViewFactoryDivision {
     @Override
-    public SearchRecipeView generate(Config config) {
+    public View generate(Config config) {
         // Get the NutritionDisplayController from config
-        SearchRecipeView searchRecipeView = new SearchRecipeView(
+        return new SearchRecipeView(
                 config.getSearchRecipeViewModel(),
                 config.getSearchRecipeController(),
                 config.getDisplayRecipeDetailController(),
@@ -17,7 +18,5 @@ public class SearchRecipeViewSwingDivision implements ViewFactoryDivision<Search
                 config.getCoreFunctionalityController(),
                 config.getAdvancedSearchRecipeViewModel(),
                 config.getViewManagerModel());
-
-        return searchRecipeView;
     }
 }
