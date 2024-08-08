@@ -249,6 +249,15 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
                 RoundButton recipeButton = new RoundButton(recipe.getName());
                 recipeButton.setFont(new Font(defaultFont, Font.PLAIN, 16));
+                recipeButton.addActionListener( e_-> {
+                    DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
+                    DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this),
+                            viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
+                    displayRecipeDetailController.execute(recipe,viewModel);
+                    display.setVisible(true);
+                    display.enableParent();
+                });
+
                 recipePanel.add(recipeButton);
                 recentlyViewedButtons.add(recipeButton);
                 recentlyViewedPanel.add(recipePanel);
