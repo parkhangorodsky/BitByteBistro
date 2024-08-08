@@ -12,7 +12,6 @@ public class ShoppingList {
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
 
-
     /**
      * Requires:
      * @param listOwner owner of the grocery list

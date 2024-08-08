@@ -10,7 +10,9 @@ import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
     private final AddToMyRecipeController addToMyRecipeController;

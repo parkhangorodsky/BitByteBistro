@@ -50,7 +50,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     private CoreFunctionalityController coreFunctionalityController;
     private AddNewGroceryListController addNewGroceryListController;
-    private HashMap<String, ShoppingList> userGroceryLists;
+    private Map<String, ShoppingList> userGroceryLists;
     User user = LoggedUserData.getLoggedInUser();
 
 
