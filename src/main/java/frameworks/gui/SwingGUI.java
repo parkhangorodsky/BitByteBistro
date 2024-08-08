@@ -10,7 +10,6 @@ import use_cases._common.gui_common.view.Sidebar;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases._common.gui_common.view.AppViewManager;
 import use_cases.setting_preference.PreferenceView;
-import use_cases._common.authentication.AuthenticationViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +21,6 @@ public class SwingGUI extends GUI {
     private ViewManagerModel viewManagerModel;
 
     // View Factory
-
 
     // Config
     private Config config;
@@ -36,13 +34,12 @@ public class SwingGUI extends GUI {
     // Initialize Login View
     private CardLayout loginCardLayout;
     private JPanel loginPanel;
+    private AuthenticationViewManager authenticationViewManager;
 
     private CardLayout appCardLayout;
     private AppViewManager appViewManager;
     private JPanel appViewPanel;
 
-    // AuthenticationViewManager
-    private AuthenticationViewManager authenticationViewManager;
     /**
      * Constructor for the Swing GUI. Takes in a Config Argument and stores ViewModels.
      * */
@@ -107,10 +104,10 @@ public class SwingGUI extends GUI {
 
     private void generateLoginView() {
         // Add LoginView to authentication ViewManager with a unique card name
-        authenticationViewManager.addView(viewFactory.generateLoginView());
+        authenticationViewManager.addView(viewFactory.generate("LoginView"));
 
         // Add SignUpView to authentication ViewManager with a unique card name
-        authenticationViewManager.addView(viewFactory.generateSignUpView());
+        authenticationViewManager.addView(viewFactory.generate("SignUpView"));
         this.mainPanel.add(loginPanel, "Login Window");
 
     }
@@ -139,12 +136,12 @@ public class SwingGUI extends GUI {
 
         JPanel sideBar = new Sidebar(config.getViewManagerModel(), config.getLogoutController());
 
-        this.appViewManager.addView(viewFactory.generateHomeView());
-        this.appViewManager.addView(viewFactory.generateSearchRecipeView());
-        this.appViewManager.addView(viewFactory.generateMyRecipeView());
-        this.appViewManager.addView(viewFactory.generateSearchRecipeView());
-        this.appViewManager.addView(viewFactory.generateMyGroceryView());
-        this.appViewManager.addView(viewFactory.generateFridgeInventoryView());
+        this.appViewManager.addView(viewFactory.generate("HomeView"));
+        this.appViewManager.addView(viewFactory.generate("MyRecipeView"));
+        this.appViewManager.addView(viewFactory.generate("SearchRecipeView"));
+        this.appViewManager.addView(viewFactory.generate("MyGroceryView"));
+        this.appViewManager.addView(viewFactory.generate("MyFridgeView"));
+
         //Create PopUpView
         PreferenceView preferenceView = new PreferenceView(mainFrame, config.getSetPreferenceController());
         this.mainFrame.setEnabled(true);

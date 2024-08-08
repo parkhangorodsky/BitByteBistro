@@ -8,36 +8,37 @@ import org.json.JSONObject;
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 import use_cases._common.xtra.exceptions.HttpResponseException;
 
-import static use_cases._common.xtra.utility.RecipeJSONHandler.convertJSONtoRecipe;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static use_cases._common.xtra.utility.RecipeJSONHandler.convertJSONResponseToRecipe;
+import static use_cases._common.xtra.utility.StringEditor.optionStringBuilder;
 
 public class EdamamRecipeApi implements RecipeAPI {
 
     private static final String base_url = "https://api.edamam.com/api/recipes/v2?type=any&beta=true";
-
     // Load API key and id from env variable.
     private static final String API_KEY = System.getenv("EDAMAM_API_KEY");
     private static final String API_ID = System.getenv("EDAMAM_API_ID");
 
+    /**
+     * Upon investigation, we figured out that the slow response that we get when we search a recipe,
+     * is due to the slow response from the ImageIO.read(imageURL) called by
+     * loadBufferedRoundImage in {@link use_cases._common.xtra.utility.BufferedImageLoader}.
+     * It seemed like we had no way to reduce the time that this java built-in method takes to
+     * get the buffered image from the url provided by the API
+     * @param inputData
+     * @return
+     */
     @Override
     public List<Recipe> getRecipe(SearchRecipeInputData inputData) {
 
+
         try {
-            String endpoint = createURL(inputData);
+            String endpoint = getEndPoint(inputData);
             JSONArray responseRecipe = getResponse(endpoint);
-
-            List<Recipe> recipeList = new ArrayList<>();
-            for (int i = 0; i < responseRecipe.length(); i++) {
-                JSONObject recipeJSON = responseRecipe.getJSONObject(i).getJSONObject("recipe");
-                Recipe recipe =  convertJSONtoRecipe(recipeJSON);
-                recipeList.add(recipe);
-            }
-
-            return recipeList;
+            return convertJSONResponseToRecipe(responseRecipe);
 
         } catch (IOException e) {
             System.out.println("IOException\n " + e.getMessage());
@@ -50,7 +51,7 @@ public class EdamamRecipeApi implements RecipeAPI {
         return null;
     }
 
-    private String createURL(SearchRecipeInputData inputData) {
+    private String getEndPoint(SearchRecipeInputData inputData) {
         String URL;
         if (!inputData.isAdvanced()) {
             URL =  createUrlByRecipeName(inputData);
@@ -77,10 +78,6 @@ public class EdamamRecipeApi implements RecipeAPI {
         return base_url + "&q=" + inputData.getRecipeName() + "&app_id=" + API_ID + "&app_key=" + API_KEY;
     }
 
-    private String optionStringBuilder(List<String> options, String type) {
-        return options.stream().map(choice -> "&" + type + "=" + choice)
-                .collect(Collectors.joining());
-    }
     private JSONArray getResponse(String endpoint) throws JSONException, IOException, HttpResponseException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -99,4 +96,5 @@ public class EdamamRecipeApi implements RecipeAPI {
             throw new HttpResponseException("HTTP error code: " + response.code() + ", message: " + response.message() + "with URL: " + endpoint);
         }
     }
+
 }
