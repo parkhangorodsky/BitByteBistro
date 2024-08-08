@@ -5,6 +5,7 @@ import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.List;
 
 public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary{
@@ -32,34 +33,26 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
     @Override
     public void execute(CoreFunctionalityInputData inputData) {
         User user = LoggedUserData.getLoggedInUser();
+        Map<String, ShoppingList> userShoppingLists = user.getShoppingLists();
+
         ShoppingList shoppingList = inputData.getShoppingList();
+        String shoppingListName = shoppingList.getShoppingListName();
         Recipe recipe = inputData.getRecipe();
 
-        ShoppingList updatedShoppingList = getGroceryList(recipe, shoppingList);
-        user.addRecipe(recipe);
-        //userDAO.addRecipe(user, recipe);
+        shoppingList.addRecipe(recipe);
+
+        if (userShoppingLists.get(shoppingListName) == null) {
+            user.addShoppingList(shoppingList);
+        }
 
         // UPDATE USER (LOCALLY AND IN DATABASE)
-        //some way to update an existing shopping list instead of adding the updated one on top
-        user.addShoppingList(updatedShoppingList);
         //userDAO.addShoppingList(user, updatedShoppingList);
+        //some way to update an existing shopping list instead of adding the updated one on top
+        userDAO.addRecipeToShoppingList(user, shoppingList, recipe);
 
-        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(updatedShoppingList, inputData.getParentModel());
+        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(shoppingList, inputData.getParentModel());
         presenter.prepareSuccessView(outputData);
     }
 
-    public ShoppingList getGroceryList(Recipe recipe, ShoppingList shoppingList) {
-        List<Ingredient> groceries = shoppingList.getListItems();
-        for (Ingredient grocery : recipe.getIngredientList()) {
-            if (groceries.contains(grocery)) {
-                Ingredient item = groceries.get(groceries.indexOf(grocery));
-                float more = grocery.getQuantity();
-                item.addIngredientQuantity(more);
-            } else {
-                groceries.add(grocery);
-            }
-        }
-        shoppingList.setListItems(groceries);
-        return shoppingList;
-    }
+
 }

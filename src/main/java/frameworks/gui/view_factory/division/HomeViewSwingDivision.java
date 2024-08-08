@@ -8,7 +8,13 @@ public class HomeViewSwingDivision implements ViewFactoryDivision {
     @Override
     public View generate(Config config) {
         return new HomeView(
-                config.getViewManagerModel());
-
+                config.getViewManagerModel(),
+                config.getNutritionStatsController(),
+                config.getNutritionStatsViewModel(),
+                config.getAddToMyRecipeController(),
+                config.getCoreFunctionalityController(),
+                config.getRecentlyViewedRecipesController(),
+                config.getAddNewGroceryListController(),
+                config.getDisplayRecipeDetailController());
     }
 }
