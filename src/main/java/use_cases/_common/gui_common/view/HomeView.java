@@ -1,5 +1,6 @@
 package use_cases._common.gui_common.view;
 
+import app.local.LocalAppSetting;
 import app.local.LoggedUserData;
 import entity.Nutrition;
 import entity.Recipe;
@@ -7,6 +8,7 @@ import entity.ShoppingList;
 import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
+import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
@@ -44,6 +46,8 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel nutritionStatsPanel;
     private JPanel nutritionPanel;
     private JPanel recentlyViewedPanel;
+    JLabel recentlyViewedTitle;
+    private List<RoundButton> recentlyViewedButtons;
     private DisplayRecipeDetailController displayRecipeDetailController;
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
@@ -125,7 +129,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionStatsPanel = new JPanel();
         nutritionStatsPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         nutritionStatsPanel.setLayout(new BoxLayout(nutritionStatsPanel, BoxLayout.Y_AXIS));
-        nutritionStatsPanel.setBackground(claudeWhite);
+        nutritionStatsPanel.setOpaque(false);
         nutritionPanel = new JPanel();
 
         displayNutritionStats();
@@ -135,7 +139,8 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         recentlyViewedPanel = new JPanel();
         recentlyViewedPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         recentlyViewedPanel.setLayout(new BoxLayout(recentlyViewedPanel, BoxLayout.Y_AXIS));
-        recentlyViewedPanel.setBackground(claudeWhite);
+        recentlyViewedPanel.setOpaque(false);
+        recentlyViewedPanel.setOpaque(false);
         loadRecentlyViewedRecipes();
     }
 
@@ -222,10 +227,10 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private void loadRecentlyViewedRecipes() {
         List<Recipe> recentlyViewedRecipes = user.getRecentlyViewedRecipes();
         recentlyViewedPanel.removeAll();
+        recentlyViewedButtons = new ArrayList<>();
 
-        JLabel recentlyViewedTitle = new JLabel("Recently Viewed Recipes...");
+        recentlyViewedTitle = new JLabel("Recently Viewed Recipes...");
         recentlyViewedTitle.setFont(new Font(defaultFont, Font.BOLD, 18));
-        recentlyViewedTitle.setForeground(claudeBlack);
         recentlyViewedTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         recentlyViewedPanel.add(recentlyViewedTitle);
 
@@ -238,42 +243,22 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         } else {
             for (Recipe recipe : recentlyViewedRecipes) {
                 JPanel recipePanel = new JPanel();
-                recipePanel.setLayout(new BorderLayout());
+                recipePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0,0));
                 recipePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+                recipePanel.setOpaque(false);
 
-                JLabel recipeNameLabel = new JLabel(recipe.getName());
-                recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
-                recipePanel.add(recipeNameLabel, BorderLayout.CENTER);
+                RoundButton recipeButton = new RoundButton(recipe.getName());
+                recipeButton.setFont(new Font(defaultFont, Font.PLAIN, 16));
+                recipePanel.add(recipeButton);
+                recentlyViewedButtons.add(recipeButton);
                 recentlyViewedPanel.add(recipePanel);
-
-                recipeNameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
-                        DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(recipeNameLabel),
-                                viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
-                        displayRecipeDetailController.execute(recipe, viewModel);
-                        recentlyViewedRecipesController.execute(recipe);
-                        loadRecentlyViewedRecipes();
-                        display.setVisible(true);
-                        display.enableParent();
-                    }
-
-                    @Override
-                    public void mouseEntered(java.awt.event.MouseEvent evt) {
-                        recipeNameLabel.setForeground(claudeBlackEmph); // Change color on hover
-                    }
-
-                    @Override
-                    public void mouseExited(java.awt.event.MouseEvent evt) {
-                        recipeNameLabel.setForeground(claudeBlack); // Change back to original color
-                    }
-                });
-
             }
         }
+
+        toggleNightMode();
         recentlyViewedPanel.revalidate();
         recentlyViewedPanel.repaint();
+
     }
 
     @Override
@@ -282,6 +267,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         if (evt.getPropertyName().equals("nutrition info")) {
             NutritionStatsOutputData nutritionStats = (NutritionStatsOutputData) evt.getNewValue();
             loadNutritionStats(nutritionStats);
@@ -290,6 +276,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             this.revalidate();
             this.repaint();
         }
+
     }
 
     @Override
@@ -301,11 +288,21 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     public void setNightMode() {
         mainPanel.setBackground(Color.BLACK);
         contentPanel.setBackground(Color.BLACK);
+        for (RoundButton button : recentlyViewedButtons) {
+            button.setHoverColor(black, darkPurple, neonPink, neonPinkEmph);
+            button.setBorderColor(black);
+        }
+        recentlyViewedTitle.setForeground(neonPurpleEmph);
     }
 
     @Override
     public void setDayMode() {
         mainPanel.setBackground(claudeWhite);
         contentPanel.setBackground(claudeWhite);
+        for (RoundButton button : recentlyViewedButtons) {
+            button.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlack, black);
+            button.setBorderColor(claudeWhite);
+        }
+        recentlyViewedTitle.setForeground(claudeBlack);
     }
 }
