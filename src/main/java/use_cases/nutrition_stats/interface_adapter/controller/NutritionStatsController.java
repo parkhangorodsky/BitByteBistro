@@ -1,5 +1,6 @@
-package use_cases.nutrition_stats.interface_adapeter.controller;
+package use_cases.nutrition_stats.interface_adapter.controller;
 
+import app.local.LoggedUserData;
 import entity.ShoppingList;
 import use_cases.nutrition_stats.use_case.input_data.NutritionStatsInputData;
 import use_cases.nutrition_stats.use_case.interactor.NutritionStatsInputBoundary;
@@ -26,10 +27,9 @@ public class NutritionStatsController {
      * @param shoppingList the recipe for which the nutritional information will be retrieved for.
      */
     public void execute(ShoppingList shoppingList) {
-        // placeholder will change to be shoppingList.getListRecipes.size()
-        int placeholder = 5;
+        int numberOfRecipes = shoppingList.getRecipes().size();
         NutritionStatsInputData nutritionStatsInputData = new NutritionStatsInputData(
-                shoppingList.getShoppingListName(), shoppingList.getListItems(), placeholder);
+                shoppingList.getShoppingListName(), shoppingList.getListItems(), numberOfRecipes);
         nutritionStatsInteractor.execute(nutritionStatsInputData);
     }
 }

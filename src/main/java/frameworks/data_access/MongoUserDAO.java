@@ -8,6 +8,7 @@ import com.mongodb.client.model.Updates;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
+import frameworks.data_access.serialization.IngredientSerializer;
 import frameworks.data_access.serialization.RecipeSerializer;
 import frameworks.data_access.serialization.ShoppingListSerializer;
 import frameworks.data_access.serialization.UserSerializer;
@@ -55,6 +56,7 @@ public class MongoUserDAO implements UserDataAccessInterface{
         return getUserByEmail(email) != null;
     }
 
+    @Override
     public void addRecipe(User user, Recipe recipe) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
@@ -63,12 +65,28 @@ public class MongoUserDAO implements UserDataAccessInterface{
         userCollection.updateOne(filter, update);
     }
 
+    @Override
     public void addShoppingList(User user, ShoppingList shoppingList) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
         ShoppingListSerializer shoppingListSerializer = new ShoppingListSerializer();
-        Bson update = Updates.addToSet("shoppingLists", shoppingListSerializer.serialize(shoppingList));
+        Bson update = Updates.set("shoppingLists." + shoppingList.getShoppingListName(), shoppingListSerializer.serialize(shoppingList));
         userCollection.updateOne(filter, update);
+    }
+
+    @Override
+    public void addRecipeToShoppingList(User user, ShoppingList shoppingList, Recipe recipe) {
+        String shoppingListName = shoppingList.getShoppingListName();
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+
+
+        RecipeSerializer recipeSerializer = new RecipeSerializer();
+        IngredientSerializer ingredientSerializer = new IngredientSerializer();
+        Bson updateRecipes = Updates.addToSet("shoppingLists." + shoppingListName + ".recipes", recipeSerializer.serialize(recipe));
+        Bson updateGrocery = Updates.set("shoppingLists." + shoppingListName + ".listItems", ingredientSerializer.serializeList(shoppingList.getListItems()));
+
+        userCollection.updateOne(filter, updateRecipes);
+        userCollection.updateOne(filter, updateGrocery);
     }
 
     @Override
@@ -78,9 +96,9 @@ public class MongoUserDAO implements UserDataAccessInterface{
         RecipeSerializer recipeSerializer = new RecipeSerializer();
         Bson update = Updates.set("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         userCollection.updateOne(filter, update);
-
     }
 
+    @Override
     public void updateUserPreference(User user, String fieldName, Object value) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
         Bson update = Updates.set( "preference." + fieldName, value);

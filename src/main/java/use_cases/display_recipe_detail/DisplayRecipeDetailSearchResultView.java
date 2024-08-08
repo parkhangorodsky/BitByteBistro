@@ -14,21 +14,22 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
-    private AddToMyRecipeController addToMyRecipeController;
+    private final AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
     private AddNewGroceryListController addNewGroceryListController;
-    private HashMap<String, ShoppingList> userGroceryLists;
+    private Map<String, ShoppingList> userGroceryLists;
     RoundButton addToRecipesButton;
     RoundButton addToGroceryButton;
     User user = LoggedUserData.getLoggedInUser();
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
-                                               AddToMyRecipeController addToMyRecipeController,
                                                CoreFunctionalityController coreFunctionalityController,
-                                               AddNewGroceryListController addNewGroceryListController) {
-        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController);
+                                               AddNewGroceryListController addNewGroceryListController,
+                                               AddToMyRecipeController addToMyRecipeController) {
+        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController );
         this.addToMyRecipeController = addToMyRecipeController;
         this.coreFunctionalityController = coreFunctionalityController;
         this.addNewGroceryListController = addNewGroceryListController;
@@ -112,7 +113,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         addToMenu = showAddToMenu(recipe);
         addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
     }
-
 
 
     @Override

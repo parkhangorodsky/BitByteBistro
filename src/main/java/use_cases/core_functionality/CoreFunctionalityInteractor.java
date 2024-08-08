@@ -5,7 +5,7 @@ import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary{
@@ -33,7 +33,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
     @Override
     public void execute(CoreFunctionalityInputData inputData) {
         User user = LoggedUserData.getLoggedInUser();
-        HashMap<String, ShoppingList> userShoppingLists = user.getShoppingLists();
+        Map<String, ShoppingList> userShoppingLists = user.getShoppingLists();
 
         ShoppingList shoppingList = inputData.getShoppingList();
         String shoppingListName = shoppingList.getShoppingListName();
@@ -47,6 +47,8 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
 
         // UPDATE USER (LOCALLY AND IN DATABASE)
         //userDAO.addShoppingList(user, updatedShoppingList);
+        //some way to update an existing shopping list instead of adding the updated one on top
+        userDAO.addRecipeToShoppingList(user, shoppingList, recipe);
 
         CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(shoppingList, inputData.getParentModel());
         presenter.prepareSuccessView(outputData);
