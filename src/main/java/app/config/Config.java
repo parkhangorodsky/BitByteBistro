@@ -15,6 +15,8 @@ import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
+import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
+import use_cases.nutrition_stats.interface_adapter.view_model.NutritionStatsViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
@@ -44,6 +46,7 @@ public class Config {
     public AdvancedSearchRecipeViewModel getAdvancedSearchRecipeViewModel() { return ViewModelConfig.advancedSearchRecipeViewModel; }
     public MyRecipeViewModel getMyRecipeViewModel() { return ViewModelConfig.myRecipeViewModel; }
     public MyGroceryViewModel MyGroceryViewModel() { return ViewModelConfig.myGroceryViewModel; }
+    public NutritionStatsViewModel getNutritionStatsViewModel() { return ViewModelConfig.nutritionStatsViewModel; }
 
     // Frameworks & Drivers Getters
     public RecipeAPI getRecipeAPI() { return ApiConfig.recipeAPI; }
@@ -63,5 +66,5 @@ public class Config {
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return RecentlyViewedRecipeConfig.controller; }
     public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
     public CoreFunctionalityController getCoreFunctionalityController() { return CoreFunctionalityConfig.controller; }
-
+    public NutritionStatsController getNutritionStatsController() { return NutritionStatsConfig.controller; }
 }
