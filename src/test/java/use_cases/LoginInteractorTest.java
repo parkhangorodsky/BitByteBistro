@@ -57,6 +57,8 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginInvalidPassword() {
         // Arrange
+        LoggedUserData.setLoggedInUser(null);
+
         User user = new User("testUser", "testUser@example.com", "password123", LocalDateTime.now());
         when(userDataAccessInterface.getUserByEmail("testUser@example.com")).thenReturn(user);
         LoginInputData inputData = new LoginInputData("testUser@example.com", "wrongPassword");
@@ -75,6 +77,7 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginUserNotFound() {
         // Arrange
+        LoggedUserData.setLoggedInUser(null);
         when(userDataAccessInterface.getUserByEmail("testUser@example.com")).thenReturn(null);
         LoginInputData inputData = new LoginInputData("testUser@example.com", "password123");
 
@@ -92,6 +95,7 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginMissingEmail() {
         // Arrange
+        LoggedUserData.setLoggedInUser(null);
         LoginInputData inputData = new LoginInputData("", "password123");
 
         // Act
@@ -125,6 +129,7 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginNullEmail() {
         // Arrange
+        LoggedUserData.setLoggedInUser(null);
         LoginInputData inputData = new LoginInputData(null, "password123");
 
         // Act
@@ -141,6 +146,7 @@ public class LoginInteractorTest {
     @Test
     void testFailedLoginNullPassword() {
         // Arrange
+        LoggedUserData.setLoggedInUser(null);
         LoginInputData inputData = new LoginInputData("testUser@example.com", null);
 
         // Act
