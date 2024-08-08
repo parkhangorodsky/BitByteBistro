@@ -130,7 +130,9 @@ public class Fridge {
         Ingredient ingredient = getIngredientByNameAndUnit(ingredientName, unit);
         if (ingredient != null) {
             float newQuantity = ingredient.getQuantity() + delta;
+            System.out.println("Fridge: Updating quantity for " + ingredientName + ". Old quantity: " + ingredient.getQuantity() + ", Delta: " + delta + ", New quantity: " + newQuantity);
             if (newQuantity <= 0) {
+                System.out.println("Fridge: Removing ingredient due to non-positive quantity.");
                 return removeIngredient(ingredient.getIngredientID());
             } else {
                 ingredient.setQuantity(newQuantity);
@@ -139,6 +141,7 @@ public class Fridge {
         }
         return false;
     }
+
 
 
     @Override

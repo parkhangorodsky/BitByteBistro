@@ -23,15 +23,23 @@ public class FridgeInventoryController {
     }
 
     public void removeIngredient(String ingredientName, float quantity, String unit) {
-        boolean success = userFridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, -quantity);
-        if (success) {
-            interactor.updateIngredientQuantity(ingredientName, unit, -quantity);
-        }
+        System.out.println("Controller: Request to remove " + quantity + " " + unit + " of " + ingredientName);
 
-        // Ensure the view is updated after removing the ingredient
-        System.out.println("Removed from fridge: " + ingredientName + ", quantity: " + quantity + " " + unit);
+        // Update the quantity in the fridge
+        boolean success = userFridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, -quantity);
+
+        if (success) {
+            System.out.println("Controller: Successfully removed " + quantity + " " + unit + " of " + ingredientName);
+            // Call the interactor to trigger the presenter to update the view
+            interactor.updateIngredientQuantity(ingredientName, unit, 0); // pass 0 as the delta to just trigger the update
+        } else {
+            System.out.println("Controller: Failed to remove " + quantity + " " + unit + " of " + ingredientName);
+        }
         System.out.println("Current fridge contents: " + userFridge.getIngredients());
     }
+
+
+
 
 
 }
