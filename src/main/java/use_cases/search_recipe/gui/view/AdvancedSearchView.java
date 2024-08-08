@@ -281,4 +281,12 @@ public class AdvancedSearchView extends PopUpView implements NightModeObject {
             this.repaint();
         }
     }
+
+    public RoundTextField getStringField() {
+        return stringField;
+    }
+
+    public RoundButton getSearchButton() {
+        return searchButton;
+    }
 }
