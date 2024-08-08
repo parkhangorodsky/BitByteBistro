@@ -36,7 +36,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     protected DisplayRecipeDetailViewModel viewModel;
     private JFrame parent;
 
-    protected JPanel mainPanel;
+    public JPanel mainPanel;
     protected JPanel controlPanel;
     protected JPanel buttonPanel;
     protected RoundButton closeButton;
@@ -45,7 +45,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     JPanel contentPanel;
     JScrollPane contentScrollPane;
 
-    JLabel titleLabel;
+    public JLabel titleLabel;
     RoundButton goToWebsiteButton;
 
     private CoreFunctionalityController coreFunctionalityController;
@@ -78,7 +78,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         }
     }
 
-    protected void initialize() {
+    public void initialize() {
         Recipe recipe = viewModel.getRecipe();
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -100,7 +100,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         this.positionFrameAtCenter(parent);
     }
 
-    private JScrollPane createContentPanel(Recipe recipe) {
+    public JScrollPane createContentPanel(Recipe recipe) {
         contentPanel = new JPanel(new BorderLayout(30,0));
         contentPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
@@ -327,7 +327,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
     }
 
-    protected JPanel createButtonPanel() {
+    public JPanel createButtonPanel() {
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
@@ -370,7 +370,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         return buttonPanel;
     }
 
-    protected JPanel createControlPanel() {
+    public JPanel createControlPanel() {
         controlPanel = new JPanel(new BorderLayout());
         controlPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
 
@@ -381,11 +381,11 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
     }
 
 
-    private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
+    public void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
         coreFunctionalityController.execute(shoppingList, recipe, viewModel);
     }
 
-    private void createNewGroceryListAndAdd(Recipe recipe) {
+    public void createNewGroceryListAndAdd(Recipe recipe) {
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         if (newListName != null && !newListName.trim().isEmpty()) {
             addNewGroceryListController.execute(newListName, viewModel);

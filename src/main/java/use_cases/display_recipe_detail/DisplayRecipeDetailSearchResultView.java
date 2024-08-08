@@ -25,7 +25,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     }
 
 
-    protected void initialize() {
+    public void initialize() {
         super.initialize();
         observeNight();
     }
