@@ -122,6 +122,7 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         updateNightModeCheckBox(LocalAppSetting.isNightMode());
         mainPanel.setBackground(black);
         nightModeCheckBox.setForeground(neonPinkEmph);
+        subtractFridgeFromGroceryCheckBox.setForeground(neonPinkEmph);
 
         titleLabel.setForeground(neonPurpleEmph);
 
@@ -141,6 +142,7 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         mainPanel.setBackground(claudeWhite);
         nightModeCheckBox.setForeground(claudeBlack);
 
+        subtractFridgeFromGroceryCheckBox.setForeground(claudeBlack);
         titleLabel.setForeground(claudeBlack);
 
         closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
