@@ -21,10 +21,10 @@ public class PreferenceView extends PopUpView implements NightModeObject {
 
     JLabel titleLabel;
 
-    RoundButton applyButton;
+    public RoundButton applyButton;
     RoundButton closeButton;
 
-    JCheckBox nightModeCheckBox;
+    public JCheckBox nightModeCheckBox;
 
     public PreferenceView(JFrame parent, SetPreferenceController setPreferenceController) {
         super(parent);

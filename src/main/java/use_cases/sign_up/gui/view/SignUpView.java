@@ -24,10 +24,10 @@ import java.beans.PropertyChangeListener;
  * This class takes user email and password input and passes it to the SignUpController.
  */
 public class SignUpView extends View implements ActionListener, PropertyChangeListener, ThemeColoredObject {
-    private RoundTextField emailField;
-    private RoundTextField userIDField;
-    private RoundPasswordField passwordField;
-    private RoundButton signUpButton;
+    public RoundTextField emailField;
+    public RoundTextField userIDField;
+    public RoundPasswordField passwordField;
+    public RoundButton signUpButton;
     private JLabel errorMessageLabel;
     private SignUpController signUpController;
     private SignUpViewModel signUpViewModel;
