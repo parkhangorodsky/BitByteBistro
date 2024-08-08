@@ -78,13 +78,17 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             updateMyGrocery();
         } else if (evt.getPropertyName().equals("grocery") || evt.getPropertyName().equals("subtractFridgeFromGrocery")) {
             System.out.println("Property change detected: " + evt.getPropertyName()); // Debugging output
-            updateMyGrocery();
+            if ("subtractFridgeFromGrocery".equals(evt.getPropertyName())) {
+                // Recalculate the grocery list based on the setting
+                updateMyGrocery();
+            }
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
             this.revalidate();
             this.repaint();
         }
     }
+
 
 
     private JPanel setUpContentView() {
@@ -190,13 +194,10 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         if (user != null && !user.getShoppingLists().isEmpty()) {
             for (ShoppingList shoppingList : user.getShoppingLists()) {
                 ShoppingList listToDisplay = getAggregatedGroceryListForDisplay(shoppingList);
-                System.out.println("Initial Aggregated List: " + listToDisplay.getListItems());
-
                 if (subtractFridgeFromGrocery) {
+                    // Adjust the shopping list based on the current fridge contents
                     listToDisplay = createAdjustedGroceryList(listToDisplay);
-                    System.out.println("Adjusted Grocery List after Fridge Subtraction: " + listToDisplay.getListItems());
                 }
-
                 JPanel shoppingListItem = createShoppingListItem(listToDisplay);
                 myGroceryContainer.add(shoppingListItem);
             }
@@ -212,6 +213,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         myGroceryContainer.revalidate();
         myGroceryContainer.repaint();
     }
+
 
 
     private ShoppingList getAdjustedGroceryListForDisplay(ShoppingList originalList) {
@@ -276,7 +278,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     private ShoppingList createAdjustedGroceryList(ShoppingList aggregatedShoppingList) {
         List<Ingredient> adjustedIngredients = new ArrayList<>(aggregatedShoppingList.getListItems());
-        List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getIngredients();
+        List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getAggregatedFridgeContents();
 
         for (Ingredient fridgeItem : fridgeItems) {
             for (Ingredient ingredient : adjustedIngredients) {
@@ -302,6 +304,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         return adjustedShoppingList;
     }
+
 
     private JPanel createShoppingListItem(ShoppingList shoppingList) {
         RoundPanel shoppingListItem = new RoundPanel();

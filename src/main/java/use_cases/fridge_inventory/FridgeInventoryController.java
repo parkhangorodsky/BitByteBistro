@@ -10,37 +10,28 @@ public class FridgeInventoryController {
 
     public FridgeInventoryController(FridgeInventoryInputBoundary interactor) {
         this.interactor = interactor;
-        this.userFridge = LoggedUserData.getLoggedInUser().getFridge(); // Retrieve the user's fridge
+        this.userFridge = LoggedUserData.getLoggedInUser().getFridge(); // Ensure consistent fridge access
     }
 
     public void addIngredient(String ingredientName, float quantity, String unit, String category) {
         FridgeInventoryInputData inputData = new FridgeInventoryInputData(ingredientName, quantity, unit, category);
         interactor.addIngredient(inputData);
 
-        // Update the User's fridge directly
-        Ingredient newIngredient = new Ingredient(java.util.UUID.randomUUID().toString(), ingredientName, unit, category, quantity);
-        userFridge.addIngredient(newIngredient);
-
-        // Optionally print out fridge contents for debugging
-        System.out.println("Added to fridge: " + newIngredient);
+        // Debugging: Check the current state of the fridge
+        System.out.println("Added to fridge: " + ingredientName + ", quantity: " + quantity + " " + unit);
         System.out.println("Current fridge contents: " + userFridge.getIngredients());
     }
 
-    public void removeIngredient(String ingredientID) {
-        interactor.removeIngredient(ingredientID);
-        userFridge.removeIngredient(ingredientID);
+    public void removeIngredient(String ingredientName, float quantity, String unit) {
+        boolean success = userFridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, -quantity);
+        if (success) {
+            interactor.updateIngredientQuantity(ingredientName, unit, -quantity);
+        }
 
-        // Optionally print out fridge contents for debugging
-        System.out.println("Removed ingredient with ID: " + ingredientID);
+        // Ensure the view is updated after removing the ingredient
+        System.out.println("Removed from fridge: " + ingredientName + ", quantity: " + quantity + " " + unit);
         System.out.println("Current fridge contents: " + userFridge.getIngredients());
     }
 
-    public void updateIngredientQuantity(String ingredientID, float newQuantity) {
-        interactor.updateIngredientQuantity(ingredientID, newQuantity);
-        userFridge.updateIngredientQuantity(ingredientID, newQuantity);
 
-        // Optionally print out fridge contents for debugging
-        System.out.println("Updated ingredient with ID: " + ingredientID + " to new quantity: " + newQuantity);
-        System.out.println("Current fridge contents: " + userFridge.getIngredients());
-    }
 }

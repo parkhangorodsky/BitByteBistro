@@ -35,8 +35,11 @@ public class FridgeInventoryViewModel {
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
+        List<Ingredient> oldIngredients = this.ingredients;
         this.ingredients = ingredients;
+        firePropertyChange("ingredients", oldIngredients, ingredients);
     }
+
 
 
     public String getViewName() {

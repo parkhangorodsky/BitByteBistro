@@ -2,6 +2,7 @@ package use_cases.fridge_inventory;
 
 import entity.Fridge;
 import entity.Ingredient;
+import app.local.LoggedUserData;
 
 public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     private final FridgeInventoryOutputBoundary presenter;
@@ -21,9 +22,18 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
                 inputData.getCategory(),
                 inputData.getQuantity()
         );
+
+        // Add ingredient to the fridge
         fridge.addIngredient(ingredient);
-        presenter.updateView(fridge.getAggregatedFridgeContents()); // Ensure the view is updated
+
+        // Update the view with the aggregated fridge contents
+        presenter.updateView(fridge.getAggregatedFridgeContents());
+
+        // Debugging: Check the updated fridge contents
+        System.out.println("FridgeInventoryInteractor: Added ingredient to fridge: " + ingredient);
+        System.out.println("FridgeInventoryInteractor: Current fridge contents: " + fridge.getIngredients());
     }
+
 
     @Override
     public void removeIngredient(String ingredientID) {
@@ -32,9 +42,12 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     }
 
     @Override
-    public void updateIngredientQuantity(String ingredientID, float newQuantity) {
-        fridge.updateIngredientQuantity(ingredientID, newQuantity);
-        presenter.updateView(fridge.getAggregatedFridgeContents()); // Ensure the view is updated
+    public void updateIngredientQuantity(String ingredientName, String unit, float delta) {
+        boolean updated = fridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, delta);
+        if (updated) {
+            presenter.updateView(fridge.getAggregatedFridgeContents());
+        }
     }
+
 
 }

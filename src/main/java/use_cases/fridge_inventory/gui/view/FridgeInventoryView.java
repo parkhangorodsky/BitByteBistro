@@ -3,16 +3,16 @@ package use_cases.fridge_inventory.gui.view;
 import entity.Ingredient;
 import use_cases.fridge_inventory.FridgeInventoryViewModel;
 import use_cases._common.gui_common.abstractions.View;
-import app.local.LoggedUserData;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.ArrayList;
 import use_cases.fridge_inventory.FridgeInventoryController;
-
 
 public class FridgeInventoryView extends View {
 
@@ -31,6 +31,8 @@ public class FridgeInventoryView extends View {
         this.viewModel = viewModel;
         this.controller = controller;
         this.setViewName(viewModel.getViewName());
+        this.viewModel.addPropertyChangeListener(this);
+        System.out.println("FridgeInventoryView: Listener added to view model.");
 
         this.setLayout(new BorderLayout());
 
@@ -73,11 +75,17 @@ public class FridgeInventoryView extends View {
         });
 
         removeButton.addActionListener(e -> {
-            String foodName = foodField.getText();
-            float quantity = Float.parseFloat(quantityField.getText());
-            // Use controller method if available
-            controller.removeIngredient(foodName); // Use the controller to remove ingredient
+            try {
+                String foodName = foodField.getText();
+                float quantity = Float.parseFloat(quantityField.getText());
+                String unit = unitField.getText();
+                // Use the controller to remove ingredient
+                controller.removeIngredient(foodName, quantity, unit);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid number for quantity.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            }
         });
+
 
         // Main container for the inventory list
         fridgeInventoryContainer = new JPanel(new GridBagLayout());
@@ -123,10 +131,24 @@ public class FridgeInventoryView extends View {
         fridgeInventoryContainer.add(unitHeader, gbc);
     }
 
+    private List<Ingredient> aggregateFridgeContents(List<Ingredient> ingredients) {
+        Map<String, Ingredient> aggregatedIngredients = new LinkedHashMap<>();
+
+        for (Ingredient ingredient : ingredients) {
+            String key = ingredient.getIngredientName().toLowerCase() + ingredient.getQuantityUnit().toLowerCase().trim(); // Ensure case-insensitive and trimmed matching
+            if (aggregatedIngredients.containsKey(key)) {
+                Ingredient existingIngredient = aggregatedIngredients.get(key);
+                existingIngredient.setQuantity(existingIngredient.getQuantity() + ingredient.getQuantity());
+            } else {
+                aggregatedIngredients.put(key, ingredient);
+            }
+        }
+
+        return new ArrayList<>(aggregatedIngredients.values());
+    }
+
     private void updateFridgeInventory(List<Ingredient> ingredients) {
-        System.out.println("Updating fridge inventory...");
-        List<Ingredient> aggregatedContents = LoggedUserData.getLoggedInUser().getFridge().getAggregatedFridgeContents();
-        System.out.println("Aggregated fridge contents: " + aggregatedContents);
+        System.out.println("Updating fridge inventory view: " + ingredients);
 
         fridgeInventoryContainer.removeAll();
         addHeaderRow();
@@ -136,7 +158,7 @@ public class FridgeInventoryView extends View {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = 1;
 
-        for (Ingredient ingredient : aggregatedContents) {
+        for (Ingredient ingredient : ingredients) {
             gbc.gridx = 0;
             gbc.weightx = 1;
             JLabel foodLabel = new JLabel(ingredient.getIngredientName(), SwingConstants.CENTER);
@@ -158,12 +180,9 @@ public class FridgeInventoryView extends View {
             gbc.gridy++;
         }
 
-        SwingUtilities.invokeLater(() -> fridgeInventoryScrollPane.getVerticalScrollBar().setValue(0));
-
         fridgeInventoryContainer.revalidate();
         fridgeInventoryContainer.repaint();
     }
-
 
 
     @Override
@@ -173,8 +192,10 @@ public class FridgeInventoryView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("update".equals(evt.getPropertyName())) {
+        if ("update".equals(evt.getPropertyName()) || "ingredients".equals(evt.getPropertyName())) {
+            System.out.println("FridgeInventoryView: Received update event, updating view.");
             updateFridgeInventory(viewModel.getIngredients());
         }
     }
+
 }
