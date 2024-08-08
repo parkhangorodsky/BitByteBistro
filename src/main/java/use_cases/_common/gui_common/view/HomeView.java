@@ -46,6 +46,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel nutritionPanel;
     private JPanel recentlyViewedPanel;
     private JLabel welcomeLabel ;
+    private RoundButton selectGroceryListButton;
     private DisplayRecipeDetailController displayRecipeDetailController;
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
@@ -152,7 +153,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionStatsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         nutritionStatsPanel.add(nutritionStatsTitle);
 
-        RoundButton selectGroceryListButton = new RoundButton("Select Grocery List...");
+        selectGroceryListButton = new RoundButton("Select Grocery List...");
         selectGroceryListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectGroceryListButton.setAlignmentY(Component.TOP_ALIGNMENT);
         selectGroceryListButton.setFont(new Font(defaultFont,Font.PLAIN, 14));
@@ -307,6 +308,9 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         mainPanel.setBackground(Color.BLACK);
         contentPanel.setBackground(Color.BLACK);
         welcomeLabel.setForeground(Color.white);
+
+        selectGroceryListButton.setHoverColor(black, black, white, neonPinkEmph);
+
     }
 
     @Override
@@ -314,6 +318,9 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         mainPanel.setBackground(claudeWhite);
         contentPanel.setBackground(claudeWhite);
         welcomeLabel.setForeground(claudeBlack);
+
+        selectGroceryListButton.setHoverColor(claudeWhiteEmph, claudeWhite, claudeBlackEmph, claudeBlack);
+
 
     }
 }
