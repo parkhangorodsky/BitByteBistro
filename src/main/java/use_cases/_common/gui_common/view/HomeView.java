@@ -252,12 +252,13 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                 recipePanel.add(recipeButton);
                 recentlyViewedButtons.add(recipeButton);
                 recentlyViewedPanel.add(recipePanel);
-
             }
         }
+
         toggleNightMode();
         recentlyViewedPanel.revalidate();
         recentlyViewedPanel.repaint();
+
     }
 
     @Override
@@ -266,6 +267,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         if (evt.getPropertyName().equals("nutrition info")) {
             NutritionStatsOutputData nutritionStats = (NutritionStatsOutputData) evt.getNewValue();
             loadNutritionStats(nutritionStats);
@@ -274,6 +276,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             this.revalidate();
             this.repaint();
         }
+
     }
 
     @Override
