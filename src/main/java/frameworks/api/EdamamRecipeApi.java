@@ -26,7 +26,7 @@ public class EdamamRecipeApi implements RecipeAPI {
     public List<Recipe> getRecipe(SearchRecipeInputData inputData) {
 
         try {
-            String endpoint = createURL(inputData);
+            String endpoint = getEndPoint(inputData);
             JSONArray responseRecipe = getResponse(endpoint);
             return convertJSONResponseToRecipe(responseRecipe);
 
@@ -41,7 +41,7 @@ public class EdamamRecipeApi implements RecipeAPI {
         return null;
     }
 
-    private String createURL(SearchRecipeInputData inputData) {
+    private String getEndPoint(SearchRecipeInputData inputData) {
         String URL;
         if (!inputData.isAdvanced()) {
             URL =  createUrlByRecipeName(inputData);
