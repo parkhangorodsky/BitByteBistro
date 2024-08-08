@@ -33,7 +33,7 @@ public class SwingGUI extends GUI {
 
     // Initialize Login View
     private CardLayout loginCardLayout;
-    private JPanel loginPanel;
+    public JPanel loginPanel;
     private AuthenticationViewManager authenticationViewManager;
 
     private CardLayout appCardLayout;
@@ -64,7 +64,7 @@ public class SwingGUI extends GUI {
         showLoginView();
     }
 
-    private void initializeMainFrame() {
+    public void initializeMainFrame() {
 
         this.mainFrame = new JFrame();
         this.mainCardLayout = new CardLayout();
@@ -102,7 +102,7 @@ public class SwingGUI extends GUI {
 
     }
 
-    private void generateLoginView() {
+    public void generateLoginView() {
         // Add LoginView to authentication ViewManager with a unique card name
         authenticationViewManager.addView(viewFactory.generateLoginView());
 
@@ -112,18 +112,18 @@ public class SwingGUI extends GUI {
 
     }
 
-    private void showLoginView() {
+    public void showLoginView() {
         this.viewManagerModel.setActiveView("LoginView");
         viewManagerModel.firePropertyChanged();
         this.mainCardLayout.show(mainPanel, "Login Window");
         this.mainFrame.setVisible(true);
     }
 
-    private void disposeLoginView() {
+    public void disposeLoginView() {
         loginPanel.removeAll();
     }
 
-    private void initializeAppViews() {
+    public void initializeAppViews() {
 
         appCardLayout = new CardLayout();
         appViewPanel = new JPanel(appCardLayout);
@@ -131,7 +131,7 @@ public class SwingGUI extends GUI {
 
     }
 
-    private void generateAppViews() {
+    public void generateAppViews() {
         JPanel appPanel = new JPanel(new BorderLayout());
 
         JPanel sideBar = new Sidebar(config.getViewManagerModel(), config.getLogoutController());
@@ -154,14 +154,14 @@ public class SwingGUI extends GUI {
 
     }
 
-    private void showAppView() {
+    public void showAppView() {
         this.viewManagerModel.setActiveView("Home");
         viewManagerModel.firePropertyChanged();
         mainCardLayout.show(mainPanel, "App Window");
         mainFrame.setVisible(true);
     }
 
-    private void disposeAppViews() {
+    public void disposeAppViews() {
         appViewManager.removePopupViews();
         appViewPanel.removeAll();
     }
