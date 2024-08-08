@@ -43,5 +43,39 @@ public class StringEditor {
         }
     }
 
+    public static String escapeWords(String input, int length) {
+        int count = 0;
+        StringBuilder escaped = new StringBuilder();
+        escaped.append("<html>");
+
+        for (String word : input.split("\\s+")) {
+            if (count < length) {
+                escaped.append(word + " ");
+                count += word.length();
+            } else {
+                escaped.append( "<br>" + word);
+                count = word.length();
+            }
+        }
+
+        escaped.append("</html>");
+        return escaped.toString();
+    }
+
+    public static String shortenString(String input, int maxLength) {
+        int count = 0;
+
+        StringBuilder shortened = new StringBuilder();
+        for (String word : input.split("\\s+")) {
+            if (count < maxLength - word.length()) {
+                shortened.append(word + " ");
+                count += word.length() + 1;
+            }
+        }
+
+        String result = shortened.toString();
+
+        return input.length() <= maxLength ? result : result + "...";
+    }
 
 }
