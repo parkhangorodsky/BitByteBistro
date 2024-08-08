@@ -28,9 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class HomeView extends View implements ThemeColoredObject, NightModeObject {
@@ -131,7 +129,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionPanel = new JPanel();
 
         displayNutritionStats();
-        System.out.println(nutritionStatsPanel.getComponentCount());
     }
 
     private void initializeRecentlyViewedPanel() {
@@ -143,7 +140,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     }
 
     private void displayNutritionStats() {
-        HashMap<String, ShoppingList> userGroceryLists = user.getShoppingLists();
+        Map<String, ShoppingList> userGroceryLists = user.getShoppingLists();
 
         nutritionStatsPanel.removeAll();
 
@@ -191,7 +188,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     }
 
     private void loadNutritionStats(NutritionStatsOutputData outputData) {
-        System.out.println("Loading Nutrition Stats");
         nutritionStatsPanel.remove(nutritionPanel);
 
         nutritionPanel = new JPanel();
@@ -199,7 +195,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
 
         for (Nutrition nutrition : outputData.getNutrition()) {
             // Create a panel to hold the label and progress bar
-            System.out.println(nutrition);
             JPanel nutritionBarPanel = new JPanel();
             nutritionBarPanel.setLayout(new BorderLayout());
             nutritionBarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -217,7 +212,6 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             nutritionBarPanel.add(nutritionBar, BorderLayout.CENTER);
 
             nutritionPanel.add(nutritionBarPanel);
-            System.out.println(nutritionStatsPanel.getComponentCount());
         }
         nutritionStatsPanel.add(nutritionPanel);
 
