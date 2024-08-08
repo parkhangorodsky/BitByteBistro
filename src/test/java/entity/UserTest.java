@@ -1,8 +1,5 @@
 package entity;
 
-import entity.Recipe;
-import entity.ShoppingList;
-import entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
