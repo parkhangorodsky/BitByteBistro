@@ -22,11 +22,21 @@ public class EdamamRecipeApi implements RecipeAPI {
     private static final String API_KEY = System.getenv("EDAMAM_API_KEY");
     private static final String API_ID = System.getenv("EDAMAM_API_ID");
 
+    /**
+     * Upon investigation, we figured out that the slow response that we get when we search a recipe,
+     * is due to the slow response from the ImageIO.read(imageURL) called by
+     * loadBufferedRoundImage in {@link use_cases._common.xtra.utility.BufferedImageLoader}.
+     * It seemed like we had no way to reduce the time that this java built-in method takes to
+     * get the buffered image from the url provided by the API
+     * @param inputData
+     * @return
+     */
     @Override
     public List<Recipe> getRecipe(SearchRecipeInputData inputData) {
 
+
         try {
-            String endpoint = createURL(inputData);
+            String endpoint = getEndPoint(inputData);
             JSONArray responseRecipe = getResponse(endpoint);
             return convertJSONResponseToRecipe(responseRecipe);
 
@@ -41,7 +51,7 @@ public class EdamamRecipeApi implements RecipeAPI {
         return null;
     }
 
-    private String createURL(SearchRecipeInputData inputData) {
+    private String getEndPoint(SearchRecipeInputData inputData) {
         String URL;
         if (!inputData.isAdvanced()) {
             URL =  createUrlByRecipeName(inputData);

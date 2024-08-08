@@ -41,7 +41,6 @@ public class RecipeJSONHandler {
      * @return a Recipe object containing the parsed data
      */
     private static Recipe convertJSONtoRecipe(JSONObject recipeJSON) {
-
         // Extract necessary information from the JSON object using appropriate methods that matches the data structure.
         String uri = recipeJSON.getString("uri");
         String name = recipeJSON.getString("label");

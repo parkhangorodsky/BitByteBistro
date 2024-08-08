@@ -15,12 +15,13 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MongoDBConnection {
 
+    private final String databaseName = System.getenv("MONGODB_NAME");
+
     private final String connectionString =
             "mongodb+srv://Cluster59592:" +
             System.getenv("MONGODB_PASSWORD")
             + "@cluster59592.uf9vqsw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster59592";
 
-    private final String databaseName = System.getenv("MONGODB_NAME");
 
     private MongoClient mongoClient;
     private MongoDatabase database;
