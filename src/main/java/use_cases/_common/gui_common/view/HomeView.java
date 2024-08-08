@@ -7,6 +7,7 @@ import entity.ShoppingList;
 import entity.User;
 import use_cases._common.gui_common.abstractions.NightModeObject;
 import use_cases._common.gui_common.abstractions.ThemeColoredObject;
+import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
 import use_cases._common.gui_common.abstractions.View;
@@ -44,6 +45,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel nutritionStatsPanel;
     private JPanel nutritionPanel;
     private JPanel recentlyViewedPanel;
+    private JLabel welcomeLabel ;
     private DisplayRecipeDetailController displayRecipeDetailController;
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
@@ -115,7 +117,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JLabel welcomeLabel = new JLabel("Welcome to your BitByteBistro Home Page!");
+        welcomeLabel = new JLabel("Welcome to your BitByteBistro Home Page!");
         welcomeLabel.setFont(new Font(defaultFont, Font.BOLD, 24));
         welcomeLabel.setForeground(claudeBlack);
         contentPanel.add(welcomeLabel);
@@ -150,7 +152,10 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionStatsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         nutritionStatsPanel.add(nutritionStatsTitle);
 
-        JButton selectGroceryListButton = new JButton("Select Grocery List...");
+        RoundButton selectGroceryListButton = new RoundButton("Select Grocery List...");
+        selectGroceryListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectGroceryListButton.setAlignmentY(Component.TOP_ALIGNMENT);
+        selectGroceryListButton.setFont(new Font(defaultFont,Font.PLAIN, 14));
         selectGroceryListButton.addActionListener(e -> {
             if (userGroceryLists.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "You don't have any grocery lists", "No Grocery Lists", JOptionPane.INFORMATION_MESSAGE);
@@ -301,11 +306,14 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     public void setNightMode() {
         mainPanel.setBackground(Color.BLACK);
         contentPanel.setBackground(Color.BLACK);
+        welcomeLabel.setForeground(Color.white);
     }
 
     @Override
     public void setDayMode() {
         mainPanel.setBackground(claudeWhite);
         contentPanel.setBackground(claudeWhite);
+        welcomeLabel.setForeground(claudeBlack);
+
     }
 }
