@@ -37,10 +37,10 @@ public class FridgeInventoryViewModel {
     public void setIngredients(List<Ingredient> ingredients) {
         List<Ingredient> oldIngredients = this.ingredients;
         this.ingredients = ingredients;
+        System.out.println("ViewModel: Setting ingredients. Old: " + oldIngredients + ", New: " + ingredients);
         firePropertyChange("ingredients", oldIngredients, ingredients);
+        System.out.println("ViewModel: Property change fired.");
     }
-
-
 
     public String getViewName() {
         return viewName;

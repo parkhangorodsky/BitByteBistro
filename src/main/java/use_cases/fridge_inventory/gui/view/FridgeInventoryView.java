@@ -156,7 +156,7 @@ public class FridgeInventoryView extends View {
         fridgeInventoryContainer.removeAll(); // Clear the existing components
         System.out.println("All components removed from the fridgeInventoryContainer."); // Debugging line
 
-        if (ingredients.isEmpty()) {
+        if (ingredients == null || ingredients.isEmpty()) {
             System.out.println("No ingredients to display, showing empty fridge message."); // Debugging line
             JLabel emptyLabel = new JLabel("Fridge is empty.");
             emptyLabel.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -193,15 +193,15 @@ public class FridgeInventoryView extends View {
             }
         }
 
-        // Ensure revalidation and repainting
-        System.out.println("Revalidating and repainting fridgeInventoryContainer."); // Debugging line
-        SwingUtilities.invokeLater(() -> {
-            fridgeInventoryContainer.revalidate();
-            fridgeInventoryContainer.repaint();
-            System.out.println("Revalidation and repainting complete."); // Confirm the UI update was triggered
-        });
-    }
+        // Revalidate and repaint the container
+        fridgeInventoryContainer.revalidate();
+        fridgeInventoryContainer.repaint();
 
+        // Ensure the entire view is revalidated and repainted
+        this.revalidate();
+        this.repaint();
+        System.out.println("Entire FridgeInventoryView revalidated and repainted.");
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -223,5 +223,4 @@ public class FridgeInventoryView extends View {
             this.repaint();
         }
     }
-
 }
