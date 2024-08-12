@@ -161,6 +161,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         selectGroceryListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectGroceryListButton.setAlignmentY(Component.TOP_ALIGNMENT);
         selectGroceryListButton.setFont(new Font(defaultFont,Font.PLAIN, 14));
+
         selectGroceryListButton.addActionListener(e -> {
             if (userGroceryLists.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "You don't have any grocery lists", "No Grocery Lists", JOptionPane.INFORMATION_MESSAGE);
@@ -323,8 +324,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         }
         recentlyViewedTitle.setForeground(claudeBlack);
         welcomeLabel.setForeground(claudeBlack);
-
-        selectGroceryListButton.setHoverColor(claudeWhiteEmph, claudeWhite, claudeBlackEmph, claudeBlack);
+        selectGroceryListButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlack, claudeBlack);
 
 
     }
