@@ -45,9 +45,13 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     @Override
     public void updateIngredientQuantity(String ingredientName, String unit, float delta) {
         boolean updated = fridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, delta);
+        List<Ingredient> currentContents = fridge.getAggregatedFridgeContents();
         if (updated) {
-            // Update with current fridge contents, which could be empty
-            presenter.updateView(fridge.getAggregatedFridgeContents());
+            System.out.println("Interactor: Updated ingredient quantity. Current fridge contents: " + currentContents);
+            presenter.updateView(currentContents);
+        } else {
+            System.out.println("Interactor: No update performed. Ingredient not found or quantity unchanged.");
+            presenter.updateView(currentContents);
         }
     }
 

@@ -3,6 +3,8 @@ package use_cases.fridge_inventory.gui.view;
 import entity.Ingredient;
 import use_cases.fridge_inventory.FridgeInventoryViewModel;
 import use_cases._common.gui_common.abstractions.View;
+import use_cases._common.gui_common.abstractions.NightModeObject;
+import app.local.LocalAppSetting;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import use_cases.fridge_inventory.FridgeInventoryController;
 
-public class FridgeInventoryView extends View {
+public class FridgeInventoryView extends View implements NightModeObject {
 
     private FridgeInventoryViewModel viewModel;
     private JPanel fridgeInventoryContainer;
@@ -34,12 +36,12 @@ public class FridgeInventoryView extends View {
         this.viewModel.addPropertyChangeListener(this);
         System.out.println("FridgeInventoryView: Listener added to view model.");
 
-        this.setLayout(new BorderLayout());
-
+        observeNight();  // Observe night mode changes
         JPanel viewPanel = setUpContentView();
-
         this.add(viewPanel, BorderLayout.CENTER);
         this.setVisible(true);
+
+        toggleNightMode();  // Apply initial night mode setting
     }
 
     private JPanel setUpContentView() {
@@ -89,12 +91,8 @@ public class FridgeInventoryView extends View {
             }
         });
 
-
         // Main container for the inventory list
         fridgeInventoryContainer = new JPanel(new GridBagLayout());
-        fridgeInventoryContainer.setBackground(Color.LIGHT_GRAY);
-
-        // Scroll pane for the inventory list
         fridgeInventoryScrollPane = new JScrollPane(fridgeInventoryContainer);
         fridgeInventoryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         fridgeInventoryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -134,32 +132,17 @@ public class FridgeInventoryView extends View {
         fridgeInventoryContainer.add(unitHeader, gbc);
     }
 
-    private List<Ingredient> aggregateFridgeContents(List<Ingredient> ingredients) {
-        Map<String, Ingredient> aggregatedIngredients = new LinkedHashMap<>();
-
-        for (Ingredient ingredient : ingredients) {
-            String key = ingredient.getIngredientName().toLowerCase() + ingredient.getQuantityUnit().toLowerCase().trim(); // Ensure case-insensitive and trimmed matching
-            if (aggregatedIngredients.containsKey(key)) {
-                Ingredient existingIngredient = aggregatedIngredients.get(key);
-                existingIngredient.setQuantity(existingIngredient.getQuantity() + ingredient.getQuantity());
-            } else {
-                aggregatedIngredients.put(key, ingredient);
-            }
-        }
-
-        return new ArrayList<>(aggregatedIngredients.values());
-    }
-
     private void updateFridgeInventory(List<Ingredient> ingredients) {
         System.out.println("updateFridgeInventory called with ingredients: " + ingredients);
 
         fridgeInventoryContainer.removeAll(); // Clear the existing components
         System.out.println("All components removed from the fridgeInventoryContainer."); // Debugging line
 
-        if (ingredients.isEmpty()) {
+        if (ingredients == null || ingredients.isEmpty()) {
             System.out.println("No ingredients to display, showing empty fridge message."); // Debugging line
             JLabel emptyLabel = new JLabel("Fridge is empty.");
             emptyLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            emptyLabel.setForeground(LocalAppSetting.isNightMode() ? Color.WHITE : Color.BLACK); // Ensure the label color matches the mode
             fridgeInventoryContainer.add(emptyLabel);
         } else {
             addHeaderRow(); // Add headers
@@ -175,33 +158,39 @@ public class FridgeInventoryView extends View {
                 gbc.weightx = 1;
                 JLabel foodLabel = new JLabel(ingredient.getIngredientName(), SwingConstants.CENTER);
                 foodLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                foodLabel.setForeground(LocalAppSetting.isNightMode() ? Color.WHITE : Color.BLACK);
                 fridgeInventoryContainer.add(foodLabel, gbc);
 
                 gbc.gridx = 1;
                 gbc.weightx = 0.5;
                 JLabel quantityLabel = new JLabel(String.valueOf(ingredient.getQuantity()), SwingConstants.CENTER);
                 quantityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                quantityLabel.setForeground(LocalAppSetting.isNightMode() ? Color.WHITE : Color.BLACK);
                 fridgeInventoryContainer.add(quantityLabel, gbc);
 
                 gbc.gridx = 2;
                 gbc.weightx = 0.5;
                 JLabel unitLabel = new JLabel(ingredient.getQuantityUnit(), SwingConstants.CENTER);
                 unitLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                unitLabel.setForeground(LocalAppSetting.isNightMode() ? Color.WHITE : Color.BLACK);
                 fridgeInventoryContainer.add(unitLabel, gbc);
 
                 gbc.gridy++;
             }
         }
 
-        // Ensure revalidation and repainting
-        System.out.println("Revalidating and repainting fridgeInventoryContainer."); // Debugging line
-        SwingUtilities.invokeLater(() -> {
-            fridgeInventoryContainer.revalidate();
-            fridgeInventoryContainer.repaint();
-            System.out.println("Revalidation and repainting complete."); // Confirm the UI update was triggered
-        });
-    }
+        // Revalidate and repaint the container
+        fridgeInventoryContainer.revalidate();
+        fridgeInventoryContainer.repaint();
 
+        // Ensure the entire view is revalidated and repainted
+        this.revalidate();
+        this.repaint();
+        System.out.println("Entire FridgeInventoryView revalidated and repainted.");
+
+        // Reapply night mode to ensure colors are correct
+        toggleNightMode();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -221,7 +210,84 @@ public class FridgeInventoryView extends View {
             // Force the entire component to revalidate and repaint
             this.revalidate();
             this.repaint();
+        } else if ("nightMode".equals(evt.getPropertyName())) {
+            toggleNightMode();
         }
     }
 
+    @Override
+    public void setNightMode() {
+        this.setBackground(Color.BLACK);
+        fridgeInventoryContainer.setBackground(Color.DARK_GRAY);
+        foodField.setBackground(Color.BLACK);
+        foodField.setForeground(Color.WHITE);
+        quantityField.setBackground(Color.BLACK);
+        quantityField.setForeground(Color.WHITE);
+        unitField.setBackground(Color.BLACK);
+        unitField.setForeground(Color.WHITE);
+        addButton.setBackground(Color.BLACK);
+        addButton.setForeground(Color.WHITE);
+        removeButton.setBackground(Color.BLACK);
+        removeButton.setForeground(Color.WHITE);
+
+        // Update the labels in the input panel to be white
+        for (Component component : foodField.getParent().getComponents()) {
+            if (component instanceof JLabel) {
+                ((JLabel) component).setForeground(Color.WHITE);
+            }
+        }
+
+        // Update all labels inside fridgeInventoryContainer to be white
+        updateTextColor(Color.WHITE);
+    }
+
+
+    @Override
+    public void setDayMode() {
+        this.setBackground(Color.WHITE);
+        fridgeInventoryContainer.setBackground(Color.LIGHT_GRAY);
+        foodField.setBackground(Color.WHITE);
+        foodField.setForeground(Color.BLACK);
+        quantityField.setBackground(Color.WHITE);
+        quantityField.setForeground(Color.BLACK);
+        unitField.setBackground(Color.WHITE);
+        unitField.setForeground(Color.BLACK);
+        addButton.setBackground(Color.WHITE);
+        addButton.setForeground(Color.BLACK);
+        removeButton.setBackground(Color.WHITE);
+        removeButton.setForeground(Color.BLACK);
+
+        // Update the labels in the input panel to be black
+        for (Component component : foodField.getParent().getComponents()) {
+            if (component instanceof JLabel) {
+                ((JLabel) component).setForeground(Color.BLACK);
+            }
+        }
+
+        // Update all labels inside fridgeInventoryContainer to be black
+        updateTextColor(Color.BLACK);
+    }
+
+
+    private void updateInputPanelColors(Color textColor, Color bgColor) {
+        foodField.setForeground(textColor);
+        foodField.setBackground(bgColor);
+        quantityField.setForeground(textColor);
+        quantityField.setBackground(bgColor);
+        unitField.setForeground(textColor);
+        unitField.setBackground(bgColor);
+        addButton.setForeground(textColor);
+        addButton.setBackground(bgColor);
+        removeButton.setForeground(textColor);
+        removeButton.setBackground(bgColor);
+    }
+
+    private void updateTextColor(Color color) {
+        for (Component component : fridgeInventoryContainer.getComponents()) {
+            if (component instanceof JLabel) {
+                ((JLabel) component).setForeground(color);
+            }
+        }
+    }
 }
+
