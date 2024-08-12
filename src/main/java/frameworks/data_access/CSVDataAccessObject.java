@@ -1,5 +1,6 @@
 package frameworks.data_access;
 
+import entity.Fridge;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
@@ -121,6 +122,11 @@ public class CSVDataAccessObject implements UserDataAccessInterface {
 
     @Override
     public void addRecipeToShoppingList(User user, ShoppingList shoppingList, Recipe recipe) {
+
+    }
+
+    @Override
+    public void updateFridge(User user, Fridge fridge) {
 
     }
 }

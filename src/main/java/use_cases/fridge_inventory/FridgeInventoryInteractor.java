@@ -3,15 +3,19 @@ package use_cases.fridge_inventory;
 import entity.Fridge;
 import entity.Ingredient;
 import app.local.LoggedUserData;
+import frameworks.data_access.UserDataAccessInterface;
+
 import java.util.List;
 
 public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     private final FridgeInventoryOutputBoundary presenter;
     private final Fridge fridge;
+    private UserDataAccessInterface userDAO;
 
-    public FridgeInventoryInteractor(FridgeInventoryOutputBoundary presenter, Fridge fridge) {
+    public FridgeInventoryInteractor(FridgeInventoryOutputBoundary presenter, Fridge fridge, UserDataAccessInterface userDAO) {
         this.presenter = presenter;
         this.fridge = fridge;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -26,6 +30,7 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
 
         // Add ingredient to the fridge
         fridge.addIngredient(ingredient);
+        userDAO.updateFridge(LoggedUserData.getLoggedInUser(), fridge);
 
         // Update the view with the aggregated fridge contents
         presenter.updateView(fridge.getAggregatedFridgeContents());
@@ -39,6 +44,7 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
     @Override
     public void removeIngredient(String ingredientID) {
         fridge.removeIngredient(ingredientID);
+        userDAO.updateFridge(LoggedUserData.getLoggedInUser(), LoggedUserData.getLoggedInUser().getFridge());
         presenter.updateView(fridge.getAggregatedFridgeContents()); // Ensure the view is updated
     }
 
@@ -48,11 +54,14 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
         List<Ingredient> currentContents = fridge.getAggregatedFridgeContents();
         if (updated) {
             System.out.println("Interactor: Updated ingredient quantity. Current fridge contents: " + currentContents);
+            userDAO.updateFridge(LoggedUserData.getLoggedInUser(), fridge);
             presenter.updateView(currentContents);
         } else {
             System.out.println("Interactor: No update performed. Ingredient not found or quantity unchanged.");
             presenter.updateView(currentContents);
         }
+
+
     }
 
 }

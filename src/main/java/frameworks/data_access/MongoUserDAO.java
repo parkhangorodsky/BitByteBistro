@@ -5,13 +5,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import entity.Fridge;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
-import frameworks.data_access.serialization.IngredientSerializer;
-import frameworks.data_access.serialization.RecipeSerializer;
-import frameworks.data_access.serialization.ShoppingListSerializer;
-import frameworks.data_access.serialization.UserSerializer;
+import frameworks.data_access.serialization.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -90,6 +88,14 @@ public class MongoUserDAO implements UserDataAccessInterface{
     }
 
     @Override
+    public void updateFridge(User user, Fridge fridge) {
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+        FridgeSerializer fridgeSerializer = new FridgeSerializer();
+        Bson update = Updates.set("fridge", fridgeSerializer.serialize(fridge));
+        userCollection.updateOne(filter, update);
+    }
+
+    @Override
     public void updateRecentlyViewedRecipes(User user) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
@@ -97,6 +103,8 @@ public class MongoUserDAO implements UserDataAccessInterface{
         Bson update = Updates.set("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         userCollection.updateOne(filter, update);
     }
+
+
 
     @Override
     public void updateUserPreference(User user, String fieldName, Object value) {
