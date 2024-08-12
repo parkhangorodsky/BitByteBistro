@@ -1,6 +1,5 @@
 package use_cases._common.gui_common.view;
 
-import app.local.LocalAppSetting;
 import app.local.LoggedUserData;
 import entity.Nutrition;
 import entity.Recipe;
@@ -35,8 +34,7 @@ import java.util.List;
 
 public class HomeView extends View implements ThemeColoredObject, NightModeObject {
 
-    private ViewManagerModel viewManagerModel;
-    private NutritionStatsController nutritionStatsController;
+    private final NutritionStatsController nutritionStatsController;
 
     public final String viewname;
 
@@ -50,16 +48,14 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private List<RoundButton> recentlyViewedButtons;
     private JLabel welcomeLabel ;
     private RoundButton selectGroceryListButton;
-    private DisplayRecipeDetailController displayRecipeDetailController;
-    private AddToMyRecipeController addToMyRecipeController;
-    private CoreFunctionalityController coreFunctionalityController;
-    private RecentlyViewedRecipesController recentlyViewedRecipesController;
-    private AddNewGroceryListController addNewGroceryListController;
-    private List<ShoppingList> userGroceryLists;
+    private final DisplayRecipeDetailController displayRecipeDetailController;
+    private final AddToMyRecipeController addToMyRecipeController;
+    private final CoreFunctionalityController coreFunctionalityController;
+    private final AddNewGroceryListController addNewGroceryListController;
     NutritionStatsViewModel nutritionStatsViewModel;
 
     // user variable
-    private User user = LoggedUserData.getLoggedInUser();
+    private final User user = LoggedUserData.getLoggedInUser();
 
     public HomeView(ViewManagerModel viewManagerModel,
                     NutritionStatsController nutritionStatsController,
@@ -69,11 +65,9 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                     RecentlyViewedRecipesController recentlyViewedRecipesController,
                     AddNewGroceryListController addNewGroceryListController,
                     DisplayRecipeDetailController displayRecipeDetailController) {
-        this.viewManagerModel = viewManagerModel;
         this.displayRecipeDetailController = displayRecipeDetailController;
         this.addNewGroceryListController = addNewGroceryListController;
         this.coreFunctionalityController = coreFunctionalityController;
-        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
         this.addToMyRecipeController = addToMyRecipeController;
 
         this.viewname = "Home";
