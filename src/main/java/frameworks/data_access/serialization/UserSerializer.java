@@ -14,11 +14,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Serializer class for converting {@code User} objects to and from MongoDB {@code Document} objects.
+ * This class implements the {@code Serializer} interface to handle the serialization and deserialization
+ * of {@code User} instances, including nested objects like recipes, shopping lists, and fridge contents.
+ */
 public class UserSerializer implements Serializer<Document, User> {
     private final RecipeSerializer recipeSerializer = new RecipeSerializer();
     private final ShoppingListSerializer shoppingListSerializer = new ShoppingListSerializer();
     private final FridgeSerializer fridgeSerializer = new FridgeSerializer();
 
+    /**
+     * Serializes a {@code User} object to a MongoDB {@code Document}.
+     *
+     * This method converts the properties of a {@code User} instance into a {@code Document} format
+     * suitable for storage in MongoDB, including nested lists and maps.
+     *
+     * @param user The {@code User} object to be serialized.
+     * @return A {@code Document} representing the serialized form of the {@code User} instance.
+     */
     @Override
     public Document serialize(User user){
         Document document = new Document()
@@ -36,6 +50,15 @@ public class UserSerializer implements Serializer<Document, User> {
         return document;
     }
 
+    /**
+     * Deserializes a MongoDB {@code Document} to a {@code User} object.
+     *
+     * This method converts a {@code Document} retrieved from MongoDB back into a {@code User} instance,
+     * including the conversion of nested lists and maps.
+     *
+     * @param bson The {@code Document} representing the serialized form of a {@code User} instance.
+     * @return A {@code User} object created from the {@code Document}.
+     */
     @Override
     public User deserialize(Document bson){
         String userName = bson.getString("userName");

@@ -43,6 +43,14 @@ import use_cases.setting_preference.SetPreferencePresenter;
 import use_cases.setting_preference.SetPreferenceInteractor;
 import app.local.LoggedUserData;
 
+/**
+ * Configuration class for managing and providing access to various components of the application.
+ * <p>
+ * This class provides getter methods to retrieve instances of View Models, Frameworks, Drivers, Use Case Controllers, and Fridge components.
+ * It centralizes the configuration and access to different parts of the application, ensuring a consistent and organized setup.
+ * The components are instantiated in the default access sub-config classes within the config package.
+ * </p>
+ */
 public class Config {
 
     // ViewModel Getters
