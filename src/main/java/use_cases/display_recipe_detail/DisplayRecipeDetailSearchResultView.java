@@ -50,10 +50,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         // Call the parent method to get the initialized controlPanel
         JPanel buttonPanel = super.createButtonPanel();
 
-        // Remove any pre-existing components if necessary
         buttonPanel.removeAll();
 
-        // Initialize and add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
         addToRecipesButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
 
@@ -61,6 +59,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             addToMyRecipeController.execute(recipe, viewModel);
         });
 
+        // setting the order of the buttons
         buttonPanel.add(addToRecipesButton);
         buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
