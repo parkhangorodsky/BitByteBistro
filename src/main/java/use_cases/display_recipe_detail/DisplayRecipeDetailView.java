@@ -368,7 +368,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
             for (HashMap.Entry<String, ShoppingList> list : userGroceryLists.entrySet()) {
                 ShoppingList items = list.getValue();
-                JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
+                JMenuItem groceryListItem = new JMenuItem("Add To " + items.getShoppingListName());
                 groceryListItem.setFont(new Font(defaultFont, Font.PLAIN, 12));
                 groceryListItem.addActionListener(e -> {
                     coreFunctionalityController.execute(items, recipe, viewModel);
@@ -420,6 +420,8 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         closeButton.setHoverColor(neonPink, darkPurple, white, white);
         closeButton.setBorderColor(neonPurple);
+        addToGroceryButton.setHoverColor(neonPink, darkPurple, white, white);
+        addToGroceryButton.setBorderColor(neonPurple);
 
     }
 
@@ -438,6 +440,8 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         closeButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
         closeButton.setBorderColor(claudeWhite);
+        addToGroceryButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlackEmph, claudeWhite);
+        addToGroceryButton.setBorderColor(claudeWhite);
     }
 
 }
