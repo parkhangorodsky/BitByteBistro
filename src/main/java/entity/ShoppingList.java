@@ -2,6 +2,8 @@ package entity;
 
 import use_cases.core_functionality.strategy.CollapseStrategy;
 import use_cases.core_functionality.strategy.NormalizedCollapse;
+import use_cases.core_functionality.strategy.expand.Expand;
+import use_cases.core_functionality.strategy.expand.ExpandStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class ShoppingList {
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
     private CollapseStrategy collapseStrategy = new NormalizedCollapse();
+    private ExpandStrategy expandStrategy = new Expand();
 
     /**
      * Requires:
@@ -34,6 +37,10 @@ public class ShoppingList {
         return listOwner;
     }
 
+    public void setListOwner(String listOwner) {
+        this.listOwner = listOwner;
+    }
+
     public String getShoppingListName() {
         return shoppingListName;
     }
@@ -42,15 +49,11 @@ public class ShoppingList {
         this.shoppingListName = shoppingListName;
     }
 
-    public List<Ingredient> getListItems() {
-        List<Ingredient> listItems = new ArrayList<>();
-        for (HashMap.Entry<String, Ingredient> item : this.listItems.entrySet()) {
-            listItems.add(item.getValue());
-        }
-        return listItems;
-    }
-
     public Map<String, Ingredient> getListItemsAsMap() {return this.listItems;}
+
+    public List<Ingredient> getListItems() {
+        return expandStrategy.expand(this);
+    }
 
     public void setListItems(List<Ingredient> listItems) {
         for (Ingredient ingredient : listItems) {
@@ -74,7 +77,6 @@ public class ShoppingList {
     public void addItem(Ingredient grocery) {
         collapseStrategy.collapse(this, grocery);
     }
-    // still need changes in case already in
 
     public void addRecipe(Recipe recipe) {
         if (!this.recipes.contains(recipe)) {
