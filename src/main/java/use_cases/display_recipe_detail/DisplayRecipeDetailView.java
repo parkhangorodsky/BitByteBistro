@@ -343,28 +343,6 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         addToMenu = showAddToMenu(recipe);
 
-        JPopupMenu addToMenu = new JPopupMenu();
-        JMenuItem addToGroceryButton = new JMenuItem("Add To My Grocery List(s)");
-
-        if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
-            for (Map.Entry<String, ShoppingList> entry : userGroceryLists.entrySet()) {
-                ShoppingList list = entry.getValue();
-                JMenuItem groceryListItem = new JMenuItem("Add to " + list.getShoppingListName());
-                groceryListItem.addActionListener(e -> {
-                    addToGroceryList(recipe, list);
-                });
-                addToMenu.add(groceryListItem);
-            }
-        }
-
-        // Option to create a new grocery list
-        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List");
-        createNewGroceryListItem.addActionListener(e -> {
-            createNewGroceryListAndAdd(recipe);
-        });
-
-        addToMenu.add(createNewGroceryListItem);
-
         addToGroceryButton.addActionListener(e -> {
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         });
@@ -389,9 +367,9 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
             for (HashMap.Entry<String, ShoppingList> list : userGroceryLists.entrySet()) {
-                String owner = list.getKey();
                 ShoppingList items = list.getValue();
                 JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
+                groceryListItem.setFont(new Font(defaultFont, Font.PLAIN, 12));
                 groceryListItem.addActionListener(e -> {
                     coreFunctionalityController.execute(items, recipe, viewModel);
                 });
@@ -400,6 +378,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
         }
 
         JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List And Add");
+        createNewGroceryListItem.setFont(new Font(defaultFont, Font.PLAIN, 12));
         createNewGroceryListItem.addActionListener(e -> {
             createNewGroceryListAndAdd(recipe);
         });
