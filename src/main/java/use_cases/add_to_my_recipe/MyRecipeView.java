@@ -83,6 +83,9 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
             viewModel.setRecipes(LoggedUserData.getLoggedInUser().getRecipes());
             filterController.execute("");
         } else if (evt.getPropertyName().equals("added recipe")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Successfully added to My Recipe.", "",
+                    JOptionPane.INFORMATION_MESSAGE);
             filterController.execute(textField.getText());
         } else if (evt.getPropertyName().equals("update")) {
             updateMyRecipe(viewModel.getRecipes());
