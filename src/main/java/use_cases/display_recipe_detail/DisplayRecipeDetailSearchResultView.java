@@ -113,11 +113,11 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                     JOptionPane.ERROR_MESSAGE);
         } else {
             addNewGroceryListController.execute(newListName, viewModel);
+            ShoppingList newShoppingList = user.getShoppingList(newListName);
+            coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+            addToMenu = showAddToMenu(recipe);
+            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         }
-        ShoppingList newShoppingList = user.getShoppingList(newListName);
-        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
-        addToMenu = showAddToMenu(recipe);
-        addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
     }
 
 
