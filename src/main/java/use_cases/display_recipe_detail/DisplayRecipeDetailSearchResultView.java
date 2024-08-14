@@ -29,7 +29,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                                                CoreFunctionalityController coreFunctionalityController,
                                                AddNewGroceryListController addNewGroceryListController,
                                                AddToMyRecipeController addToMyRecipeController) {
-        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController );
+        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController);
         this.addToMyRecipeController = addToMyRecipeController;
         this.coreFunctionalityController = coreFunctionalityController;
         this.addNewGroceryListController = addNewGroceryListController;
@@ -82,7 +82,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
             for (HashMap.Entry<String, ShoppingList> list : userGroceryLists.entrySet()) {
-                String owner = list.getKey();
                 ShoppingList items = list.getValue();
                 JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
@@ -103,7 +102,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
-        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
+        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                "Enter name for new grocery list:");
         if (newListName == null) {
             return;
         } else if (newListName.trim().isEmpty()) {
@@ -138,7 +138,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             this.repaint();
         } else if (evt.getPropertyName().equals("added shoppingList")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Successfully added to My Grocery.", "",
+                    "Successfully added to new grocery list in My Grocery.", "",
                     JOptionPane.INFORMATION_MESSAGE);
         } else if (evt.getPropertyName().equals("grocery list already exists")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
