@@ -57,7 +57,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         addToRecipesButton = new RoundButton("Add To My Recipes");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
 
-        Recipe recipe = viewModel.getRecipe();
 
         addToRecipesButton.addActionListener(e -> {
             addToMyRecipeController.execute(recipe, viewModel);
