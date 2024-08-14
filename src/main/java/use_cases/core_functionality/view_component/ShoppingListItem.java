@@ -3,7 +3,9 @@ package use_cases.core_functionality.view_component;
 import app.local.LocalAppSetting;
 import entity.Ingredient;
 import entity.ShoppingList;
+import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
+import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +13,7 @@ import java.awt.*;
 import java.util.List;
 
 
-public class ShoppingListItem extends JPanel {
+public class ShoppingListItem extends RoundPanel {
     public ShoppingListItem(ShoppingList shoppingList) {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
