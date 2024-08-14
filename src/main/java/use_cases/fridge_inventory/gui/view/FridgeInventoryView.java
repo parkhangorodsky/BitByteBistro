@@ -219,28 +219,46 @@ public class FridgeInventoryView extends View implements NightModeObject {
     public void setNightMode() {
         this.setBackground(Color.BLACK);
         fridgeInventoryContainer.setBackground(Color.DARK_GRAY);
-        foodField.setBackground(Color.BLACK);
+
+        // Set label and text field colors to white in night mode
         foodField.setForeground(Color.WHITE);
-        quantityField.setBackground(Color.BLACK);
+        foodField.setBackground(Color.BLACK);
+
         quantityField.setForeground(Color.WHITE);
-        unitField.setBackground(Color.BLACK);
+        quantityField.setBackground(Color.BLACK);
+
         unitField.setForeground(Color.WHITE);
-        addButton.setBackground(Color.BLACK);
+        unitField.setBackground(Color.BLACK);
+
+        // Set label colors to white
+        JLabel foodLabel = (JLabel) foodField.getParent().getComponent(0);
+        JLabel quantityLabel = (JLabel) quantityField.getParent().getComponent(2);
+        JLabel unitLabel = (JLabel) unitField.getParent().getComponent(4);
+
+        foodLabel.setForeground(Color.BLACK);
+        quantityLabel.setForeground(Color.BLACK);
+        unitLabel.setForeground(Color.BLACK);
+
+        // Update header row labels to white in night mode
+        updateHeaderRowColor(Color.WHITE);
+
+        // Update button colors if needed
         addButton.setForeground(Color.WHITE);
-        removeButton.setBackground(Color.BLACK);
+        addButton.setBackground(Color.BLACK);
+
         removeButton.setForeground(Color.WHITE);
-
-        // Update the labels in the input panel to be white
-        for (Component component : foodField.getParent().getComponents()) {
-            if (component instanceof JLabel) {
-                ((JLabel) component).setForeground(Color.WHITE);
-            }
-        }
-
-        // Update all labels inside fridgeInventoryContainer to be white
-        updateTextColor(Color.WHITE);
+        removeButton.setBackground(Color.BLACK);
     }
 
+    private void updateHeaderRowColor(Color color) {
+        // Assuming these components are part of fridgeInventoryContainer, set their colors
+        Component[] components = fridgeInventoryContainer.getComponents();
+        for (Component component : components) {
+            if (component instanceof JLabel) {
+                ((JLabel) component).setForeground(color);
+            }
+        }
+    }
 
     @Override
     public void setDayMode() {
