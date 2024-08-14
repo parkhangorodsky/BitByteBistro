@@ -333,7 +333,9 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         closeButton = new RoundButton("Close");
+        closeButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
+        addToGroceryButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
 
         closeButton.addActionListener(e -> {
             this.dispose();

@@ -11,6 +11,7 @@ import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         // Initialize and add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
+        addToRecipesButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
 
         addToRecipesButton.addActionListener(e -> {
             addToMyRecipeController.execute(recipe, viewModel);
