@@ -105,6 +105,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private void createNewGroceryListAndAdd(Recipe recipe) {
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
         //need to handle when this is empty
+        //need to handle when cancel is pressed
         if (newListName != null && !newListName.trim().isEmpty()) {
             addNewGroceryListController.execute(newListName, viewModel);
         }
@@ -119,17 +120,25 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("recipe already exists")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Recipe already exists.",
+                    "This recipe already exists.",
                     "",
                     JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("added recipe")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Successfully added.", "",
+                    "Successfully added to My Recipe.", "",
                     JOptionPane.INFORMATION_MESSAGE);
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
             this.revalidate();
             this.repaint();
+        } else if (evt.getPropertyName().equals("added shoppingList")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Successfully added to My Grocery.", "",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (evt.getPropertyName().equals("grocery list already exists")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "This grocery list already exists.", "",
+                    JOptionPane.INFORMATION_MESSAGE);
         } else {
             super.propertyChange(evt);
         }
