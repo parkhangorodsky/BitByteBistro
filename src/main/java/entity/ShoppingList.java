@@ -1,7 +1,6 @@
 package entity;
 
-import use_cases.core_functionality.strategy.CollapseStrategy;
-import use_cases.core_functionality.strategy.NormalizedCollapse;
+import use_cases.core_functionality.strategy.normalize.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,12 +9,13 @@ import java.util.Map;
 
 public class ShoppingList {
 
-    private String listOwner;
+    private final String listOwner;
     private String shoppingListName; // changed the name of this
-    private Map<String, Ingredient> listItems;
+    private final Map<String, Ingredient> listItems;
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
-    private CollapseStrategy collapseStrategy = new NormalizedCollapse();
+    private final NormalizeStrategy normalizeStrategy = new StringNormalize();
+
 
     /**
      * Requires:
@@ -50,7 +50,7 @@ public class ShoppingList {
 
     public void setListItems(List<Ingredient> listItems) {
         for (Ingredient ingredient : listItems) {
-            String normalizedName = collapseStrategy.normalize(ingredient.getIngredientName());
+            String normalizedName = normalizeStrategy.normalize(ingredient.getIngredientName());
             this.listItems.put(normalizedName, ingredient);
         }
     }
