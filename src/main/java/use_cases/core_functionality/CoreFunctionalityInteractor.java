@@ -4,15 +4,16 @@ import app.local.LoggedUserData;
 import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 
-import use_cases.core_functionality.strategy.collapse.CollapseStrategy;
-import use_cases.core_functionality.strategy.collapse.NormalizedCollapse;
+import use_cases.core_functionality.strategy.collapse.*;
+import use_cases.core_functionality.strategy.normalize.*;
 
 import java.util.Map;
 
 public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary{
     CoreFunctionalityPresenter presenter;
     UserDataAccessInterface userDAO;
-    private CollapseStrategy collapseStrategy = new NormalizedCollapse();
+    private final CollapseStrategy collapseStrategy = new NormalizedCollapse();
+    private final NormalizeStrategy normalizeStrategy = new StringNormalize();
 
     /**
      * Constructs an CoreFunctionalityInteractor with the given presenter and user data access object.
@@ -60,47 +61,18 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         collapseStrategy.collapse(shoppingList, grocery);
     }
 
-    public void removeItem(ShoppingList shoppingList, Ingredient grocery, int quantity) {
+    public void removeItem(ShoppingList shoppingList, Ingredient grocery, float quantity) {
         Map<String, Ingredient> listItems = shoppingList.getListItemsAsMap();
-        String normalizedGroceryName = normalizeIngredientName(grocery.getIngredientName());
+        String normalizedGroceryName = normalizeStrategy.normalize(grocery.getIngredientName());
         if (listItems.containsKey(normalizedGroceryName)) {
             Ingredient item = listItems.get(normalizedGroceryName);
-            int currentQuantity = (int) item.getQuantity();
+            float currentQuantity = item.getQuantity();
             if (currentQuantity > quantity) {
-                listItems.put(grocery, currentQuantity - quantity);
+                item.setQuantity(currentQuantity - quantity);
             } else {
-                listItems.remove(grocery); // Remove ingredient if quantity goes to zero or less
+                listItems.remove(normalizedGroceryName); // Remove ingredient if quantity goes to zero or less
             }
-        } else {
-            listItems.put(normalizedGroceryName, ingredient);
-        }
-    }
-
-
-    public void collapse(ShoppingList shoppingList,  Ingredient ingredient) {
-        Map<String, Ingredient> listItems = shoppingList.getListItemsAsMap();
-        String normalizedGroceryName = normalizeIngredientName(ingredient.getIngredientName());
-
-        if (listItems.containsKey(normalizedGroceryName)) {
-            Ingredient item = listItems.get(normalizedGroceryName);
-            float more = ingredient.getQuantity();
-            item.addIngredientQuantity(more);
-        } else {
-            listItems.put(normalizedGroceryName, ingredient);
-        }
-    }
-
-
-    private void subtractIngredientFromShoppingList(ShoppingList shoppingList, Ingredient ingredient, int quantity) {
-        // Logic to subtract the ingredient from the shopping list
-        HashMap<Ingredient, Integer> listItems = shoppingList.getListItems();
-        int currentQuantity = listItems.getOrDefault(ingredient, 0);
-        if (currentQuantity > quantity) {
-            listItems.put(ingredient, currentQuantity - quantity);
-        } else {
-            listItems.remove(ingredient); // Remove ingredient if quantity goes to zero or less
-        }
-        viewModel.updateShoppingList(shoppingList); // Update view model or similar mechanism
+        } // something to tell user they tried to remove an ingredient that's not there?
     }
 
     public void addRecipe(ShoppingList shoppingList, Recipe recipe) {
@@ -112,5 +84,12 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         }
     }
 
-
+    public void removeRecipe(ShoppingList shoppingList, Recipe recipe, int quantity) {
+        // what if recipe not in shopping list?
+        if (shoppingList.getRecipes().contains(recipe)) {
+            for (Ingredient grocery : recipe.getIngredientList()) {
+            removeItem(shoppingList, grocery, grocery.getQuantity());
+            }
+        }
+    }
 }
