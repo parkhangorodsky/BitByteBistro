@@ -1,2 +1,4 @@
-package use_cases.core_functionality.interface_adapter.presenter;public class CoreFunctionalityPresenterTest {
+package use_cases.core_functionality.interface_adapter.presenter;
+
+public class CoreFunctionalityPresenterTest {
 }
