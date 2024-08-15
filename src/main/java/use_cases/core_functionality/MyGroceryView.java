@@ -15,7 +15,12 @@ import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
-import use_cases.core_functionality.CoreFunctionalityInteractor;
+import use_cases.add_to_my_recipe.AddToMyRecipeController;
+import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailController;
+import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
+
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -42,14 +47,24 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
     private JTextField newListNameTextField;
     private JButton confirmButton;
     private JLabel promptLabel;
+    private DisplayRecipeDetailController displayRecipeDetailController;
+    private AddToMyRecipeController addToMyRecipeController;
+    private CoreFunctionalityController coreFunctionalityController;
     private AddNewGroceryListController addNewGroceryListController;
     private boolean isTextBarOpen = false; // Add flag to check if text bar is open
 
 
-    public MyGroceryView(MyGroceryViewModel viewModel, AddNewGroceryListController addNewGroceryListController) {
+    public MyGroceryView(MyGroceryViewModel viewModel,
+                         AddNewGroceryListController addNewGroceryListController,
+                         AddToMyRecipeController addToMyRecipeController,
+                         CoreFunctionalityController coreFunctionalityController,
+                         DisplayRecipeDetailController displayRecipeDetailController) {
 
         observeNight();
         this.addNewGroceryListController = addNewGroceryListController;
+        this.displayRecipeDetailController = displayRecipeDetailController;
+        this.addToMyRecipeController = addToMyRecipeController;
+        this.coreFunctionalityController = coreFunctionalityController;
         this.setLayout(new BorderLayout());
         this.viewModel = viewModel;
         this.setViewName(viewModel.getViewName());
@@ -384,11 +399,22 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
     private JPanel createRecipesPanel(List<Recipe> recipes) {
         JPanel recipesPanel = new JPanel(new VerticalFlowLayout(5));
         recipesPanel.setOpaque(false);
+
         for (Recipe recipe : recipes) {
-            JLabel recipeLabel = new JLabel(recipe.getName());
-            recipeLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
-            recipeLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
-            recipesPanel.add(recipeLabel);
+
+            RoundButton recipeButton = new RoundButton(recipe.getName());
+            recipeButton.setFont(new Font(defaultFont, Font.PLAIN, 16));
+            recipeButton.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+            recipeButton.addActionListener(e -> {
+                DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
+                DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(this),
+                        viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
+                displayRecipeDetailController.execute(recipe,viewModel);
+                display.setVisible(true);
+                display.enableParent();
+            });
+
+            recipesPanel.add(recipeButton);
         }
         return recipesPanel;
     }

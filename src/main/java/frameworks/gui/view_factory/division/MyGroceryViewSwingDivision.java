@@ -9,6 +9,9 @@ public class MyGroceryViewSwingDivision implements ViewFactoryDivision {
     public View generate(Config config) {
         return new MyGroceryView(
                 config.MyGroceryViewModel(),
-                config.getAddNewGroceryListController());
+                config.getAddNewGroceryListController(),
+                config.getAddToMyRecipeController(),
+                config.getCoreFunctionalityController(),
+                config.getDisplayRecipeDetailController());
     }
 }
