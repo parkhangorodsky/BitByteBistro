@@ -61,35 +61,12 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         collapseStrategy.collapse(shoppingList, grocery);
     }
 
-    public void removeItem(ShoppingList shoppingList, Ingredient grocery, float quantity) {
-        Map<String, Ingredient> listItems = shoppingList.getListItemsAsMap();
-        String normalizedGroceryName = normalizeStrategy.normalize(grocery.getIngredientName());
-        if (listItems.containsKey(normalizedGroceryName)) {
-            Ingredient item = listItems.get(normalizedGroceryName);
-            float currentQuantity = item.getQuantity();
-            if (currentQuantity > quantity) {
-                item.setQuantity(currentQuantity - quantity);
-            } else {
-                listItems.remove(normalizedGroceryName); // Remove ingredient if quantity goes to zero or less
-            }
-        } // something to tell user they tried to remove an ingredient that's not there?
-    }
-
     public void addRecipe(ShoppingList shoppingList, Recipe recipe) {
         if (!shoppingList.getRecipes().contains(recipe)) {
             shoppingList.getRecipes().add(recipe);
         }
         for (Ingredient grocery : recipe.getIngredientList()) {
             addItem(shoppingList, grocery);
-        }
-    }
-
-    public void removeRecipe(ShoppingList shoppingList, Recipe recipe, int quantity) {
-        // what if recipe not in shopping list?
-        if (shoppingList.getRecipes().contains(recipe)) {
-            for (Ingredient grocery : recipe.getIngredientList()) {
-            removeItem(shoppingList, grocery, grocery.getQuantity());
-            }
         }
     }
 }
