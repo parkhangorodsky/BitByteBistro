@@ -4,6 +4,7 @@ import entity.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 
 import java.beans.PropertyChangeListener;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SearchRecipeViewModelTest {
 
     private SearchRecipeViewModel viewModel;
+    private ViewManagerModel viewManagerModel;
     private PropertyChangeListener listener;
 
     @BeforeEach
@@ -59,7 +61,7 @@ class SearchRecipeViewModelTest {
         viewModel.setRecipeSearchResult(outputData);
 
         // Act: Fire property changed event
-        viewModel.firePropertyChanged();
+        viewManagerModel.firePropertyChanged();
 
         // Assert: Verify that the listener was notified with the correct property change event
         verify(listener, times(1)).propertyChange(argThat(arg ->
@@ -77,7 +79,7 @@ class SearchRecipeViewModelTest {
         viewModel.setRecipeSearchResult(outputData);
 
         // Act: Fire property changed event
-        viewModel.firePropertyChanged();
+        viewManagerModel.firePropertyChanged();
 
         // Assert: Verify that the listener was notified with the correct property change event
         verify(listener,times(1)).propertyChange(argThat(event ->
