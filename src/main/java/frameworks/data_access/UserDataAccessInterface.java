@@ -1,5 +1,6 @@
 package frameworks.data_access;
 
+import entity.Fridge;
 import entity.Recipe;
 import entity.ShoppingList;
 import entity.User;
@@ -43,10 +44,9 @@ public interface UserDataAccessInterface {
     User getUserByEmail(String email);
 
     void addRecipe(User user, Recipe recipe);
-
     void updateRecentlyViewedRecipes(User user);
-
     void addShoppingList(User user, ShoppingList shoppingList);
     void addRecipeToShoppingList(User user, ShoppingList shoppingList, Recipe recipe);
+    void updateFridge(User user, Fridge fridge);
 
     }
