@@ -69,6 +69,9 @@ public class PreferenceView extends PopUpView implements NightModeObject {
 
             controller.execute(nightModeSelected, subtractFridgeSelected);
 
+            // Debugging: Print the applied states
+            System.out.println("Applied - Night Mode: " + nightModeSelected + ", Subtract Fridge From Grocery: " + subtractFridgeSelected);
+
             // Close the popup after applying changes
             this.hidePopUp();
         });
@@ -93,13 +96,15 @@ public class PreferenceView extends PopUpView implements NightModeObject {
 
 
     private void loadPreference() {
-        // Load the actual preference state for night mode
         boolean nightMode = (boolean) LoggedUserData.getLoggedInUser().getPreference().get("nightMode");
         nightModeCheckBox.setSelected(nightMode);
 
-        // Load the actual preference state for subtract fridge from grocery
-        boolean subtractFridgeFromGrocery = (boolean) LoggedUserData.getLoggedInUser().getPreference().get("subtractFridgeFromGrocery");
+        Object subtractFridgeFromGroceryPref = LoggedUserData.getLoggedInUser().getPreference().get("subtractFridgeFromGrocery");
+        boolean subtractFridgeFromGrocery = subtractFridgeFromGroceryPref != null && (boolean) subtractFridgeFromGroceryPref;
         subtractFridgeFromGroceryCheckBox.setSelected(subtractFridgeFromGrocery);
+
+        System.out.println("Loaded preferences - Night Mode: " + nightMode + ", Subtract Fridge From Grocery: " + subtractFridgeFromGrocery);
+        System.out.println("Checkbox states - Night Mode: " + nightModeCheckBox.isSelected() + ", Subtract Fridge From Grocery: " + subtractFridgeFromGroceryCheckBox.isSelected());
     }
 
 
@@ -161,4 +166,11 @@ public class PreferenceView extends PopUpView implements NightModeObject {
             this.repaint();
         }
     }
+
+    @Override
+    public void showPopUp() {
+        loadPreference();  // Reload preferences whenever the Settings view is shown
+        super.showPopUp();
+    }
+
 }
