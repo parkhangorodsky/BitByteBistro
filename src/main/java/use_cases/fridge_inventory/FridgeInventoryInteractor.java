@@ -4,6 +4,7 @@ import entity.Fridge;
 import entity.Ingredient;
 import app.local.LoggedUserData;
 import frameworks.data_access.UserDataAccessInterface;
+import entity.User;
 
 import java.util.List;
 
@@ -63,5 +64,16 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
 
 
     }
+
+    public List<Ingredient> fetchFridgeContents() {
+        // Fetch the latest user data from the DAO
+        User currentUser = userDAO.getUserByEmail(LoggedUserData.getLoggedInUser().getUserEmail());
+        return currentUser.getFridge().getIngredients();  // Return the fridge contents
+    }
+
+    public FridgeInventoryPresenter getPresenter() {
+        return (FridgeInventoryPresenter) presenter;
+    }
+
 
 }

@@ -3,6 +3,7 @@ package use_cases.fridge_inventory;
 import app.local.LoggedUserData;
 import entity.Fridge;
 import entity.Ingredient;
+import java.util.List;
 
 public class FridgeInventoryController {
     private final FridgeInventoryInputBoundary interactor;
@@ -37,4 +38,14 @@ public class FridgeInventoryController {
         }
         System.out.println("Current fridge contents: " + userFridge.getIngredients());
     }
+
+    public void refreshFridgeContents() {
+        // Fetch the latest fridge contents from the interactor
+        List<Ingredient> latestContents = interactor.fetchFridgeContents();
+
+        // Pass the contents to the presenter to update the view
+        interactor.getPresenter().updateView(latestContents);
+    }
+
+
 }
