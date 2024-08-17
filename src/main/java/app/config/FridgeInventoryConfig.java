@@ -16,7 +16,8 @@ class FridgeInventoryConfig {
     // Get the fridge from the logged-in user's data
     static final FridgeInventoryInteractor interactor = new FridgeInventoryInteractor(
             presenter,
-            LoggedUserData.getLoggedInUser().getFridge());
+            LoggedUserData.getLoggedInUser().getFridge(),
+            DataAccessConfig.userDAO);
 
     static final FridgeInventoryController controller = new FridgeInventoryController(
             interactor);

@@ -28,18 +28,20 @@ public class Fridge {
         this.ingredients = new ArrayList<>();
     }
 
+    public void setUserID(String userID) {}
+
     public String getUserID() {
         return userID;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
     /**
      * Adds an ingredient to the fridge.
      *
