@@ -166,8 +166,21 @@ public class ShoppingListItem extends RoundPanel {
                 display.enableParent();
             });
 
+            JButton removeButton = new JButton("Remove");
+            removeButton.addActionListener(e -> removeRecipe(shoppingList, recipe));
+
+            recipesPanel.add(recipeButton, BorderLayout.CENTER);
+            recipesPanel.add(removeButton, BorderLayout.EAST);
+
             recipesPanel.add(recipeButton);
         }
         return recipesPanel;
+    }
+
+    private void removeRecipe(ShoppingList shoppingList, Recipe recipe) {
+        // Logic to remove the recipe from the shopping list
+        shoppingList.removeRecipe(recipe);
+        coreFunctionalityController.updateShoppingList(shoppingList);
+        toggleRecipesPanel(shoppingList);  // Refresh the recipe panel
     }
 }
