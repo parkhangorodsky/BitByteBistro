@@ -100,7 +100,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
             return 0;
         }
         for (Ingredient grocery : recipe.getIngredientList()) {
-            addItem(shoppingList, grocery);
+            removeItem(shoppingList, grocery);
         }
         return 1;
     }
