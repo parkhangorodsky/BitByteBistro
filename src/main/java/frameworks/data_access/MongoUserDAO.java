@@ -88,6 +88,20 @@ public class MongoUserDAO implements UserDataAccessInterface{
     }
 
     @Override
+    public void removeRecipeFromShoppingList(User user, ShoppingList shoppingList, Recipe recipe) {
+        String shoppingListName = shoppingList.getShoppingListName();
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+
+        RecipeSerializer recipeSerializer = new RecipeSerializer();
+        Bson recipeToRemove = recipeSerializer.serialize(recipe);
+
+        // Create an update to pull the recipe from the shopping list
+        Bson updateRecipes = Updates.pull("shoppingLists." + shoppingListName + ".recipes", recipeToRemove);
+
+        userCollection.updateOne(filter, updateRecipes);
+    }
+
+    @Override
     public void updateFridge(User user, Fridge fridge) {
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
         FridgeSerializer fridgeSerializer = new FridgeSerializer();
