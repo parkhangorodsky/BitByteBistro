@@ -67,13 +67,11 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         String shoppingListName = shoppingList.getShoppingListName();
         Recipe recipe = inputData.getRecipe();
 
-        if (removeRecipe(shoppingList, recipe) == 0) {
-
+        if (removeRecipe(shoppingList, recipe) == 1) {
+            userDAO.removeRecipeFromShoppingList(user, shoppingList, recipe);
+            CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(shoppingList, inputData.getParentModel());
+            presenter.prepareSuccessView(outputData);
         };
-        userDAO.removeRecipeFromShoppingList(user, shoppingList, recipe);
-
-        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(shoppingList, inputData.getParentModel());
-        presenter.prepareSuccessView(outputData);
     }
 
     public void addItem(ShoppingList shoppingList, Ingredient grocery) {
