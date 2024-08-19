@@ -64,7 +64,6 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         Map<String, ShoppingList> userShoppingLists = user.getShoppingLists();
 
         ShoppingList shoppingList = inputData.getShoppingList();
-        String shoppingListName = shoppingList.getShoppingListName();
         Recipe recipe = inputData.getRecipe();
 
         if (removeRecipe(shoppingList, recipe) == 1) {
