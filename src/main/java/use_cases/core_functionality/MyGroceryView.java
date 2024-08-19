@@ -151,7 +151,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     private JPanel createShoppingListItem(ShoppingList shoppingList) {
         return new ShoppingListItem(shoppingList, addNewGroceryListController, addToMyRecipeController,
-                coreFunctionalityController, displayRecipeDetailController);
+                coreFunctionalityController, displayRecipeDetailController, viewModel);
     }
 
     @Override

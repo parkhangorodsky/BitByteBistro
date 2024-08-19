@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class ShoppingListItem extends RoundPanel {
-    protected MyGroceryViewModel viewModel;
+    private MyGroceryViewModel viewModel;
     private DisplayRecipeDetailController displayRecipeDetailController;
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
@@ -38,11 +38,13 @@ public class ShoppingListItem extends RoundPanel {
                             AddNewGroceryListController addNewGroceryListController,
                             AddToMyRecipeController addToMyRecipeController,
                             CoreFunctionalityController coreFunctionalityController,
-                            DisplayRecipeDetailController displayRecipeDetailController) {
+                            DisplayRecipeDetailController displayRecipeDetailController,
+                            MyGroceryViewModel viewModel) {
         this.addNewGroceryListController = addNewGroceryListController;
         this.displayRecipeDetailController = displayRecipeDetailController;
         this.addToMyRecipeController = addToMyRecipeController;
         this.coreFunctionalityController = coreFunctionalityController;
+        this.viewModel = viewModel;
 
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
