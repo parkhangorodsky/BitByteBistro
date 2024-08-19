@@ -41,4 +41,10 @@ public class CoreFunctionalityController {
         interactor.remove(inputData);
     }
 
+    public void removeAll(ShoppingList shoppingList, PropertyChangeFirer parentModel){
+        for (Recipe recipe : shoppingList.getRecipes()) {
+            CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
+            interactor.remove(inputData);
+        }
+    }
 }

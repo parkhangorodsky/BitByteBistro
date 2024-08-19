@@ -157,6 +157,18 @@ public class ShoppingListItem extends RoundPanel {
         JPanel recipesPanel = new JPanel(new VerticalFlowLayout(5));
         recipesPanel.setOpaque(false);
 
+
+        // Create a button to remove all recipes
+        JButton removeAllButton = new JButton("Remove All Recipes");
+        removeAllButton.setFont(new Font(defaultFont, Font.PLAIN, 16));
+        removeAllButton.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+        removeAllButton.addActionListener(e -> {
+            // Remove all recipes from the shopping list
+            coreFunctionalityController.removeAll(shoppingList, viewModel);
+        });
+
+        recipesPanel.add(removeAllButton);
+
         List<Recipe> recipes = shoppingList.getRecipes();
         for (Recipe recipe : recipes) {
             RoundButton recipeButton = new RoundButton(recipe.getName());
