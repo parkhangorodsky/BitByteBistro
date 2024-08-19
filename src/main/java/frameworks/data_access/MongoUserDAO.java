@@ -5,10 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
-import entity.Fridge;
-import entity.Recipe;
-import entity.ShoppingList;
-import entity.User;
+import entity.*;
 import frameworks.data_access.serialization.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -92,13 +89,19 @@ public class MongoUserDAO implements UserDataAccessInterface{
         String shoppingListName = shoppingList.getShoppingListName();
         Bson filter = Filters.eq("userEmail", user.getUserEmail());
 
-        RecipeSerializer recipeSerializer = new RecipeSerializer();
-        Bson recipeToRemove = recipeSerializer.serialize(recipe);
+        // Step 1: Remove the recipe from the shopping list
+        Bson removeRecipe = Updates.pull("shoppingLists." + shoppingListName + ".recipes", new Document("name", recipe.getName()));
+        userCollection.updateOne(filter, removeRecipe);
 
-        // Create an update to pull the recipe from the shopping list
-        Bson updateRecipes = Updates.pull("shoppingLists." + shoppingListName + ".recipes", recipeToRemove);
+        // Step 2: Remove the ingredients associated with the recipe from the shopping list
+        IngredientSerializer ingredientSerializer = new IngredientSerializer();
+        List<Ingredient> recipeIngredients = recipe.getIngredientList();
 
-        userCollection.updateOne(filter, updateRecipes);
+        // Remove each ingredient in the recipe from the shopping list's ingredients
+        for (Ingredient ingredient : recipeIngredients) {
+            Bson removeIngredient = Updates.pull("shoppingLists." + shoppingListName + ".listItems", ingredientSerializer.serialize(ingredient));
+            userCollection.updateOne(filter, removeIngredient);
+        }
     }
 
     @Override
