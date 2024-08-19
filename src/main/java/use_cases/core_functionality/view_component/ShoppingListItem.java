@@ -7,6 +7,7 @@ import entity.ShoppingList;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
+import use_cases.core_functionality.MyGroceryViewModel;
 import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
 
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class ShoppingListItem extends RoundPanel {
+    protected MyGroceryViewModel viewModel;
     private DisplayRecipeDetailController displayRecipeDetailController;
     private AddToMyRecipeController addToMyRecipeController;
     private CoreFunctionalityController coreFunctionalityController;
@@ -116,7 +118,7 @@ public class ShoppingListItem extends RoundPanel {
     private void toggleRecipesPanel(ShoppingList shoppingList) {
         if (!isRecipesVisible) {
             showRecipesButton.setText("Hide Recipes");
-            JPanel recipesPanel = createRecipesPanel(shoppingList.getRecipes());
+            JPanel recipesPanel = createRecipesPanel(shoppingList);
             splitPane.setRightComponent(recipesPanel);
             if (isIngredientsVisible) {
                 splitPane.setVisible(true);
@@ -149,10 +151,11 @@ public class ShoppingListItem extends RoundPanel {
         return ingredientsPanel;
     }
 
-    private JPanel createRecipesPanel(List<Recipe> recipes) {
+    private JPanel createRecipesPanel(ShoppingList shoppingList) {
         JPanel recipesPanel = new JPanel(new VerticalFlowLayout(5));
         recipesPanel.setOpaque(false);
 
+        List<Recipe> recipes = shoppingList.getRecipes();
         for (Recipe recipe : recipes) {
             RoundButton recipeButton = new RoundButton(recipe.getName());
             recipeButton.setFont(new Font(defaultFont, Font.PLAIN, 16));
@@ -167,7 +170,7 @@ public class ShoppingListItem extends RoundPanel {
             });
 
             JButton removeButton = new JButton("Remove");
-            removeButton.addActionListener(e -> removeRecipe(shoppingList, recipe));
+            removeButton.addActionListener(e -> coreFunctionalityController.remove(shoppingList, recipe, viewModel));
 
             recipesPanel.add(recipeButton, BorderLayout.CENTER);
             recipesPanel.add(removeButton, BorderLayout.EAST);
@@ -175,12 +178,5 @@ public class ShoppingListItem extends RoundPanel {
             recipesPanel.add(recipeButton);
         }
         return recipesPanel;
-    }
-
-    private void removeRecipe(ShoppingList shoppingList, Recipe recipe) {
-        // Logic to remove the recipe from the shopping list
-        shoppingList.removeRecipe(recipe);
-        coreFunctionalityController.updateShoppingList(shoppingList);
-        toggleRecipesPanel(shoppingList);  // Refresh the recipe panel
     }
 }
