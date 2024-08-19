@@ -36,7 +36,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
      * @param inputData The input data required for adding the recipe.
      */
     @Override
-    public void add(CoreFunctionalityInputData inputData) {
+    public void addRecipe(CoreFunctionalityInputData inputData) {
         User user = LoggedUserData.getLoggedInUser();
         Map<String, ShoppingList> userShoppingLists = user.getShoppingLists();
 
@@ -57,9 +57,8 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
     }
 
     @Override
-    public void remove(CoreFunctionalityInputData inputData) {
+    public void removeRecipe(CoreFunctionalityInputData inputData) {
         User user = LoggedUserData.getLoggedInUser();
-        Map<String, ShoppingList> userShoppingLists = user.getShoppingLists();
 
         ShoppingList shoppingList = inputData.getShoppingList();
         Recipe recipe = inputData.getRecipe();
@@ -71,11 +70,23 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         };
     }
 
-    public void addItem(ShoppingList shoppingList, Ingredient grocery) {
+    @Override
+    public void removeIngredients(CoreFunctionalityInputData inputData) {
+        User user = LoggedUserData.getLoggedInUser();
+        ShoppingList shoppingList = inputData.getShoppingList();
+        for (Ingredient ingredient : shoppingList.getListItems()) {
+            removeItem(shoppingList, ingredient);
+        }
+        userDAO.removeIngredientsFromShoppingList(user, shoppingList);
+        CoreFunctionalityOutputData outputData = new CoreFunctionalityOutputData(shoppingList, inputData.getParentModel());
+        presenter.prepareSuccessView(outputData);
+    }
+
+    private void addItem(ShoppingList shoppingList, Ingredient grocery) {
         collapseStrategy.collapse(shoppingList, grocery);
     }
 
-    public void removeItem(ShoppingList shoppingList, Ingredient grocery) {
+    private void removeItem(ShoppingList shoppingList, Ingredient grocery) {
         Map<String, Ingredient> listItems = shoppingList.getListItemsAsMap();
         String name = normalizeStrategy.normalize(grocery.getIngredientName());
         listItems.remove(name);
@@ -83,7 +94,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         shoppingList.setListItems(newListItems);
     }
 
-    public void addRecipe(ShoppingList shoppingList, Recipe recipe) {
+    private void addRecipe(ShoppingList shoppingList, Recipe recipe) {
         if (!shoppingList.getRecipes().contains(recipe)) {
             shoppingList.getRecipes().add(recipe);
         }

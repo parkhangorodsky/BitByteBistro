@@ -380,7 +380,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
 
     private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
-        coreFunctionalityController.add(shoppingList, recipe, viewModel);
+        coreFunctionalityController.addRecipe(shoppingList, recipe, viewModel);
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
@@ -389,7 +389,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
             addNewGroceryListController.execute(newListName, viewModel);
         }
         ShoppingList newShoppingList = user.getShoppingList(newListName);
-        coreFunctionalityController.add(newShoppingList, recipe, viewModel);
+        coreFunctionalityController.addRecipe(newShoppingList, recipe, viewModel);
     }
 
 

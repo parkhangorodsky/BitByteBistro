@@ -1,6 +1,7 @@
 package use_cases.core_functionality;
 
 public interface CoreFunctionalityInputBoundary {
-    void add(CoreFunctionalityInputData inputData);
-    void remove(CoreFunctionalityInputData inputData);
+    void addRecipe(CoreFunctionalityInputData inputData);
+    void removeRecipe(CoreFunctionalityInputData inputData);
+    void removeIngredients(CoreFunctionalityInputData inputData);
 }

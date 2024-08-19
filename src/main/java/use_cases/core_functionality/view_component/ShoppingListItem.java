@@ -19,7 +19,6 @@ import use_cases.core_functionality.CoreFunctionalityController;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class ShoppingListItem extends RoundPanel {
@@ -96,7 +95,7 @@ public class ShoppingListItem extends RoundPanel {
     private void toggleIngredientsPanel(ShoppingList shoppingList) {
         if (!isIngredientsVisible) {
             showIngredientButton.setText("∧");
-            JPanel ingredientsPanel = createIngredientsPanel(shoppingList.getListItems());
+            JPanel ingredientsPanel = createIngredientsPanel(shoppingList);
             splitPane.setLeftComponent(ingredientsPanel);
             if (isRecipesVisible) {
                 splitPane.setVisible(true);
@@ -141,9 +140,21 @@ public class ShoppingListItem extends RoundPanel {
         repaint();
     }
 
-    private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
+    private JPanel createIngredientsPanel(ShoppingList shoppingList) {
         JPanel ingredientsPanel = new JPanel(new VerticalFlowLayout(5));
         ingredientsPanel.setOpaque(false);
+
+        JButton removeAllIngredientsButton = new JButton("Remove All Ingredients");
+        removeAllIngredientsButton.setFont(new Font(defaultFont, Font.PLAIN, 16));
+        removeAllIngredientsButton.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+        removeAllIngredientsButton.addActionListener(e -> {
+            coreFunctionalityController.removeAllIngredients(shoppingList, viewModel);
+        });
+
+        ingredientsPanel.add(removeAllIngredientsButton);
+
+        List<Ingredient> ingredients = shoppingList.getListItems();
+
         for (Ingredient ingredient : ingredients) {
             JLabel ingredientLabel = new JLabel(ingredient.toString());
             ingredientLabel.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -153,10 +164,10 @@ public class ShoppingListItem extends RoundPanel {
         return ingredientsPanel;
     }
 
+
     private JPanel createRecipesPanel(ShoppingList shoppingList) {
         JPanel recipesPanel = new JPanel(new VerticalFlowLayout(5));
         recipesPanel.setOpaque(false);
-
 
         // Create a button to remove all recipes
         JButton removeAllButton = new JButton("Remove All Recipes");
@@ -164,7 +175,7 @@ public class ShoppingListItem extends RoundPanel {
         removeAllButton.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
         removeAllButton.addActionListener(e -> {
             // Remove all recipes from the shopping list
-            coreFunctionalityController.removeAll(shoppingList, viewModel);
+            coreFunctionalityController.removeAllRecipes(shoppingList, viewModel);
         });
 
         recipesPanel.add(removeAllButton);
@@ -184,7 +195,7 @@ public class ShoppingListItem extends RoundPanel {
             });
 
             JButton removeButton = new JButton("Remove");
-            removeButton.addActionListener(e -> coreFunctionalityController.remove(shoppingList, recipe, viewModel));
+            removeButton.addActionListener(e -> coreFunctionalityController.removeRecipe(shoppingList, recipe, viewModel));
 
             recipesPanel.add(recipeButton, BorderLayout.CENTER);
             recipesPanel.add(removeButton, BorderLayout.EAST);

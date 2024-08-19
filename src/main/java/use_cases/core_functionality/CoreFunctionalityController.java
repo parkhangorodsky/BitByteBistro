@@ -30,21 +30,26 @@ public class CoreFunctionalityController {
      * @param recipe   The recipe to be added to the user's recipes.
      * @param parentModel The model that will be notified of property changes.
      */
-    public void add(ShoppingList shoppingList, Recipe recipe, PropertyChangeFirer parentModel){
+    public void addRecipe(ShoppingList shoppingList, Recipe recipe, PropertyChangeFirer parentModel){
 
         CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-        interactor.add(inputData);
+        interactor.addRecipe(inputData);
     }
 
-    public void remove(ShoppingList shoppingList, Recipe recipe, PropertyChangeFirer parentModel){
+    public void removeRecipe(ShoppingList shoppingList, Recipe recipe, PropertyChangeFirer parentModel){
         CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-        interactor.remove(inputData);
+        interactor.removeRecipe(inputData);
     }
 
-    public void removeAll(ShoppingList shoppingList, PropertyChangeFirer parentModel){
+    public void removeAllRecipes(ShoppingList shoppingList, PropertyChangeFirer parentModel){
         for (Recipe recipe : shoppingList.getRecipes()) {
             CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-            interactor.remove(inputData);
+            interactor.removeRecipe(inputData);
         }
+    }
+
+    public void removeAllIngredients(ShoppingList shoppingList, PropertyChangeFirer parentModel){
+        CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(shoppingList, parentModel);
+        interactor.removeIngredients(inputData);
     }
 }

@@ -84,7 +84,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                 ShoppingList items = list.getValue();
                 JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
-                    coreFunctionalityController.add(items, recipe, viewModel);
+                    coreFunctionalityController.addRecipe(items, recipe, viewModel);
                 });
                 addToMenu.add(groceryListItem);
             }
@@ -113,7 +113,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         } else {
             addNewGroceryListController.execute(newListName, viewModel);
             ShoppingList newShoppingList = user.getShoppingList(newListName);
-            coreFunctionalityController.add(newShoppingList, recipe, viewModel);
+            coreFunctionalityController.addRecipe(newShoppingList, recipe, viewModel);
             addToMenu = showAddToMenu(recipe);
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         }

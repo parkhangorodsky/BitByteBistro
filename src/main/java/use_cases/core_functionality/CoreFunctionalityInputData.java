@@ -26,6 +26,11 @@ public class CoreFunctionalityInputData {
         this.parentModel = parentModel;
     }
 
+    public CoreFunctionalityInputData(ShoppingList shoppingList, PropertyChangeFirer parentModel) {
+        this.shoppingList = shoppingList;
+        this.parentModel = parentModel;
+    }
+
     public Recipe getRecipe() {return recipe;}
     public ShoppingList getShoppingList() {return shoppingList;}
     public PropertyChangeFirer getParentModel() {return parentModel;}
