@@ -99,6 +99,8 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         if (!shoppingList.getRecipes().contains(recipe)) {
             return 0;
         }
+        shoppingList.getRecipes().remove(recipe);
+
         for (Ingredient grocery : recipe.getIngredientList()) {
             removeItem(shoppingList, grocery);
         }
