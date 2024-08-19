@@ -7,6 +7,7 @@ import frameworks.data_access.UserDataAccessInterface;
 import use_cases.core_functionality.strategy.collapse.*;
 import use_cases.core_functionality.strategy.normalize.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,8 +79,10 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
     }
 
     public void removeItem(ShoppingList shoppingList, Ingredient grocery) {
-        List<Ingredient> newListItems = shoppingList.getListItems();
-        newListItems.remove(grocery);
+        Map<String, Ingredient> listItems = shoppingList.getListItemsAsMap();
+        String name = normalizeStrategy.normalize(grocery.getIngredientName());
+        listItems.remove(name);
+        List<Ingredient> newListItems = new ArrayList<>(listItems.values());
         shoppingList.setListItems(newListItems);
     }
 
