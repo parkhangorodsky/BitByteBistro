@@ -10,6 +10,7 @@ import frameworks.data_access.serialization.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Filter;
 import java.util.prefs.Preferences;
@@ -110,6 +111,16 @@ public class MongoUserDAO implements UserDataAccessInterface{
         FridgeSerializer fridgeSerializer = new FridgeSerializer();
         Bson update = Updates.set("fridge", fridgeSerializer.serialize(fridge));
         userCollection.updateOne(filter, update);
+    }
+
+    @Override
+    public void removeIngredientsFromShoppingList(User user, ShoppingList shoppingList) {
+        String shoppingListName = shoppingList.getShoppingListName();
+        Bson filter = Filters.eq("userEmail", user.getUserEmail());
+
+        // Remove all ingredients from the shopping list
+        Bson removeAllIngredients = Updates.set("shoppingLists." + shoppingListName + ".listItems", new ArrayList<>());
+        userCollection.updateOne(filter, removeAllIngredients);
     }
 
     @Override

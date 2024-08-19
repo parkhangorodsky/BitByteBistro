@@ -49,5 +49,6 @@ public interface UserDataAccessInterface {
     void addRecipeToShoppingList(User user, ShoppingList shoppingList, Recipe recipe);
     void removeRecipeFromShoppingList(User user, ShoppingList shoppingList, Recipe recipe);
     void updateFridge(User user, Fridge fridge);
+    void removeIngredientsFromShoppingList(User user, ShoppingList shoppingList);
 
     }

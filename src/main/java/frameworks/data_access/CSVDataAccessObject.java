@@ -134,4 +134,9 @@ public class CSVDataAccessObject implements UserDataAccessInterface {
     public void updateFridge(User user, Fridge fridge) {
 
     }
+
+    @Override
+    public void removeIngredientsFromShoppingList(User user, ShoppingList shoppingList) {
+
+    }
 }
