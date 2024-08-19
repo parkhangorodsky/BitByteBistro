@@ -13,7 +13,6 @@ import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView implements NightModeObject {
@@ -85,7 +84,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                 ShoppingList items = list.getValue();
                 JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
-                    coreFunctionalityController.execute(items, recipe, viewModel);
+                    coreFunctionalityController.add(items, recipe, viewModel);
                 });
                 addToMenu.add(groceryListItem);
             }
@@ -114,7 +113,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         } else {
             addNewGroceryListController.execute(newListName, viewModel);
             ShoppingList newShoppingList = user.getShoppingList(newListName);
-            coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+            coreFunctionalityController.add(newShoppingList, recipe, viewModel);
             addToMenu = showAddToMenu(recipe);
             addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         }

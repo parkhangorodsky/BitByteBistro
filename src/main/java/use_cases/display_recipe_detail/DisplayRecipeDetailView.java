@@ -13,7 +13,6 @@ import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
-import use_cases.add_to_my_recipe.AddToMyRecipeController;
 import use_cases.core_functionality.CoreFunctionalityController;
 
 import javax.swing.*;
@@ -26,7 +25,6 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -382,7 +380,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
 
 
     private void addToGroceryList(Recipe recipe, ShoppingList shoppingList) {
-        coreFunctionalityController.execute(shoppingList, recipe, viewModel);
+        coreFunctionalityController.add(shoppingList, recipe, viewModel);
     }
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
@@ -391,7 +389,7 @@ public abstract class DisplayRecipeDetailView extends PopUpView implements Prope
             addNewGroceryListController.execute(newListName, viewModel);
         }
         ShoppingList newShoppingList = user.getShoppingList(newListName);
-        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+        coreFunctionalityController.add(newShoppingList, recipe, viewModel);
     }
 
 
