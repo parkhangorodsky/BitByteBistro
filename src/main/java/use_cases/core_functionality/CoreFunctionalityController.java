@@ -13,14 +13,14 @@ import java.util.List;
  * information about where action occured to the use case interactor.
  */
 public class CoreFunctionalityController {
-    CoreFunctionalityInteractor interactor;
+    CoreFunctionalityInputBoundary interactor;
 
     /**
      * Constructor for CoreFunctionalityController
      *
      * @param interactor The interactor responsible for adding recipes to the user's grocery list.
      */
-    public CoreFunctionalityController(CoreFunctionalityInteractor interactor) {
+    public CoreFunctionalityController(CoreFunctionalityInputBoundary interactor) {
         this.interactor = interactor;
     }
 
