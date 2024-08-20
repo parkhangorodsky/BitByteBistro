@@ -43,11 +43,7 @@ public class ShoppingList {
     }
 
     public List<Ingredient> getListItems() {
-        List<Ingredient> listItems = new ArrayList<>();
-        for (HashMap.Entry<String, Ingredient> item : this.listItems.entrySet()) {
-            listItems.add(item.getValue());
-        }
-        return listItems;
+        return new ArrayList<>(this.listItems.values());
     }
 
     public Map<String, Ingredient> getListItemsAsMap() {return this.listItems;}
@@ -70,21 +66,4 @@ public class ShoppingList {
     public List<Recipe> getRecipes() {return recipes;}
 
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
-
-    public void addItem(Ingredient grocery) {
-        collapseStrategy.collapse(this, grocery);
-    }
-    // still need changes in case already in
-
-    public void addRecipe(Recipe recipe) {
-        if (!this.recipes.contains(recipe)) {
-            this.recipes.add(recipe);
-        }
-        for (Ingredient grocery : recipe.getIngredientList()) {
-            this.addItem(grocery);
-        }
-    }
-
-
-
 }
