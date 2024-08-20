@@ -104,9 +104,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private void createNewGroceryListAndAdd(Recipe recipe) {
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this),
                 "Enter name for new grocery list:");
-        if (newListName == null) {
-            return;
-        } else if (newListName.trim().isEmpty()) {
+        if (newListName == null || newListName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "Name cannot be empty.",
                     "",
