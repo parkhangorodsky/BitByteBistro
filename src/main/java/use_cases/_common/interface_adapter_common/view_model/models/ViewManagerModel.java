@@ -18,8 +18,6 @@ public class ViewManagerModel {
 
     /**
      * Sets the name of the active view.
-     *
-     * @return the name of the active view
      */
     public void setActiveView(String activeViewName) {
         this.activeViewName = activeViewName;
@@ -27,7 +25,7 @@ public class ViewManagerModel {
 
     /**
      * Get the name of the active view.
-
+     * @return the name of the active view
      */
     public String getActiveView() {
         return activeViewName;

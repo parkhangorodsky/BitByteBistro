@@ -11,6 +11,7 @@ import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -50,10 +51,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         // Call the parent method to get the initialized controlPanel
         JPanel buttonPanel = super.createButtonPanel();
 
-        // Remove any pre-existing components if necessary
         buttonPanel.removeAll();
 
-        // Initialize and add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
 
@@ -104,7 +103,9 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private void createNewGroceryListAndAdd(Recipe recipe) {
         String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this),
                 "Enter name for new grocery list:");
-        if (newListName == null || newListName.trim().isEmpty()) {
+        if (newListName == null) {
+            return;
+        } else if (newListName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "Name cannot be empty.",
                     "",

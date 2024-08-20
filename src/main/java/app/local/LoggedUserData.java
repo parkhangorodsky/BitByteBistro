@@ -2,6 +2,13 @@ package app.local;
 
 import entity.User;
 
+/**
+ * A utility class for managing the currently logged-in user in the application.
+ * <p>
+ * This class provides static methods to get and set the currently logged-in user,
+ * and to log out the user. It maintains a single static instance of the logged-in user.
+ * </p>
+ */
 public class LoggedUserData {
     private static User loggedInUser;
 

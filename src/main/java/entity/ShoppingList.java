@@ -1,5 +1,8 @@
 package entity;
 
+import use_cases.core_functionality.strategy.CollapseStrategy;
+import use_cases.core_functionality.strategy.NormalizedCollapse;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +12,10 @@ public class ShoppingList {
 
     private String listOwner;
     private String shoppingListName; // changed the name of this
-    private HashMap<String, Ingredient> listItems;
+    private Map<String, Ingredient> listItems;
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
+    private CollapseStrategy collapseStrategy = new NormalizedCollapse();
 
     /**
      * Requires:
@@ -46,9 +50,11 @@ public class ShoppingList {
         return listItems;
     }
 
+    public Map<String, Ingredient> getListItemsAsMap() {return this.listItems;}
+
     public void setListItems(List<Ingredient> listItems) {
         for (Ingredient ingredient : listItems) {
-            String normalizedName = normalizeIngredientName(ingredient.getIngredientName());
+            String normalizedName = collapseStrategy.normalize(ingredient.getIngredientName());
             this.listItems.put(normalizedName, ingredient);
         }
     }
@@ -66,15 +72,7 @@ public class ShoppingList {
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
 
     public void addItem(Ingredient grocery) {
-        String normalizedGroceryName = normalizeIngredientName(grocery.getIngredientName());
-
-        if (this.listItems.containsKey(normalizedGroceryName)) {
-            Ingredient item = this.listItems.get(normalizedGroceryName);
-            float more = grocery.getQuantity();
-            item.addIngredientQuantity(more);
-        } else {
-            this.listItems.put(normalizedGroceryName, grocery);
-        }
+        collapseStrategy.collapse(this, grocery);
     }
     // still need changes in case already in
 
@@ -87,8 +85,6 @@ public class ShoppingList {
         }
     }
 
-    private String normalizeIngredientName(String name) {
-        return name.toLowerCase().replace("-", " ").replace(" ", "");
-    }
+
 
 }
