@@ -1,6 +1,5 @@
 package use_cases._common.gui_common.view;
 
-import app.local.LocalAppSetting;
 import app.local.LoggedUserData;
 import entity.Nutrition;
 import entity.Recipe;
@@ -35,8 +34,7 @@ import java.util.List;
 
 public class HomeView extends View implements ThemeColoredObject, NightModeObject {
 
-    private ViewManagerModel viewManagerModel;
-    private NutritionStatsController nutritionStatsController;
+    private final NutritionStatsController nutritionStatsController;
 
     public final String viewname;
 
@@ -48,16 +46,16 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     private JPanel recentlyViewedPanel;
     JLabel recentlyViewedTitle;
     private List<RoundButton> recentlyViewedButtons;
-    private DisplayRecipeDetailController displayRecipeDetailController;
-    private AddToMyRecipeController addToMyRecipeController;
-    private CoreFunctionalityController coreFunctionalityController;
-    private RecentlyViewedRecipesController recentlyViewedRecipesController;
-    private AddNewGroceryListController addNewGroceryListController;
-    private List<ShoppingList> userGroceryLists;
+    private JLabel welcomeLabel ;
+    private RoundButton selectGroceryListButton;
+    private final DisplayRecipeDetailController displayRecipeDetailController;
+    private final AddToMyRecipeController addToMyRecipeController;
+    private final CoreFunctionalityController coreFunctionalityController;
+    private final AddNewGroceryListController addNewGroceryListController;
     NutritionStatsViewModel nutritionStatsViewModel;
 
     // user variable
-    private User user = LoggedUserData.getLoggedInUser();
+    private final User user = LoggedUserData.getLoggedInUser();
 
     public HomeView(ViewManagerModel viewManagerModel,
                     NutritionStatsController nutritionStatsController,
@@ -67,11 +65,9 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
                     RecentlyViewedRecipesController recentlyViewedRecipesController,
                     AddNewGroceryListController addNewGroceryListController,
                     DisplayRecipeDetailController displayRecipeDetailController) {
-        this.viewManagerModel = viewManagerModel;
         this.displayRecipeDetailController = displayRecipeDetailController;
         this.addNewGroceryListController = addNewGroceryListController;
         this.coreFunctionalityController = coreFunctionalityController;
-        this.recentlyViewedRecipesController = recentlyViewedRecipesController;
         this.addToMyRecipeController = addToMyRecipeController;
 
         this.viewname = "Home";
@@ -119,7 +115,7 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JLabel welcomeLabel = new JLabel("Welcome to your BitByteBistro Home Page!");
+        welcomeLabel = new JLabel("Welcome to your BitByteBistro Home Page!");
         welcomeLabel.setFont(new Font(defaultFont, Font.BOLD, 24));
         welcomeLabel.setForeground(claudeBlack);
         contentPanel.add(welcomeLabel);
@@ -155,7 +151,11 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
         nutritionStatsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         nutritionStatsPanel.add(nutritionStatsTitle);
 
-        JButton selectGroceryListButton = new JButton("Select Grocery List...");
+        selectGroceryListButton = new RoundButton("Select Grocery List...");
+        selectGroceryListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectGroceryListButton.setAlignmentY(Component.TOP_ALIGNMENT);
+        selectGroceryListButton.setFont(new Font(defaultFont,Font.PLAIN, 14));
+
         selectGroceryListButton.addActionListener(e -> {
             if (userGroceryLists.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "You don't have any grocery lists", "No Grocery Lists", JOptionPane.INFORMATION_MESSAGE);
@@ -302,6 +302,10 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             button.setBorderColor(black);
         }
         recentlyViewedTitle.setForeground(neonPurpleEmph);
+        welcomeLabel.setForeground(Color.white);
+
+        selectGroceryListButton.setHoverColor(black, black, white, neonPinkEmph);
+
     }
 
     @Override
@@ -313,5 +317,9 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
             button.setBorderColor(claudeWhite);
         }
         recentlyViewedTitle.setForeground(claudeBlack);
+        welcomeLabel.setForeground(claudeBlack);
+        selectGroceryListButton.setHoverColor(claudeWhite, claudeWhiteEmph, claudeBlack, claudeBlack);
+
+
     }
 }
