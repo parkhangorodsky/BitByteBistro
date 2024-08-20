@@ -44,7 +44,7 @@ public class IngredientPanel extends RoundPanel implements ThemeColoredObject, N
             JLabel name = new JLabel(ingredientName);
             name.setFont(new Font(defaultFont, Font.PLAIN, 12));
             JLabel quantity = new JLabel(String.valueOf(ingredient.getQuantity()));
-            name.setFont(new Font(defaultFont, Font.PLAIN, 12));
+            quantity.setFont(new Font(defaultFont, Font.PLAIN, 12));
             JLabel unit = new JLabel(String.valueOf(ingredient.getQuantityUnit()));
             unit.setFont(new Font(defaultFont, Font.PLAIN, 12));
 
