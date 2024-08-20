@@ -31,10 +31,14 @@ public class NutritionJSONHandlerTest {
         fats.put("unit", "g");
         fats.put("quantity", "50");
 
+        JSONObject totalNutrients = new JSONObject();
+
+        totalNutrients.put("CHOCDF", carbs);
+        totalNutrients.put("NA", sodium);
+        totalNutrients.put("FAT", fats);
+
         nutritionInfo.put("calories", 1050);
-        nutritionInfo.put("CHOCDF", carbs);
-        nutritionInfo.put("NA", sodium);
-        nutritionInfo.put("FAT", fats);
+        nutritionInfo.put("totalNutrients", totalNutrients);
 
         assertNotNull(nutritionJSONHandler.convertJSONtoNutritionList(nutritionInfo));
         assertEquals(4, nutritionJSONHandler.convertJSONtoNutritionList(nutritionInfo).size());

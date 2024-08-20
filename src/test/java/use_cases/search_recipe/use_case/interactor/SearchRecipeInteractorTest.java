@@ -74,7 +74,7 @@ class SearchRecipeInteractorTest {
         assertEquals(2, capturedRecipe.getIngredientList().size());
         assertEquals(mockIngredient1, capturedRecipe.getIngredientList().get(0));
         assertEquals(mockIngredient2, capturedRecipe.getIngredientList().get(1));
-        assertEquals("image1.jpg", capturedRecipe.getImage());
+        assertEquals(bufferedImage, capturedRecipe.getImage());
 
         // Verify interactions with the mockRecipe
         verify(mockRecipe, times(1)).getName();

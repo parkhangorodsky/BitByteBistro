@@ -42,8 +42,10 @@ public class UserSerializer implements Serializer<Document, User> {
         String userName = bson.getString("userName");
         String userEmail = bson.getString("userEmail");
         String userPassword = bson.getString("userPassword");
-        Date createdDate = bson.getDate("createdAt");
-        LocalDateTime createdAt = LocalDateTime.ofInstant((createdDate.toInstant()), ZoneId.systemDefault());
+        LocalDateTime createdAt = (LocalDateTime) bson.get("createdAt");
+//        LocalDateTime createdAt = LocalDateTime.ofInstant(createdAtDate.toInstant(), ZoneId.systemDefault());
+
+//        LocalDateTime createdAt1 = LocalDateTime.ofInstant((createdDate.toInstant()), ZoneId.systemDefault());
         Map<String, ShoppingList> shoppingList = shoppingListSerializer.deserializeShoppingListMap(bson.get("shoppingLists", Document.class));
         List<Recipe> recipes = recipeSerializer.deserializeRecipeList(bson.getList("recipes", Document.class));
         List<Recipe> recentlyViewedRecipes = recipeSerializer.deserializeRecipeList(bson.getList("recentlyViewedRecipes", Document.class));

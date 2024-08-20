@@ -60,10 +60,10 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
                 ;
 
         if (bson.containsKey("image")) {
-            recipeBuiler.buildImage(bufferedImageSerializer.deserialize(bson.get("image", Binary.class).getData()));
+            recipeBuiler.buildImage(bufferedImageSerializer.deserialize((byte[]) bson.get("image")));
         }
         if (bson.containsKey("smallImage")) {
-            recipeBuiler.buildSmallImage(bufferedImageSerializer.deserialize(bson.get("smallImage", Binary.class).getData()));
+            recipeBuiler.buildSmallImage(bufferedImageSerializer.deserialize( (byte[]) bson.get("smallImage")));
         }
 
         return recipeBuiler.get();
