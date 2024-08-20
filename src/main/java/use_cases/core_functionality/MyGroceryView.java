@@ -65,7 +65,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                updateMyGrocery(); // Reload grocery list when view is shown
+                updateMyGrocery();
             }
         });
     }
@@ -80,7 +80,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             viewModel.setUser(LoggedUserData.getLoggedInUser());
             updateMyGrocery();
         } else if (evt.getPropertyName().equals("grocery") || evt.getPropertyName().equals("subtractFridgeFromGrocery")) {
-            updateMyGrocery();  // Always update the view when grocery list or setting changes
+            updateMyGrocery();
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
             this.revalidate();
@@ -150,12 +150,8 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    createNewGroceryList();
-                    String newGroceryListName = newListNameTextField.getText();
-                    addNewGroceryListController.execute(newGroceryListName, viewModel);
-                    updateMyGrocery();
+                    handleCreateNewGroceryList();
                 }
-
             }
         });
 
@@ -163,10 +159,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createNewGroceryList();
-                String newGroceryListName = newListNameTextField.getText();
-                addNewGroceryListController.execute(newGroceryListName, viewModel);
-                updateMyGrocery();
+                handleCreateNewGroceryList();
             }
         });
 
@@ -176,13 +169,28 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         inputPanel.repaint();
     }
 
+    private void handleCreateNewGroceryList() {
+        String newGroceryListName = newListNameTextField.getText().trim(); // Trim to remove leading/trailing spaces
+
+        if (newGroceryListName.isEmpty()) {
+            // Display error message if name is blank
+            JOptionPane.showMessageDialog(this, "Grocery list name cannot be blank. Please enter a valid name.",
+                    "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Proceed to create the grocery list
+            addNewGroceryListController.execute(newGroceryListName, viewModel);
+            createNewGroceryList();
+            updateMyGrocery();
+        }
+    }
+
     private void createNewGroceryList() {
         inputPanel.remove(promptLabel);
         inputPanel.remove(newListNameTextField);
         inputPanel.remove(confirmButton);
         inputPanel.revalidate();
         inputPanel.repaint();
-        isTextBarOpen = false; // Reset flag when text bar is removed
+        isTextBarOpen = false;
     }
 
     private void updateMyGrocery() {
@@ -198,7 +206,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
                     ShoppingList adjustedItems = getAdjustedGroceryListForDisplay(items);
                     shoppingListItem = createShoppingListItem(adjustedItems);
                 } else {
-                    shoppingListItem = createShoppingListItem(items); // Display original list
+                    shoppingListItem = createShoppingListItem(items);
                 }
                 myGroceryContainer.add(shoppingListItem);
             }
