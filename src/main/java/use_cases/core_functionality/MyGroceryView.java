@@ -43,7 +43,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
     private JButton confirmButton;
     private JLabel promptLabel;
     private AddNewGroceryListController addNewGroceryListController;
-    private boolean isTextBarOpen = false; // flag to check if text bar is open
+    private boolean isTextBarOpen = false; // Add flag to check if text bar is open
 
 
     public MyGroceryView(MyGroceryViewModel viewModel, AddNewGroceryListController addNewGroceryListController) {
@@ -307,6 +307,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
+
         RoundButton showRecipeButton = new RoundButton("∨");
         showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
         showRecipeButton.setVerticalAlignment(SwingConstants.CENTER);
@@ -326,27 +327,22 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (showRecipeButton.getText().equals("∨")) {
-                    showRecipeButton.setText("∧");
+                    showRecipeButton.setText("∧"); // Change to collapse symbol
                     JPanel ingredientsPanel = createIngredientsPanel(shoppingList.getListItems());
                     shoppingListItem.add(ingredientsPanel, BorderLayout.SOUTH);
                 } else {
-                    showRecipeButton.setText("∨");
-                    shoppingListItem.remove(2);
+                    showRecipeButton.setText("∨"); // Change back to expand symbol
+                    shoppingListItem.remove(2); // Remove ingredients panel
                 }
                 shoppingListItem.revalidate();
                 shoppingListItem.repaint();
             }
         });
 
-        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
-
         shoppingListItem.add(buttonPanel, BorderLayout.EAST);
         shoppingListItem.add(shoppingListNamePanel, BorderLayout.WEST);
 
-
         return shoppingListItem;
-
-
     }
 
     private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
