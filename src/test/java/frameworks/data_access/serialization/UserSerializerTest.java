@@ -19,7 +19,10 @@ class UserSerializerTest {
     void testSerialize() {
         // Create a sample User
         User user = new User("John Doe", "john@example.com", "password123", LocalDateTime.now());
-        user.setShoppingLists(List.of(new ShoppingList("John Doe", "Weekly Groceries")));
+        // Create a map with shopping lists
+        Map<String, ShoppingList> shoppingListMap = new TreeMap<>();
+        shoppingListMap.put("Weekly Groceries", new ShoppingList("John Doe", "Weekly Groceries"));
+        user.setShoppingLists(shoppingListMap);
         user.setRecipes(List.of(new Recipe("recipe1"), new Recipe("recipe2")));
         user.setRecentlyViewedRecipes(List.of(new Recipe("recipe3"), new Recipe("recipe4")));
         user.setPreference(Map.of("theme", "dark"));
@@ -46,7 +49,7 @@ class UserSerializerTest {
                 .append("userEmail", "john@example.com")
                 .append("userPassword", "password123")
                 .append("createdAt", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .append("shoppingList", List.of(new Document("listOwner", "John Doe").append("name", "Weekly Groceries")))
+                .append("shoppingList", Map.of("Weekly Groceries", new Document("listOwner", "John Doe").append("name", "Weekly Groceries")))
                 .append("preference", Map.of("theme", "dark"))
                 .append("recentlyViewedRecipes", List.of(new Document("id", "recipe3"), new Document("id", "recipe4")))
                 .append("recipes", List.of(new Document("id", "recipe1"), new Document("id", "recipe2")));

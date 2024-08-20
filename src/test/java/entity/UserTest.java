@@ -102,9 +102,9 @@ class UserTest {
 
     @Test
     void testSetShoppingLists() {
-        List<ShoppingList> shoppingListList = new ArrayList<>();
-        shoppingListList.add(shoppingList);
-        user.setShoppingLists(shoppingListList);
+        Map<String, ShoppingList> shoppingListMap = new TreeMap<>();
+        shoppingListMap.put("list 1", shoppingList);
+        user.setShoppingLists(shoppingListMap);
         assertEquals(1, user.getShoppingLists().size());
         assertEquals(shoppingList, user.getShoppingList(shoppingList.getShoppingListName()));
     }
