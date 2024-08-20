@@ -15,6 +15,7 @@ import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
 import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
+import use_cases.core_functionality.CoreFunctionalityInteractor;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +28,10 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
     protected MyGroceryViewModel viewModel;
@@ -60,7 +65,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                updateMyGrocery(); // Reload grocery list when view is shown
+                updateMyGrocery();
             }
         });
     }
@@ -74,7 +79,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         if (evt.getPropertyName().equals("init")) {
             viewModel.setUser(LoggedUserData.getLoggedInUser());
             updateMyGrocery();
-        } else if (evt.getPropertyName().equals("grocery")) {
+        } else if (evt.getPropertyName().equals("grocery") || evt.getPropertyName().equals("subtractFridgeFromGrocery")) {
             updateMyGrocery();
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
@@ -145,12 +150,8 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    createNewGroceryList();
-                    String newGroceryListName = newListNameTextField.getText();
-                    addNewGroceryListController.execute(newGroceryListName, viewModel);
-                    updateMyGrocery();
+                    handleCreateNewGroceryList();
                 }
-
             }
         });
 
@@ -158,10 +159,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createNewGroceryList();
-                String newGroceryListName = newListNameTextField.getText();
-                addNewGroceryListController.execute(newGroceryListName, viewModel);
-                updateMyGrocery();
+                handleCreateNewGroceryList();
             }
         });
 
@@ -171,24 +169,45 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         inputPanel.repaint();
     }
 
+    private void handleCreateNewGroceryList() {
+        String newGroceryListName = newListNameTextField.getText().trim(); // Trim to remove leading/trailing spaces
+
+        if (newGroceryListName.isEmpty()) {
+            // Display error message if name is blank
+            JOptionPane.showMessageDialog(this, "Grocery list name cannot be blank. Please enter a valid name.",
+                    "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Proceed to create the grocery list
+            addNewGroceryListController.execute(newGroceryListName, viewModel);
+            createNewGroceryList();
+            updateMyGrocery();
+        }
+    }
+
     private void createNewGroceryList() {
         inputPanel.remove(promptLabel);
         inputPanel.remove(newListNameTextField);
         inputPanel.remove(confirmButton);
         inputPanel.revalidate();
         inputPanel.repaint();
-        isTextBarOpen = false; // Reset flag when text bar is removed
+        isTextBarOpen = false;
     }
 
     private void updateMyGrocery() {
         myGroceryContainer.removeAll();
 
         User user = viewModel.getUser();
+        boolean subtractFridgeFromGrocery = LocalAppSetting.isSubtractFridgeFromGrocery();
         if (user != null && !user.getShoppingLists().isEmpty()) {
             for (HashMap.Entry<String, ShoppingList> shoppingList : user.getShoppingLists().entrySet()) {
-                String owner = shoppingList.getKey();
                 ShoppingList items = shoppingList.getValue();
-                JPanel shoppingListItem = createShoppingListItem(items);
+                JPanel shoppingListItem;
+                if (subtractFridgeFromGrocery) {
+                    ShoppingList adjustedItems = getAdjustedGroceryListForDisplay(items);
+                    shoppingListItem = createShoppingListItem(adjustedItems);
+                } else {
+                    shoppingListItem = createShoppingListItem(items);
+                }
                 myGroceryContainer.add(shoppingListItem);
             }
         } else {
@@ -203,6 +222,71 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         myGroceryContainer.revalidate();
         myGroceryContainer.repaint();
     }
+
+    private ShoppingList getAdjustedGroceryListForDisplay(ShoppingList originalList) {
+        List<Ingredient> adjustedIngredients = new ArrayList<>();
+        List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getIngredients();
+
+        for (Ingredient grocery : originalList.getListItems()) {
+            float adjustedQuantity = grocery.getQuantity();
+            for (Ingredient fridgeItem : fridgeItems) {
+                if (grocery.getIngredientName().equalsIgnoreCase(fridgeItem.getIngredientName()) &&
+                        grocery.getQuantityUnit().equalsIgnoreCase(fridgeItem.getQuantityUnit())) {
+                    adjustedQuantity -= fridgeItem.getQuantity();
+                }
+            }
+            if (adjustedQuantity > 0) {
+                Ingredient adjustedIngredient = new Ingredient(grocery.getIngredientID(), grocery.getIngredientName(),
+                        grocery.getQuantityUnit(), grocery.getCategory(), adjustedQuantity);
+                adjustedIngredients.add(adjustedIngredient);
+            }
+        }
+
+        // Consolidate like ingredients
+        Map<String, Ingredient> consolidatedIngredients = new LinkedHashMap<>();
+        for (Ingredient ingredient : adjustedIngredients) {
+            String key = ingredient.getIngredientName().toLowerCase() + ingredient.getQuantityUnit().toLowerCase();
+            if (consolidatedIngredients.containsKey(key)) {
+                consolidatedIngredients.get(key).addIngredientQuantity(ingredient.getQuantity());
+            } else {
+                consolidatedIngredients.put(key, ingredient);
+            }
+        }
+
+        ShoppingList adjustedShoppingList = new ShoppingList(originalList.getListOwner(), originalList.getShoppingListName());
+        adjustedShoppingList.setListItems(new ArrayList<>(consolidatedIngredients.values()));
+        adjustedShoppingList.setEstimatedTotalCost(originalList.getEstimatedTotalCost());
+        adjustedShoppingList.setRecipes(originalList.getRecipes());
+        return adjustedShoppingList;
+    }
+
+
+    private ShoppingList getAggregatedGroceryListForDisplay(ShoppingList originalList) {
+        Map<String, Ingredient> aggregatedIngredients = new LinkedHashMap<>();
+
+        for (Ingredient ingredient : originalList.getListItems()) {
+            String key = ingredient.getIngredientName() + ingredient.getQuantityUnit();
+            if (aggregatedIngredients.containsKey(key)) {
+                Ingredient existing = aggregatedIngredients.get(key);
+                existing.addIngredientQuantity(ingredient.getQuantity());
+            } else {
+                // Create a new Ingredient object to avoid mutating the original
+                Ingredient newIngredient = new Ingredient(ingredient.getIngredientID(), ingredient.getIngredientName(),
+                        ingredient.getQuantityUnit(), ingredient.getCategory(),
+                        ingredient.getQuantity());
+                aggregatedIngredients.put(key, newIngredient);
+            }
+        }
+
+        ShoppingList aggregatedShoppingList = new ShoppingList(originalList.getListOwner(), originalList.getShoppingListName());
+        aggregatedShoppingList.setListItems(new ArrayList<>(aggregatedIngredients.values()));
+        aggregatedShoppingList.setEstimatedTotalCost(originalList.getEstimatedTotalCost());
+        aggregatedShoppingList.setRecipes(originalList.getRecipes());
+
+        return aggregatedShoppingList;
+    }
+
+
 
     private JPanel createShoppingListItem(ShoppingList shoppingList) {
         RoundPanel shoppingListItem = new RoundPanel();
@@ -223,6 +307,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
+
         RoundButton showRecipeButton = new RoundButton("∨");
         showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
         showRecipeButton.setVerticalAlignment(SwingConstants.CENTER);
@@ -254,15 +339,10 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             }
         });
 
-        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
-
         shoppingListItem.add(buttonPanel, BorderLayout.EAST);
         shoppingListItem.add(shoppingListNamePanel, BorderLayout.WEST);
 
-
         return shoppingListItem;
-
-
     }
 
     private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
@@ -310,4 +390,31 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         component.revalidate();
         component.repaint();
     }
+
+    private void resetGroceryList() {
+        myGroceryContainer.removeAll();
+
+        User user = viewModel.getUser();
+
+        if (user != null && !user.getShoppingLists().isEmpty()) {
+            for (HashMap.Entry<String, ShoppingList> shoppingList : user.getShoppingLists().entrySet()) {
+                String owner = shoppingList.getKey();
+                ShoppingList items = shoppingList.getValue();
+                JPanel shoppingListItem = createShoppingListItem(items); // Display the original list without adjustments
+                myGroceryContainer.add(shoppingListItem);
+            }
+        } else {
+            JLabel emptyLabel = new JLabel("No shopping lists available.");
+            emptyLabel.setFont(new Font(defaultFont, Font.PLAIN, 18));
+            emptyLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+            myGroceryContainer.add(emptyLabel);
+        }
+
+        SwingUtilities.invokeLater(() -> myGroceryScrollPane.getVerticalScrollBar().setValue(0));
+
+        myGroceryContainer.revalidate();
+        myGroceryContainer.repaint();
+    }
+
+
 }

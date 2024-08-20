@@ -1,5 +1,7 @@
 package entity;
 
+import use_cases.core_functionality.strategy.normalize.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,11 +9,12 @@ import java.util.Map;
 
 public class ShoppingList {
 
-    private String listOwner;
+    private final String listOwner;
     private String shoppingListName; // changed the name of this
-    private HashMap<String, Ingredient> listItems;
+    private final Map<String, Ingredient> listItems;
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
+    private final NormalizeStrategy normalizeStrategy = new StringNormalize();
 
     /**
      * Requires:
@@ -39,16 +42,14 @@ public class ShoppingList {
     }
 
     public List<Ingredient> getListItems() {
-        List<Ingredient> listItems = new ArrayList<>();
-        for (HashMap.Entry<String, Ingredient> item : this.listItems.entrySet()) {
-            listItems.add(item.getValue());
-        }
-        return listItems;
+        return new ArrayList<>(this.listItems.values());
     }
+
+    public Map<String, Ingredient> getListItemsAsMap() {return this.listItems;}
 
     public void setListItems(List<Ingredient> listItems) {
         for (Ingredient ingredient : listItems) {
-            String normalizedName = normalizeIngredientName(ingredient.getIngredientName());
+            String normalizedName = normalizeStrategy.normalize(ingredient.getIngredientName());
             this.listItems.put(normalizedName, ingredient);
         }
     }
@@ -64,31 +65,4 @@ public class ShoppingList {
     public List<Recipe> getRecipes() {return recipes;}
 
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
-
-    public void addItem(Ingredient grocery) {
-        String normalizedGroceryName = normalizeIngredientName(grocery.getIngredientName());
-
-        if (this.listItems.containsKey(normalizedGroceryName)) {
-            Ingredient item = this.listItems.get(normalizedGroceryName);
-            double more = grocery.getQuantity();
-            item.addIngredientQuantity(more);
-        } else {
-            this.listItems.put(normalizedGroceryName, grocery);
-        }
-    }
-    // still need changes in case already in
-
-    public void addRecipe(Recipe recipe) {
-        if (!this.recipes.contains(recipe)) {
-            this.recipes.add(recipe);
-        }
-        for (Ingredient grocery : recipe.getIngredientList()) {
-            this.addItem(grocery);
-        }
-    }
-
-    private String normalizeIngredientName(String name) {
-        return name.toLowerCase().replace("-", " ").replace(" ", "");
-    }
-
 }

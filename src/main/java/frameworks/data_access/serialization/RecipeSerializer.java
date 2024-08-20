@@ -9,10 +9,27 @@ import org.bson.types.Binary;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Serializer class for converting {@code Recipe} objects to and from MongoDB {@code Document} objects.
+ * This class implements the {@code Serializer} interface to handle the serialization and deserialization
+ * of {@code Recipe} instances, including handling of associated images and ingredient lists.
+ */
 public class RecipeSerializer implements Serializer<Document, Recipe> {
+
     private final BufferedImageSerializer bufferedImageSerializer = new BufferedImageSerializer();
     private final NutritionSerializer nutritionMapSerializer = new NutritionSerializer();
     private final IngredientSerializer ingredientSerializer = new IngredientSerializer();
+
+    /**
+     * Serializes a {@code Recipe} object to a MongoDB {@code Document}.
+     *
+     * This method converts the properties of a {@code Recipe} into a {@code Document} format that
+     * can be stored in MongoDB. It includes handling for optional image data.
+     *
+     * @param recipe The {@code Recipe} object to be serialized.
+     * @return A {@code Document} representing the serialized form of the {@code Recipe}.
+     */
     @Override
     public Document serialize(Recipe recipe){
 
@@ -41,6 +58,15 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
         return document;
     }
 
+    /**
+     * Deserializes a MongoDB {@code Document} to a {@code Recipe} object.
+     *
+     * This method converts a {@code Document} retrieved from MongoDB back into a {@code Recipe} instance,
+     * including handling of optional image data.
+     *
+     * @param bson The {@code Document} representing the serialized form of a {@code Recipe}.
+     * @return A {@code Recipe} object created from the {@code Document}.
+     */
     @Override
     public Recipe deserialize(Document bson){
 
@@ -69,6 +95,15 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
         return recipeBuiler.get();
     }
 
+    /**
+     * Serializes a list of {@code Recipe} objects to a list of MongoDB {@code Document} objects.
+     *
+     * This method converts each {@code Recipe} in the list to a {@code Document} and returns a list
+     * of {@code Document} objects.
+     *
+     * @param recipeList A list of {@code Recipe} objects to be serialized.
+     * @return A list of {@code Document} objects representing the serialized form of the {@code Recipe} instances.
+     */
     public List<Document> serializeRecipeList(List<Recipe> recipeList){
         List<Document> documentList = new ArrayList<>();
 
@@ -79,6 +114,15 @@ public class RecipeSerializer implements Serializer<Document, Recipe> {
         return documentList;
     }
 
+    /**
+     * Deserializes a list of MongoDB {@code Document} objects to a list of {@code Recipe} objects.
+     *
+     * This method converts each {@code Document} in the list to a {@code Recipe} and returns a list
+     * of {@code Recipe} objects.
+     *
+     * @param bsonList A list of {@code Document} objects representing serialized {@code Recipe} instances.
+     * @return A list of {@code Recipe} objects created from the list of {@code Document} objects.
+     */
     public List<Recipe> deserializeRecipeList(List<Document> bsonList){
         List<Recipe> recipeList = new ArrayList<>();
 

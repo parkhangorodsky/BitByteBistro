@@ -11,6 +11,7 @@ import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                                                CoreFunctionalityController coreFunctionalityController,
                                                AddNewGroceryListController addNewGroceryListController,
                                                AddToMyRecipeController addToMyRecipeController) {
-        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController );
+        super(parent, viewModel, coreFunctionalityController, addNewGroceryListController);
         this.addToMyRecipeController = addToMyRecipeController;
         this.coreFunctionalityController = coreFunctionalityController;
         this.addNewGroceryListController = addNewGroceryListController;
@@ -50,10 +51,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         // Call the parent method to get the initialized controlPanel
         JPanel buttonPanel = super.createButtonPanel();
 
-        // Remove any pre-existing components if necessary
         buttonPanel.removeAll();
 
-        // Initialize and add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
         addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
 
@@ -82,7 +81,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
         if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
             for (HashMap.Entry<String, ShoppingList> list : userGroceryLists.entrySet()) {
-                String owner = list.getKey();
                 ShoppingList items = list.getValue();
                 JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
                 groceryListItem.addActionListener(e -> {
@@ -103,15 +101,24 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
 
 
     private void createNewGroceryListAndAdd(Recipe recipe) {
-        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
-        //need to handle when this is empty
-        if (newListName != null && !newListName.trim().isEmpty()) {
+        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this),
+                "Enter name for new grocery list:");
+        if (newListName == null) {
+            return;
+        } else if (newListName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Name cannot be empty.",
+                    "",
+                    JOptionPane.ERROR_MESSAGE);
+        } else if (user.getShoppingLists().containsKey(newListName)) {
+                addNewGroceryListController.execute(newListName, viewModel);
+        } else {
             addNewGroceryListController.execute(newListName, viewModel);
+            ShoppingList newShoppingList = user.getShoppingList(newListName);
+            coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
+            addToMenu = showAddToMenu(recipe);
+            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
         }
-        ShoppingList newShoppingList = user.getShoppingList(newListName);
-        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
-        addToMenu = showAddToMenu(recipe);
-        addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
     }
 
 
@@ -119,17 +126,25 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("recipe already exists")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Recipe already exists.",
+                    "This recipe already exists.",
                     "",
                     JOptionPane.ERROR_MESSAGE);
         } else if (evt.getPropertyName().equals("added recipe")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Successfully added.", "",
+                    "Successfully added to My Recipe.", "",
                     JOptionPane.INFORMATION_MESSAGE);
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
             this.revalidate();
             this.repaint();
+        } else if (evt.getPropertyName().equals("added shoppingList")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Successfully added to new grocery list in My Grocery.", "",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (evt.getPropertyName().equals("grocery list already exists")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "This grocery list already exists.", "",
+                    JOptionPane.ERROR_MESSAGE);
         } else {
             super.propertyChange(evt);
         }

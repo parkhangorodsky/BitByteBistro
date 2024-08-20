@@ -9,6 +9,7 @@ import use_cases.core_functionality.MyGroceryView;
 import use_cases.log_in.gui.view.LoginView;
 import use_cases.search_recipe.gui.view.SearchRecipeView;
 import use_cases.sign_up.gui.view.SignUpView;
+import use_cases.fridge_inventory.gui.view.FridgeInventoryView;
 
 public class SwingViewFactory extends ViewFactory {
 
@@ -20,5 +21,6 @@ public class SwingViewFactory extends ViewFactory {
         this.addDivision("HomeView", new HomeViewSwingDivision());
         this.addDivision("MyRecipeView", new MyRecipeViewSwingDivision());
         this.addDivision("MyGroceryView", new MyGroceryViewSwingDivision());
+        this.addDivision("MyFridgeView", new FridgeInventoryViewSwingDivision());
     }
 }
