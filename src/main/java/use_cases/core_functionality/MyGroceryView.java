@@ -299,46 +299,70 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setOpaque(false);
-        RoundButton showRecipeButton = new RoundButton("∨");
-        showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
-        showRecipeButton.setVerticalAlignment(SwingConstants.CENTER);
-        showRecipeButton.setPreferredSize(new Dimension(30, 30));
-        showRecipeButton.setBorderColor(LocalAppSetting.isNightMode() ? neonPinkEmph : claudeBlack);
+
+        RoundButton showIngredientsButton = new RoundButton("∨");
+        showIngredientsButton.setHorizontalAlignment(SwingConstants.CENTER);
+        showIngredientsButton.setVerticalAlignment(SwingConstants.CENTER);
+        showIngredientsButton.setPreferredSize(new Dimension(30, 30));
+        showIngredientsButton.setBorderColor(LocalAppSetting.isNightMode() ? neonPinkEmph : claudeBlack);
+
+        RoundButton showRecipesButton = new RoundButton("Show Recipes");
+        showRecipesButton.setPreferredSize(new Dimension(150, 30));
+        showRecipesButton.setBorderColor(LocalAppSetting.isNightMode() ? neonPinkEmph : claudeBlack);
 
         if (LocalAppSetting.isNightMode()) {
-            showRecipeButton.setHoverColor(darkPurple, neonPinkEmph, white, white);
+            showIngredientsButton.setHoverColor(darkPurple, neonPinkEmph, white, white);
         } else {
-            showRecipeButton.setHoverColor(claudeBlack, sunflower, claudeWhite, claudewhiteBright);
+            showIngredientsButton.setHoverColor(claudeBlack, sunflower, claudeWhite, claudewhiteBright);
         }
 
-        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
+        // Split pane for ingredients and recipes
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setResizeWeight(0.5);
+        shoppingListItem.add(splitPane, BorderLayout.SOUTH);
 
-        // Add button action to expand view
-        showRecipeButton.addActionListener(new ActionListener() {
+        // Add button action to expand ingredients view
+        showIngredientsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (showRecipeButton.getText().equals("∨")) {
-                    showRecipeButton.setText("∧"); // Change to collapse symbol
+                if (showIngredientsButton.getText().equals("∨")) {
+                    showIngredientsButton.setText("∧"); // Change to collapse symbol
                     JPanel ingredientsPanel = createIngredientsPanel(shoppingList.getListItems());
-                    shoppingListItem.add(ingredientsPanel, BorderLayout.SOUTH);
+                    splitPane.setLeftComponent(ingredientsPanel);
                 } else {
-                    showRecipeButton.setText("∨"); // Change back to expand symbol
-                    shoppingListItem.remove(2); // Remove ingredients panel
+                    showIngredientsButton.setText("∨"); // Change back to expand symbol
+                    splitPane.setLeftComponent(null); // Hide ingredients panel
                 }
                 shoppingListItem.revalidate();
                 shoppingListItem.repaint();
             }
         });
 
-        buttonPanel.add(showRecipeButton, BorderLayout.SOUTH);
+        // Add button action to expand/collapse recipe view
+        showRecipesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (showRecipesButton.getText().equals("Show Recipes")) {
+                    showRecipesButton.setText("Hide Recipes");
+                    JPanel recipesPanel = createRecipesPanel(shoppingList.getRecipes());
+                    splitPane.setRightComponent(recipesPanel);
+                } else {
+                    showRecipesButton.setText("Show Recipes");
+                    splitPane.setRightComponent(null); // Hide recipes panel
+                }
+                shoppingListItem.revalidate();
+                shoppingListItem.repaint();
+            }
+        });
+
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.add(showIngredientsButton);
+        buttonPanel.add(showRecipesButton);
 
         shoppingListItem.add(buttonPanel, BorderLayout.EAST);
         shoppingListItem.add(shoppingListNamePanel, BorderLayout.WEST);
 
-
         return shoppingListItem;
-
-
     }
 
     private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
@@ -351,6 +375,18 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             ingredientsPanel.add(ingredientLabel);
         }
         return ingredientsPanel;
+    }
+
+    private JPanel createRecipesPanel(List<Recipe> recipes) {
+        JPanel recipesPanel = new JPanel(new VerticalFlowLayout(5));
+        recipesPanel.setOpaque(false);
+        for (Recipe recipe : recipes) {
+            JLabel recipeLabel = new JLabel(recipe.getName());
+            recipeLabel.setFont(new Font(defaultFont, Font.PLAIN, 16));
+            recipeLabel.setForeground(LocalAppSetting.isNightMode() ? neonPinkEmph : black);
+            recipesPanel.add(recipeLabel);
+        }
+        return recipesPanel;
     }
 
     @Override
