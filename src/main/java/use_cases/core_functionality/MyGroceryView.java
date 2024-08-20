@@ -228,7 +228,7 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         List<Ingredient> fridgeItems = LoggedUserData.getLoggedInUser().getFridge().getIngredients();
 
         for (Ingredient grocery : originalList.getListItems()) {
-            float adjustedQuantity = grocery.getQuantity();
+            double adjustedQuantity = grocery.getQuantity();
             for (Ingredient fridgeItem : fridgeItems) {
                 if (grocery.getIngredientName().equalsIgnoreCase(fridgeItem.getIngredientName()) &&
                         grocery.getQuantityUnit().equalsIgnoreCase(fridgeItem.getQuantityUnit())) {

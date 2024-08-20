@@ -16,7 +16,7 @@ public class NormalizedCollapse implements CollapseStrategy {
 
         if (listItems.containsKey(normalizedGroceryName)) {
             Ingredient item = listItems.get(normalizedGroceryName);
-            float more = ingredient.getQuantity();
+            double more = ingredient.getQuantity();
             item.addIngredientQuantity(more);
         } else {
             listItems.put(normalizedGroceryName, ingredient);

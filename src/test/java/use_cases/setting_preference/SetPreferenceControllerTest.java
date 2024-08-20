@@ -22,7 +22,7 @@ class SetPreferenceControllerTest {
     void testExecute() {
         // Execute the method with a test value
         boolean testIsNightMode = true;
-        controller.execute(testIsNightMode);
+        controller.execute(testIsNightMode, false);
 
         // Capture the input data passed to the interactor
         ArgumentCaptor<SetPreferenceInputData> captor = ArgumentCaptor.forClass(SetPreferenceInputData.class);

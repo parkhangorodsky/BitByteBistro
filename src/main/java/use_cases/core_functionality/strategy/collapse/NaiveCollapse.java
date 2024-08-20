@@ -13,7 +13,7 @@ public class NaiveCollapse implements CollapseStrategy {
 
         if (listItems.containsKey(groceryName)) {
             Ingredient item = listItems.get(groceryName);
-            float more = ingredient.getQuantity();
+            double more = ingredient.getQuantity();
             item.addIngredientQuantity(more);
         } else {
             listItems.put(groceryName, ingredient);

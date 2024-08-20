@@ -27,7 +27,7 @@ class SetPreferenceInteractorTest {
     void testExecute() {
         // Given
         boolean nightMode = true;
-        SetPreferenceInputData inputData = new SetPreferenceInputData(nightMode);
+        SetPreferenceInputData inputData = new SetPreferenceInputData(nightMode,false);
 
         User mockUser = mock(User.class);
         LoggedUserData.setLoggedInUser(mockUser); // Set the mock user as the logged-in user
@@ -43,7 +43,7 @@ class SetPreferenceInteractorTest {
         verify(userDAO).updateUserPreference(mockUser, "nightMode", nightMode);
 
         // Verify that the presenter updates the local app setting
-        verify(presenter).updateLocalAppSetting(nightMode);
+        verify(presenter).updateLocalAppSetting(nightMode, false);
     }
 }
 

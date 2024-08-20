@@ -72,7 +72,7 @@ public class Ingredient {
     public void setIngredientName(String ingredientName) { this.ingredientName = ingredientName; }
     public void setQuantityUnit(String quantityUnit) { this.quantityUnit = quantityUnit; }
     public void setCategory(String category) { this.category = category; }
-    public void setQuantity(float quantity) { this.quantity = quantity; }
+    public void setQuantity(double quantity) { this.quantity = quantity; }
 
     public void addIngredientQuantity(double quantity) {
         this.quantity += quantity;

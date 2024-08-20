@@ -20,12 +20,21 @@ class SetPreferencePresenterTest {
 
     @Test
     void testUpdateLocalAppSetting() {
-        presenter.updateLocalAppSetting(true);
+        presenter.updateLocalAppSetting(true, true);
         assertTrue(LocalAppSetting.isNightMode());
+        assertTrue(LocalAppSetting.isSubtractFridgeFromGrocery());
 
-        presenter.updateLocalAppSetting(false);
+        presenter.updateLocalAppSetting(true, false);
+        assertTrue(LocalAppSetting.isNightMode());
+        assertFalse(LocalAppSetting.isSubtractFridgeFromGrocery());
+
+        presenter.updateLocalAppSetting(false, true);
         assertFalse(LocalAppSetting.isNightMode());
+        assertTrue(LocalAppSetting.isSubtractFridgeFromGrocery());
 
-
+        presenter.updateLocalAppSetting(false, false);
+        assertFalse(LocalAppSetting.isNightMode());
+        assertFalse(LocalAppSetting.isSubtractFridgeFromGrocery());
+        
     }
 }
