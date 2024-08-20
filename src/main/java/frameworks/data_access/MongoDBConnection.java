@@ -13,6 +13,12 @@ import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
+/**
+ * Manages the connection to a MongoDB database.
+ * This class sets up and maintains a connection to a MongoDB instance using the MongoDB Java Driver.
+ * It handles the connection configuration, including codec settings, and provides methods to access
+ * the MongoDB database and close the connection.
+ */
 public class MongoDBConnection {
 
     private final String databaseName = System.getenv("MONGODB_NAME");
@@ -26,6 +32,12 @@ public class MongoDBConnection {
     private MongoClient mongoClient;
     private MongoDatabase database;
 
+    /**
+     * Constructs a {@code MongoDBConnection} instance and initializes the connection to the MongoDB database.
+     * It configures the connection settings and verifies the connection by sending a ping command.
+     *
+     * @throws RuntimeException if an error occurs while connecting to the MongoDB server.
+     */
     public MongoDBConnection() {
 
         CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
@@ -55,6 +67,11 @@ public class MongoDBConnection {
         }
     }
 
+    /**
+     * Gets the MongoDB database instance associated with this connection.
+     *
+     * @return The {@code MongoDatabase} instance for accessing the database.
+     */
     public MongoDatabase getDatabase() {
         return database;
     }
