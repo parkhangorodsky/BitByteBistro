@@ -1,10 +1,7 @@
 package frameworks.data_access.serialization;
 
 import com.fasterxml.jackson.databind.JsonSerializer;
-import entity.Ingredient;
-import entity.Recipe;
-import entity.ShoppingList;
-import entity.User;
+import entity.*;
 import net.bytebuddy.asm.Advice;
 import org.bson.Document;
 
@@ -20,6 +17,7 @@ import java.util.Map;
 public class UserSerializer implements Serializer<Document, User> {
     private final RecipeSerializer recipeSerializer = new RecipeSerializer();
     private final ShoppingListSerializer shoppingListSerializer = new ShoppingListSerializer();
+    private final FridgeSerializer fridgeSerializer = new FridgeSerializer();
 
     @Override
     public Document serialize(User user){
@@ -33,6 +31,7 @@ public class UserSerializer implements Serializer<Document, User> {
         document.append("recentlyViewedRecipes", recipeSerializer.serializeRecipeList(user.getRecentlyViewedRecipes()));
         document.append("recipes", recipeSerializer.serializeRecipeList(user.getRecipes()));
         document.append("shoppingLists", shoppingListSerializer.serializeShoppingListMap(user.getShoppingLists()));
+        document.append("fridge", fridgeSerializer.serialize(user.getFridge()));
 
         return document;
     }
@@ -48,12 +47,14 @@ public class UserSerializer implements Serializer<Document, User> {
         List<Recipe> recipes = recipeSerializer.deserializeRecipeList(bson.getList("recipes", Document.class));
         List<Recipe> recentlyViewedRecipes = recipeSerializer.deserializeRecipeList(bson.getList("recentlyViewedRecipes", Document.class));
         Map<String, Object> preference = bson.get("preference", Map.class);
+        Fridge fridge = fridgeSerializer.deserialize(bson.get("fridge", Document.class));
 
         User user = new User(userName, userEmail, userPassword, createdAt);
         user.setShoppingLists(shoppingList);
         user.setRecipes(recipes);
         user.setRecentlyViewedRecipes(recentlyViewedRecipes);
         user.setPreference(preference);
+        user.setFridge(fridge);
         return user;
     }
 }

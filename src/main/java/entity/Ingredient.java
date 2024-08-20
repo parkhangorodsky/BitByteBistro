@@ -35,6 +35,22 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
+    /**
+     * Constructs an Ingredient object with the specified name, quantity, and unit.
+     * This constructor does not include ID and category, making it useful for temporary or simplified use cases.
+     *
+     * @param ingredientName The name of the ingredient.
+     * @param quantity       The initial quantity of the ingredient.
+     * @param quantityUnit   The unit of measurement for the quantity.
+     */
+    public Ingredient(String ingredientName, float quantity, String quantityUnit) {
+        this.ingredientName = ingredientName;
+        this.quantity = quantity;
+        this.quantityUnit = quantityUnit;
+        this.ingredientID = "";  // or some default value
+        this.category = "";  // or some default value
+    }
+
     // An empty constructor for auto serialization
     public Ingredient() {}
 
@@ -44,7 +60,7 @@ public class Ingredient {
     public String getIngredientName() {
         return ingredientName;
     }
-    public String getQuantityUnit() {return quantityUnit;}
+    public String getQuantityUnit() { return quantityUnit; }
     public String getCategory() {
         return category;
     }
@@ -52,11 +68,11 @@ public class Ingredient {
         return quantity;
     }
 
-    public void setIngredientID(String ingredientID) {this.ingredientID = ingredientID;}
-    public void setIngredientName(String ingredientName) {this.ingredientName = ingredientName;}
-    public void setQuantityUnit(String quantityUnit) {this.quantityUnit = quantityUnit;}
-    public void setCategory(String category) {this.category = category;}
-    public void setQuantity(float quantity) {this.quantity = quantity;}
+    public void setIngredientID(String ingredientID) { this.ingredientID = ingredientID; }
+    public void setIngredientName(String ingredientName) { this.ingredientName = ingredientName; }
+    public void setQuantityUnit(String quantityUnit) { this.quantityUnit = quantityUnit; }
+    public void setCategory(String category) { this.category = category; }
+    public void setQuantity(float quantity) { this.quantity = quantity; }
 
     public void addIngredientQuantity(float quantity) {
         this.quantity += quantity;
