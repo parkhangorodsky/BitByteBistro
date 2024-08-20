@@ -17,17 +17,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
 
+/**
+ * Unit tests for the CoreFunctionalityController class.
+ * These tests ensure that the CoreFunctionalityController behaves as expected
+ * when interacting with its interactor and handling input data.
+ */
 class CoreFunctionalityControllerTest {
 
     private CoreFunctionalityController controller;
     private CoreFunctionalityInputBoundary mockInteractor;
 
+    /**
+     * Setup method that runs before each test.
+     * Initializes the controller and mocks the interactor.
+     */
     @BeforeEach
     void setUp() {
         mockInteractor = Mockito.mock(CoreFunctionalityInputBoundary.class);
         controller = new CoreFunctionalityController(mockInteractor);
     }
 
+    /**
+     * Test for the execute method in CoreFunctionalityController.
+     * Verifies that the controller correctly constructs CoreFunctionalityInputData
+     * and passes it to the interactor for execution.
+     */
     @Test
     void testExecute() {
         // Arrange
