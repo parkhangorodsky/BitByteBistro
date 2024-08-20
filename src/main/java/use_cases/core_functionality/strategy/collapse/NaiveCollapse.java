@@ -19,9 +19,4 @@ public class NaiveCollapse implements CollapseStrategy {
             listItems.put(groceryName, ingredient);
         }
     }
-
-    @Override
-    public String normalize(String unnormalized) {
-        return unnormalized;
-    }
 }
