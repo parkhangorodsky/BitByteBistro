@@ -1,4 +1,4 @@
-package use_cases.core_functionality.strategy;
+package use_cases.core_functionality.strategy.collapse;
 
 import entity.Ingredient;
 import entity.ShoppingList;
