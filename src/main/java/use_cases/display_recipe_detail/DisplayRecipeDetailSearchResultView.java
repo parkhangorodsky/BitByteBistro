@@ -111,6 +111,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
                     "Name cannot be empty.",
                     "",
                     JOptionPane.ERROR_MESSAGE);
+        } else if (user.getShoppingLists().containsKey(newListName)) {
+                addNewGroceryListController.execute(newListName, viewModel);
         } else {
             addNewGroceryListController.execute(newListName, viewModel);
             ShoppingList newShoppingList = user.getShoppingList(newListName);
@@ -143,7 +145,7 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         } else if (evt.getPropertyName().equals("grocery list already exists")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "This grocery list already exists.", "",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         } else {
             super.propertyChange(evt);
         }
