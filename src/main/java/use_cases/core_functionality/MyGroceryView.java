@@ -64,6 +64,9 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         if (evt.getPropertyName().equals("init")) {
             viewModel.setUser(LoggedUserData.getLoggedInUser());
             groceryOutputPanel.updateMyGrocery();
+        } else if (evt.getPropertyName().equals("added shopping list")) {
+            viewModel.setUser(LoggedUserData.getLoggedInUser());
+            groceryOutputPanel.updateMyGrocery();
         } else if (evt.getPropertyName().equals("grocery list already exists")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "This grocery list already exists.",

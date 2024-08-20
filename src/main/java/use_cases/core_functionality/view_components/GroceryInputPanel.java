@@ -73,6 +73,7 @@ public class GroceryInputPanel extends JPanel {
         } else {
             addNewGroceryListController.execute(newGroceryListName, viewModel);
             resetInput();
+            viewModel.firePropertyChange("added shopping list");
         }
     }
 
