@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static use_cases._common.xtra.utility.StringCaseEditor.capitalizeWords;
+import static use_cases._common.xtra.utility.StringEditor.capitalizeWords;
 
 /**
  * Overview: View model for the advanced search recipe use case.

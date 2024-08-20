@@ -22,6 +22,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 
+import static use_cases._common.xtra.utility.StringEditor.escapeWords;
+import static use_cases._common.xtra.utility.StringEditor.shortenString;
+
 public class RecipePanel extends ViewComponent implements ThemeColoredObject, NightModeObject {
 
     private RecipeModel recipeModel;
@@ -50,7 +53,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
 
         // Layout Panel
         topPanel = new RoundPanel();
-        topPanel.setPreferredSize(new Dimension(100, 40));
+
         topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 5));
         topPanel.setBorder(new EmptyBorder(5, 15, 5, 15));
 
@@ -63,7 +66,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
         rightPanel.setOpaque(false);
 
         // Components
-        recipeNameLabel = new JLabel(recipe.getName());
+        recipeNameLabel = new JLabel(shortenString(recipe.getName(), 45));
         recipeNameLabel.setFont(new Font(defaultFont, Font.PLAIN, 24));
         recipeNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -82,6 +85,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
         extraInfoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
         detailButton = new RoundButton("Detail");
+        detailButton.setFont(new Font(defaultFont, Font.PLAIN, 14));
         detailButton.addActionListener(e -> {
             recentlyViewedRecipesController.execute(recipe);
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
@@ -95,6 +99,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
         extraInfoPanel.add(detailButton);
 
         topPanel.add(recipeNameLabel);
+        topPanel.setPreferredSize(new Dimension(100, topPanel.getMinimumSize().height));
 
         leftPanel.add(imageLabel, BorderLayout.NORTH);
         leftPanel.add(nutritionPanel, BorderLayout.CENTER);

@@ -14,9 +14,10 @@ public class User {
     private String userPassword;
     private LocalDateTime createdAt;
     private List<Recipe> recipes;
-    private HashMap<String, ShoppingList> shoppingLists;
+    private Map<String, ShoppingList> shoppingLists;
     private Map<String, Object> preference;
     private List<Recipe> recentlyViewedRecipes;
+    private Fridge fridge;  // Add fridge attribute
 
     /**
      * Constructs a new User with the specified details.
@@ -32,15 +33,19 @@ public class User {
         this.userEmail = userEmail; // Validate email format
         this.userPassword = userPassword; // Encrypt password
         this.createdAt = createdAt;
-        this.shoppingLists = new HashMap<>();
+        this.shoppingLists = new TreeMap<>();
         this.recipes = new ArrayList<>();
         this.preference = new HashMap<>();
         this.recentlyViewedRecipes = new ArrayList<>();
+        this.fridge = new Fridge();  // Initialize fridge
         preference.put("nightMode", false);
+        preference.put("subtractFridgeFromGrocery", false);
     }
 
     // Constructor with empty argument for MongoDB
-    public User() {}
+    public User() {
+        this.fridge = new Fridge();  // Initialize fridge
+    }
 
     /**
      * Returns the username of the user.
@@ -52,23 +57,18 @@ public class User {
     public String getUserPassword() {return userPassword;}
     public LocalDateTime getCreatedAt() {return createdAt;}
     public List<Recipe> getRecipes() {return recipes;}
-    public HashMap<String, ShoppingList> getShoppingLists() {return shoppingLists;}
+    public Map<String, ShoppingList> getShoppingLists() {return shoppingLists;}
     public ShoppingList getShoppingList(String name) {return shoppingLists.get(name);}
     public Map<String, Object> getPreference() {return preference;}
     public List<Recipe> getRecentlyViewedRecipes() {return recentlyViewedRecipes;}
+    public Fridge getFridge() { return fridge; }
 
     public void setUserName(String userName) {this.userName = userName;}
     public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
     public void setUserPassword(String userPassword) {this.userPassword = userPassword;}
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
-    public void setShoppingLists(List<ShoppingList> shoppingLists) {
-        HashMap<String, ShoppingList> shoppingListHashMap = new HashMap<>();
-        for (ShoppingList shoppingList : shoppingLists) {
-            shoppingListHashMap.put(shoppingList.getShoppingListName(), shoppingList);
-            this.shoppingLists = shoppingListHashMap;
-        }
-    }
+    public void setShoppingLists(Map<String, ShoppingList> shoppingLists) {this.shoppingLists = shoppingLists;}
     public void setPreference(Map<String, Object> preference) {this.preference = preference;}
     public void setRecentlyViewedRecipes(List<Recipe> recentlyViewedRecipes) {this.recentlyViewedRecipes = recentlyViewedRecipes;}
     public void addRecentlyViewedRecipe(Recipe recipe) {
@@ -89,6 +89,7 @@ public class User {
         }
         this.recentlyViewedRecipes.addFirst(recipe);
     }
+    public void setFridge(Fridge fridge) { this.fridge = fridge; }
 
     /**
      * Adds a shopping list to the user's list of shopping lists.

@@ -1,4 +1,4 @@
-package use_cases.nutrition_stats.interface_adapeter.presenter;
+package use_cases.nutrition_stats.interface_adapter.presenter;
 
 import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
 

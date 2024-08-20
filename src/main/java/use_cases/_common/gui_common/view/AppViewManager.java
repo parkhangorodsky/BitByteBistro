@@ -36,7 +36,6 @@ public class AppViewManager extends ViewManager implements PropertyChangeListene
     }
 
     public void addPopupView(String viewName, PopUpView popUpView) {
-        System.out.println(popUpView);
         this.popUpViews.put(viewName, popUpView);
     }
 

@@ -104,10 +104,10 @@ public class SwingGUI extends GUI {
 
     public void generateLoginView() {
         // Add LoginView to authentication ViewManager with a unique card name
-        authenticationViewManager.addView(viewFactory.generateLoginView());
+        authenticationViewManager.addView(viewFactory.generate("LoginView"));
 
         // Add SignUpView to authentication ViewManager with a unique card name
-        authenticationViewManager.addView(viewFactory.generateSignUpView());
+        authenticationViewManager.addView(viewFactory.generate("SignUpView"));
         this.mainPanel.add(loginPanel, "Login Window");
 
     }
@@ -136,11 +136,11 @@ public class SwingGUI extends GUI {
 
         JPanel sideBar = new Sidebar(config.getViewManagerModel(), config.getLogoutController());
 
-        this.appViewManager.addView(viewFactory.generateHomeView());
-        this.appViewManager.addView(viewFactory.generateSearchRecipeView());
-        this.appViewManager.addView(viewFactory.generateMyRecipeView());
-        this.appViewManager.addView(viewFactory.generateSearchRecipeView());
-        this.appViewManager.addView(viewFactory.generateMyGroceryView());
+        this.appViewManager.addView(viewFactory.generate("HomeView"));
+        this.appViewManager.addView(viewFactory.generate("MyRecipeView"));
+        this.appViewManager.addView(viewFactory.generate("SearchRecipeView"));
+        this.appViewManager.addView(viewFactory.generate("MyGroceryView"));
+        this.appViewManager.addView(viewFactory.generate("MyFridgeView"));
 
         //Create PopUpView
         PreferenceView preferenceView = new PreferenceView(mainFrame, config.getSetPreferenceController());

@@ -14,7 +14,10 @@ import frameworks.data_access.UserDataAccessInterface;
 import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.add_to_my_recipe.MyRecipeViewModel;
+import use_cases.fridge_inventory.*;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
+import use_cases.nutrition_stats.interface_adapter.controller.NutritionStatsController;
+import use_cases.nutrition_stats.interface_adapter.view_model.NutritionStatsViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.AdvancedSearchRecipeViewModel;
 import use_cases.search_recipe.interface_adapter.view_model.SearchRecipeViewModel;
 import use_cases.sign_up.interface_adapter.view_model.SignUpViewModel;
@@ -32,7 +35,22 @@ import use_cases.sign_up.interface_adapter.controller.SignUpController;
 import use_cases.logout.interface_adapter.controller.LogoutController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.core_functionality.CoreFunctionalityController;
+import use_cases.setting_preference.SetPreferenceController;
 
+// Fridge Classes
+import entity.Fridge;
+import use_cases.setting_preference.SetPreferencePresenter;
+import use_cases.setting_preference.SetPreferenceInteractor;
+import app.local.LoggedUserData;
+
+/**
+ * Configuration class for managing and providing access to various components of the application.
+ * <p>
+ * This class provides getter methods to retrieve instances of View Models, Frameworks, Drivers, Use Case Controllers, and Fridge components.
+ * It centralizes the configuration and access to different parts of the application, ensuring a consistent and organized setup.
+ * The components are instantiated in the default access sub-config classes within the config package.
+ * </p>
+ */
 public class Config {
 
     // ViewModel Getters
@@ -43,7 +61,9 @@ public class Config {
     public SearchRecipeViewModel getSearchRecipeViewModel() { return ViewModelConfig.searchRecipeViewModel; }
     public AdvancedSearchRecipeViewModel getAdvancedSearchRecipeViewModel() { return ViewModelConfig.advancedSearchRecipeViewModel; }
     public MyRecipeViewModel getMyRecipeViewModel() { return ViewModelConfig.myRecipeViewModel; }
+    public FridgeInventoryViewModel getFridgeInventoryViewModel() { return ViewModelConfig.fridgeInventoryViewModel; }
     public MyGroceryViewModel MyGroceryViewModel() { return ViewModelConfig.myGroceryViewModel; }
+    public NutritionStatsViewModel getNutritionStatsViewModel() { return ViewModelConfig.nutritionStatsViewModel; }
 
     // Frameworks & Drivers Getters
     public RecipeAPI getRecipeAPI() { return ApiConfig.recipeAPI; }
@@ -63,5 +83,19 @@ public class Config {
     public RecentlyViewedRecipesController getRecentlyViewedRecipesController() { return RecentlyViewedRecipeConfig.controller; }
     public AddNewGroceryListController getAddNewGroceryListController() { return AddNewGroceryListConfig.controller;}
     public CoreFunctionalityController getCoreFunctionalityController() { return CoreFunctionalityConfig.controller; }
+    public NutritionStatsController getNutritionStatsController() { return NutritionStatsConfig.controller; }
 
+    // Fridge components
+    // Expose a method to reset the FridgeInventoryInteractor for the new user
+    public static void resetFridgeInteractor(Fridge newFridge) {
+        FridgeInventoryConfig.resetFridgeInteractor(newFridge);
+    }
+
+    public FridgeInventoryController getFridgeInventoryController() {
+        return FridgeInventoryConfig.controller;
+    }
+
+    public FridgeInventoryInputBoundary getFridgeInventoryInteractor() {
+        return FridgeInventoryConfig.interactor;
+    }
 }

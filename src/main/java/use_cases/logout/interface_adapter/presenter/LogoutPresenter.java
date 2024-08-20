@@ -16,7 +16,7 @@ public class LogoutPresenter implements LogoutOutputBoundary {
 
     @Override
     public void logoutSuccess() {
-        System.out.println("Logged out");
+        System.out.println("Logged out 🫡");
         authenticationViewModel.firePropertyChange("logoutSuccess", LoggedUserData.getLoggedInUser(), null);
     }
 

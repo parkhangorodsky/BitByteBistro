@@ -1,4 +1,4 @@
-package use_cases.nutrition_stats.interface_adapeter.view_model;
+package use_cases.nutrition_stats.interface_adapter.view_model;
 
 import use_cases._common.interface_adapter_common.view_model.abstractions.ViewModel;
 import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
@@ -47,8 +47,8 @@ public class NutritionStatsViewModel extends ViewModel {
      * Fires a property change event with "search recipe" if there are results, otherwise fires "empty result".
      */
     public void firePropertyChanged() {
-        if (!nutritionalStatistics.getNutritionInfoAverage().isEmpty()) {
-            support.firePropertyChange("Home", null, this.nutritionalStatistics);
+        if (!nutritionalStatistics.getNutrition().isEmpty()) {
+            support.firePropertyChange("nutrition info", null, this.nutritionalStatistics);
         } else {
             support.firePropertyChange("empty result", null, null);
         }

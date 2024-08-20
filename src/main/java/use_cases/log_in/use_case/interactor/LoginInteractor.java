@@ -8,6 +8,7 @@ import use_cases.log_in.use_case.input_data.LoginInputBoundary;
 import use_cases.log_in.use_case.input_data.LoginInputData;
 import use_cases.log_in.use_case.output_data.LoginOutputBoundary;
 import use_cases.log_in.use_case.output_data.LoginOutputData;
+import app.config.Config;
 
 /**
  * Interactor for handling the login process.
@@ -41,21 +42,21 @@ public class LoginInteractor implements LoginInputBoundary {
      */
     @Override
     public void execute(LoginInputData loginInputData) {
-        // Check if the user exists in the repository
         User user = DAO.getUserByEmail(loginInputData.getUserEmail());
 
         if (user != null && user.getUserPassword().equals(loginInputData.getUserPassword())) {
-            // Successful login
             LoggedUserData.setLoggedInUser(user);
+
+            Config.resetFridgeInteractor(user.getFridge());  // Reset the fridge interactor with the new user's fridge
+
+            // Set user preferences
             LocalAppSetting.setNightMode((boolean) user.getPreference().get("nightMode"));
             LocalAppSetting.firePropertyChange("nightMode");
-            // Set the logged-in user in LoggedUserData
 
             if (loginOutputBoundary != null) {
                 loginOutputBoundary.prepareSuccessView(new LoginOutputData(user));
             }
         } else {
-            // Failed login
             loginOutputBoundary.prepareFailView("Invalid email or password.");
         }
     }

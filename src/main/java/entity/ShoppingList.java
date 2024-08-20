@@ -1,17 +1,21 @@
 package entity;
 
-import java.time.LocalDateTime;
+import use_cases.core_functionality.strategy.CollapseStrategy;
+import use_cases.core_functionality.strategy.NormalizedCollapse;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ShoppingList {
 
     private String listOwner;
     private String shoppingListName; // changed the name of this
-    private List<Ingredient> listItems;
+    private Map<String, Ingredient> listItems;
     private Double estimatedTotalCost;
     private List<Recipe> recipes;
-
+    private CollapseStrategy collapseStrategy = new NormalizedCollapse();
 
     /**
      * Requires:
@@ -21,7 +25,7 @@ public class ShoppingList {
     public ShoppingList(String listOwner, String shoppingListName) {
         this.listOwner = listOwner;
         this.shoppingListName = shoppingListName;
-        this.listItems = new ArrayList<>();
+        this.listItems = new HashMap<>();
         this.estimatedTotalCost = 0.00; // TODO: implement method to compute this
         this.recipes = new ArrayList<>();
     }
@@ -39,11 +43,20 @@ public class ShoppingList {
     }
 
     public List<Ingredient> getListItems() {
+        List<Ingredient> listItems = new ArrayList<>();
+        for (HashMap.Entry<String, Ingredient> item : this.listItems.entrySet()) {
+            listItems.add(item.getValue());
+        }
         return listItems;
     }
 
+    public Map<String, Ingredient> getListItemsAsMap() {return this.listItems;}
+
     public void setListItems(List<Ingredient> listItems) {
-        this.listItems = listItems;
+        for (Ingredient ingredient : listItems) {
+            String normalizedName = collapseStrategy.normalize(ingredient.getIngredientName());
+            this.listItems.put(normalizedName, ingredient);
+        }
     }
 
     public Double getEstimatedTotalCost() {
@@ -58,8 +71,20 @@ public class ShoppingList {
 
     public void setRecipes(List<Recipe> recipes) {this.recipes = recipes;}
 
-    public void addItem(Ingredient item) {this.listItems.add(item);}
+    public void addItem(Ingredient grocery) {
+        collapseStrategy.collapse(this, grocery);
+    }
+    // still need changes in case already in
 
-    public void addRecipe(Recipe recipe) {this.recipes.add(recipe);}
+    public void addRecipe(Recipe recipe) {
+        if (!this.recipes.contains(recipe)) {
+            this.recipes.add(recipe);
+        }
+        for (Ingredient grocery : recipe.getIngredientList()) {
+            this.addItem(grocery);
+        }
+    }
+
+
 
 }

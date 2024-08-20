@@ -2,7 +2,7 @@ package use_cases.nutrition_stats.use_case.interactor;
 
 import entity.Nutrition;
 import frameworks.api.NutritionAPI;
-import use_cases.nutrition_stats.interface_adapeter.presenter.NutritionStatsOutputBoundary;
+import use_cases.nutrition_stats.interface_adapter.presenter.NutritionStatsOutputBoundary;
 import use_cases.nutrition_stats.use_case.input_data.NutritionStatsInputData;
 import use_cases.nutrition_stats.use_case.output_data.NutritionStatsOutputData;
 
