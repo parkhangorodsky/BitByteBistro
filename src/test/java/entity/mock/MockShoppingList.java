@@ -22,7 +22,7 @@ public class MockShoppingList {
         mock = Mockito.mock(ShoppingList.class);
         when(mock.getListOwner()).thenReturn(listOwner);
         when(mock.getShoppingListName()).thenReturn(shoppingListName);
-        when(mock.getListItems()).thenReturn(listItems);
+        when(mock.getListItemsAsMap()).thenReturn(listItems);
         when(mock.getEstimatedTotalCost()).thenReturn(estimatedTotalCost);
         when(mock.getRecipes()).thenReturn(recipes);
     }
