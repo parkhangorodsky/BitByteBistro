@@ -14,6 +14,7 @@ import use_cases.search_recipe.interface_adapter.presenter.SearchRecipePresenter
 import use_cases.search_recipe.use_case.input_data.SearchRecipeInputData;
 import use_cases.search_recipe.use_case.output_data.SearchRecipeOutputData;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,11 +42,11 @@ class SearchRecipeInteractorTest {
         Ingredient mockIngredient2 = new MockIngredient().mock;
         List<Ingredient> ingredient = Arrays.asList(mockIngredient1, mockIngredient2);
 
-        String image = "image1.jpg";
+        BufferedImage bufferedImage = Mockito.mock(BufferedImage.class);
 
         when(mockRecipe.getName()).thenReturn(name);
         when(mockRecipe.getIngredientList()).thenReturn(ingredient);
-        when(mockRecipe.getImage()).thenReturn(image);
+        when(mockRecipe.getImage()).thenReturn(bufferedImage);
 
         List<Recipe> recipeList = List.of(mockRecipe);
 

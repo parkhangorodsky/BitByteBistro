@@ -11,15 +11,15 @@ public class MockIngredient {
     private String ingredientName;
     private String quantityUnit;
     private String category;
-    float quantity;
+    double quantity;
 
     public MockIngredient() {
         mock = Mockito.mock(Ingredient.class);
         when(mock.getIngredientID()).thenReturn(ingredientID);
         when(mock.getIngredientName()).thenReturn(ingredientName);
-        when(mock.getIngredientMeasure()).thenReturn(quantityUnit);
-        when(mock.getIngredientQuantity()).thenReturn(quantity);
-        when(mock.getIngredientCategory()).thenReturn(category);
+        when(mock.getQuantityUnit()).thenReturn(quantityUnit);
+        when(mock.getQuantity()).thenReturn(quantity);
+        when(mock.getCategory()).thenReturn(category);
     }
 
     public MockIngredient setIngredientID(String ingredientID) {

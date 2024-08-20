@@ -45,7 +45,7 @@ class SearchRecipePresenterTest {
         // check if setRecipeSearchResult method is called with outputData as an argument on searchRecipeViewModel
         verify(searchRecipeViewModel).setRecipeSearchResult(outputData);
         // check if firePropertyChanged method is called on searchRecipeViewModel
-        verify(searchRecipeViewModel).firePropertyChanged();
+        verify(searchRecipeViewModel).firePropertyChange();
         // check if setActiveView method is called with the view name of the
         // searchRecipeViewModel as an argument on viewManagerModel
         verify(viewManagerModel).setActiveView(searchRecipeViewModel.getViewName());

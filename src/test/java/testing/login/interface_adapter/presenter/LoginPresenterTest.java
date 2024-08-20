@@ -3,6 +3,7 @@ package testing.login.interface_adapter.presenter;
 import entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import use_cases._common.authentication.AuthenticationViewModel;
 import use_cases._common.interface_adapter_common.view_model.models.ViewManagerModel;
 import use_cases.log_in.interface_adapter.presenter.LoginPresenter;
 import use_cases.log_in.interface_adapter.view_model.LoginViewModel;
@@ -17,6 +18,7 @@ public class LoginPresenterTest {
 
     private LoginViewModel loginViewModel;
     private ViewManagerModel viewManagerModel;
+    private AuthenticationViewModel authenticationViewModel;
     private LoginPresenter loginPresenter;
 
     /**
@@ -26,7 +28,8 @@ public class LoginPresenterTest {
     void setUp() {
         loginViewModel = mock(LoginViewModel.class);
         viewManagerModel = mock(ViewManagerModel.class);
-        loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authenticationService);
+        authenticationViewModel = mock(AuthenticationViewModel.class);
+        loginPresenter = new LoginPresenter(loginViewModel, viewManagerModel, authenticationViewModel);
     }
 
     /**

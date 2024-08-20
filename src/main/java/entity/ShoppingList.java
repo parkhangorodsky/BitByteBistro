@@ -70,7 +70,7 @@ public class ShoppingList {
 
         if (this.listItems.containsKey(normalizedGroceryName)) {
             Ingredient item = this.listItems.get(normalizedGroceryName);
-            float more = grocery.getQuantity();
+            double more = grocery.getQuantity();
             item.addIngredientQuantity(more);
         } else {
             this.listItems.put(normalizedGroceryName, grocery);

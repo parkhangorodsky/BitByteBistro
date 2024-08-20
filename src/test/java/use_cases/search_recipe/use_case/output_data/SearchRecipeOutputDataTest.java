@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.Mockito.*;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -30,13 +31,15 @@ class SearchRecipeOutputDataTest {
         Ingredient ingredient3 = Mockito.mock(Ingredient.class);
         Ingredient ingredient4 = Mockito.mock(Ingredient.class);
 
+        BufferedImage bufferedImage = Mockito.mock(BufferedImage.class);
+
         when(recipe1.getName()).thenReturn("cake");
         when(recipe1.getIngredientList()).thenReturn(Arrays.asList(ingredient1, ingredient2));
-        when(recipe1.getImage()).thenReturn("image1.png");
+        when(recipe1.getImage()).thenReturn(bufferedImage);
 
         when(recipe2.getName()).thenReturn("fish");
         when(recipe2.getIngredientList()).thenReturn(Arrays.asList(ingredient3, ingredient4));
-        when(recipe2.getImage()).thenReturn("image2.png");
+        when(recipe2.getImage()).thenReturn(bufferedImage);
 
         recipes = Arrays.asList(recipe1, recipe2);
 

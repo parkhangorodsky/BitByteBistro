@@ -10,7 +10,7 @@ public class NutritionJSONHandlerTest {
 
     private NutritionJSONHandler nutritionJSONHandler = new NutritionJSONHandlerIMPL();
 
-    private class NutritionJSONHandlerIMPL implements NutritionJSONHandler {}
+    private class NutritionJSONHandlerIMPL extends NutritionJSONHandler {}
 
     @Test
     void convertJSONtoNutritionList() {

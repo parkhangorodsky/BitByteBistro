@@ -12,7 +12,7 @@ class JSONArrayHandlerTest {
 
     private JSONArrayHandler jsonArrayHandler = new jsonArrayHandlerIMPL();
 
-    private class jsonArrayHandlerIMPL implements JSONArrayHandler {}
+    private class jsonArrayHandlerIMPL extends JSONArrayHandler {}
 
     @Test
     void JSONStringArrayToList() {

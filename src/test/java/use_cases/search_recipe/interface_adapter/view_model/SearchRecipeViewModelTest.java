@@ -59,7 +59,7 @@ class SearchRecipeViewModelTest {
         viewModel.setRecipeSearchResult(outputData);
 
         // Act: Fire property changed event
-        viewModel.firePropertyChanged();
+        viewModel.firePropertyChange();
 
         // Assert: Verify that the listener was notified with the correct property change event
         verify(listener, times(1)).propertyChange(argThat(arg ->
@@ -77,7 +77,7 @@ class SearchRecipeViewModelTest {
         viewModel.setRecipeSearchResult(outputData);
 
         // Act: Fire property changed event
-        viewModel.firePropertyChanged();
+        viewModel.firePropertyChange();
 
         // Assert: Verify that the listener was notified with the correct property change event
         verify(listener,times(1)).propertyChange(argThat(event ->

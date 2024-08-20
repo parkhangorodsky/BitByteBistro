@@ -11,7 +11,7 @@ public class Ingredient {
     private String ingredientName;   // Name of the ingredient
     private String quantityUnit;     // Unit of measurement for the quantity (e.g., grams, pieces)
     private String category;         // Category or type of the ingredient
-    private float quantity;          // Quantity of the ingredient
+    private double quantity;          // Quantity of the ingredient
 
     /**
      * Constructs an Ingredient object with the specified attributes.
@@ -22,7 +22,7 @@ public class Ingredient {
      * @param category       The category or type of the ingredient.
      * @param quantity       The initial quantity of the ingredient.
      */
-    public Ingredient(String ingredientID, String ingredientName, String quantityUnit, String category, float quantity) {
+    public Ingredient(String ingredientID, String ingredientName, String quantityUnit, String category, double quantity) {
         this.ingredientID = ingredientID;
         this.ingredientName = ingredientName;
         // Ensure default quantity unit if provided unit is "<unit>"
@@ -48,7 +48,7 @@ public class Ingredient {
     public String getCategory() {
         return category;
     }
-    public float getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -58,7 +58,7 @@ public class Ingredient {
     public void setCategory(String category) {this.category = category;}
     public void setQuantity(float quantity) {this.quantity = quantity;}
 
-    public void addIngredientQuantity(float quantity) {
+    public void addIngredientQuantity(double quantity) {
         this.quantity += quantity;
     }
 

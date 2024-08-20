@@ -6,38 +6,35 @@ import org.junit.jupiter.api.Test;
 import use_cases._common.xtra.utility.JSONNullHandler;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static use_cases._common.xtra.utility.JSONNullHandler.*;
 
 class JSONNullHandlerTest {
 
-    JSONNullHandler jsonNullHandler = new JSONNullHandlerImpl();
-
-    private static class JSONNullHandlerImpl implements JSONNullHandler {
-    }
 
     @Test
-    void testhandleNullString() {
+    void testHandleNullString() {
         JSONObject stringJson = new JSONObject();
         stringJson.put("apple", "banana");
         stringJson.put("kiwi", JSONObject.NULL);
 
-        assertEquals("banana", jsonNullHandler.handleNullString(stringJson, "apple"));
-        assertEquals("", jsonNullHandler.handleNullString(stringJson, "kiwi"));
-        assertEquals("", jsonNullHandler.handleNullString(stringJson, "bread"));
+        assertEquals("banana", handleNullString(stringJson, "apple"));
+        assertEquals("", handleNullString(stringJson, "kiwi"));
+        assertEquals("", handleNullString(stringJson, "bread"));
     }
 
     @Test
-    void handleNullFloat() {
+    void testHandleNullFloat() {
         JSONObject floatJSON = new JSONObject();
         floatJSON.put("a", 0.7f);
         floatJSON.put("b", JSONObject.NULL);
 
-        assertEquals(0.7f, jsonNullHandler.handleNullFloat(floatJSON, "a"));
-        assertEquals(0.0f, jsonNullHandler.handleNullFloat(floatJSON, "b"));
-        assertEquals(0.0f, jsonNullHandler.handleNullFloat(floatJSON, "c"));
+        assertEquals(0.7f, handleNullFloat(floatJSON, "a"));
+        assertEquals(0.0f, handleNullFloat(floatJSON, "b"));
+        assertEquals(0.0f, handleNullFloat(floatJSON, "c"));
     }
 
     @Test
-    void handleNullJSONArray() {
+    void testHandleNullJSONArray() {
         JSONObject arrayJSON = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         jsonArray.put("a");
@@ -45,8 +42,8 @@ class JSONNullHandlerTest {
         jsonArray.put("c");
         arrayJSON.put("l1", jsonArray);
         arrayJSON.put("l2", JSONObject.NULL);
-        assertEquals(jsonArray, jsonNullHandler.handleNullJSONArray(arrayJSON, "l1"));
-        assertTrue(jsonNullHandler.handleNullJSONArray(arrayJSON, "l2").isEmpty());
-        assertTrue(jsonNullHandler.handleNullJSONArray(arrayJSON, "l3").isEmpty());
+        assertEquals(jsonArray, handleNullJSONArray(arrayJSON, "l1"));
+        assertTrue(handleNullJSONArray(arrayJSON, "l2").isEmpty());
+        assertTrue(handleNullJSONArray(arrayJSON, "l3").isEmpty());
     }
 }

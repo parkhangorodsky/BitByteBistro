@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AdvancedSearchRecipeViewModelTest {
     @Test
     void testConstructor() {
-        AdvancedSearchRecipeViewModel viewModel = new AdvancedSearchRecipeViewModel();
+        AdvancedSearchRecipeViewModel viewModel = new AdvancedSearchRecipeViewModel("Advanced Search");
         assertNotNull(viewModel);
     }
 }
