@@ -13,7 +13,6 @@ public class FridgeInventoryPresenter implements FridgeInventoryOutputBoundary {
 
     @Override
     public void updateView(List<Ingredient> ingredients) {
-        System.out.println("FridgeInventoryPresenter: Updating view with ingredients: " + ingredients);
         viewModel.setIngredients(ingredients);
         viewModel.firePropertyChange("ingredients", null, ingredients);
     }

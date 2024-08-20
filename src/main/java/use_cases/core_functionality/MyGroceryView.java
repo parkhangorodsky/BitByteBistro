@@ -80,7 +80,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
             viewModel.setUser(LoggedUserData.getLoggedInUser());
             updateMyGrocery();
         } else if (evt.getPropertyName().equals("grocery") || evt.getPropertyName().equals("subtractFridgeFromGrocery")) {
-            System.out.println("Property change detected: " + evt.getPropertyName()); // Debugging output
             updateMyGrocery();  // Always update the view when grocery list or setting changes
         } else if (evt.getPropertyName().equals("nightMode")) {
             toggleNightMode();
@@ -191,8 +190,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
         User user = viewModel.getUser();
         boolean subtractFridgeFromGrocery = LocalAppSetting.isSubtractFridgeFromGrocery();
-        System.out.println("Subtract Fridge from Grocery Setting: " + subtractFridgeFromGrocery);
-
         if (user != null && !user.getShoppingLists().isEmpty()) {
             for (HashMap.Entry<String, ShoppingList> shoppingList : user.getShoppingLists().entrySet()) {
                 ShoppingList items = shoppingList.getValue();

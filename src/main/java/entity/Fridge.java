@@ -63,10 +63,6 @@ public class Fridge {
         if (!found) {
             this.ingredients.add(ingredient);
         }
-
-        // Debug statement to check the ingredient being added
-        System.out.println("Fridge: Added ingredient: " + ingredient);
-        System.out.println("Fridge: Current ingredients: " + this.ingredients);
     }
 
     /**
@@ -98,7 +94,6 @@ public class Fridge {
 
     public List<Ingredient> getAggregatedFridgeContents() {
         Map<String, Ingredient> aggregatedFridge = new LinkedHashMap<>();
-        System.out.println("Aggregating fridge contents.");
         for (Ingredient item : this.ingredients) {
             String key = item.getIngredientName().toLowerCase() + "_" + item.getQuantityUnit().toLowerCase().trim();
             if (aggregatedFridge.containsKey(key)) {
@@ -115,8 +110,6 @@ public class Fridge {
             }
         }
         List<Ingredient> aggregatedContents = new ArrayList<>(aggregatedFridge.values());
-        System.out.println("Finished aggregating fridge contents.");
-        System.out.println("Aggregated fridge contents: " + aggregatedContents);
         return aggregatedContents;
     }
 
@@ -132,9 +125,7 @@ public class Fridge {
         Ingredient ingredient = getIngredientByNameAndUnit(ingredientName, unit);
         if (ingredient != null) {
             float newQuantity = ingredient.getQuantity() + delta;
-            System.out.println("Fridge: Updating quantity for " + ingredientName + ". Old quantity: " + ingredient.getQuantity() + ", Delta: " + delta + ", New quantity: " + newQuantity);
             if (newQuantity <= 0) {
-                System.out.println("Fridge: Removing ingredient due to non-positive quantity.");
                 return removeIngredient(ingredient.getIngredientID());
             } else {
                 ingredient.setQuantity(newQuantity);
