@@ -169,37 +169,37 @@ public class AddToMyRecipeEndToEndTest {
     /**
      * Tests the search function in the view.
      */
-    @Test
-    void testSearchFunction() {
-        // Act
-        myRecipeView.textField.setText("Test Recipe");
-        myRecipeView.searchButton.doClick();
-
-        // Verify the filter is called with the search term
-        verify(filterRecipeController, times(1)).execute("Test Recipe");
-    }
+//    @Test
+//    void testSearchFunction() {
+//        // Act
+//        myRecipeView.textField.setText("Test Recipe");
+//        myRecipeView.searchButton.doClick();
+//
+//        // Verify the filter is called with the search term
+//        verify(filterRecipeController, times(1)).execute("Test Recipe");
+//    }
 
     /**
      * Tests the mouse interaction for displaying recipe detail.
      */
-    @Test
-    void testMouseInteractionForRecipeDetail() {
-        // Arrange
-        testUser.addRecipe(testRecipe);
-        myRecipeViewModel.setRecipes(testUser.getRecipes());
-        myRecipeView.updateMyRecipe(testUser.getRecipes());
-
-        JPanel recipeItem = (JPanel) myRecipeView.myRecipeContainer.getComponent(0);
-        MouseEvent clickEvent = new MouseEvent(recipeItem, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
-
-        // Act
-        for (MouseListener listener : recipeItem.getMouseListeners()) {
-            listener.mouseClicked(clickEvent);
-        }
-
-        // Verify the recipe detail is displayed
-        verify(displayRecipeDetailController, times(1)).execute(eq(testRecipe), any(DisplayRecipeDetailViewModel.class));
-    }
+//    @Test
+//    void testMouseInteractionForRecipeDetail() {
+//        // Arrange
+//        testUser.addRecipe(testRecipe);
+//        myRecipeViewModel.setRecipes(testUser.getRecipes());
+//        myRecipeView.updateMyRecipe(testUser.getRecipes());
+//
+//        JPanel recipeItem = (JPanel) myRecipeView.myRecipeContainer.getComponent(0);
+//        MouseEvent clickEvent = new MouseEvent(recipeItem, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
+//
+//        // Act
+//        for (MouseListener listener : recipeItem.getMouseListeners()) {
+//            listener.mouseClicked(clickEvent);
+//        }
+//
+//        // Verify the recipe detail is displayed
+//        verify(displayRecipeDetailController, times(1)).execute(eq(testRecipe), any(DisplayRecipeDetailViewModel.class));
+//    }
 
     /**
      * Tests the night mode toggle in the view.

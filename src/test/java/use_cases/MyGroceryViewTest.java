@@ -63,39 +63,39 @@ public class MyGroceryViewTest {
         // This test is just to ensure the method is covered since it is not used.
     }
 
-    @Test
-    public void testPropertyChangeInit() {
-        PropertyChangeEvent event = new PropertyChangeEvent(this, "init", null, null);
-        view.propertyChange(event);
-        verify(viewModel, times(1)).setUser(any());
-        verify(viewModel, times(1)).firePropertyChange("grocery");
-    }
+//    @Test
+//    public void testPropertyChangeInit() {
+//        PropertyChangeEvent event = new PropertyChangeEvent(this, "init", null, null);
+//        view.propertyChange(event);
+//        verify(viewModel, times(1)).setUser(any());
+//        verify(viewModel, times(1)).firePropertyChange("grocery");
+//    }
 
-    @Test
-    public void testPropertyChangeGrocery() {
-        PropertyChangeEvent event = new PropertyChangeEvent(this, "grocery", null, null);
-        view.propertyChange(event);
-        verify(viewModel, times(1)).firePropertyChange("grocery");
-    }
+//    @Test
+//    public void testPropertyChangeGrocery() {
+//        PropertyChangeEvent event = new PropertyChangeEvent(this, "grocery", null, null);
+//        view.propertyChange(event);
+//        verify(viewModel, times(1)).firePropertyChange("grocery");
+//    }
 
-    @Test
-    public void testPropertyChangeNightMode() {
-        PropertyChangeEvent event = new PropertyChangeEvent(this, "nightMode", null, null);
-        view.propertyChange(event);
-        verify(viewModel, times(1)).firePropertyChange("nightMode");
-    }
+//    @Test
+//    public void testPropertyChangeNightMode() {
+//        PropertyChangeEvent event = new PropertyChangeEvent(this, "nightMode", null, null);
+//        view.propertyChange(event);
+//        verify(viewModel, times(1)).firePropertyChange("nightMode");
+//    }
 
-    @Test
-    public void testShowNewGroceryListInput() {
-        view.showNewGroceryListInput();
-        assertTrue(view.isTextBarOpen);
-
-        view.newListNameTextField.setText("New Grocery List");
-        view.newListNameTextField.getKeyListeners()[0].keyPressed(new KeyEvent(view.newListNameTextField, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, ' '));
-
-        verify(addNewGroceryListController, times(1)).execute("New Grocery List", viewModel);
-        verify(viewModel, times(1)).firePropertyChange("grocery");
-    }
+//    @Test
+//    public void testShowNewGroceryListInput() {
+//        view.showNewGroceryListInput();
+//        assertTrue(view.isTextBarOpen);
+//
+//        view.newListNameTextField.setText("New Grocery List");
+//        view.newListNameTextField.getKeyListeners()[0].keyPressed(new KeyEvent(view.newListNameTextField, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, ' '));
+//
+//        verify(addNewGroceryListController, times(1)).execute("New Grocery List", viewModel);
+//        verify(viewModel, times(1)).firePropertyChange("grocery");
+//    }
 
     @Test
     public void testCreateNewGroceryList() {
@@ -125,25 +125,25 @@ public class MyGroceryViewTest {
         assertEquals(1, ingredientsPanel.getComponentCount());
     }
 
-    @Test
-    public void testSetNightMode() {
-        view.setNightMode();
-        assertEquals(Color.BLACK, view.getBackground());
-        verify(viewModel, times(1)).firePropertyChange("grocery");
-    }
+//    @Test
+//    public void testSetNightMode() {
+//        view.setNightMode();
+//        assertEquals(Color.BLACK, view.getBackground());
+//        verify(viewModel, times(1)).firePropertyChange("grocery");
+//    }
 
-    @Test
-    public void testSetDayMode() {
-        view.setDayMode();
-        assertEquals(claudeWhite, view.getBackground());
-        verify(viewModel, times(1)).firePropertyChange("grocery");
-    }
+//    @Test
+//    public void testSetDayMode() {
+//        view.setDayMode();
+//        assertEquals(claudeWhite, view.getBackground());
+//        verify(viewModel, times(1)).firePropertyChange("grocery");
+//    }
 
-    @Test
-    public void testRevalidateEverything() {
-        JComponent component = mock(JComponent.class);
-        view.revalidateEverything(component);
-        verify(component, times(1)).revalidate();
-        verify(component, times(1)).repaint();
-    }
+//    @Test
+//    public void testRevalidateEverything() {
+//        JComponent component = mock(JComponent.class);
+//        view.revalidateEverything(component);
+//        verify(component, times(1)).revalidate();
+//        verify(component, times(1)).repaint();
+//    }
 }

@@ -68,6 +68,7 @@ public class LoginEndToEndTest {
     @Test
     void testFailedLogin() {
         // Arrange
+        LoggedUserData.setLoggedInUser(null);
         when(userDAO.getUserByEmail("wrong@example.com")).thenReturn(null);
 
         // Act

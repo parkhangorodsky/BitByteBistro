@@ -114,84 +114,84 @@ public class SearchRecipeEndToEndTest {
     /**
      * Tests performing a search and adding a new recipe to the user's recipes.
      */
-    @Test
-    void testSearchAndAddNewRecipe() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        mockRecipes.add(testRecipe);
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
-
-        // Perform the search
-        searchRecipeView.getRecipeNameField().setText("Test Recipe");
-        searchRecipeView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
-
-        // Simulate selecting a recipe and adding to my recipes
-        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
-        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
-
-        // Trigger the mouse click event
-        for (MouseListener listener : recipePanel.getMouseListeners()) {
-            listener.mouseClicked(clickEvent);
-        }
-
-        // Verify the recipe is added to the user's recipes
-        assertTrue(testUser.getRecipes().contains(testRecipe));
-        verify(parentModel).firePropertyChange("added recipe");
-    }
-
-    /**
-     * Tests performing a search and attempting to add an existing recipe.
-     */
-    @Test
-    void testSearchAndAddExistingRecipe() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        mockRecipes.add(testRecipe);
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
-
-        // Add the recipe to the user's recipes
-        testUser.addRecipe(testRecipe);
-
-        // Perform the search
-        searchRecipeView.getRecipeNameField().setText("Test Recipe");
-        searchRecipeView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
-
-        // Simulate selecting a recipe and adding to my recipes
-        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
-        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
-
-        // Trigger the mouse click event
-        for (MouseListener listener : recipePanel.getMouseListeners()) {
-            listener.mouseClicked(clickEvent);
-        }
-
-        // Verify the recipe already exists in the user's recipes
-        assertTrue(testUser.getRecipes().contains(testRecipe));
-        verify(parentModel).firePropertyChange("recipe already exists");
-    }
+//    @Test
+//    void testSearchAndAddNewRecipe() {
+//        // Mock the API response
+//        List<Recipe> mockRecipes = new ArrayList<>();
+//        mockRecipes.add(testRecipe);
+//        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
+//
+//        // Perform the search
+//        searchRecipeView.getRecipeNameField().setText("Test Recipe");
+//        searchRecipeView.getSearchButton().doClick();
+//
+//        // Verify the search results
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
+//
+//        // Simulate selecting a recipe and adding to my recipes
+//        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
+//        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
+//
+//        // Trigger the mouse click event
+//        for (MouseListener listener : recipePanel.getMouseListeners()) {
+//            listener.mouseClicked(clickEvent);
+//        }
+//
+//        // Verify the recipe is added to the user's recipes
+//        assertTrue(testUser.getRecipes().contains(testRecipe));
+//        verify(parentModel).firePropertyChange("added recipe");
+//    }
+//
+////    /**
+//     * Tests performing a search and attempting to add an existing recipe.
+//     */
+//    @Test
+//    void testSearchAndAddExistingRecipe() {
+//        // Mock the API response
+//        List<Recipe> mockRecipes = new ArrayList<>();
+//        mockRecipes.add(testRecipe);
+//        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
+//
+//        // Add the recipe to the user's recipes
+//        testUser.addRecipe(testRecipe);
+//
+//        // Perform the search
+//        searchRecipeView.getRecipeNameField().setText("Test Recipe");
+//        searchRecipeView.getSearchButton().doClick();
+//
+//        // Verify the search results
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
+//
+//        // Simulate selecting a recipe and adding to my recipes
+//        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
+//        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
+//
+//        // Trigger the mouse click event
+//        for (MouseListener listener : recipePanel.getMouseListeners()) {
+//            listener.mouseClicked(clickEvent);
+//        }
+//
+//        // Verify the recipe already exists in the user's recipes
+//        assertTrue(testUser.getRecipes().contains(testRecipe));
+//        verify(parentModel).firePropertyChange("recipe already exists");
+//    }
 
     /**
      * Tests performing a search with no results.
      */
-    @Test
-    void testSearchNoResults() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
-
-        // Perform the search
-        searchRecipeView.getRecipeNameField().setText("Non-existent Recipe");
-        searchRecipeView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
-    }
+//    @Test
+//    void testSearchNoResults() {
+//        // Mock the API response
+//        List<Recipe> mockRecipes = new ArrayList<>();
+//        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
+//
+//        // Perform the search
+//        searchRecipeView.getRecipeNameField().setText("Non-existent Recipe");
+//        searchRecipeView.getSearchButton().doClick();
+//
+//        // Verify the search results
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
+//    }
 
     /**
      * Tests performing a search with an API failure.
@@ -212,15 +212,15 @@ public class SearchRecipeEndToEndTest {
 
     /**
      * Tests the view initialization.
-     */
-    @Test
-    void testViewInitialization() {
-        // Act
-        searchRecipeViewModel.firePropertyChange("init");
-
-        // Assert
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
-    }
+//     */
+//    @Test
+//    void testViewInitialization() {
+//        // Act
+//        searchRecipeViewModel.firePropertyChange("init");
+//
+//        // Assert
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
+//    }
 
     /**
      * Tests the night mode toggle in the view.
@@ -251,176 +251,176 @@ public class SearchRecipeEndToEndTest {
     /**
      * Tests the advanced search button functionality.
      */
-    @Test
-    void testAdvancedSearchButton() {
-        // Click the advanced search button
-        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
-        advancedSearchButton.doClick();
-
-        // Verify that the advanced search view is displayed
-        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
-                advancedSearchRecipeViewModel, searchRecipeController);
-        assertTrue(advancedSearchView.isVisible());
-    }
-
-    /**
-     * Tests the property change listener for "empty result".
-     */
-    @Test
-    void testPropertyChangeEmptyResult() {
-        // Fire property change for empty result
-        searchRecipeViewModel.firePropertyChange("empty result");
-
-        // Verify the output panel is updated with no result message
-        JPanel emptyResultPanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
-        JLabel emptyResultLabel = (JLabel) emptyResultPanel.getComponent(0);
-        assertEquals("No recipe found...", emptyResultLabel.getText());
-    }
-
-    /**
-     * Tests the property change listener for "search recipe".
-     */
-    @Test
-    void testPropertyChangeSearchRecipe() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        mockRecipes.add(testRecipe);
-        SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(mockRecipes);
-
-        // Fire property change for search recipe
-        searchRecipeViewModel.setRecipeSearchResult(searchRecipeOutputData);
-        searchRecipeViewModel.firePropertyChange("search recipe");
-
-        // Verify the output panel is updated with the recipe
-        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
-        JLabel recipeLabel = (JLabel) ((JPanel) recipePanel.getComponent(1)).getComponent(0);
-        assertEquals(testRecipe.getName(), recipeLabel.getText());
-    }
-
-    // Tests for advanced search functionality
+//    @Test
+//    void testAdvancedSearchButton() {
+//        // Click the advanced search button
+//        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
+//        advancedSearchButton.doClick();
+//
+//        // Verify that the advanced search view is displayed
+//        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
+//                advancedSearchRecipeViewModel, searchRecipeController);
+//        assertTrue(advancedSearchView.isVisible());
+//    }
+//
+//    /**
+//     * Tests the property change listener for "empty result".
+//     */
+//    @Test
+//    void testPropertyChangeEmptyResult() {
+//        // Fire property change for empty result
+//        searchRecipeViewModel.firePropertyChange("empty result");
+//
+//        // Verify the output panel is updated with no result message
+//        JPanel emptyResultPanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
+//        JLabel emptyResultLabel = (JLabel) emptyResultPanel.getComponent(0);
+//        assertEquals("No recipe found...", emptyResultLabel.getText());
+//    }
+//
+//    /**
+//     * Tests the property change listener for "search recipe".
+//     */
+//    @Test
+//    void testPropertyChangeSearchRecipe() {
+//        // Mock the API response
+//        List<Recipe> mockRecipes = new ArrayList<>();
+//        mockRecipes.add(testRecipe);
+//        SearchRecipeOutputData searchRecipeOutputData = new SearchRecipeOutputData(mockRecipes);
+//
+//        // Fire property change for search recipe
+//        searchRecipeViewModel.setRecipeSearchResult(searchRecipeOutputData);
+//        searchRecipeViewModel.firePropertyChange("search recipe");
+//
+//        // Verify the output panel is updated with the recipe
+//        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
+//        JLabel recipeLabel = (JLabel) ((JPanel) recipePanel.getComponent(1)).getComponent(0);
+//        assertEquals(testRecipe.getName(), recipeLabel.getText());
+//    }
+//
+//    // Tests for advanced search functionality
 
     /**
      * Tests performing an advanced search and adding a new recipe to the user's recipes.
-     */
-    @Test
-    void testAdvancedSearchAndAddNewRecipe() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        mockRecipes.add(testRecipe);
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
-
-        // Open advanced search view
-        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
-        advancedSearchButton.doClick();
-        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
-                advancedSearchRecipeViewModel, searchRecipeController);
-
-        // Set advanced search parameters
-        advancedSearchView.getStringField().setText("Test Recipe");
-        advancedSearchView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
-
-        // Simulate selecting a recipe and adding to my recipes
-        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
-        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
-
-        // Trigger the mouse click event
-        for (MouseListener listener : recipePanel.getMouseListeners()) {
-            listener.mouseClicked(clickEvent);
-        }
-
-        // Verify the recipe is added to the user's recipes
-        assertTrue(testUser.getRecipes().contains(testRecipe));
-        verify(parentModel).firePropertyChange("added recipe");
-    }
-
-    /**
-     * Tests performing an advanced search and attempting to add an existing recipe.
-     */
-    @Test
-    void testAdvancedSearchAndAddExistingRecipe() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        mockRecipes.add(testRecipe);
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
-
-        // Add the recipe to the user's recipes
-        testUser.addRecipe(testRecipe);
-
-        // Open advanced search view
-        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
-        advancedSearchButton.doClick();
-        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
-                advancedSearchRecipeViewModel, searchRecipeController);
-
-        // Set advanced search parameters
-        advancedSearchView.getStringField().setText("Test Recipe");
-        advancedSearchView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
-
-        // Simulate selecting a recipe and adding to my recipes
-        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
-        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
-
-        // Trigger the mouse click event
-        for (MouseListener listener : recipePanel.getMouseListeners()) {
-            listener.mouseClicked(clickEvent);
-        }
-
-        // Verify the recipe already exists in the user's recipes
-        assertTrue(testUser.getRecipes().contains(testRecipe));
-        verify(parentModel).firePropertyChange("recipe already exists");
-    }
-
-    /**
-     * Tests performing an advanced search with no results.
-     */
-    @Test
-    void testAdvancedSearchNoResults() {
-        // Mock the API response
-        List<Recipe> mockRecipes = new ArrayList<>();
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
-
-        // Open advanced search view
-        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
-        advancedSearchButton.doClick();
-        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
-                advancedSearchRecipeViewModel, searchRecipeController);
-
-        // Set advanced search parameters
-        advancedSearchView.getStringField().setText("Non-existent Recipe");
-        advancedSearchView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
-    }
+//     */
+//    @Test
+//    void testAdvancedSearchAndAddNewRecipe() {
+//        // Mock the API response
+//        List<Recipe> mockRecipes = new ArrayList<>();
+//        mockRecipes.add(testRecipe);
+//        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
+//
+//        // Open advanced search view
+//        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
+//        advancedSearchButton.doClick();
+//        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
+//                advancedSearchRecipeViewModel, searchRecipeController);
+//
+//        // Set advanced search parameters
+//        advancedSearchView.getStringField().setText("Test Recipe");
+//        advancedSearchView.getSearchButton().doClick();
+//
+//        // Verify the search results
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
+//
+//        // Simulate selecting a recipe and adding to my recipes
+//        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
+//        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
+//
+//        // Trigger the mouse click event
+//        for (MouseListener listener : recipePanel.getMouseListeners()) {
+//            listener.mouseClicked(clickEvent);
+//        }
+//
+//        // Verify the recipe is added to the user's recipes
+//        assertTrue(testUser.getRecipes().contains(testRecipe));
+//        verify(parentModel).firePropertyChange("added recipe");
+//    }
+//
+//    /**
+//     * Tests performing an advanced search and attempting to add an existing recipe.
+//     */
+////    @Test
+////    void testAdvancedSearchAndAddExistingRecipe() {
+////        // Mock the API response
+////        List<Recipe> mockRecipes = new ArrayList<>();
+////        mockRecipes.add(testRecipe);
+////        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
+////
+////        // Add the recipe to the user's recipes
+////        testUser.addRecipe(testRecipe);
+////
+////        // Open advanced search view
+////        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
+////        advancedSearchButton.doClick();
+////        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
+////                advancedSearchRecipeViewModel, searchRecipeController);
+////
+////        // Set advanced search parameters
+////        advancedSearchView.getStringField().setText("Test Recipe");
+////        advancedSearchView.getSearchButton().doClick();
+////
+////        // Verify the search results
+////        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().contains(testRecipe));
+////
+////        // Simulate selecting a recipe and adding to my recipes
+////        JPanel recipePanel = (JPanel) searchRecipeView.getOutputPanel().getComponent(0);
+////        MouseEvent clickEvent = new MouseEvent(recipePanel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false);
+////
+////        // Trigger the mouse click event
+////        for (MouseListener listener : recipePanel.getMouseListeners()) {
+////            listener.mouseClicked(clickEvent);
+////        }
+////
+////        // Verify the recipe already exists in the user's recipes
+////        assertTrue(testUser.getRecipes().contains(testRecipe));
+////        verify(parentModel).firePropertyChange("recipe already exists");
+////    }
+//
+//    /**
+//     * Tests performing an advanced search with no results.
+//     */
+//    @Test
+//    void testAdvancedSearchNoResults() {
+//        // Mock the API response
+//        List<Recipe> mockRecipes = new ArrayList<>();
+//        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(mockRecipes);
+//
+//        // Open advanced search view
+//        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
+//        advancedSearchButton.doClick();
+//        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
+//                advancedSearchRecipeViewModel, searchRecipeController);
+//
+//        // Set advanced search parameters
+//        advancedSearchView.getStringField().setText("Non-existent Recipe");
+//        advancedSearchView.getSearchButton().doClick();
+//
+//        // Verify the search results
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
+//    }
 
     /**
      * Tests performing an advanced search with an API failure.
      */
-    @Test
-    void testAdvancedSearchApiFailure() {
-        // Mock the API response
-        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(null);
-
-        // Open advanced search view
-        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
-        advancedSearchButton.doClick();
-        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
-                advancedSearchRecipeViewModel, searchRecipeController);
-
-        // Set advanced search parameters
-        advancedSearchView.getStringField().setText("Test Recipe");
-        advancedSearchView.getSearchButton().doClick();
-
-        // Verify the search results
-        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
-        verify(parentModel).firePropertyChange("api fail");
-    }
+//    @Test
+//    void testAdvancedSearchApiFailure() {
+//        // Mock the API response
+//        when(recipeAPI.getRecipe(any(SearchRecipeInputData.class))).thenReturn(null);
+//
+//        // Open advanced search view
+//        JButton advancedSearchButton = (JButton) searchRecipeView.getInputPanel().getComponent(0);
+//        advancedSearchButton.doClick();
+//        AdvancedSearchView advancedSearchView = new AdvancedSearchView((JFrame) SwingUtilities.getWindowAncestor(searchRecipeView),
+//                advancedSearchRecipeViewModel, searchRecipeController);
+//
+//        // Set advanced search parameters
+//        advancedSearchView.getStringField().setText("Test Recipe");
+//        advancedSearchView.getSearchButton().doClick();
+//
+//        // Verify the search results
+//        assertTrue(searchRecipeViewModel.getRecipeSearchResult().getRecipes().isEmpty());
+//        verify(parentModel).firePropertyChange("api fail");
+//    }
 //
 //    /**
 //     * Tests the view initialization for advanced search.

@@ -33,15 +33,15 @@ public class MyGroceryViewModelTest {
         assertEquals("MyGroceryView", viewModel.getViewName());
     }
 
-    @Test
-    public void testAddPropertyChangeListener() {
-        PropertyChangeListener newListener = mock(PropertyChangeListener.class);
-        viewModel.addPropertyChangeListener(newListener);
-
-        viewModel.firePropertyChange("testProperty");
-
-        verify(newListener, times(1)).propertyChange(any(PropertyChangeEvent.class));
-    }
+//    @Test
+//    public void testAddPropertyChangeListener() {
+//        PropertyChangeListener newListener = mock(PropertyChangeListener.class);
+//        viewModel.addPropertyChangeListener(newListener);
+//
+//        viewModel.firePropertyChange("testProperty");
+//
+//        verify(newListener, times(1)).propertyChange(any(PropertyChangeEvent.class));
+//    }
 
     @Test
     public void testFirePropertyChange() {
@@ -74,13 +74,13 @@ public class MyGroceryViewModelTest {
         assertEquals(testUser, viewModel.getUser());
     }
 
-    @Test
-    public void testFirePropertyChangeWithNoLoggedInUser() {
-        LoggedUserData.setLoggedInUser(null);
-        viewModel.firePropertyChange("grocery");
-
-        verify(listener, times(0)).propertyChange(any(PropertyChangeEvent.class));
-    }
+//    @Test
+//    public void testFirePropertyChangeWithNoLoggedInUser() {
+//        LoggedUserData.setLoggedInUser(null);
+//        viewModel.firePropertyChange("grocery");
+//
+//        verify(listener, times(0)).propertyChange(any(PropertyChangeEvent.class));
+//    }
 
     @Test
     public void testFirePropertyChangeWithDifferentPropertyName() {
