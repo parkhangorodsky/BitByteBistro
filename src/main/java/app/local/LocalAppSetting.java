@@ -39,5 +39,11 @@ public class LocalAppSetting {
         support.firePropertyChange(propertyName, false, true);
     }
 
-
+    public static void clearSessionSettings() {
+            // Clear session-specific settings like night mode, preferences, etc.
+            setNightMode(false); // Reset to default or desired state
+            // Reset other settings as necessary
+        }
 }
+
+
