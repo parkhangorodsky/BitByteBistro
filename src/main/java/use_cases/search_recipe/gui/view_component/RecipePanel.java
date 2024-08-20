@@ -85,6 +85,7 @@ public class RecipePanel extends ViewComponent implements ThemeColoredObject, Ni
         extraInfoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
         detailButton = new RoundButton("Detail");
+        detailButton.setFont(new Font(defaultFont, Font.PLAIN, 14));
         detailButton.addActionListener(e -> {
             recentlyViewedRecipesController.execute(recipe);
             DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");

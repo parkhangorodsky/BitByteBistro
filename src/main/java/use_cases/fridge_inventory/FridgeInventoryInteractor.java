@@ -4,6 +4,7 @@ import entity.Fridge;
 import entity.Ingredient;
 import app.local.LoggedUserData;
 import frameworks.data_access.UserDataAccessInterface;
+import entity.User;
 
 import java.util.List;
 
@@ -34,10 +35,6 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
 
         // Update the view with the aggregated fridge contents
         presenter.updateView(fridge.getAggregatedFridgeContents());
-
-        // Debugging: Check the updated fridge contents
-        System.out.println("FridgeInventoryInteractor: Added ingredient to fridge: " + ingredient);
-        System.out.println("FridgeInventoryInteractor: Current fridge contents: " + fridge.getIngredients());
     }
 
 
@@ -53,15 +50,24 @@ public class FridgeInventoryInteractor implements FridgeInventoryInputBoundary {
         boolean updated = fridge.updateIngredientQuantityByNameAndUnit(ingredientName, unit, delta);
         List<Ingredient> currentContents = fridge.getAggregatedFridgeContents();
         if (updated) {
-            System.out.println("Interactor: Updated ingredient quantity. Current fridge contents: " + currentContents);
             userDAO.updateFridge(LoggedUserData.getLoggedInUser(), fridge);
             presenter.updateView(currentContents);
         } else {
-            System.out.println("Interactor: No update performed. Ingredient not found or quantity unchanged.");
             presenter.updateView(currentContents);
         }
 
 
     }
+
+    public List<Ingredient> fetchFridgeContents() {
+        // Fetch the latest user data from the DAO
+        User currentUser = userDAO.getUserByEmail(LoggedUserData.getLoggedInUser().getUserEmail());
+        return currentUser.getFridge().getIngredients();  // Return the fridge contents
+    }
+
+    public FridgeInventoryPresenter getPresenter() {
+        return (FridgeInventoryPresenter) presenter;
+    }
+
 
 }

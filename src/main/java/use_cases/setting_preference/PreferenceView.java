@@ -34,7 +34,7 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         this.parent = parent;
         this.controller = setPreferenceController;
 
-        mainPanel = new JPanel(new BorderLayout(10,10));
+        mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
         mainPanel.setPreferredSize(new Dimension(300, 300));
 
@@ -58,30 +58,23 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setOpaque(false);
         applyButton = new RoundButton("Apply");
+        closeButton = new RoundButton("Close");
+
+        // Load preferences when the view is initialized
+        loadPreference();
+
         applyButton.addActionListener(e -> {
             boolean nightModeSelected = nightModeCheckBox.isSelected();
             boolean subtractFridgeSelected = subtractFridgeFromGroceryCheckBox.isSelected();
-
-            // Debugging output to verify the settings are being applied
-            System.out.println("Night Mode Selected: " + nightModeSelected);
-            System.out.println("Subtract Fridge Selected: " + subtractFridgeSelected);
-
-            // This will apply the settings and ensure the view reflects the changes
             controller.execute(nightModeSelected, subtractFridgeSelected);
 
-            // Manually trigger an update for grocery view to reflect the setting change
-            LocalAppSetting.setSubtractFridgeFromGrocery(subtractFridgeSelected); // Update the local app setting
-            this.firePropertyChange("subtractFridgeFromGrocery", !subtractFridgeSelected, subtractFridgeSelected);
-
+            // Close the popup after applying changes
             this.hidePopUp();
         });
 
-        closeButton = new RoundButton("Close");
         closeButton.addActionListener(e -> {
             this.hidePopUp();
         });
-
-        loadPreference();
 
         buttonPanel.add(applyButton);
         buttonPanel.add(closeButton);
@@ -97,20 +90,19 @@ public class PreferenceView extends PopUpView implements NightModeObject {
         this.positionFrameAtCenter(parent);
     }
 
-    private void loadPreference() {
-        if ((boolean) LoggedUserData.getLoggedInUser().getPreference().get("nightMode")) {
-            nightModeCheckBox.setSelected(true);
-        }
-    }
 
+    private void loadPreference() {
+        boolean nightMode = (boolean) LoggedUserData.getLoggedInUser().getPreference().get("nightMode");
+        nightModeCheckBox.setSelected(nightMode);
+
+        Object subtractFridgeFromGroceryPref = LoggedUserData.getLoggedInUser().getPreference().get("subtractFridgeFromGrocery");
+        boolean subtractFridgeFromGrocery = subtractFridgeFromGroceryPref != null && (boolean) subtractFridgeFromGroceryPref;
+        subtractFridgeFromGroceryCheckBox.setSelected(subtractFridgeFromGrocery);
+}
 
 
     private void updateNightModeCheckBox(boolean nightMode) {
-        if (nightMode) {
-            nightModeCheckBox.setSelected(true);
-        } else {
-            nightModeCheckBox.setSelected(false);
-        }
+        nightModeCheckBox.setSelected(nightMode);
     }
 
     private void updateSubtractFridgeFromGroceryCheckBox(boolean subtractFridgeFromGrocery) {
@@ -163,4 +155,11 @@ public class PreferenceView extends PopUpView implements NightModeObject {
             this.repaint();
         }
     }
+
+    @Override
+    public void showPopUp() {
+        loadPreference();  // Reload preferences whenever the Settings view is shown
+        super.showPopUp();
+    }
+
 }

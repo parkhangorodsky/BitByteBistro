@@ -86,6 +86,11 @@ public class Config {
     public NutritionStatsController getNutritionStatsController() { return NutritionStatsConfig.controller; }
 
     // Fridge components
+    // Expose a method to reset the FridgeInventoryInteractor for the new user
+    public static void resetFridgeInteractor(Fridge newFridge) {
+        FridgeInventoryConfig.resetFridgeInteractor(newFridge);
+    }
+
     public FridgeInventoryController getFridgeInventoryController() {
         return FridgeInventoryConfig.controller;
     }
@@ -93,5 +98,4 @@ public class Config {
     public FridgeInventoryInputBoundary getFridgeInventoryInteractor() {
         return FridgeInventoryConfig.interactor;
     }
-
 }

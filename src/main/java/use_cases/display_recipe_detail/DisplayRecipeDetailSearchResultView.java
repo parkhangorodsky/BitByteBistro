@@ -11,6 +11,7 @@ import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,6 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
     private AddNewGroceryListController addNewGroceryListController;
     private Map<String, ShoppingList> userGroceryLists;
     RoundButton addToRecipesButton;
-    RoundButton addToGroceryButton;
     User user = LoggedUserData.getLoggedInUser();
 
     public DisplayRecipeDetailSearchResultView(JFrame parent, DisplayRecipeDetailViewModel viewModel,
@@ -50,68 +50,21 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
         // Call the parent method to get the initialized controlPanel
         JPanel buttonPanel = super.createButtonPanel();
 
-        // Remove any pre-existing components if necessary
         buttonPanel.removeAll();
 
-        // Initialize and add the additional buttons
         addToRecipesButton = new RoundButton("Add To My Recipes");
-        addToGroceryButton = new RoundButton("Add To My Grocery List(s)");
-
-        Recipe recipe = viewModel.getRecipe();
+        addToRecipesButton.setFont(new Font(defaultFont, Font.PLAIN, 12));
 
         addToRecipesButton.addActionListener(e -> {
             addToMyRecipeController.execute(recipe, viewModel);
         });
 
-        addToMenu = showAddToMenu(recipe);
-
-        addToGroceryButton.addActionListener(e -> {
-            addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
-        });
-
+        // setting the order of the buttons
         buttonPanel.add(addToRecipesButton);
         buttonPanel.add(addToGroceryButton);
         buttonPanel.add(closeButton);
 
         return buttonPanel;
-    }
-
-
-    public JPopupMenu showAddToMenu(Recipe recipe) {
-        JPopupMenu addToMenu = new JPopupMenu();
-
-        if (userGroceryLists != null && !userGroceryLists.isEmpty()) {
-            for (HashMap.Entry<String, ShoppingList> list : userGroceryLists.entrySet()) {
-                String owner = list.getKey();
-                ShoppingList items = list.getValue();
-                JMenuItem groceryListItem = new JMenuItem("Add to " + items.getShoppingListName());
-                groceryListItem.addActionListener(e -> {
-                    coreFunctionalityController.execute(items, recipe, viewModel);
-                });
-                addToMenu.add(groceryListItem);
-            }
-        }
-
-        JMenuItem createNewGroceryListItem = new JMenuItem("Create New Grocery List And Add");
-        createNewGroceryListItem.addActionListener(e -> {
-            createNewGroceryListAndAdd(recipe);
-        });
-        addToMenu.add(createNewGroceryListItem);
-
-        return addToMenu;
-    }
-
-
-    private void createNewGroceryListAndAdd(Recipe recipe) {
-        String newListName = JOptionPane.showInputDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Enter name for new grocery list:");
-        //need to handle when this is empty
-        if (newListName != null && !newListName.trim().isEmpty()) {
-            addNewGroceryListController.execute(newListName, viewModel);
-        }
-        ShoppingList newShoppingList = user.getShoppingList(newListName);
-        coreFunctionalityController.execute(newShoppingList, recipe, viewModel);
-        addToMenu = showAddToMenu(recipe);
-        addToMenu.show(addToGroceryButton, addToGroceryButton.getWidth() / 2, addToGroceryButton.getHeight() / 2);
     }
 
 

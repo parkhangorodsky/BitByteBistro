@@ -39,6 +39,7 @@ public class User {
         this.recentlyViewedRecipes = new ArrayList<>();
         this.fridge = new Fridge();  // Initialize fridge
         preference.put("nightMode", false);
+        preference.put("subtractFridgeFromGrocery", false);
     }
 
     // Constructor with empty argument for MongoDB

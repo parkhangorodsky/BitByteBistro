@@ -34,7 +34,6 @@ public class FridgeInventoryView extends View implements NightModeObject {
         this.controller = controller;
         this.setViewName(viewModel.getViewName());
         this.viewModel.addPropertyChangeListener(this);
-        System.out.println("FridgeInventoryView: Listener added to view model.");
 
         observeNight();  // Observe night mode changes
         JPanel viewPanel = setUpContentView();
@@ -82,10 +81,7 @@ public class FridgeInventoryView extends View implements NightModeObject {
                 float quantity = Float.parseFloat(quantityField.getText());
                 String unit = unitField.getText();
                 // Use the controller to remove ingredient
-                System.out.println("Remove button clicked");
-                System.out.println("Attempting to remove: " + quantity + " " + unit + " of " + foodName);
                 controller.removeIngredient(foodName, quantity, unit);
-                System.out.println("Remove action completed");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter a valid number for quantity.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             }
@@ -133,13 +129,9 @@ public class FridgeInventoryView extends View implements NightModeObject {
     }
 
     private void updateFridgeInventory(List<Ingredient> ingredients) {
-        System.out.println("updateFridgeInventory called with ingredients: " + ingredients);
-
         fridgeInventoryContainer.removeAll(); // Clear the existing components
-        System.out.println("All components removed from the fridgeInventoryContainer."); // Debugging line
 
         if (ingredients == null || ingredients.isEmpty()) {
-            System.out.println("No ingredients to display, showing empty fridge message."); // Debugging line
             JLabel emptyLabel = new JLabel("Fridge is empty.");
             emptyLabel.setFont(new Font("Arial", Font.PLAIN, 14));
             emptyLabel.setForeground(LocalAppSetting.isNightMode() ? Color.WHITE : Color.BLACK); // Ensure the label color matches the mode
@@ -153,7 +145,6 @@ public class FridgeInventoryView extends View implements NightModeObject {
             gbc.gridy = 1;
 
             for (Ingredient ingredient : ingredients) {
-                System.out.println("Displaying ingredient: " + ingredient); // Debugging line
                 gbc.gridx = 0;
                 gbc.weightx = 1;
                 JLabel foodLabel = new JLabel(ingredient.getIngredientName(), SwingConstants.CENTER);
@@ -186,7 +177,6 @@ public class FridgeInventoryView extends View implements NightModeObject {
         // Ensure the entire view is revalidated and repainted
         this.revalidate();
         this.repaint();
-        System.out.println("Entire FridgeInventoryView revalidated and repainted.");
 
         // Reapply night mode to ensure colors are correct
         toggleNightMode();
@@ -200,12 +190,8 @@ public class FridgeInventoryView extends View implements NightModeObject {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("update".equals(evt.getPropertyName()) || "ingredients".equals(evt.getPropertyName())) {
-            System.out.println("FridgeInventoryView: Received update event, updating view.");
             List<Ingredient> ingredients = viewModel.getIngredients();
-            System.out.println("Ingredients list after update: " + ingredients); // Debugging line
-
             updateFridgeInventory(ingredients);
-            System.out.println("UI update triggered after property change."); // Debugging line to confirm the update method is called
 
             // Force the entire component to revalidate and repaint
             this.revalidate();
@@ -219,28 +205,46 @@ public class FridgeInventoryView extends View implements NightModeObject {
     public void setNightMode() {
         this.setBackground(Color.BLACK);
         fridgeInventoryContainer.setBackground(Color.DARK_GRAY);
-        foodField.setBackground(Color.BLACK);
+
+        // Set label and text field colors to white in night mode
         foodField.setForeground(Color.WHITE);
-        quantityField.setBackground(Color.BLACK);
+        foodField.setBackground(Color.BLACK);
+
         quantityField.setForeground(Color.WHITE);
-        unitField.setBackground(Color.BLACK);
+        quantityField.setBackground(Color.BLACK);
+
         unitField.setForeground(Color.WHITE);
-        addButton.setBackground(Color.BLACK);
+        unitField.setBackground(Color.BLACK);
+
+        // Set label colors to white
+        JLabel foodLabel = (JLabel) foodField.getParent().getComponent(0);
+        JLabel quantityLabel = (JLabel) quantityField.getParent().getComponent(2);
+        JLabel unitLabel = (JLabel) unitField.getParent().getComponent(4);
+
+        foodLabel.setForeground(Color.BLACK);
+        quantityLabel.setForeground(Color.BLACK);
+        unitLabel.setForeground(Color.BLACK);
+
+        // Update header row labels to white in night mode
+        updateHeaderRowColor(Color.WHITE);
+
+        // Update button colors if needed
         addButton.setForeground(Color.WHITE);
-        removeButton.setBackground(Color.BLACK);
+        addButton.setBackground(Color.BLACK);
+
         removeButton.setForeground(Color.WHITE);
-
-        // Update the labels in the input panel to be white
-        for (Component component : foodField.getParent().getComponents()) {
-            if (component instanceof JLabel) {
-                ((JLabel) component).setForeground(Color.WHITE);
-            }
-        }
-
-        // Update all labels inside fridgeInventoryContainer to be white
-        updateTextColor(Color.WHITE);
+        removeButton.setBackground(Color.BLACK);
     }
 
+    private void updateHeaderRowColor(Color color) {
+        // Assuming these components are part of fridgeInventoryContainer, set their colors
+        Component[] components = fridgeInventoryContainer.getComponents();
+        for (Component component : components) {
+            if (component instanceof JLabel) {
+                ((JLabel) component).setForeground(color);
+            }
+        }
+    }
 
     @Override
     public void setDayMode() {

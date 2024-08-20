@@ -32,10 +32,10 @@ public class SetPreferenceInteractor implements SetPreferenceInputBoundary {
      * @param inputData The input data containing the preferences to be updated.
      */
     public void execute(SetPreferenceInputData inputData) {
-
         User user = LoggedUserData.getLoggedInUser();
         user.updatePreference("nightMode", inputData.getNightMode());
         user.updatePreference("subtractFridgeFromGrocery", inputData.getSubtractFridgeFromGrocery());
+
         userDAO.updateUserPreference(user, "nightMode", inputData.getNightMode());
         userDAO.updateUserPreference(user, "subtractFridgeFromGrocery", inputData.getSubtractFridgeFromGrocery());
 
