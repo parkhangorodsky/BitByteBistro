@@ -1,32 +1,8 @@
-package use_cases.core_functionality;
+package use_cases.core_functionality.view_components;
 
-import app.local.LocalAppSetting;
 import app.local.LoggedUserData;
 import entity.*;
 
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import use_cases._common.gui_common.abstractions.NightModeObject;
-import use_cases._common.gui_common.abstractions.ThemeColoredObject;
-import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
-import use_cases._common.gui_common.view_components.round_component.RoundButton;
-import use_cases._common.gui_common.view_components.round_component.RoundPanel;
-import use_cases.add_new_grocery_list.AddNewGroceryListController;
-import use_cases.core_functionality.CoreFunctionalityInteractor;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;

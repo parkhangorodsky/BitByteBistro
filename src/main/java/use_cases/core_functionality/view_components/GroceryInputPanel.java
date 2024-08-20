@@ -1,37 +1,17 @@
-package use_cases.core_functionality;
-
-import app.local.LocalAppSetting;
-import app.local.LoggedUserData;
-import entity.*;
+package use_cases.core_functionality.view_components;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import use_cases._common.gui_common.abstractions.NightModeObject;
-import use_cases._common.gui_common.abstractions.ThemeColoredObject;
-import use_cases._common.gui_common.abstractions.View;
-import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
-import use_cases._common.gui_common.view_components.round_component.RoundButton;
-import use_cases._common.gui_common.view_components.round_component.RoundPanel;
-import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
+import app.local.LoggedUserData;
+import entity.ShoppingList;
+import entity.User;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
-import use_cases.core_functionality.CoreFunctionalityInteractor;
+import use_cases.core_functionality.MyGroceryViewModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.LinkedHashMap;
 
 
 public class GroceryInputPanel extends JPanel {
@@ -85,6 +65,7 @@ public class GroceryInputPanel extends JPanel {
 
     private void handleCreateNewGroceryList() {
         String newGroceryListName = newListNameTextField.getText().trim();
+        User user = LoggedUserData.getLoggedInUser();
 
         if (newGroceryListName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Grocery list name cannot be blank. Please enter a valid name.",

@@ -25,6 +25,9 @@ public class MyGroceryViewModel extends ViewModel implements PropertyChangeFirer
         if (propertyName.equals("grocery")) {
             this.user = LoggedUserData.getLoggedInUser();
             support.firePropertyChange(propertyName, null, user.getShoppingLists().values());
+        } else if (propertyName.equals("grocery list already exists")) {
+            this.user = LoggedUserData.getLoggedInUser();
+            support.firePropertyChange(propertyName, null, user.getShoppingLists().values());
         }
     }
 
