@@ -32,6 +32,8 @@ class IngredientPanelTest {
 
         List<Ingredient> ingredients = Collections.singletonList(ingredient);
         ingredientPanel = new IngredientPanel(ingredients);
+        LocalAppSetting.setNightMode(false);
+        ingredientPanel.toggleNightMode();
     }
 
     @Test
