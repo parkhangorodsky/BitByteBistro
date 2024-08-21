@@ -46,10 +46,13 @@ public class NutritionSerializer implements Serializer<Document, Nutrition> {
     public Nutrition deserialize(Document bson) {
         String label = bson.getString("label");
         String unit = bson.getString("unit");
-        float quantity = bson.getDouble("quantity").floatValue();
+        Number quantityDouble = (Number) bson.get("quantity");
+        float quantity = quantityDouble.floatValue();
 
-        if (bson.getDouble("percentage") != null) {
-            Float percentage = bson.getDouble("percentage").floatValue();
+        if (bson.get("percentage") != null) {
+            Number percentageDouble = (Number) bson.get("percentage");
+            Float percentage = percentageDouble.floatValue();
+
             return new Nutrition(label, quantity, unit, percentage);
         } else {
             return new Nutrition(label, quantity, unit);

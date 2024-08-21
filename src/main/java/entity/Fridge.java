@@ -124,7 +124,7 @@ public class Fridge {
     public boolean updateIngredientQuantityByNameAndUnit(String ingredientName, String unit, float delta) {
         Ingredient ingredient = getIngredientByNameAndUnit(ingredientName, unit);
         if (ingredient != null) {
-            float newQuantity = ingredient.getQuantity() + delta;
+            double newQuantity = ingredient.getQuantity() + delta;
             if (newQuantity <= 0) {
                 return removeIngredient(ingredient.getIngredientID());
             } else {

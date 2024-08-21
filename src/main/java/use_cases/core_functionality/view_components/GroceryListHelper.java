@@ -28,7 +28,7 @@ public class GroceryListHelper {
 
         // Adjust ingredient quantities based on fridge contents
         for (Ingredient grocery : originalList.getListItems()) {
-            float adjustedQuantity = grocery.getQuantity();
+            double adjustedQuantity = grocery.getQuantity();
             for (Ingredient fridgeItem : fridgeItems) {
                 if (grocery.getIngredientName().equalsIgnoreCase(fridgeItem.getIngredientName()) &&
                         grocery.getQuantityUnit().equalsIgnoreCase(fridgeItem.getQuantityUnit())) {

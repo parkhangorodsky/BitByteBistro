@@ -19,7 +19,7 @@ import use_cases.fridge_inventory.FridgeInventoryController;
 public class FridgeInventoryView extends View implements NightModeObject {
 
     private FridgeInventoryViewModel viewModel;
-    private JPanel fridgeInventoryContainer;
+    JPanel fridgeInventoryContainer;
     private JScrollPane fridgeInventoryScrollPane;
     private FridgeInventoryController controller;
 
