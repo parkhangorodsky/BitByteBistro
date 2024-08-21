@@ -11,7 +11,7 @@ import use_cases._common.gui_common.view_components.round_component.RoundPanel;
 import use_cases.add_new_grocery_list.AddNewGroceryListController;
 import use_cases.core_functionality.CoreFunctionalityController;
 import use_cases.display_recipe_detail.DisplayRecipeDetailController;
-import use_cases.display_recipe_detail.DisplayRecipeDetailSearchResultView;
+import use_cases.display_recipe_detail.DisplayRecipeDetailMyRecipeView;
 import use_cases.display_recipe_detail.DisplayRecipeDetailViewModel;
 import use_cases.filter_recipe.FilterRecipeController;
 import use_cases.recently_viewed_recipes.RecentlyViewedRecipesController;
@@ -46,12 +46,11 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
     private final DisplayRecipeDetailController displayRecipeDetailController;
     private final CoreFunctionalityController coreFunctionalityController;
     private final AddNewGroceryListController addNewGroceryListController;
-    private final AddToMyRecipeController addToMyRecipeController;
 
 
 
     public MyRecipeView(MyRecipeViewModel viewModel, FilterRecipeController filterController, RecentlyViewedRecipesController recentlyViewedRecipesController, DisplayRecipeDetailController displayRecipeDetailController,  CoreFunctionalityController coreFunctionalityController,
-                        AddNewGroceryListController addNewGroceryListController, AddToMyRecipeController addToMyRecipeController) {
+                        AddNewGroceryListController addNewGroceryListController) {
 
         observeNight();
         this.viewModel = viewModel;
@@ -62,7 +61,6 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         this.displayRecipeDetailController = displayRecipeDetailController;
         this.coreFunctionalityController = coreFunctionalityController;
         this.addNewGroceryListController = addNewGroceryListController;
-        this.addToMyRecipeController = addToMyRecipeController;
 
         this.setLayout(new BorderLayout());
 
@@ -185,7 +183,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
                 DisplayRecipeDetailViewModel viewModel = new DisplayRecipeDetailViewModel(recipe.getName() + "-view-model");
                 // Ensure the recipeItem is part of a visible container
                 SwingUtilities.invokeLater(() -> {
-                    DisplayRecipeDetailSearchResultView display = new DisplayRecipeDetailSearchResultView((JFrame) SwingUtilities.getWindowAncestor(recipeItem), viewModel, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
+                    DisplayRecipeDetailMyRecipeView display = new DisplayRecipeDetailMyRecipeView((JFrame) SwingUtilities.getWindowAncestor(recipeItem), viewModel, coreFunctionalityController, addNewGroceryListController);
                     displayRecipeDetailController.execute(recipe, viewModel);
                     display.setVisible(true);
                     display.enableParent();
