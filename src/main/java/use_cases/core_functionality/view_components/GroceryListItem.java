@@ -4,7 +4,6 @@ import app.local.LocalAppSetting;
 import entity.*;
 
 import java.awt.*;
-
 import org.jetbrains.annotations.NotNull;
 import use_cases._common.gui_common.view_components.layouts.VerticalFlowLayout;
 import use_cases._common.gui_common.view_components.round_component.RoundButton;
@@ -16,9 +15,19 @@ import java.util.List;
 
 import static use_cases._common.gui_common.abstractions.ThemeColoredObject.*;
 
-
+/**
+ * The `GroceryListItem` class provides utility methods for creating and managing the graphical representation of a shopping list item.
+ * This includes creating a panel with the shopping list name, a button to expand or collapse the list, and a section to display ingredients.
+ */
 public class GroceryListItem {
 
+    /**
+     * Creates a JPanel representing a shopping list item, including the list name, an expand/collapse button,
+     * and a container for the ingredients.
+     *
+     * @param shoppingList The `ShoppingList` object to be displayed.
+     * @return A `JPanel` containing the visual representation of the shopping list item.
+     */
     public static JPanel createShoppingListItem(ShoppingList shoppingList) {
         RoundPanel shoppingListItem = new RoundPanel();
         shoppingListItem.setLayout(new BorderLayout());
@@ -51,6 +60,12 @@ public class GroceryListItem {
         return shoppingListItem;
     }
 
+    /**
+     * Creates a `RoundButton` for expanding or collapsing the visibility of the shopping list items.
+     *
+     * @param shoppingListItem The `RoundPanel` containing the shopping list item.
+     * @return A `RoundButton` configured for expanding or collapsing the item.
+     */
     private static @NotNull RoundButton getRoundButton(RoundPanel shoppingListItem) {
         RoundButton showRecipeButton = new RoundButton("∨");
         showRecipeButton.setHorizontalAlignment(SwingConstants.CENTER);
@@ -68,6 +83,12 @@ public class GroceryListItem {
         return showRecipeButton;
     }
 
+    /**
+     * Toggles the visibility of the ingredients panel and updates the button text to indicate the current state.
+     *
+     * @param shoppingListItem The `JPanel` containing the shopping list item and ingredients.
+     * @param toggleButton The button used to expand or collapse the visibility.
+     */
     private static void toggleGroceryListVisibility(JPanel shoppingListItem, JButton toggleButton) {
         Component itemsContainer = shoppingListItem.getComponent(1);
         itemsContainer.setVisible(!itemsContainer.isVisible());
@@ -76,6 +97,12 @@ public class GroceryListItem {
         shoppingListItem.repaint();
     }
 
+    /**
+     * Creates a `JPanel` displaying the list of ingredients in the shopping list.
+     *
+     * @param ingredients The list of `Ingredient` objects to be displayed.
+     * @return A `JPanel` containing labels for each ingredient in the list.
+     */
     private static JPanel createIngredientsPanel(List<Ingredient> ingredients) {
         JPanel ingredientsPanel = new JPanel(new VerticalFlowLayout(10));
         ingredientsPanel.setOpaque(false);
@@ -88,4 +115,3 @@ public class GroceryListItem {
         return ingredientsPanel;
     }
 }
-
