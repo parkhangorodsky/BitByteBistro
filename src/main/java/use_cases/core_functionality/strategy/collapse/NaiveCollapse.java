@@ -1,4 +1,4 @@
-package use_cases.core_functionality.strategy;
+package use_cases.core_functionality.strategy.collapse;
 
 import entity.Ingredient;
 import entity.ShoppingList;
@@ -18,10 +18,5 @@ public class NaiveCollapse implements CollapseStrategy {
         } else {
             listItems.put(groceryName, ingredient);
         }
-    }
-
-    @Override
-    public String normalize(String unnormalized) {
-        return unnormalized;
     }
 }

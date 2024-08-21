@@ -4,13 +4,16 @@ import app.local.LoggedUserData;
 import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 
-import java.util.ArrayList;
+import use_cases.core_functionality.strategy.collapse.*;
+import use_cases.core_functionality.strategy.normalize.*;
+
 import java.util.Map;
-import java.util.List;
 
 public class CoreFunctionalityInteractor implements CoreFunctionalityInputBoundary{
     CoreFunctionalityPresenter presenter;
     UserDataAccessInterface userDAO;
+    private final CollapseStrategy collapseStrategy = new NormalizedCollapse();
+    private final NormalizeStrategy normalizeStrategy = new StringNormalize();
 
     /**
      * Constructs an CoreFunctionalityInteractor with the given presenter and user data access object.
@@ -39,7 +42,7 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         String shoppingListName = shoppingList.getShoppingListName();
         Recipe recipe = inputData.getRecipe();
 
-        shoppingList.addRecipe(recipe);
+        addRecipe(shoppingList, recipe);
 
         if (userShoppingLists.get(shoppingListName) == null) {
             user.addShoppingList(shoppingList);
@@ -54,5 +57,16 @@ public class CoreFunctionalityInteractor implements CoreFunctionalityInputBounda
         presenter.prepareSuccessView(outputData);
     }
 
+    public void addItem(ShoppingList shoppingList, Ingredient grocery) {
+        collapseStrategy.collapse(shoppingList, grocery);
+    }
 
+    public void addRecipe(ShoppingList shoppingList, Recipe recipe) {
+        if (!shoppingList.getRecipes().contains(recipe)) {
+            shoppingList.getRecipes().add(recipe);
+        }
+        for (Ingredient grocery : recipe.getIngredientList()) {
+            addItem(shoppingList, grocery);
+        }
+    }
 }
