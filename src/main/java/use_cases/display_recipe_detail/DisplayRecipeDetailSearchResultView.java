@@ -107,8 +107,8 @@ public class DisplayRecipeDetailSearchResultView extends DisplayRecipeDetailView
             return;
         } else if (newListName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Name cannot be empty.",
-                    "",
+                    "Grocery list name cannot be blank. Please enter a valid name.",
+                    "Invalid Input",
                     JOptionPane.ERROR_MESSAGE);
         } else if (user.getShoppingLists().containsKey(newListName)) {
                 addNewGroceryListController.execute(newListName, viewModel);
