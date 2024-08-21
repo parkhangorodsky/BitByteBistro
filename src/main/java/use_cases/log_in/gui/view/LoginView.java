@@ -24,9 +24,9 @@ import java.awt.event.MouseEvent;
  * It extends the View class and implements ActionListener and PropertyChangeListener to respond to UI actions and property changes.
  */
 public class LoginView extends View implements ActionListener, PropertyChangeListener, ThemeColoredObject {
-    private RoundTextField emailField;
-    private JPasswordField passwordField;
-    private RoundButton loginButton;
+    public RoundTextField emailField;
+    public JPasswordField passwordField;
+    public RoundButton loginButton;
     private JLabel errorMessageLabel;
     private JLabel switchToSignUpLabel;
     private LoginController loginController;

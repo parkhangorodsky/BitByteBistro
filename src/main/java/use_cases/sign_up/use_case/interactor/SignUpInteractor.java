@@ -53,6 +53,11 @@ public class SignUpInteractor implements SignUpInputBoundary {
             return;
         }
 
+        if (DAO.existsByEmail(signUpInputData.getUserID())) {
+            signUpOutputBoundary.prepareErrorView("User already exists.");
+            return;
+        }
+
         // Create a new User entity
         User user = new User(signUpInputData.getUserID(),
                 signUpInputData.getUserEmail(),
