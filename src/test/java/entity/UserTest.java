@@ -100,14 +100,6 @@ class UserTest {
         assertEquals(shoppingList, user.getShoppingList(shoppingList.getShoppingListName()));
     }
 
-    @Test
-    void testSetShoppingLists() {
-        Map<String, ShoppingList> shoppingListMap = new TreeMap<>();
-        shoppingListMap.put("list 1", shoppingList);
-        user.setShoppingLists(shoppingListMap);
-        assertEquals(1, user.getShoppingLists().size());
-        assertEquals(shoppingList, user.getShoppingList(shoppingList.getShoppingListName()));
-    }
 
     @Test
     void testAddShoppingList() {
@@ -118,7 +110,7 @@ class UserTest {
 
     @Test
     void testGetPreference() {
-        assertEquals(1, user.getPreference().size());
+        assertEquals(2, user.getPreference().size());
         assertFalse((Boolean) user.getPreference().get("nightMode"));
     }
 

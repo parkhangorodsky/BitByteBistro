@@ -9,6 +9,6 @@ public class MyRecipeViewSwingDivision implements ViewFactoryDivision {
     public View generate(Config config) {
         return new MyRecipeView(
                 config.getMyRecipeViewModel(),
-                config.getFilterRecipeController(), config.getRecentlyViewedRecipesController(), config.getDisplayRecipeDetailController(), config.getCoreFunctionalityController(), config.getAddNewGroceryListController(), config.getAddToMyRecipeController());
+                config.getFilterRecipeController(), config.getRecentlyViewedRecipesController(), config.getDisplayRecipeDetailController(), config.getCoreFunctionalityController(), config.getAddNewGroceryListController());
     }
 }

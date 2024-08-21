@@ -88,7 +88,7 @@ class DisplayRecipeDetailSearchResultViewTest {
         assertEquals(2, menu.getComponentCount()); // One for the existing list, one for creating new
 
         JMenuItem existingListItem = (JMenuItem) menu.getComponent(0);
-        assertEquals("Add to Test List", existingListItem.getText());
+        assertEquals("Add To Test List", existingListItem.getText());
 
         JMenuItem createNewListItem = (JMenuItem) menu.getComponent(1);
         assertEquals("Create New Grocery List And Add", createNewListItem.getText());

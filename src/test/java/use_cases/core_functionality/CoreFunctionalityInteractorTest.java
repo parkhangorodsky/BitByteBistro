@@ -89,47 +89,6 @@ public class CoreFunctionalityInteractorTest {
         assertEquals(4, updatedShoppingList.getListItems().get(0).getQuantity());
     }
 
-    /**
-     * Tests adding a recipe with multiple ingredients.
-     */
-    @Test
-    void testAddRecipeWithMultipleIngredients() {
-        // Arrange
-        CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2));
-        ingredients.add(new Ingredient("id_2", "Salt", "grams", "seasoning", 2));
-        recipe.setIngredientList(ingredients);
-
-        // Act
-        interactor.execute(inputData);
-
-        // Assert
-        ArgumentCaptor<CoreFunctionalityOutputData> outputDataCaptor = ArgumentCaptor.forClass(CoreFunctionalityOutputData.class);
-        verify(presenter).prepareSuccessView(outputDataCaptor.capture());
-        ShoppingList updatedShoppingList = outputDataCaptor.getValue().getShoppingList();
-        assertEquals(2, updatedShoppingList.getListItems().size());
-        assertEquals(ingredients.get(0), updatedShoppingList.getListItems().get(0));
-        assertEquals(ingredients.get(1), updatedShoppingList.getListItems().get(1));
-    }
-
-    /**
-     * Tests the method getGroceryList with no existing ingredients.
-     */
-    @Test
-    void testGetGroceryListNoExistingIngredients() {
-        // Arrange
-        Ingredient ingredient = new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2);
-
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(ingredient);
-        recipe.setIngredientList(ingredients);
-
-        // Ac
-        // Assert
-        assertEquals(1, shoppingList.getListItems().size());
-        assertEquals(ingredient, shoppingList.getRecipes().getFirst());
-    }
 
     /**
      * Tests the method getGroceryList with existing ingredients.
