@@ -75,7 +75,7 @@ public class AddToMyRecipeEndToEndTest {
 
         // Set up the MyRecipeView
         myRecipeView = new MyRecipeView(myRecipeViewModel, filterRecipeController, recentlyViewedRecipesController,
-                displayRecipeDetailController, coreFunctionalityController, addNewGroceryListController, addToMyRecipeController);
+                displayRecipeDetailController, coreFunctionalityController, addNewGroceryListController);
     }
 
     /**

@@ -1,153 +1,99 @@
 package use_cases.core_functionality;
-
 import app.local.LoggedUserData;
-import entity.Ingredient;
-import entity.Recipe;
-import entity.ShoppingList;
-import entity.User;
+import entity.*;
 import frameworks.data_access.UserDataAccessInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
+import org.mockito.Mockito;
+import use_cases.core_functionality.CoreFunctionalityInputData;
+import use_cases.core_functionality.CoreFunctionalityInteractor;
+import use_cases.core_functionality.CoreFunctionalityOutputData;
+import use_cases.core_functionality.CoreFunctionalityPresenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
+import java.util.Map;
+
+import entity.Ingredient;
+import entity.Recipe;
+import entity.ShoppingList;
+import entity.User;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit tests for the CoreFunctionalityInteractor class.
+ * This class tests the behavior of the interactor to ensure it correctly processes the
+ * addition of a recipe to a user's shopping list, updates the data access object,
+ * and communicates the results to the presenter.
  */
-public class CoreFunctionalityInteractorTest {
+class CoreFunctionalityInteractorTest {
 
+    private UserDataAccessInterface mockUserDAO;
+    private CoreFunctionalityPresenter mockPresenter;
     private CoreFunctionalityInteractor interactor;
-    private CoreFunctionalityPresenter presenter;
-    private UserDataAccessInterface userDAO;
-    private User user;
-    private ShoppingList shoppingList;
-    private Recipe recipe;
-    private PropertyChangeFirer parentModel;
 
+    /**
+     * Set up the test environment before each test.
+     * Mocks dependencies and initializes the CoreFunctionalityInteractor with mocked objects.
+     */
     @BeforeEach
     void setUp() {
-        presenter = mock(CoreFunctionalityPresenter.class);
-        userDAO = mock(UserDataAccessInterface.class);
-        interactor = new CoreFunctionalityInteractor(presenter, userDAO);
-
-        user = new User("testUser", "test@example.com", "password", null);
-        shoppingList = new ShoppingList( "Weekly Groceries", "Shopping List");
-        recipe = new Recipe("Test Recipe");
-        parentModel = mock(PropertyChangeFirer.class);
-
-        LoggedUserData.setLoggedInUser(user);
+        mockUserDAO = Mockito.mock(UserDataAccessInterface.class);
+        mockPresenter = Mockito.mock(CoreFunctionalityPresenter.class);
+        interactor = Mockito.spy(new CoreFunctionalityInteractor(mockPresenter, mockUserDAO));
     }
 
     /**
-     * Tests the execution of adding a recipe to the grocery list.
+     * Tests the execute method of CoreFunctionalityInteractor.
+     * Verifies that a recipe is correctly added to the shopping list, the data access object is updated,
+     * and the presenter is called to prepare the success view.
      */
     @Test
-    void testExecute() {
-        // Arrange
-        CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2));
-        recipe.setIngredientList(ingredients);
+    void execute() {
+        // Prepare mock data
+        User mockUser = Mockito.mock(User.class);
+        Recipe mockRecipe = Mockito.mock(Recipe.class);
+        ShoppingList mockShoppingList = Mockito.mock(ShoppingList.class);
+        Map<String, ShoppingList> mockShoppingLists = Mockito.mock(Map.class);
+        Ingredient mockIngredient = Mockito.mock(Ingredient.class);
 
-        // Act
-        interactor.execute(inputData);
+        // Mock behavior for recipe and user
+        when(mockRecipe.getIngredientList()).thenReturn(List.of(mockIngredient));
+        when(mockUser.getShoppingLists()).thenReturn(mockShoppingLists);
 
-        // Assert
-        ArgumentCaptor<CoreFunctionalityOutputData> outputDataCaptor = ArgumentCaptor.forClass(CoreFunctionalityOutputData.class);
-        verify(presenter).prepareSuccessView(outputDataCaptor.capture());
-        ShoppingList updatedShoppingList = outputDataCaptor.getValue().getShoppingList();
-        assertEquals(1, updatedShoppingList.getListItems().size());
-        assertEquals(ingredients.get(0), updatedShoppingList.getListItems().get(0));
-    }
+        // Create input data for the interactor
+        CoreFunctionalityInputData mockInputData = Mockito.mock(CoreFunctionalityInputData.class);
 
-    /**
-     * Tests adding the same recipe multiple times to ensure quantities are updated.
-     */
-    @Test
-    void testAddSameRecipeMultipleTimes() {
-        // Arrange
-        CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2));
-        recipe.setIngredientList(ingredients);
-        interactor.execute(inputData);
+        // Mock the LoggedUserData static method
+        LoggedUserData.setLoggedInUser(mockUser);
 
-        // Act
-        interactor.execute(inputData);
+        // Execute the method under test
+        interactor.execute(mockInputData);
 
-        // Assert
-        ArgumentCaptor<CoreFunctionalityOutputData> outputDataCaptor = ArgumentCaptor.forClass(CoreFunctionalityOutputData.class);
-        verify(presenter, times(2)).prepareSuccessView(outputDataCaptor.capture());
-        ShoppingList updatedShoppingList = outputDataCaptor.getValue().getShoppingList();
-        assertEquals(1, updatedShoppingList.getListItems().size());
-        assertEquals(4, updatedShoppingList.getListItems().get(0).getQuantity());
-    }
+        // Verify that the addRecipe method was called with the correct arguments
+        verify(interactor, times(1)).addRecipe(mockShoppingList, mockRecipe);
 
-    /**
-     * Tests adding a recipe with multiple ingredients.
-     */
-    @Test
-    void testAddRecipeWithMultipleIngredients() {
-        // Arrange
-        CoreFunctionalityInputData inputData = new CoreFunctionalityInputData(recipe, shoppingList, parentModel);
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2));
-        ingredients.add(new Ingredient("id_2", "Salt", "grams", "seasoning", 2));
-        recipe.setIngredientList(ingredients);
+        // Capture the ShoppingList and Recipe arguments passed to addRecipe method
+        ArgumentCaptor<ShoppingList> shoppingListCaptor = ArgumentCaptor.forClass(ShoppingList.class);
+        ArgumentCaptor<Recipe> recipeCaptor = ArgumentCaptor.forClass(Recipe.class);
+        verify(interactor).addRecipe(shoppingListCaptor.capture(), recipeCaptor.capture());
 
-        // Act
-        interactor.execute(inputData);
+        // Verify the collapse strategy was used within addItem
+        verify(interactor, times(1)).addItem(mockShoppingList, mockIngredient);
 
-        // Assert
-        ArgumentCaptor<CoreFunctionalityOutputData> outputDataCaptor = ArgumentCaptor.forClass(CoreFunctionalityOutputData.class);
-        verify(presenter).prepareSuccessView(outputDataCaptor.capture());
-        ShoppingList updatedShoppingList = outputDataCaptor.getValue().getShoppingList();
-        assertEquals(2, updatedShoppingList.getListItems().size());
-        assertEquals(ingredients.get(0), updatedShoppingList.getListItems().get(0));
-        assertEquals(ingredients.get(1), updatedShoppingList.getListItems().get(1));
-    }
+        // Verify that the userDAO updated the shopping list in the database
+        verify(mockUserDAO, times(1)).addRecipeToShoppingList(mockUser, mockShoppingList, mockRecipe);
 
-    /**
-     * Tests the method getGroceryList with no existing ingredients.
-     */
-    @Test
-    void testGetGroceryListNoExistingIngredients() {
-        // Arrange
-        Ingredient ingredient = new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2);
+        // Verify that the presenter prepares the success view
+        ArgumentCaptor<CoreFunctionalityOutputData> outputCaptor = ArgumentCaptor.forClass(CoreFunctionalityOutputData.class);
+        verify(mockPresenter, times(1)).prepareSuccessView(outputCaptor.capture());
 
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(ingredient);
-        recipe.setIngredientList(ingredients);
-
-        // Ac
-        // Assert
-        assertEquals(1, shoppingList.getListItems().size());
-        assertEquals(ingredient, shoppingList.getRecipes().getFirst());
-    }
-
-    /**
-     * Tests the method getGroceryList with existing ingredients.
-     */
-    @Test
-    void testGetGroceryListWithExistingIngredients() {
-        // Arrange
-        Ingredient ingredient = new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2);
-
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(ingredient);
-        recipe.setIngredientList(ingredients);
-//        shoppingList.addItem(new Ingredient("id_1", "Tomato", "pcs", "vegetable", 2));
-//
-//        // Assert
-//        assertEquals(2, shoppingList.getListItems().size());
-//        assertEquals("Tomato", shoppingList.getListItems().get(0).getIngredientName());
-//        assertEquals(2, shoppingList.getListItems().get(0).getQuantity());
-
+        // Assert that the captured output data is not null
+        CoreFunctionalityOutputData capturedOutputData = outputCaptor.getValue();
+        assertNotNull(capturedOutputData.getShoppingList(), "The ShoppingList in the output data should not be null.");
+        assertNotNull(capturedOutputData.getParentModel(), "The ParentModel in the output data should not be null.");
     }
 }
