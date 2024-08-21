@@ -15,8 +15,8 @@ import java.util.List;
  * and communicates the results to the presenter.
  */
 public class NutritionStatsInteractor implements NutritionStatsInputBoundary {
-    private NutritionAPI nutritionAPI;
-    private NutritionStatsOutputBoundary nutritionStatsPresenter;
+    public NutritionAPI nutritionAPI;
+    public NutritionStatsOutputBoundary nutritionStatsPresenter;
 
     /**
      * Constructs a NutritionStatsInteractor with the specified presenter and recipe API.

@@ -15,17 +15,28 @@ import java.util.HashMap;
 
 import static use_cases._common.gui_common.abstractions.ThemeColoredObject.*;
 
-
+/**
+ * The `GroceryOutputPanel` class represents a panel that displays the user's grocery lists.
+ * It includes methods to update the display based on the user's shopping lists, and to handle night and day mode themes.
+ */
 public class GroceryOutputPanel extends JPanel {
     private JPanel myGroceryContainer;
     private JScrollPane myGroceryScrollPane;
     private MyGroceryViewModel viewModel;
 
+    /**
+     * Constructs a `GroceryOutputPanel` with the specified view model.
+     *
+     * @param viewModel The `MyGroceryViewModel` object that provides the data for the grocery lists.
+     */
     public GroceryOutputPanel(MyGroceryViewModel viewModel) {
         this.viewModel = viewModel;
         setUpPanel();
     }
 
+    /**
+     * Sets up the panel layout, including the container and scroll pane for displaying grocery lists.
+     */
     private void setUpPanel() {
         this.setOpaque(false);
         this.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -41,6 +52,10 @@ public class GroceryOutputPanel extends JPanel {
         this.add(myGroceryScrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Updates the display of grocery lists based on the current user and view model.
+     * This includes adjusting the grocery list by subtracting fridge items if configured, and adding the lists to the panel.
+     */
     public void updateMyGrocery() {
         myGroceryContainer.removeAll();
 
@@ -74,14 +89,19 @@ public class GroceryOutputPanel extends JPanel {
         myGroceryContainer.repaint();
     }
 
+    /**
+     * Applies night mode theme to the panel, updating the background color and refreshing the display.
+     */
     public void setNightMode() {
         myGroceryContainer.setBackground(black);
         updateMyGrocery();
     }
 
+    /**
+     * Applies day mode theme to the panel, updating the background color and refreshing the display.
+     */
     public void setDayMode() {
         myGroceryContainer.setBackground(claudeWhite);
         updateMyGrocery();
     }
 }
-

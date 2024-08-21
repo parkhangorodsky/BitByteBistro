@@ -44,12 +44,12 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
     public final String viewname;
 
     // Components
-    private RoundTextField recipeName;
-    private RoundButton searchButton;
+    public RoundTextField recipeName;
+    public RoundButton searchButton;
 
     private JPanel mainPanel;
     private JPanel inputPanel;
-    private JPanel outputPanel;
+    public JPanel outputPanel;
     private JScrollPane recipeContainer;
 
 
@@ -214,6 +214,14 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
 
     }
 
+    public JPanel getInputPanel() {
+        return inputPanel;
+    }
+
+    public JPanel getOutputPanel() {
+        return outputPanel;
+    }
+
 
     @Override
     public void setNightMode() {
@@ -228,6 +236,14 @@ public class SearchRecipeView extends View implements ThemeColoredObject, NightM
         mainPanel.setBackground(claudeWhite);
         inputPanel.setBackground(claudeWhite);
         outputPanel.setBackground(claudeWhite);
+    }
+
+    public RoundTextField getRecipeNameField() {
+        return recipeName;
+    }
+
+    public RoundButton getSearchButton() {
+        return searchButton;
     }
 }
 

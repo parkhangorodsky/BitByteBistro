@@ -13,7 +13,12 @@ import use_cases.core_functionality.MyGroceryViewModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-
+/**
+ * The `GroceryInputPanel` class provides a user interface component for inputting new grocery list names.
+ * This panel includes a button for initiating the creation of a new grocery list and a text field
+ * for entering the name of the new list. It interacts with an `AddNewGroceryListController` to handle
+ * the creation of the new list and communicates with the `MyGroceryViewModel` to update the view.
+ */
 public class GroceryInputPanel extends JPanel {
     private JTextField newListNameTextField;
     private JButton confirmButton;
@@ -21,12 +26,22 @@ public class GroceryInputPanel extends JPanel {
     private boolean isTextBarOpen = false;
     private MyGroceryViewModel viewModel;
 
+    /**
+     * Constructs a `GroceryInputPanel` instance.
+     *
+     * @param addNewGroceryListController The controller used to handle the creation of new grocery lists.
+     * @param viewModel The view model that provides data and notifies changes.
+     */
     public GroceryInputPanel(AddNewGroceryListController addNewGroceryListController, MyGroceryViewModel viewModel) {
         this.addNewGroceryListController = addNewGroceryListController;
         this.viewModel = viewModel;
         setUpPanel();
     }
 
+    /**
+     * Sets up the panel's layout, appearance, and components.
+     * Initializes the panel with a button for creating new grocery lists.
+     */
     private void setUpPanel() {
         this.setOpaque(false);
         this.setPreferredSize(new Dimension(800, 100));
@@ -39,6 +54,10 @@ public class GroceryInputPanel extends JPanel {
         this.add(addNewGroceryListButton);
     }
 
+    /**
+     * Displays the input components for creating a new grocery list.
+     * This includes a text field for entering the list name and a confirm button.
+     */
     private void showNewGroceryListInput() {
         if (isTextBarOpen) return;
         isTextBarOpen = true;
@@ -63,6 +82,11 @@ public class GroceryInputPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Handles the creation of a new grocery list based on the user input.
+     * Validates the input, communicates with the controller to add the new list,
+     * and notifies the view model of the change.
+     */
     private void handleCreateNewGroceryList() {
         String newGroceryListName = newListNameTextField.getText().trim();
         User user = LoggedUserData.getLoggedInUser();
@@ -77,6 +101,9 @@ public class GroceryInputPanel extends JPanel {
         }
     }
 
+    /**
+     * Resets the panel to its initial state, clearing the input components and reinitializing the panel.
+     */
     private void resetInput() {
         this.removeAll();
         setUpPanel();

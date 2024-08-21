@@ -19,7 +19,7 @@ public class JSONNullHandler {
      * @param key  the key whose associated value is to be returned
      * @return the value as a String, or an empty string if the key is null
      */
-    static String handleNullString(JSONObject json, String key) {
+    public static String handleNullString(JSONObject json, String key) {
         return json.isNull(key) ? "" : json.getString(key);
     }
 
@@ -31,7 +31,7 @@ public class JSONNullHandler {
      * @param key  the key whose associated value is to be returned
      * @return the value as a float, or 0.0f if the key is null
      */
-    static float handleNullFloat(JSONObject json, String key) {
+    public static float handleNullFloat(JSONObject json, String key) {
         return json.isNull(key) ? 0.0f : json.getFloat(key);
     }
 
@@ -43,7 +43,7 @@ public class JSONNullHandler {
      * @param key  the key whose associated value is to be returned
      * @return the value as a JSONArray, or an empty JSONArray if the key is null
      */
-    static JSONArray handleNullJSONArray(JSONObject json, String key) {
+    public static JSONArray handleNullJSONArray(JSONObject json, String key) {
         return json.isNull(key) ? new JSONArray() : json.getJSONArray(key);
     }
 }

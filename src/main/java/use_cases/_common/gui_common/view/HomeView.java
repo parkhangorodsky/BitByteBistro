@@ -39,15 +39,15 @@ public class HomeView extends View implements ThemeColoredObject, NightModeObjec
     public final String viewname;
 
     // Components
-    private JPanel mainPanel;
-    private JPanel contentPanel;
-    private JPanel nutritionStatsPanel;
-    private JPanel nutritionPanel;
-    private JPanel recentlyViewedPanel;
+    JPanel mainPanel;
+    JPanel contentPanel;
+    JPanel nutritionStatsPanel;
+    JPanel nutritionPanel;
+    JPanel recentlyViewedPanel;
     JLabel recentlyViewedTitle;
     private List<RoundButton> recentlyViewedButtons;
-    private JLabel welcomeLabel ;
-    private RoundButton selectGroceryListButton;
+    JLabel welcomeLabel ;
+    RoundButton selectGroceryListButton;
     private final DisplayRecipeDetailController displayRecipeDetailController;
     private final AddToMyRecipeController addToMyRecipeController;
     private final CoreFunctionalityController coreFunctionalityController;

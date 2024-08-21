@@ -34,11 +34,11 @@ import java.util.List;
 public class MyRecipeView extends View implements ThemeColoredObject, NightModeObject {
 
     private final MyRecipeViewModel viewModel;
-    private JPanel myRecipeContainer;
+    public JPanel myRecipeContainer;
     private JScrollPane myRecipeScrollPane;
 
-    JTextField textField;
-    JButton searchButton;
+    public JTextField textField;
+    public JButton searchButton;
 
 
     private final FilterRecipeController filterController;
@@ -154,7 +154,7 @@ public class MyRecipeView extends View implements ThemeColoredObject, NightModeO
         return mainPanel;
     }
 
-    private void updateMyRecipe(List<Recipe> recipes) {
+    public void updateMyRecipe(List<Recipe> recipes) {
         myRecipeContainer.removeAll();
 
         for (Recipe recipe : recipes) {

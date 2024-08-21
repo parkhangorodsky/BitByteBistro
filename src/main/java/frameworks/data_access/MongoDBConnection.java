@@ -38,7 +38,7 @@ public class MongoDBConnection {
      *
      * @throws RuntimeException if an error occurs while connecting to the MongoDB server.
      */
-    public MongoDBConnection() {
+    public MongoDBConnection() throws IllegalArgumentException {
 
         CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
         CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
@@ -64,6 +64,9 @@ public class MongoDBConnection {
             System.out.println(e.getMessage());
             System.out.println("An error occurred while connecting to server.\n" +
                     "Please try again in a few minutes 😅");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
         }
     }
 

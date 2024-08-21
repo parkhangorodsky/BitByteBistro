@@ -60,7 +60,7 @@ public class ShoppingListSerializer implements Serializer<Document, ShoppingList
         String listOwner = bson.getString("listOwner");
         String shoppingListName = bson.getString("shoppingListName");
         List<Ingredient> listItems = ingredientSerializer.deserializeList(bson.getList("listItems", Document.class));
-        Double cost = bson.getDouble("cost");
+        Double cost = bson.getDouble("estimatedTotalCost");
         List<Recipe> recipes = recipeSerializer.deserializeRecipeList(bson.getList("recipes", Document.class));
 
         ShoppingList shoppingList = new ShoppingList(listOwner, shoppingListName);

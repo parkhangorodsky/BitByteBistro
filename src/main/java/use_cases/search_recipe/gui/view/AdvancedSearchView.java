@@ -29,17 +29,17 @@ public class AdvancedSearchView extends PopUpView implements NightModeObject {
 
     JLabel titleLabel;
     JLabel stringLabel;
-    JPanel mainPanel;
+    public JPanel mainPanel;
     JPanel titlePanel;
     JPanel IOPanel;
     RoundPanel summaryPanel;
-    RoundPanel summaryTextPanel;
+    public RoundPanel summaryTextPanel;
     JPanel inputPanel;
     JPanel stringPanel;
     RoundTextField stringField;
     JPanel buttonPanel;
 
-    RoundButton closeButton;
+    public RoundButton closeButton;
     RoundButton searchButton;
 
 
@@ -280,5 +280,13 @@ public class AdvancedSearchView extends PopUpView implements NightModeObject {
             this.revalidate();
             this.repaint();
         }
+    }
+
+    public RoundTextField getStringField() {
+        return stringField;
+    }
+
+    public RoundButton getSearchButton() {
+        return searchButton;
     }
 }

@@ -18,14 +18,25 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 
-
+/**
+ * The `MyGroceryView` class represents the view for managing grocery lists. It integrates with
+ * the `MyGroceryViewModel` and `AddNewGroceryListController` to provide functionalities for
+ * adding new grocery lists and displaying existing ones. The view supports night mode and
+ * day mode themes.
+ */
 public class MyGroceryView extends View implements ThemeColoredObject, NightModeObject {
     private MyGroceryViewModel viewModel;
     private GroceryInputPanel groceryInputPanel;
     private GroceryOutputPanel groceryOutputPanel;
 
+    /**
+     * Constructs a `MyGroceryView` object with the specified view model and controller.
+     *
+     * @param viewModel                  The view model that contains data and state for the view.
+     * @param addNewGroceryListController The controller for adding new grocery lists.
+     */
     public MyGroceryView(MyGroceryViewModel viewModel, AddNewGroceryListController addNewGroceryListController) {
-        observeNight();
+        observeNight();  // Initialize night mode observer
         this.viewModel = viewModel;
         this.setLayout(new BorderLayout());
         this.setViewName(viewModel.getViewName());
@@ -52,41 +63,57 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                groceryOutputPanel.updateMyGrocery();
+                groceryOutputPanel.updateMyGrocery();  // Update grocery list when the view is shown
             }
         });
 
-        toggleNightMode();
+        toggleNightMode();  // Set initial theme mode
     }
 
+    /**
+     * Handles property change events from the view model.
+     * Updates the grocery list display and manages theme changes.
+     *
+     * @param evt The property change event that indicates a change in the view model's state.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("init")) {
-            viewModel.setUser(LoggedUserData.getLoggedInUser());
-            groceryOutputPanel.updateMyGrocery();
-        } else if (evt.getPropertyName().equals("added shopping list")) {
-            viewModel.setUser(LoggedUserData.getLoggedInUser());
-            groceryOutputPanel.updateMyGrocery();
-        } else if (evt.getPropertyName().equals("grocery list already exists")) {
-            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "This grocery list already exists.",
-                    "",
-                    JOptionPane.ERROR_MESSAGE);
-        } else if (evt.getPropertyName().equals("grocery") || evt.getPropertyName().equals("subtractFridgeFromGrocery")) {
-            groceryOutputPanel.updateMyGrocery();
-        } else if (evt.getPropertyName().equals("nightMode")) {
-            toggleNightMode();
-            this.revalidate();
-            this.repaint();
+        switch (evt.getPropertyName()) {
+            case "init":
+            case "added shopping list":
+                viewModel.setUser(LoggedUserData.getLoggedInUser());
+                groceryOutputPanel.updateMyGrocery();
+                break;
+            case "grocery list already exists":
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                        "This grocery list already exists.",
+                        "",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+            case "grocery":
+            case "subtractFridgeFromGrocery":
+                groceryOutputPanel.updateMyGrocery();
+                break;
+            case "nightMode":
+                toggleNightMode();
+                this.revalidate();
+                this.repaint();
+                break;
         }
     }
 
+    /**
+     * Sets the view to night mode theme.
+     */
     @Override
     public void setNightMode() {
         this.setBackground(black);
         groceryOutputPanel.setNightMode();
     }
 
+    /**
+     * Sets the view to day mode theme.
+     */
     @Override
     public void setDayMode() {
         this.setBackground(claudeWhite);
@@ -95,5 +122,6 @@ public class MyGroceryView extends View implements ThemeColoredObject, NightMode
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // No action handling required for this view
     }
 }

@@ -1,7 +1,5 @@
 package use_cases.core_functionality;
 
-import use_cases.add_to_my_recipe.MyRecipeViewModel;
-
 public class CoreFunctionalityPresenter implements CoreFunctionalityOutputBoundary{
     MyGroceryViewModel viewModel;
 

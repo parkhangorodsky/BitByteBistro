@@ -47,7 +47,7 @@ public class IngredientSerializer implements Serializer<Document, Ingredient> {
     public Ingredient deserialize(Document bson) {
         String ingredientID = bson.getString("ingredientID");
         String ingredientName = bson.getString("ingredientName");
-        int quantity = bson.getDouble("quantity").intValue();
+        double quantity = bson.getDouble("quantity");
         String quantityUnit = bson.getString("quantityUnit");
         String category = bson.getString("category");
 

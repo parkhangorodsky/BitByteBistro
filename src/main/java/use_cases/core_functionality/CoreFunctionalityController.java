@@ -3,7 +3,6 @@ package use_cases.core_functionality;
 import entity.*;
 import use_cases._common.interface_adapter_common.presenter.abstractions.PropertyChangeFirer;
 
-import java.util.List;
 
 /**
  * Overview: Controller for adding a recipe to the logged-in user's grocery list.

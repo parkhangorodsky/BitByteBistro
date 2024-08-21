@@ -1,5 +1,6 @@
 package use_cases._common.xtra.utility;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -26,6 +27,9 @@ public class BufferedImageLoader {
             URL url = new URL(imageUrl);
             BufferedImage bufferedImage = ImageIO.read(url);
             return makeRoundedCorner(bufferedImage, 10);
+        } catch (IIOException e) {
+            e.printStackTrace();
+            System.out.println("Invalid image url: " + imageUrl);
         } catch (IOException e) {
             e.printStackTrace();
         }
