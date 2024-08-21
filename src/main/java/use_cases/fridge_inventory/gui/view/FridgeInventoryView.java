@@ -69,11 +69,26 @@ public class FridgeInventoryView extends View implements NightModeObject {
 
         // Action listeners for buttons
         addButton.addActionListener(e -> {
-            String foodName = foodField.getText();
-            float quantity = Float.parseFloat(quantityField.getText());
-            String unit = unitField.getText();
-            controller.addIngredient(foodName, quantity, unit, ""); // Use the controller to add ingredient
+            String foodName = foodField.getText().trim();
+            String quantityText = quantityField.getText().trim();
+            String unit = unitField.getText().trim();
+
+            // Check if any of the fields are empty
+            if (foodName.isEmpty() || quantityText.isEmpty() || unit.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields before adding an item.", "Input Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            try {
+                // Parse the quantity to float
+                float quantity = Float.parseFloat(quantityText);
+                controller.addIngredient(foodName, quantity, unit, ""); // Use the controller to add ingredient
+            } catch (NumberFormatException ex) {
+                // Handle the exception gracefully
+                JOptionPane.showMessageDialog(this, "Please enter a valid number for quantity.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            }
         });
+
 
         removeButton.addActionListener(e -> {
             try {
